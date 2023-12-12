@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace CromWood.Data.Entities
 {
-    internal class Role
+    public class Role
     {
+        public Guid Id { get; set; }
+
+        [Required, MaxLength(50)]
+        public string Name { get; set; }
+        public ICollection<RolePermission> Permissions { get; set; }
     }
 }

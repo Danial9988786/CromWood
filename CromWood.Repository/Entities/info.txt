@@ -1,0 +1,10 @@
+=> Initially create a admin, admin can login and can Invite different people by giving different role
+
+=> Permission table contains Permissions like: Dashboard Screen, Property Screen.
+=> Role table contans Role Name, multiple Permissions
+=> Role Permission table bind Role & Permission in 1 to 1 relation
+
+=> User table: Contains basic user informations like name, image etc.
+
+=> There is an asset:
+=> Each asset can have lot's of property inside it.
