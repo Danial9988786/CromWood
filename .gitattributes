@@ -62,5 +62,5 @@
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
 
-*.html linguist-vendored
-*.css linguist-vendored
+*.html linguist-detectable=false
+*.cshtml linguist-detectable=false
