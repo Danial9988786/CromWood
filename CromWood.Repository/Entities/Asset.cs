@@ -2,7 +2,7 @@
 
 namespace CromWood.Data.Entities
 {
-    public class Asset
+    public class Asset: DBTable
     {
         public Guid Id { get; set; }
         [Required, MaxLength(100)]
@@ -23,10 +23,10 @@ namespace CromWood.Data.Entities
         public string TitleNumber { get; set; }
         [MaxLength(100)]
         public string Ownership { get; set; }
-        public DateTime AquisitionDate { get; set; }
-        public float PurchasePrice { get; set; }
-        public float Valuation { get; set; }
-        public DateTime ValuationDate { get; set; }
+        public DateTime? AquisitionDate { get; set; }
+        public float? PurchasePrice { get; set; }
+        public float? Valuation { get; set; }
+        public DateTime? ValuationDate { get; set; }
         [MaxLength(100)]
         public string Reinstatement { get; set; }
 
@@ -35,11 +35,11 @@ namespace CromWood.Data.Entities
         public string Lender { get; set; }
         [MaxLength(100)]
         public string Chargee { get; set; }
-        public DateTime DateOfCharge { get; set; }
+        public DateTime? DateOfCharge { get; set; }
         public Guid FinancialPrgoramId { get; set; }
         [MaxLength(100)]
         public string GrantProvider { get; set; }
-        public float AttributableGrant { get; set; }
+        public float? AttributableGrant { get; set; }
         [MaxLength(100)]
         public string ConstructionPeriod { get; set; }
         public bool LandlordResponsible { get; set; }
@@ -59,8 +59,8 @@ namespace CromWood.Data.Entities
         public string ManagingAgentBorough { get; set; }
         [MaxLength(25)]
         public string ManagingAgentPostCode { get; set; }
-        public DateTime LeaseTerm { get; set; }
-        public DateTime LeaseExpiry { get; set; }
+        public DateTime? LeaseTerm { get; set; }
+        public DateTime? LeaseExpiry { get; set; }
 
     }
 }

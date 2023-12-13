@@ -6,11 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CromWood.Repository\CromWood.Data.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Helper\" />
+    <ProjectReference Include="..\CromWood.Repository\CromWood.Data.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CromWood.Data.Entities
 {
-    public class Notice
+    public class Notice: DBTable
     {
         public Guid Id { get; set; }
 

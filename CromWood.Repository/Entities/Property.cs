@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CromWood.Data.Entities
 {
-    public class Property
+    public class Property: DBTable
     {
         public Guid Id { get; set; }
         [Required, MaxLength(100)]
@@ -23,6 +23,8 @@ namespace CromWood.Data.Entities
         public string FloorNumber { get; set; }
         public float NoOfBedroom { get; set; }
         public float NoOfBathroom { get; set; }
-        public List<string> Amenities {  get; set; }
+
+        // TODO: Have to solve this in better way later.
+        public string Amenities {  get; set; }
     }
 }

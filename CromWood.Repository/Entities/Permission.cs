@@ -2,7 +2,7 @@
 
 namespace CromWood.Data.Entities
 {
-    public class Permission
+    public class Permission: DBTable
     {
         public Guid Id { get; set; }
 

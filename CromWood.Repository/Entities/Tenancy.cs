@@ -3,17 +3,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CromWood.Data.Entities
 {
-    public class Tenancy
+    public class Tenancy: DBTable
     {
         public Guid Id { get; set; }
 
         [Required]
         public Guid TenancyTypeId { get; set; }
         public TenantType TenancyType { get; set; }
-
-        [Required]
-        public Guid PropertyTypeId { get; set; }
-        public PropertyType PropertyType { get; set; }
 
         [Required]
         public Guid PropertyId { get; set; }
@@ -33,10 +29,10 @@ namespace CromWood.Data.Entities
         public RentFrequency RentFrequency { get; set; }
         public Guid PaymentMethodId { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
-        public float SecurityDeposit { get; set; }
-        public bool SplitBetweenTenants { get; set; }
-        public bool ScheduleRentStatement { get; set; }
-        public int StatementDueDay { get; set; }
+        public float? SecurityDeposit { get; set; }
+        public bool? SplitBetweenTenants { get; set; }
+        public bool? ScheduleRentStatement { get; set; }
+        public int? StatementDueDay { get; set; }
 
         // Bank details
         [MaxLength(100)]
@@ -49,12 +45,12 @@ namespace CromWood.Data.Entities
         public string BankCode { get; set; }
 
         // Move in charges
-        public Guid TransactionTypeId { get; set; }
+        public Guid? TransactionTypeId { get; set; }
         public TransactionType TransactionType { get; set; }
-        public DateTime MoveInDate { get; set; }
-        public Guid PaidBy { get; set; } // Tenant Id
-        public bool ContactFeeApplicable { get; set; }
-        public float ContractFee { get; set; }
+        public DateTime? MoveInDate { get; set; }
+        public Guid? PaidBy { get; set; } // Tenant Id
+        public bool? ContactFeeApplicable { get; set; }
+        public float? ContractFee { get; set; }
 
         [MaxLength(500)]
         public string TransactionDescription { get; set; }
