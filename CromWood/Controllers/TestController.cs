@@ -1,4 +1,5 @@
 ﻿using CromWood.Business.Services.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CromWood.Controllers
@@ -14,6 +15,12 @@ namespace CromWood.Controllers
         {
             var tests = await testService.GetTests();
             return View(tests);
+        }
+
+        [Authorize]
+        public IActionResult Auth()
+        {
+            return View();
         }
     }
 }

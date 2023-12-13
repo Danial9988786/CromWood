@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CromWood.Data.Entities
 {
-    public class Claim
+    public class Claim: DBTable
     {
         public Guid Id { get; set; }
         public Guid TenantId { get; set; }
@@ -16,7 +16,7 @@ namespace CromWood.Data.Entities
 
         [MaxLength(25)]
         public string ClaimNo { get; set; }
-        public float Fee { get; set; }
+        public float? Fee { get; set; }
         public DateTime HearingDate { get; set; }
         public Guid CourtId { get; set; }
         public Court Court { get; set; }

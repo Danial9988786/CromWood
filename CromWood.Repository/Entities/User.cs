@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CromWood.Data.Entities
 {
-    public class User
+    public class User: DBTable
     {
         public Guid Id { get; set; }
 
@@ -17,13 +17,11 @@ namespace CromWood.Data.Entities
         [Required, MaxLength(100)]
         public string Email { get; set; }
 
-        [Required]
+        [MaxLength(25)]
         public string Phone { get; set; }
 
         [Required, MaxLength(500)]
         public string Password { get; set; }
-
-        // Which Role Should a user assign to when registered first time?
         public Guid RoleId { get; set; }
         public Role Role { get; set; }
 

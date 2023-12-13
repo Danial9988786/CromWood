@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CromWood.Data.Entities
 {
-    public class LicenseCertificate
+    public class LicenseCertificate: DBTable
     {
         public Guid Id { get; set; }
         public Guid PropertyId { get; set; }
