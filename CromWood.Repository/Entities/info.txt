@@ -8,3 +8,7 @@
 
 => There is an asset:
 => Each asset can have lot's of property inside it.
+
+
+=> Default tables needed:
+Placed inside Entities > Default section.

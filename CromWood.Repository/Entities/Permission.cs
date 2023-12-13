@@ -4,7 +4,6 @@ namespace CromWood.Data.Entities
 {
     public class Permission
     {
-        [Required, Key]
         public Guid Id { get; set; }
 
         [Required, MaxLength(50)]

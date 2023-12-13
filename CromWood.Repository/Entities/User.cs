@@ -5,7 +5,6 @@ namespace CromWood.Data.Entities
 {
     public class User
     {
-        [Required, Key]
         public Guid Id { get; set; }
 
         [Required, MaxLength(50)]
@@ -25,8 +24,8 @@ namespace CromWood.Data.Entities
         public string Password { get; set; }
 
         // Which Role Should a user assign to when registered first time?
-        [ForeignKey(nameof(RoleId))]
         public Guid RoleId { get; set; }
+        public Role Role { get; set; }
 
         // When User is invited this will be false, which mean invited user
         public bool IsActive { get; set; }
