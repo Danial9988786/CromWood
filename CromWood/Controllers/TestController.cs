@@ -7,9 +7,12 @@ namespace CromWood.Controllers
     public class TestController : Controller
     {
         private readonly ITestService testService;
-        public TestController(ITestService service)
+        private readonly IAuthService authService;
+        public TestController(ITestService testService, IAuthService authService)
         {
-            testService = service;
+            this.testService = testService;
+            this.authService = authService;
+
         }
         public async Task<IActionResult> Index()
         {
@@ -20,7 +23,8 @@ namespace CromWood.Controllers
         [Authorize]
         public IActionResult Auth()
         {
-            return View();
+            var user = authService.GetCurrentUser(HttpContext.User);
+            return View(user);
         }
     }
 }

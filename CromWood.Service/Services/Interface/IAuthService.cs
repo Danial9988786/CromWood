@@ -6,8 +6,8 @@ namespace CromWood.Business.Services.Interface
 {
     public interface IAuthService
     {
-        public UserClaimModel GetCurrentUser(ClaimsIdentity identity);
-        public Task<Response<string>> Login(LoginViewModel login);
-        public Task<Response<string>> Logout();
+        public UserClaimModel GetCurrentUser(ClaimsPrincipal identity);
+        public Task<AppResponse<string>> Login(LoginModel login);
+        public Task<AppResponse<string>> Logout();
     }
 }

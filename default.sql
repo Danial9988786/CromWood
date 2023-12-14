@@ -116,3 +116,21 @@ INSERT INTO dbo.TransactionTypes values
 ('64432c8e-8cc3-4365-a8f5-e4dc925c42fd','TT3'),
 ('914d1a66-0ee7-45f6-ab77-19c928c5a426','TT4'),
 ('01289643-bba0-48d0-b34c-c69b466be7ec','TT5')
+
+
+-- Default Roles, Permission, User : At first --
+
+INSERT INTO dbo.Permissions (Id, PermissionKey, PermissionDisplayName) values 
+('4e7581a5-b838-41f4-97c0-2a17388cd855','all_permission', 'All Permission'),
+('80341c60-c482-4249-979d-0d10a1e41d9b','dashboard_management', 'Dashboard Management'),
+('0c0c5a45-741d-4ae9-8e3c-a976a1d9c3bd','user_management', 'User Management'),
+('b4b9dfa1-b26a-4c16-98f7-c706fc29a568','finance_management', 'Finance Management'),
+('92b759ee-7da6-49ba-838e-56144187042d','asset_management', 'Asset Management'),
+('3d6a1f89-ed7f-46d2-8ea8-87cc279dcf32','tenancy_management', 'Tenancy Management'),
+('a3a31140-bdb7-4b82-8742-1547e0c1232a','property_management', 'Property Management')
+
+INSERT INTO dbo.Roles (Id, Name) values
+('01289643-bba0-48d0-b34c-c69b466be7ec', 'Admin')
+
+INSERT INTO dbo.RolePermissions(Id, RoleId, PermissionId, CanRead, CanWrite, CanDelete, CanViewAll) values
+('01289643-bba0-48d0-b34c-c69b466be7ec', '01289643-bba0-48d0-b34c-c69b466be7ec', '4e7581a5-b838-41f4-97c0-2a17388cd855', 1, 1, 1, 1)

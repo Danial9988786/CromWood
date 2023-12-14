@@ -1,0 +1,77 @@
+﻿@model IEnumerable<CromWood.Business.Models.RoleViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Roles</h1>
+<p><a onclick="CreateRole()">Create</a><p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                        @Html.DisplayNameFor(model => model.NoOfUsers)
+                </th>
+                <th>
+                        @Html.DisplayNameFor(model => model.LastUpdated)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+
+                    <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                            @Html.DisplayFor(modelItem => item.NoOfUsers)
+                    </td>
+                    <td>
+                            @Html.DisplayFor(modelItem => item.LastUpdated)
+                    </td>
+                    <td>
+                        <a onclick="EditRole?@item.Id.ToString()">Edit</a>|
+                            @Html.ActionLink("Delete", "Delete",new { id = item.Id })
+                    </td>
+                </tr>
+                }
+        </tbody>
+    </table>
+
+
+    <div class="modal fade" id="addEditModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    <h3 class="modal-title">Add New Role</h3>
+                </div>
+                <div class="modal-body" id="modalBody">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function CreateRole() {
+            var url = "/RolePermission/AddModifyRole";
+            $("#modalBody").load(url, function () {
+                $("#addEditModal").modal("show");
+            })
+        }
+
+        var EditRole = function (Id) {
+            var url = "/RolePermission/AddModifyRole?Id=" + Id;
+            $("#modalBody").load(url, function () {
+                $("#addEditModal").modal("show");
+            })
+        }
+    </script>

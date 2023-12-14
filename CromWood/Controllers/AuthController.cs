@@ -23,7 +23,7 @@ namespace CromWood.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login([FromForm] LoginViewModel login)
+        public async Task<IActionResult> Login([FromForm] LoginModel login)
         {
             var loginResponse = await authService.Login(login);
             if (loginResponse.Data == null)

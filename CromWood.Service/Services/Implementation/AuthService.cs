@@ -24,7 +24,7 @@ namespace CromWood.Business.Services.Implementation
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public UserClaimModel GetCurrentUser(ClaimsIdentity identity)
+        public UserClaimModel GetCurrentUser(ClaimsPrincipal identity)
         {
             if (identity != null)
             {
@@ -39,7 +39,7 @@ namespace CromWood.Business.Services.Implementation
             return new UserClaimModel();
         }
 
-        public async Task<Response<string>> Login(LoginViewModel login)
+        public async Task<AppResponse<string>> Login(LoginModel login)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace CromWood.Business.Services.Implementation
             }
         }
 
-        public async Task<Response<string>> Logout()
+        public async Task<AppResponse<string>> Logout()
         {
             try
             {

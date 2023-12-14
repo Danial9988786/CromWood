@@ -11,13 +11,13 @@ namespace CromWood.Business.Services.Implementation
         {
             testRepository = repository;
         }
-        public async Task<IEnumerable<TestViewModel>> GetTests()
+        public async Task<IEnumerable<TestModel>> GetTests()
         {
-            var testViews = new List<TestViewModel>();
+            var testViews = new List<TestModel>();
             var tests = await testRepository.GetModifiedTests();
             tests.ToList().ForEach((test) =>
             {
-                testViews.Add(new TestViewModel()
+                testViews.Add(new TestModel()
                 {
                     Name = test.Name,
                 });

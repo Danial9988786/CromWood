@@ -1,0 +1,56 @@
+﻿@model CromWood.Business.Models.RoleModel
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="AddModifyRole">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Permission</th>
+                        <th>Read</th>
+                        <th>Write</th>
+                        <th>Delete</th>
+                        <th>View All</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @for (int i = 0; i < Model.RolePermission.Count; i++)
+                    {
+                        <tr>
+                            <td>@Model.RolePermission[i].Permission.PermissionDisplayName</td>
+                            <td>@Html.CheckBoxFor(m => m.RolePermission[i].CanRead)</td>
+                            <td>@Html.CheckBoxFor(m => m.RolePermission[i].CanWrite)</td>
+                            <td>@Html.CheckBoxFor(m => m.RolePermission[i].CanDelete)</td>
+                            <td>@Html.CheckBoxFor(m => m.RolePermission[i].CanViewAll)</td>
+                            @Html.HiddenFor(m=>m.RolePermission[i].Permission.Id)
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

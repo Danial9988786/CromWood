@@ -4,6 +4,6 @@ namespace CromWood.Business.Services.Interface
 {
     public interface ITestService
     {
-        public Task<IEnumerable<TestViewModel>> GetTests();
+        public Task<IEnumerable<TestModel>> GetTests();
     }
 }
