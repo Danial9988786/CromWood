@@ -1,53 +1,97 @@
 ﻿@model CromWood.Business.Models.RoleModel
 
-<div class="row">
-    <div class="col-md-12">
+<div class="modal-content rounded-0">
+    <div class="modal-header py-2">
+        <h5 class="modal-title" id="staticBackdropLabel">Add New Role</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
         <form asp-action="AddModifyRole">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+
+            @Html.HiddenFor(m=>m.Id)
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3 border p-3 border-bottom-0">
+                        <label asp-for="Name" class="form-label">Role Name</label>
+                        <input asp-for=Name type="text" class="form-control"
+                               placeholder="Enter Role Name">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="">
+                    <div class="col-12">
+                        <div class="border p-3 border-bottom-0">
+                            <span>Permissions</span>
+                            <div class="form-check form-check-inline ps-5 ms-5">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1"
+                                       value="option1">
+                                <label class="form-check-label" for="inlineCheckbox1">Select All</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <table id="add_prTable" class="w-100 border">
+                            <thead>
+                                <tr>
+                                    <th>Permission</th>
+                                    <th class="text-center">Read</th>
+                                    <th class="text-center">Write</th>
+                                    <th class="text-center">Delete</th>
+                                    <th class="text-center">View All</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.RolePermission.Count; i++)
+                                {
+                                    <tr>
+                                        <td>@Model.RolePermission[i].Permission.PermissionDisplayName</td>
+                                        <td class="text-center">
+                                            <div class="form-check form-check-inline text-center m-0">
+                                                @Html.CheckBoxFor(m => m.RolePermission[i].CanRead,new { @class = "form-check-input" })
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="form-check form-check-inline text-center m-0">
+                                                @Html.CheckBoxFor(m => m.RolePermission[i].CanWrite,new { @class = "form-check-input" })
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="form-check form-check-inline text-center m-0">
+                                                @Html.CheckBoxFor(m => m.RolePermission[i].CanDelete,new { @class = "form-check-input" })
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="form-check form-check-inline text-center m-0">
+                                                @Html.CheckBoxFor(m => m.RolePermission[i].CanViewAll,new { @class = "form-check-input" })
+                                            </div>
+                                        </td>
+                                        @Html.HiddenFor(m=>m.RolePermission[i].Permission.Id)
+                                        @Html.HiddenFor(m=>m.RolePermission[i].RoleId)
+                                        @Html.HiddenFor(m=>m.RolePermission[i].Id)
+                                    </tr>
+                                }
+                            <tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Permission</th>
-                        <th>Read</th>
-                        <th>Write</th>
-                        <th>Delete</th>
-                        <th>View All</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @for (int i = 0; i < Model.RolePermission.Count; i++)
-                    {
-                        <tr>
-                            <td>@Model.RolePermission[i].Permission.PermissionDisplayName</td>
-                            <td>@Html.CheckBoxFor(m => m.RolePermission[i].CanRead)</td>
-                            <td>@Html.CheckBoxFor(m => m.RolePermission[i].CanWrite)</td>
-                            <td>@Html.CheckBoxFor(m => m.RolePermission[i].CanDelete)</td>
-                            <td>@Html.CheckBoxFor(m => m.RolePermission[i].CanViewAll)</td>
-                            @Html.HiddenFor(m=>m.RolePermission[i].Permission.Id)
-                        </tr>
-                    }
-
-                </tbody>
-            </table>
-
-
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="text-end border-top pt-3">
+                <div class="custom__btn2">
+                    <a onclick="submitBtn.click()">
+                        <img class="pe-1" src="./assets/img/save-role.svg" alt="save role icon">
+                        Save Role
+                    </a>
+                    <input id="submitBtn" type="submit" hidden />
+                </div>
             </div>
+
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{

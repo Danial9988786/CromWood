@@ -1,0 +1,110 @@
+﻿@using CromWood.Business.Services.Interface;
+@inject IRolePermissionService _rolePermisssion;
+@model IEnumerable<CromWood.Business.Models.UserViewModel>
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+@{
+    var asyncRoles = await _rolePermisssion.GetRolesAsync();
+    var roles = new SelectList(asyncRoles.Data, "Id", "Name");
+}
+
+<div class="tab-pane fade show border border-top-0 active">
+    <div class="card-header border-bottom-0 pt-4">
+        <div class="row">
+            <div class="col-6">
+                <h4 class="heading-style2">User Lists</h4>
+            </div>
+            <div class="col-6 text-end">
+                <div class="custom__btn">
+                    <a onclick="InviteUser()" data-bs-toggle="modal" data-bs-target="#ivites__user">
+                        <img class="pe-1" src="./assets/img/user_plus_icon.svg"
+                             alt="user_icon">
+                        Invite user
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="card-body user__list pt-0">
+        <table id="datatablesSimple">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Last Active</th>
+                    <th>Role</th>
+                    <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <img class="rounded pe-1" src="./assets/img/user_photo.png" alt="" />
+                            <a class="u_n main-text" href="#">
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </a>
+                        </td>
+                        <td> @Html.DisplayFor(modelItem => item.Email)</td>
+                        <td> @Html.DisplayFor(modelItem => item.Phone)</td>
+                        <td> @Html.DisplayFor(modelItem => item.LastActive)</td>
+                        <td>
+                            <select class="form-select" aria-label="Default select example" asp-for="@item.RoleId" asp-items="roles">
+                            </select>
+                        </td>
+                        <td class="text-end">
+                            @{
+                                string url = "'" + item.Id.ToString() + "'";
+                            }
+                            <a onclick="BlockUser(@url)">
+                                <img class="pe-1" src="./assets/img/block__icon.svg" alt="">
+                                <span class="text-danger">Block</span>
+                            </a>
+
+
+                            <a onclick="DeleteUser(@url)">
+                                <img class="ps-5" src="./assets/img/delete_icon.svg" alt="">
+                            </a>
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="modal fade" id="userDialog">
+    <div class="modal-dialog modal-dialog-centered" id="userDialogBody">
+    </div>
+</div>
+
+<script>
+    function InviteUser(Id) {
+        var url = "/User/InviteUser";
+        $("#userDialogBody").load(url, function () {
+            $("#userDialog").modal("show");
+        })
+    }
+
+    function BlockUser(Id) {
+        var url = "/User/BlockUserModal?Id=" + Id;
+        $("#userDialogBody").load(url, function () {
+            $("#userDialog").modal("show");
+        })
+    }
+
+    function DeleteUser(Id) {
+        var url = "/User/DeleteUserModal?Id=" + Id;
+        $("#userDialogBody").load(url, function () {
+            $("#userDialog").modal("show");
+        })
+    }
+</script>

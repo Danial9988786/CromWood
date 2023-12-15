@@ -7,6 +7,7 @@ namespace CromWood.Data.Repository.Interface
         public Task<IEnumerable<Permission>> GetPermission();
         public Task<IEnumerable<Role>> GetRoles();
         public Task<Role> GetRoleByIdAsync(Guid Id);
-        public Task<string> AddRole(Role role);
+        public Task<int> AddRole(Role role);
+        public Task<int> EditRole(Role role);
     }
 }

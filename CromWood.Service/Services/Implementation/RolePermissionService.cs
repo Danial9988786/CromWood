@@ -82,7 +82,7 @@ namespace CromWood.Business.Services.Implementation
             {
                 var mappedRole = _mapper.Map<Role>(role);
                 mappedRole.Permissions.ToList().ForEach(x => x.Permission = null);
-                await _roleRepo.AddRole(mappedRole);
+                await _roleRepo.EditRole(mappedRole);
                 return ResponseCreater<string>.CreateSuccessResponse(null, "Roles added successfully.");
             }
             catch (Exception ex)

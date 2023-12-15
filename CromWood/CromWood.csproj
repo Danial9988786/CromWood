@@ -10,6 +10,43 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\assets\demo\chart-area-demo.js" />
+    <None Include="wwwroot\assets\demo\chart-bar-demo.js" />
+    <None Include="wwwroot\assets\demo\chart-pie-demo.js" />
+    <None Include="wwwroot\assets\demo\datatables-demo.js" />
+    <None Include="wwwroot\assets\img\annocement_icon.svg" />
+    <None Include="wwwroot\assets\img\approvel__icon.svg" />
+    <None Include="wwwroot\assets\img\Asset Management.svg" />
+    <None Include="wwwroot\assets\img\bell-icon.svg" />
+    <None Include="wwwroot\assets\img\Cash payment.svg" />
+    <None Include="wwwroot\assets\img\Dashboard.svg" />
+    <None Include="wwwroot\assets\img\error-404-monochrome.svg" />
+    <None Include="wwwroot\assets\img\green__arrow.svg" />
+    <None Include="wwwroot\assets\img\green__data_bar.svg" />
+    <None Include="wwwroot\assets\img\last_day_erning.svg" />
+    <None Include="wwwroot\assets\img\License.svg" />
+    <None Include="wwwroot\assets\img\Location.svg" />
+    <None Include="wwwroot\assets\img\logout.svg" />
+    <None Include="wwwroot\assets\img\marked_all.svg" />
+    <None Include="wwwroot\assets\img\msg.svg" />
+    <None Include="wwwroot\assets\img\Notices.svg" />
+    <None Include="wwwroot\assets\img\ongoing.svg" />
+    <None Include="wwwroot\assets\img\past.svg" />
+    <None Include="wwwroot\assets\img\Property Management.svg" />
+    <None Include="wwwroot\assets\img\Property.svg" />
+    <None Include="wwwroot\assets\img\red__arrow.svg" />
+    <None Include="wwwroot\assets\img\red__data_bar.svg" />
+    <None Include="wwwroot\assets\img\rent.svg" />
+    <None Include="wwwroot\assets\img\report.svg" />
+    <None Include="wwwroot\assets\img\requist__icon.svg" />
+    <None Include="wwwroot\assets\img\scheme per.svg" />
+    <None Include="wwwroot\assets\img\settings.svg" />
+    <None Include="wwwroot\assets\img\TenancyManagement.svg" />
+    <None Include="wwwroot\assets\img\Tenants.svg" />
+    <None Include="wwwroot\assets\img\user--settings.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.14">
@@ -17,6 +54,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.12">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.11" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

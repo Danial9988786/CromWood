@@ -25,7 +25,8 @@ namespace CromWood.Data.Entities
         public Guid RoleId { get; set; }
         public Role Role { get; set; }
 
-        // When User is invited this will be false, which mean invited user
+        // When User is Blocked this flag will be false.
         public bool IsActive { get; set; }
+        public DateTime? LastActive { get; set; }
     }
 }

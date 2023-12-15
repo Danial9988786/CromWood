@@ -11,6 +11,8 @@ namespace CromWood.Business.Models
 
     public class RolePermissionModel
     {
+        public Guid Id { get; set; }
+        public Guid RoleId { get; set; }
         public PermissionModel Permission { get; set; }
         public bool CanRead { get; set; }
         public bool CanWrite { get; set; }

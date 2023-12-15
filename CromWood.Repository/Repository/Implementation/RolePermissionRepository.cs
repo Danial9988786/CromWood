@@ -23,15 +23,36 @@ namespace CromWood.Data.Repository.Implementation
 
         public async Task<Role> GetRoleByIdAsync(Guid Id)
         {
-            return await _context.Roles.Include(x => x.Users).FirstOrDefaultAsync(x => x.Id == Id);
+            return await _context.Roles.Include(x => x.Permissions).ThenInclude(y => y.Permission).FirstOrDefaultAsync(x => x.Id == Id);
         }
 
-        public async Task<string> AddRole(Role role)
+        public async Task<int> AddRole(Role role)
         {
-            role.Id = Guid.NewGuid();
-            await _context.Roles.AddAsync(role);
-            await _context.SaveChangesAsync();
-            return "ADDED";
+            try
+            {
+                role.Id = Guid.NewGuid();
+                await _context.Roles.AddAsync(role);
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<int> EditRole(Role role)
+        {
+            try
+            {
+                _context.Roles.Update(role);
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }

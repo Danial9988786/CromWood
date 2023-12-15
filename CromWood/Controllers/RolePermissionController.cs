@@ -15,7 +15,6 @@ namespace CromWood.Controllers
         /// <summary>
         /// This method will list the role in role and permission view.
         /// </summary>
-        /// <returns></returns>
         public async Task<IActionResult> Index()
         {
             var roles = await _rolePermissionService.GetRolesAsync();
@@ -25,9 +24,8 @@ namespace CromWood.Controllers
         /// <summary>
         /// GET: This method will provide view for adding or modifying role.
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> AddModifyRole([FromRoute] Guid Id)
+        public async Task<IActionResult> AddModifyRole(Guid Id)
         {
             var role = new RoleModel();
             if (Id == Guid.Empty)
@@ -55,7 +53,6 @@ namespace CromWood.Controllers
         /// <summary>
         /// POST: This method will take action on posting role for add or edit.
         /// </summary>
-        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> AddModifyRole([FromForm] RoleModel role)
         {
@@ -71,14 +68,21 @@ namespace CromWood.Controllers
         }
 
         /// <summary>
+        /// GET: This method will show modal to confirm role deletion
+        /// </summary>
+        [HttpGet]
+        public IActionResult DeleteRoleModal(Guid Id)
+        {
+            return PartialView("DeleteRole", Id);
+        }
+
+        /// <summary>
         /// POST: This method will take action as a post request to delete role.
         /// </summary>
-        /// <returns></returns>
-        [Route("Delete/{Id}")]
         public async Task<IActionResult> DeleteRole(Guid Id)
         {
             await _rolePermissionService.DeleteRoleAync(Id);
-            return RedirectToAction("Index", "RolePermission");
+            return RedirectToAction("Index");
         }
     }
 }
