@@ -2,7 +2,7 @@
 
 namespace CromWood.Business.ViewModels
 {
-    public class LoginViewModel
+    public class LoginModel
     {
         [Required]
         public string Email { get; set; }

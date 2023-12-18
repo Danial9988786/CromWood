@@ -10,5 +10,6 @@ namespace CromWood.Data.Entities
         [Required, MaxLength(50)]
         public string Name { get; set; }
         public ICollection<RolePermission> Permissions { get; set; }
+        public ICollection<User> Users { get; set; }
     }
 }

@@ -18,15 +18,21 @@ builder.Services.AddDbContext<CromwoodContext>(options => options.UseSqlServer(b
 // Dependency Injection for Repository and Service layers.
 builder.Services.AddScoped<ITestRepository, TestRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRolePermissionRepository, RolePermissionRepository>();
 
 builder.Services.AddScoped<ITestService, TestService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IRolePermissionService, RolePermissionService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(option =>
     {   option.LoginPath = "/Auth/Login";
         option.LogoutPath = "/Auth/Logout";
     });
+
+builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 

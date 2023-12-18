@@ -51,9 +51,10 @@ namespace CromWood.Data.Repository.Implementation
             return item;
         }
 
-        public async Task<T> DeleteAsync(Guid id)
+        public async Task<T> DeleteAsync(Guid Id)
         {
-            _context.Remove(id);
+            var item = await GetByIdAsync(Id);
+            _context.Set<T>().Remove(item);
             await _context.SaveChangesAsync();
             return null;
         }

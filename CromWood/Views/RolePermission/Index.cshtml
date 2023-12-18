@@ -1,0 +1,97 @@
+﻿@model IEnumerable<CromWood.Business.Models.RoleViewModel>
+
+@{
+    ViewData["Title"] = "Role & Permission";
+}
+
+<div class="tab-pane fade show border border-top-0 active">
+    <div class="card-header border-bottom-0 pt-4">
+        <div class="row">
+            <div class="col-6">
+                <h4 class="heading-style2">Role & permissions</h4>
+            </div>
+            <div class="col-6 text-end">
+                <div class="custom__btn">
+                    <a onclick="CreateRole()">
+                        <img class="pe-1" src="./assets/img/user_plus_icon.svg"
+                             alt="user_icon">
+                        New Role
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="card-body user__list pt-0">
+        <table id="datatablesSimple">
+            <thead>
+                <tr>
+                    <th>Role Title</th>
+                    <th>No. of Users</th>
+                    <th>Last Updated</th>
+                    <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <a class="u_n main-text" href="#">
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </a>
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.NoOfUsers)</td>
+                        <td>@Html.DisplayFor(modelItem => item.LastUpdated)</td>
+                        <td class="text-end">
+                            @{
+                                string url = "'" + item.Id.ToString() + "'";
+                            }
+                            <a onclick="EditRole(@url)" class="text-decoration-none">
+                                <img class="pe-1" src="./assets/img/edit-icon.svg" alt="">
+                                <span class="main-text">Edit</span>
+                            </a>
+                            <a onclick="DeleteRole(@url)">
+                                <img class="ps-5" src="./assets/img/delete_icon.svg" alt="">
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="rolePermissionDialog">
+    <div class="modal-dialog modal-dialog-centered" id="rolePermissionDialogBody">
+    </div>
+</div>
+
+<script>
+    function CreateRole() {
+        var url = "/RolePermission/AddModifyRole";
+        $("#rolePermissionDialogBody").load(url, function () {
+            $("#rolePermissionDialogBody").css("max-width", "950px");
+            $("#rolePermissionDialogBody").css("width", "100%");
+            $("#rolePermissionDialog").modal("show");
+        })
+    }
+
+    function EditRole(Id) {
+        var url = "/RolePermission/AddModifyRole?Id=" + Id;
+        $("#rolePermissionDialogBody").load(url, function () {
+            $("#rolePermissionDialogBody").css("max-width", "950px");
+            $("#rolePermissionDialogBody").css("width", "100%");
+            $("#rolePermissionDialog").modal("show");
+        })
+    }
+
+    function DeleteRole(Id) {
+        var url = "/RolePermission/DeleteRoleModal?Id=" + Id;
+        $("#rolePermissionDialogBody").load(url, function () {
+            $("#rolePermissionDialogBody").css("max-width", "560px");
+            $("#rolePermissionDialogBody").css("width", "100%");
+            $("#rolePermissionDialog").modal("show");
+        })
+    }
+</script>

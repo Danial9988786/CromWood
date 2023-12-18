@@ -1,14 +1,33 @@
 ﻿using CromWood.Data.Entities;
 using CromWood.Data.Entities.Default;
+using CromWood.Helper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace CromWood.Data.Context
 {
+
+    public interface IEntity
+    {
+        public DateTime? CreatedDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+        public Guid? CreatedBy { get; set; }
+        public Guid? UpdatedBy { get; set; }
+    }
+
     public class CromwoodContext : DbContext
     {
-        public CromwoodContext(DbContextOptions options) : base(options)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private Guid UserId { get; set; }
+
+        public CromwoodContext(DbContextOptions options, IHttpContextAccessor httpContextAccessor) : base(options)
         {
+            _httpContextAccessor = httpContextAccessor;
+            if(_httpContextAccessor?.HttpContext !=null)
+                if (_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+                    UserId = Guid.Parse(IdentityExtension.GetId(_httpContextAccessor.HttpContext.User.Identity));
         }
+
         public DbSet<Test> Tests { get; set; }
 
         #region Default tables
@@ -45,6 +64,44 @@ namespace CromWood.Data.Context
         public DbSet<Complaint> Complaints { get; set; }
         public DbSet<LicenseCertificate> LicenseCertificates { get; set; }
         public DbSet<Notice> Notice { get; set; }
+
+        public override int SaveChanges()
+        {
+            OnBeforeSaving();
+            return base.SaveChanges();
+        }
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            OnBeforeSaving();
+            return await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+        }
+
+        private void OnBeforeSaving()
+        {
+            var now = DateTime.UtcNow;
+
+            foreach (var changedEntity in ChangeTracker.Entries())
+            {
+                if (changedEntity.Entity is DBTable entity)
+                {
+                    switch (changedEntity.State)
+                    {
+                        case EntityState.Added:
+                            entity.CreatedDate = now;
+                            entity.UpdatedDate = now;
+                            entity.CreatedBy = UserId;
+                            entity.UpdatedBy = UserId;
+                            break;
+                        case EntityState.Modified:
+                            Entry(entity).Property(x => x.CreatedBy).IsModified = false;
+                            Entry(entity).Property(x => x.CreatedDate).IsModified = false;
+                            entity.UpdatedDate = now;
+                            entity.UpdatedBy = UserId;
+                            break;
+                    }
+                }
+            }
+        }
 
     }
 }

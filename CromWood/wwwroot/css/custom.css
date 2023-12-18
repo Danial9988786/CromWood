@@ -1,0 +1,282 @@
+.datatable-table > tbody > tr > td {
+    vertical-align: middle;
+    padding: 12px 8px;
+}
+.datatable-table > thead > tr > th {
+    padding: 10px 14px;
+}
+
+thead, tbody, tfoot, tr, td, th {
+  border-bottom: 1px solid #dee2e6 !important;
+}
+input[type="checkbox"]:checked{
+    -webkit-appearance:radio;
+    box-shadow: none;
+  }
+  input[type='checkbox'] {
+    accent-color: var(--main-color);
+}
+.custom__btn a {
+    background: white;
+    padding: 10px 20px;
+    border-radius: 330px;
+    font-family: 'Sora';
+    font-weight: 700;
+    font-size: 15px;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1px;
+    color: var(--bran-color);
+    transition: .3s ease-in-out;
+    display: inline-block;
+    box-shadow: 0px 4px 0rem 0px rgba(0, 0, 0, 0.15);
+}
+.custom__btn2 input, .custom__btn2 a {
+    background: var(--main-color);
+    padding: 10px 20px;
+    border-radius: 330px;
+    font-family: 'Sora';
+    font-weight: 700;
+    font-size: 15px;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1px;
+    color: white !important;
+    border: none;
+    transition: .3s ease-in-out;
+    display: inline-block;
+    box-shadow: 0px 4px 0rem 0px rgba(0, 0, 0, 0.15);
+}
+.custom__btn3 input {
+    background: var(--red-color);
+    padding: 10px 20px;
+    border-radius: 330px;
+    font-family: 'Sora';
+    font-weight: 700;
+    font-size: 15px;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1px;
+    color: white;
+    border: none;
+    transition: .3s ease-in-out;
+    display: inline-block;
+    box-shadow: 0px 4px 0rem 0px rgba(0, 0, 0, 0.15);
+}
+.custom__btn a:hover{
+    box-shadow: -2px 8px 0rem 2px rgba(0, 0, 0, 0.15);
+}
+.custom__btn2 input:hover, .custom__btn2 a:hover {
+    box-shadow: -2px 8px 0rem 2px rgba(0, 0, 0, 0.15);
+}
+.custom__btn3 input:hover{
+    box-shadow: -2px 8px 0rem 2px rgba(0, 0, 0, 0.15);
+}
+.ov__text {
+ font-weight: 500;
+}
+.rounder__c {
+    height: 96%;
+}
+.top___card h3, .custom_h{
+    font-size: 24px;
+    font-weight: 400;
+    font-family: var(--sora-font);
+    color:var(--g-text-color);
+}
+#sidebarToggle svg path{
+    color: #000;
+}
+.myc svg, .myc .sb-sidenav-collapse-arrow svg{
+    color: #000;
+}
+#addon-wrapping svg{
+  color: var(--main-color);
+}
+img.avtar_img {
+    width: 40px;
+}
+span.avtar_name.main-font {
+    font-weight: 500;
+    color: var(--g-text);
+}
+span.money__t {
+    font-size: 12px;
+    color: var(--g-text);
+}
+.p_invoic{
+    margin-top: -20px;
+}
+.noti__f a.dropdown-toggle{
+    text-decoration: none;
+    cursor: pointer;
+}
+.noti__f .dropdown-toggle::after{
+    content: none;
+}
+.noti__f .dropdown-toggle img {
+    font-size: 30px;
+    width: 25px;
+    margin-bottom: -6px;
+}
+span.notic__num {
+    position: absolute;
+    top: -12px;
+    right: -20px;
+    background: #FF0031;
+    color: #fff;
+    font-weight: 600;
+    padding: 1px 8px;
+    font-size: 11px;
+    border-radius: 20px;
+    font-family: 'Inter';
+}
+.noti__f ul.dropdown-menu {
+    max-width: 410px;
+    width: 410px;
+    padding: 22px;
+    padding-top: 22px;
+    left: -13rem !important;
+}
+.noti__f h4, .mark__btn a{
+    font-size: 15px;
+    font-weight: 700;
+    font-family: var(--main-font);
+    color:var(--main-color);
+    text-decoration: none;
+}
+.noti__f p {
+    padding-left: 16px;
+    border-left: 2px solid #DDDEE1;
+    margin-left: 16px;
+}
+.noti__f .dropdown-divider {
+    background-color: #E4E8EE;
+    margin-top: 16px;
+    margin-bottom: 18px;
+}
+
+.tenancies_tt .datatable-top, .role_perm  .datatable-top{
+    display: none;
+}
+.c__bages{
+    border-color:#C35AF0!important;
+}
+
+
+
+.rc__box h5 {
+    font-family: var(--main-font);
+    font-size: 16px;
+}
+.rc__box p {
+    font-family: var(--main-font);
+    font-size: 16px;
+}
+.rc__box+.dropdown-divider {
+    border-color: #a5acb7;
+    margin-top: 0;
+}
+.acti_vites {
+    border-radius: 20px;
+    padding: 4px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--g-text-color);
+}
+.ongoing{
+    border: 1px solid #41BD00;
+}
+.past {
+    border: 1px solid #6F6F6F;
+}
+.rent{
+    border: 1px solid #FF0031;
+}
+.tenancies_tt .datatable-wrapper {
+    margin: 10px;
+    margin-top: 0px;
+    border: 1px solid #dee2e6 !important;
+    border-radius: 5px;
+}
+
+.user__list .datatable-top .datatable-dropdown{
+    float: right;
+}
+.user__list .datatable-top .datatable-search{
+    float: left;
+}
+.user__list .datatable-top .datatable-search .datatable-input{
+    max-width: 450px;
+    width: 450px;
+}
+.user___tabs .nav-link{
+    font-size: 15px;
+    font-weight: 600;
+    font-family: var(--main-font);
+    color: var( --g-text-color);
+}
+.user___tabs .nav-link.active{
+    color: var( --main-color);
+    font-weight: 700;
+}
+#remove_user p{
+    color: var(--gray-text);
+}
+.user__list a.u_n{
+    text-decoration: none;
+   }
+.user__list a.u_n:hover{
+ transition: .3s ease-in-out;
+ text-decoration: underline;
+ color: var(--main-color);
+ font-weight: 600;
+ font-size: 16px;
+}
+.user__list table {
+    font-family: var(--main-font);
+    font-size: 15px;
+    color: var(--black-text);
+}
+Table#add_prTable tr th, Table#add_prTable tr td {
+  padding: 12px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ------ Responsive style start here --------- */
+
+@media only screen and (min-width:576px){
+    .modal-dialog {
+        max-width: 560px;
+        width: 100%;
+    }
+    #new_role .modal-dialog, #edit_role .modal-dialog{
+        max-width: 950px;
+        width: 100%;
+    }
+}

@@ -774,6 +774,8 @@ namespace CromWood.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("PermissionId");
+
                     b.HasIndex("RoleId");
 
                     b.ToTable("RolePermissions");
@@ -1033,6 +1035,9 @@ namespace CromWood.Data.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime?>("LastActive")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -1200,11 +1205,19 @@ namespace CromWood.Data.Migrations
 
             modelBuilder.Entity("CromWood.Data.Entities.RolePermission", b =>
                 {
+                    b.HasOne("CromWood.Data.Entities.Permission", "Permission")
+                        .WithMany()
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("CromWood.Data.Entities.Role", null)
                         .WithMany("Permissions")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Permission");
                 });
 
             modelBuilder.Entity("CromWood.Data.Entities.Tenancy", b =>
@@ -1276,7 +1289,7 @@ namespace CromWood.Data.Migrations
             modelBuilder.Entity("CromWood.Data.Entities.User", b =>
                 {
                     b.HasOne("CromWood.Data.Entities.Role", "Role")
-                        .WithMany()
+                        .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1287,6 +1300,8 @@ namespace CromWood.Data.Migrations
             modelBuilder.Entity("CromWood.Data.Entities.Role", b =>
                 {
                     b.Navigation("Permissions");
+
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

@@ -7,54 +7,227 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CromWood.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/custom.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Sora:wght@200;300;400;500;600;700&display=swap"
+          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="css/custom.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
+            crossorigin="anonymous"></script>
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CromWood</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Test" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Test" asp-action="Auth">Authorized Page</a>
-                        </li>
-                    </ul>
 
-                    @if (User != null && User.Identity != null && User.Identity.IsAuthenticated)
-                    {
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Auth" asp-action="Logout">Log out</a>
-                            </li>
-                        </ul>
-                    }
-                   
-                    
-                </div>
+<body class="sb-nav-fixed">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark border-bottom bg-white">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-5" href="index.html">
+            <img src="./assets/img/site__logo.png" />
+        </a>
+
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Navbar Search-->
+        <form class="d-none d-md-inline-block form-inline me-auto ms-5 w-50">
+            <div class="input-group flex-nowrap ms-5">
+                <span class="input-group-text bg-transparent" id="addon-wrapping"><i class="fas fa-search"></i></span>
+                <input type="text" class="form-control border-start-0" placeholder="" aria-label="Username"
+                       aria-describedby="addon-wrapping">
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+        </form>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - CromWood - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <!-- Navbar-->
+        <!-- Notification  -->
+        <div class="btn-group noti__f me-5">
+            <a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="./assets/img/bell-icon.svg" />
+                <span class="notic__num">20</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-0">
+                <li class="annoce">
+                    <h4><img class="me-1" src="./assets/img/annocement_icon.svg" /> Announcement </h4>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna.
+                        Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris.
+                    </p>
+                    <div class="date__qqq">
+                        <span>11 Dec, 22 at 9:42 AM</span>
+                    </div>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li class="req__">
+                    <h4><img class="me-1" src="./assets/img/requist__icon.svg" /> Request </h4>
+                    <div class="date__qqq">
+                        <span>11 Dec, 22 at 9:42 AM</span>
+                    </div>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li class="approve__">
+                    <h4><img class="me-1" src="./assets/img/approvel__icon.svg" /> Approved </h4>
+                    <div class="date__qqq">
+                        <span>11 Dec, 22 at 9:42 AM</span>
+                    </div>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li class="annoce_2">
+                    <h4><img class="me-1" src="./assets/img/annocement_icon.svg" /> Announcement </h4>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna.
+                        Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris.
+                    </p>
+                    <div class="date__qqq">
+                        <span>11 Dec, 22 at 9:42 AM</span>
+                    </div>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li class="mark__btn text-center">
+                    <img class="me-1" src="./assets/img/marked_all.svg" />
+                    <a href="#">Mark all as read</a>
+                </li>
+            </ul>
         </div>
-    </footer>
+        <!-- End here Notification -->
+
+        <div class="dropdown ms-auto ms-md-0 me-3 me-lg-4 ">
+            <button class="btn text-black dropdown-toggle" type="button" id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                <img class="avtar_img" src="./assets/img/avtar__img.png" />
+                <span class="avtar_name main-font">Jacob Hershberg</span>
+            </button>
+            <ul class="dropdown-menu shadow border-0 rounded-0 w-100" aria-labelledby="dropdownMenuButton1">
+                <li class="pb-2">
+                    <a class="dropdown-item" href="#">
+                        <img class="pe-2" src="./assets/img/user--settings.svg" />
+                        Profile Settings
+                    </a>
+                </li>
+                <li class="pb-2">
+                    <a class="dropdown-item" href="#">
+                        <img class="pe-2" src="./assets/img/logout.svg" />
+                        Sign Out
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav" class="border-end">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav ms-3">
+                        <a class="nav-link active" href="index.html">
+                            <div class="sb-nav-link-icon"><img src="./assets/img/Dashboard.svg" /></div>
+                            Dashboard
+                        </a>
+                        <a class="nav-link" href="index.html">
+                            <div class="sb-nav-link-icon"><img src="./assets/img/scheme per.svg" /></div>
+                            Scheme Performance
+                        </a>
+                        <a class="nav-link" href="index.html">
+                            <div class="sb-nav-link-icon"><img src="./assets/img/Property Management.svg" /></div>
+                            Property Management
+                        </a>
+                        <a class="nav-link" href="index.html">
+                            <div class="sb-nav-link-icon"><img src="./assets/img/Asset Management.svg" /></div>
+                            Asset Management
+                        </a>
+                        <a class="nav-link" href="index.html">
+                            <div class="sb-nav-link-icon"><img src="./assets/img/License.svg" /></div>
+                            License & Certifications
+                        </a>
+                        <a class="nav-link" href="index.html">
+                            <div class="sb-nav-link-icon"><img src="./assets/img/Property.svg" /></div>
+                            Property Assessment
+                        </a>
+                        <a class="nav-link" href="index.html">
+                            <div class="sb-nav-link-icon"><img src="./assets/img/Notices.svg" /></div>
+                            Notices & Claims
+                        </a>
+                        <a class="nav-link" href="index.html">
+                            <div class="sb-nav-link-icon"><img src="./assets/img/Tenants.svg" /></div>
+                            Tenants
+                        </a>
+                        <a class="nav-link" href="index.html">
+                            <div class="sb-nav-link-icon"><img src="./assets/img/TenancyManagement.svg" /></div>
+                            Tenancy Management
+                        </a>
+                        <a class="nav-link" href="index.html">
+                            <div class="sb-nav-link-icon"><img src="./assets/img/msg.svg" /></div>
+                            Messages
+                        </a>
+                        <a class="nav-link" href="index.html">
+                            <div class="sb-nav-link-icon"><img src="./assets/img/report.svg" /></div>
+                            Reports
+                        </a>
+                        <a class="nav-link collapsed myc" href="#" data-bs-toggle="collapse"
+                           data-bs-target="#collapseSetting" aria-expanded="false" aria-controls="collapseSetting">
+                            <div class="sb-nav-link-icon"><img src="./assets/img/settings.svg" /></div>
+                            Settings
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseSetting" aria-labelledby="headingOne"
+                             data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" asp-controller="RolePermission" asp-action="Index">User Role & Permission</a>
+                                <a class="nav-link" href="index.html">Condition Assessment</a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    @RenderBody()
+                </div>
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; Designed by Danial Balwinder</div>
+                        <div>
+                            <a href="#">Privacy Policy</a>
+                            &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js//scripts.js" asp-append-version="true"></script>
+    <script src="~/js/datatables-simple-demo.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="assets/demo/chart-area-demo.js"></script>
+    <script src="assets/demo/chart-bar-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+    <script src="js/datatables-simple-demo.js"></script>
+    <script src="assets/demo/chart-pie-demo.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+
 </body>
 </html>

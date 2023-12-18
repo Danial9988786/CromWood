@@ -2,9 +2,9 @@
 {
     public static class ResponseCreater<T>
     {
-        public static Response<T> CreateSuccessResponse(T data, string message = "Successful")
+        public static AppResponse<T> CreateSuccessResponse(T data, string message = "Successful")
         {
-            return new Response<T>
+            return new AppResponse<T>
             {
                 StatusCode = 200,
                 Success = true,
@@ -13,9 +13,9 @@
             };
         }
 
-        public static Response<T> CreateErrorResponse(T data, string message = "Error")
+        public static AppResponse<T> CreateErrorResponse(T data, string message = "Error")
         {
-            return new Response<T>
+            return new AppResponse<T>
             {
                 StatusCode = 500,
                 Success = false,
@@ -24,9 +24,9 @@
             };
         }
 
-        public static Response<T> CreateNotFoundResponse(T data, string message = "Not Found")
+        public static AppResponse<T> CreateNotFoundResponse(T data, string message = "Not Found")
         {
-            return new Response<T>
+            return new AppResponse<T>
             {
                 StatusCode = 404,
                 Success = false,
@@ -35,9 +35,9 @@
             };
         }
 
-        public static Response<T> CreateDuplicateExistResponse(T duplicateKeys, string message = "Already exists")
+        public static AppResponse<T> CreateDuplicateExistResponse(T duplicateKeys, string message = "Already exists")
         {
-            return new Response<T>
+            return new AppResponse<T>
             {
                 StatusCode = 409,
                 Success = false,
