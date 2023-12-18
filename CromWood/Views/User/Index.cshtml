@@ -20,7 +20,7 @@
             <div class="col-6 text-end">
                 <div class="custom__btn">
                     <a onclick="InviteUser()" data-bs-toggle="modal" data-bs-target="#ivites__user">
-                        <img class="pe-1" src="./assets/img/user_plus_icon.svg"
+                        <img class="pe-1" src="~/assets/img/user_plus_icon.svg"
                              alt="user_icon">
                         Invite user
                     </a>
@@ -45,31 +45,34 @@
                 @foreach (var item in Model)
                 {
                     <tr>
+                        @{
+                            string url = "'" + item.Id.ToString() + "'";
+                        }
                         <td>
-                            <img class="rounded pe-1" src="./assets/img/user_photo.png" alt="" />
+                            <img class="rounded pe-1" src="~/assets/img/user_photo.png" alt="" />
                             <a class="u_n main-text" href="#">
                                 @Html.DisplayFor(modelItem => item.Name)
                             </a>
                         </td>
                         <td> @Html.DisplayFor(modelItem => item.Email)</td>
                         <td> @Html.DisplayFor(modelItem => item.Phone)</td>
-                        <td> @Html.DisplayFor(modelItem => item.LastActive)</td>
+                        <td> @item.LastActive.ToString("MMM dd, yyyy")</td>
                         <td>
-                            <select class="form-select" aria-label="Default select example" asp-for="@item.RoleId" asp-items="roles">
-                            </select>
+                            <form>
+                                <select id="roleDropdown" class="form-select" onchange="changeRole(@url)" asp-for="@item.RoleId" asp-items="roles">
+                                </select>
+                            </form>
                         </td>
                         <td class="text-end">
-                            @{
-                                string url = "'" + item.Id.ToString() + "'";
-                            }
+
                             <a onclick="BlockUser(@url)">
-                                <img class="pe-1" src="./assets/img/block__icon.svg" alt="">
+                                <img class="pe-1" src="~/assets/img/block__icon.svg" alt="">
                                 <span class="text-danger">Block</span>
                             </a>
 
 
                             <a onclick="DeleteUser(@url)">
-                                <img class="ps-5" src="./assets/img/delete_icon.svg" alt="">
+                                <img class="ps-5" src="~/assets/img/delete_icon.svg" alt="">
                             </a>
 
                         </td>
@@ -90,6 +93,11 @@
     function InviteUser(Id) {
         var url = "/User/InviteUser";
         $("#userDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+            });
+            });
             $("#userDialog").modal("show");
         })
     }
@@ -105,6 +113,20 @@
         var url = "/User/DeleteUserModal?Id=" + Id;
         $("#userDialogBody").load(url, function () {
             $("#userDialog").modal("show");
+        })
+    }
+</script>
+
+<script>
+    function changeRole(userId) {
+        var roleId = $("#roleDropdown").val();
+        $.ajax({
+            type: "POST",
+            url: `/User/ChangeRole?userId=${userId}&roleId=${roleId}`,
+            success: function (result) {
+            },
+            error: function () {
+            }
         })
     }
 </script>

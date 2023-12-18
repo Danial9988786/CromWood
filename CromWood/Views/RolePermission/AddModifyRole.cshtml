@@ -1,12 +1,16 @@
 ﻿@model CromWood.Business.Models.RoleModel
 
+@{
+    string title = Model.Id == Guid.Empty ? "Add New Role" : "Edit Role";
+    string buttonName = Model.Id == Guid.Empty ? "Save Role" : "Save Changes";
+}
 <div class="modal-content rounded-0">
     <div class="modal-header py-2">
-        <h5 class="modal-title" id="staticBackdropLabel">Add New Role</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">@title</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body">
-        <form asp-action="AddModifyRole">
+        <form asp-action="AddModifyRole" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             @Html.HiddenFor(m=>m.Id)
@@ -16,6 +20,7 @@
                         <label asp-for="Name" class="form-label">Role Name</label>
                         <input asp-for=Name type="text" class="form-control"
                                placeholder="Enter Role Name">
+                        <span asp-validation-for="Name" id="es" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -25,9 +30,8 @@
                         <div class="border p-3 border-bottom-0">
                             <span>Permissions</span>
                             <div class="form-check form-check-inline ps-5 ms-5">
-                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1"
-                                       value="option1">
-                                <label class="form-check-label" for="inlineCheckbox1">Select All</label>
+                                <input id="allPermissionCheckbox"  class="form-check-input" type="checkbox">
+                                <label class="form-check-label">Select All</label>
                             </div>
                         </div>
                     </div>
@@ -49,22 +53,22 @@
                                         <td>@Model.RolePermission[i].Permission.PermissionDisplayName</td>
                                         <td class="text-center">
                                             <div class="form-check form-check-inline text-center m-0">
-                                                @Html.CheckBoxFor(m => m.RolePermission[i].CanRead,new { @class = "form-check-input" })
+                                                @Html.CheckBoxFor(m => m.RolePermission[i].CanRead,new { @class = "form-check-input ip" })
                                             </div>
                                         </td>
                                         <td class="text-center">
                                             <div class="form-check form-check-inline text-center m-0">
-                                                @Html.CheckBoxFor(m => m.RolePermission[i].CanWrite,new { @class = "form-check-input" })
+                                                @Html.CheckBoxFor(m => m.RolePermission[i].CanWrite,new { @class = "form-check-input ip" })
                                             </div>
                                         </td>
                                         <td class="text-center">
                                             <div class="form-check form-check-inline text-center m-0">
-                                                @Html.CheckBoxFor(m => m.RolePermission[i].CanDelete,new { @class = "form-check-input" })
+                                                @Html.CheckBoxFor(m => m.RolePermission[i].CanDelete,new { @class = "form-check-input ip" })
                                             </div>
                                         </td>
                                         <td class="text-center">
                                             <div class="form-check form-check-inline text-center m-0">
-                                                @Html.CheckBoxFor(m => m.RolePermission[i].CanViewAll,new { @class = "form-check-input" })
+                                                @Html.CheckBoxFor(m => m.RolePermission[i].CanViewAll,new { @class = "form-check-input ip" })
                                             </div>
                                         </td>
                                         @Html.HiddenFor(m=>m.RolePermission[i].Permission.Id)
@@ -81,20 +85,30 @@
             <div class="text-end border-top pt-3">
                 <div class="custom__btn2">
                     <a onclick="submitBtn.click()">
-                        <img class="pe-1" src="./assets/img/save-role.svg" alt="save role icon">
-                        Save Role
+                        <img class="pe-1" src="~/assets/img/save-role.svg" alt="save role icon">
+                        @buttonName
                     </a>
                     <input id="submitBtn" type="submit" hidden />
                 </div>
             </div>
-
         </form>
     </div>
 </div>
 
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+<script>
+    $(document).ready(function () {
+        if ($('.form-check-input.ip:checked').length == $('.form-check-input.ip').length) {
+            $('#allPermissionCheckbox').prop('checked', true)
+        }
+    });
+    $('#allPermissionCheckbox').change(function (e) {
+        // checked will equal true if checked or false otherwise
+        const checked = $(this).is(':checked');
+        if (checked) {
+            $('.form-check-input.ip').prop('checked', true);
+        }
+        else {
+            $('.form-check-input.ip').prop('checked', false);
+        }
+    });
+</script>

@@ -4,6 +4,7 @@ using CromWood.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CromWood.Data.Migrations
 {
     [DbContext(typeof(CromwoodContext))]
-    partial class CromwoodContextModelSnapshot : ModelSnapshot
+    [Migration("20231218100819_Added asset types")]
+    partial class Addedassettypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,9 +38,6 @@ namespace CromWood.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<Guid?>("AssetTypeId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<float?>("AttributableGrant")
                         .HasColumnType("real");
@@ -153,8 +153,6 @@ namespace CromWood.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AssetTypeId");
 
                     b.HasIndex("FinancialPrgoramId");
 
@@ -278,26 +276,6 @@ namespace CromWood.Data.Migrations
                     b.HasIndex("TenantId");
 
                     b.ToTable("Complaints");
-                });
-
-            modelBuilder.Entity("CromWood.Data.Entities.Default.Amenity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("GroupName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Key")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Amenities");
                 });
 
             modelBuilder.Entity("CromWood.Data.Entities.Default.AssetType", b =>
@@ -749,30 +727,6 @@ namespace CromWood.Data.Migrations
                     b.ToTable("Properties");
                 });
 
-            modelBuilder.Entity("CromWood.Data.Entities.PropertyAmenity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AmenityId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Included")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("PropertyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AmenityId");
-
-                    b.HasIndex("PropertyId");
-
-                    b.ToTable("PropertyAmenities");
-                });
-
             modelBuilder.Entity("CromWood.Data.Entities.Role", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1135,15 +1089,9 @@ namespace CromWood.Data.Migrations
 
             modelBuilder.Entity("CromWood.Data.Entities.Asset", b =>
                 {
-                    b.HasOne("CromWood.Data.Entities.Default.AssetType", "AssetType")
-                        .WithMany()
-                        .HasForeignKey("AssetTypeId");
-
                     b.HasOne("CromWood.Data.Entities.Default.FinancialPrgoram", "FinancialPrgoram")
                         .WithMany()
                         .HasForeignKey("FinancialPrgoramId");
-
-                    b.Navigation("AssetType");
 
                     b.Navigation("FinancialPrgoram");
                 });
@@ -1281,25 +1229,6 @@ namespace CromWood.Data.Migrations
                     b.Navigation("Asset");
 
                     b.Navigation("PropertyType");
-                });
-
-            modelBuilder.Entity("CromWood.Data.Entities.PropertyAmenity", b =>
-                {
-                    b.HasOne("CromWood.Data.Entities.Default.Amenity", "Amenity")
-                        .WithMany()
-                        .HasForeignKey("AmenityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CromWood.Data.Entities.Property", "Property")
-                        .WithMany()
-                        .HasForeignKey("PropertyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Amenity");
-
-                    b.Navigation("Property");
                 });
 
             modelBuilder.Entity("CromWood.Data.Entities.RolePermission", b =>

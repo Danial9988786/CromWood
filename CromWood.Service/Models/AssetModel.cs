@@ -1,9 +1,9 @@
 ﻿using CromWood.Data.Entities.Default;
 using System.ComponentModel.DataAnnotations;
 
-namespace CromWood.Data.Entities
+namespace CromWood.Business.Models
 {
-    public class Asset: DBTable
+    public class AssetModel
     {
         public Guid Id { get; set; }
         [Required, MaxLength(100)]
@@ -39,8 +39,7 @@ namespace CromWood.Data.Entities
         [MaxLength(100)]
         public string Chargee { get; set; }
         public DateTime? DateOfCharge { get; set; }
-        public Guid? FinancialPrgoramId { get; set; }
-        public FinancialPrgoram FinancialPrgoram { get; set; }
+        public Guid FinancialPrgoramId { get; set; }
         [MaxLength(100)]
         public string GrantProvider { get; set; }
         public float? AttributableGrant { get; set; }
@@ -65,6 +64,5 @@ namespace CromWood.Data.Entities
         public string ManagingAgentPostCode { get; set; }
         public DateTime? LeaseTerm { get; set; }
         public DateTime? LeaseExpiry { get; set; }
-
     }
 }

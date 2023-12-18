@@ -1,0 +1,80 @@
+﻿@model IEnumerable<CromWood.Business.Models.AssetViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a onclick="CreateAsset()">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>S.No.</th>
+            <th>
+                Asset ID
+            </th>
+
+            <th>
+                Street Address
+            </th>
+            <th>
+                Ownership
+            </th>
+            <th>
+                Available Units
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int index = 0;
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @(index + 1)
+                    @{index = index + 1;}
+                </td>
+                <td >
+                    <a asp-action="AssetDetail" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.AssetId)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StreetAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ownership)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AvailableUnit)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="modal fade" id="assetDialog">
+    <div class="modal-dialog modal-dialog-centered" id="assetDialogBody">
+    </div>
+</div>
+
+
+<script>
+    function CreateAsset() {
+        var url = "/Asset/AddAsset";
+        $("#assetDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#assetDialogBody").css("width", "100%");
+            $("#assetDialog").modal("show");
+        });
+    }
+</script>

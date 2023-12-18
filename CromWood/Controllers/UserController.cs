@@ -80,5 +80,11 @@ namespace CromWood.Controllers
             await _userService.DeleteUserById(Id);
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> ChangeRole(Guid userId, Guid roleId)
+        {
+            await _userService.ChangeUserRole(userId, roleId);
+            return RedirectToAction("Index");
+        }
     }
 }

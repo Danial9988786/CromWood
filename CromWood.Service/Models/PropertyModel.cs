@@ -1,9 +1,10 @@
-﻿using CromWood.Data.Entities.Default;
+﻿using CromWood.Data.Entities;
+using CromWood.Data.Entities.Default;
 using System.ComponentModel.DataAnnotations;
 
-namespace CromWood.Data.Entities
+namespace CromWood.Business.Models
 {
-    public class Property: DBTable
+    public class PropertyModel
     {
         public Guid Id { get; set; }
         [Required, MaxLength(100)]
@@ -11,8 +12,6 @@ namespace CromWood.Data.Entities
         public Guid AssetId { get; set; }
         public Asset Asset { get; set; }
         public float ExpectedMonthlyRate { get; set; }
-
-        // Structural details
         public Guid PropertyTypeId { get; set; }
         public PropertyType PropertyType { get; set; }
 
@@ -24,6 +23,5 @@ namespace CromWood.Data.Entities
         public float NoOfBedroom { get; set; }
         public float NoOfBathroom { get; set; }
         public ICollection<PropertyAmenity> PropertyAmenities { get; set; }
-
     }
 }

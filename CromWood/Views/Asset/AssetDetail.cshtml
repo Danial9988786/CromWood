@@ -1,0 +1,212 @@
+﻿@model CromWood.Business.Models.AssetModel
+
+@{
+    ViewData["Title"] = "AssetDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>AssetDetail</h1>
+
+<div>
+    <h4>AssetModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+       
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AssetTypeId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AssetType!.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AssetId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AssetId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.HouseNoStreet)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.HouseNoStreet)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Locality)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Locality)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Borough)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Borough)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PostCode)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PostCode)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TitleNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TitleNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Ownership)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Ownership)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AquisitionDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AquisitionDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PurchasePrice)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PurchasePrice)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Valuation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Valuation)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ValuationDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ValuationDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Reinstatement)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Reinstatement)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Lender)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Lender)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Chargee)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Chargee)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DateOfCharge)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DateOfCharge)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FinancialPrgoramId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FinancialPrgoramId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.GrantProvider)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.GrantProvider)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AttributableGrant)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AttributableGrant)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ConstructionPeriod)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ConstructionPeriod)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LandlordResponsible)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LandlordResponsible)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FreeholderResponsible)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FreeholderResponsible)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.OwnerResponsible)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.OwnerResponsible)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LandlordName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LandlordName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ManagingAgent)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ManagingAgent)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ManagingAgentHouseNoStreet)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ManagingAgentHouseNoStreet)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ManagingAgentLocality)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ManagingAgentLocality)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ManagingAgentBorough)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ManagingAgentBorough)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ManagingAgentPostCode)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ManagingAgentPostCode)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LeaseTerm)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LeaseTerm)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LeaseExpiry)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LeaseExpiry)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>
