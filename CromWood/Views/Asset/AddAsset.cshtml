@@ -1,0 +1,192 @@
+﻿@using CromWood.Business.Services.Interface;
+@using CromWood.Data.Entities.Default;
+@model CromWood.Business.Models.AssetModel
+@inject ILookupService<FinancialPrgoram> _lookupFService;
+@inject ILookupService<AssetType> _lookupAService;
+
+@{
+    var asyncFinancialPrograms = await _lookupFService.GetAllItems();
+    var financialPrograms = new SelectList(asyncFinancialPrograms.Data, "Id", "Name");
+
+    var asyncAssetType = await _lookupAService.GetAllItems();
+    var assetTypes = new SelectList(asyncAssetType.Data, "Id", "Name");
+}
+
+<div class="modal-content rounded-0">
+    <div class="modal-header py-2">
+        <h5 class="modal-title" id="staticBackdropLabel">Add Asset</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form asp-action="AddAsset">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m=>m.AssetId)
+            <div class="form-group">
+                <label asp-for="AssetTypeId" class="control-label"></label>
+                <select asp-for="AssetTypeId" asp-items="assetTypes" class="form-control"></select>
+                <span asp-validation-for="AssetTypeId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="AssetId" class="control-label"></label>
+                <input asp-for="AssetId" disabled class="form-control" />
+                <span asp-validation-for="AssetId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HouseNoStreet" class="control-label"></label>
+                <input asp-for="HouseNoStreet" class="form-control" />
+                <span asp-validation-for="HouseNoStreet" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Locality" class="control-label"></label>
+                <input asp-for="Locality" class="form-control" />
+                <span asp-validation-for="Locality" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Borough" class="control-label"></label>
+                <input asp-for="Borough" class="form-control" />
+                <span asp-validation-for="Borough" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PostCode" class="control-label"></label>
+                <input asp-for="PostCode" class="form-control" />
+                <span asp-validation-for="PostCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TitleNumber" class="control-label"></label>
+                <input asp-for="TitleNumber" class="form-control" />
+                <span asp-validation-for="TitleNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ownership" class="control-label"></label>
+                <input asp-for="Ownership" class="form-control" />
+                <span asp-validation-for="Ownership" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AquisitionDate" class="control-label"></label>
+                <input asp-for="AquisitionDate" type="date" class="form-control" />
+                <span asp-validation-for="AquisitionDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PurchasePrice" class="control-label"></label>
+                <input asp-for="PurchasePrice" type="number" class="form-control" />
+                <span asp-validation-for="PurchasePrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Valuation" class="control-label"></label>
+                <input asp-for="Valuation" type="number" class="form-control" />
+                <span asp-validation-for="Valuation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ValuationDate" class="control-label"></label>
+                <input asp-for="ValuationDate" type="date" class="form-control" />
+                <span asp-validation-for="ValuationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Reinstatement" class="control-label"></label>
+                <input asp-for="Reinstatement" class="form-control" />
+                <span asp-validation-for="Reinstatement" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lender" class="control-label"></label>
+                <input asp-for="Lender" class="form-control" />
+                <span asp-validation-for="Lender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Chargee" class="control-label"></label>
+                <input asp-for="Chargee" class="form-control" />
+                <span asp-validation-for="Chargee" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOfCharge" class="control-label"></label>
+                <input asp-for="DateOfCharge" type="date" class="form-control" />
+                <span asp-validation-for="DateOfCharge" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FinancialPrgoramId" class="control-label"></label>
+                <select asp-for="FinancialPrgoramId" asp-items="financialPrograms" class="form-control"></select>
+                <span asp-validation-for="FinancialPrgoramId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GrantProvider" class="control-label"></label>
+                <input asp-for="GrantProvider" class="form-control" />
+                <span asp-validation-for="GrantProvider" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AttributableGrant" class="control-label"></label>
+                <input asp-for="AttributableGrant" type="number" class="form-control" />
+                <span asp-validation-for="AttributableGrant" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConstructionPeriod" class="control-label"></label>
+                <input asp-for="ConstructionPeriod" class="form-control" />
+                <span asp-validation-for="ConstructionPeriod" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="LandlordResponsible" /> @Html.DisplayNameFor(model => model.LandlordResponsible)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="FreeholderResponsible" /> @Html.DisplayNameFor(model => model.FreeholderResponsible)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="OwnerResponsible" /> @Html.DisplayNameFor(model => model.OwnerResponsible)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="LandlordName" class="control-label"></label>
+                <input asp-for="LandlordName" class="form-control" />
+                <span asp-validation-for="LandlordName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ManagingAgent" class="control-label"></label>
+                <input asp-for="ManagingAgent" class="form-control" />
+                <span asp-validation-for="ManagingAgent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ManagingAgentHouseNoStreet" class="control-label"></label>
+                <input asp-for="ManagingAgentHouseNoStreet" class="form-control" />
+                <span asp-validation-for="ManagingAgentHouseNoStreet" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ManagingAgentLocality" class="control-label"></label>
+                <input asp-for="ManagingAgentLocality" class="form-control" />
+                <span asp-validation-for="ManagingAgentLocality" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ManagingAgentBorough" class="control-label"></label>
+                <input asp-for="ManagingAgentBorough" class="form-control" />
+                <span asp-validation-for="ManagingAgentBorough" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ManagingAgentPostCode" class="control-label"></label>
+                <input asp-for="ManagingAgentPostCode" class="form-control" />
+                <span asp-validation-for="ManagingAgentPostCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeaseTerm" class="control-label"></label>
+                <input asp-for="LeaseTerm" type="date" class="form-control" />
+                <span asp-validation-for="LeaseTerm" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeaseExpiry" class="control-label"></label>
+                <input asp-for="LeaseExpiry" type="date" class="form-control" />
+                <span asp-validation-for="LeaseExpiry" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Lease Length</label>
+                <p>@(Model.LeaseTerm - Model.LeaseExpiry)</p>
+            </div>
+
+            <div class="custom__btn2 text-end border-top pt-3 mt-5">
+                <input type="submit" value="Add Asset" />
+            </div>
+        </form>
+    </div>
+</div>
+

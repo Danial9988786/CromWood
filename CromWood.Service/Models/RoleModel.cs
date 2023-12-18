@@ -1,10 +1,12 @@
 ﻿using CromWood.Business.ViewModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace CromWood.Business.Models
 {
     public class RoleModel
     {
         public Guid Id { get; set; }
+        [Required]
         public string Name { get; set; }
         public List<RolePermissionModel> RolePermission { get; set; }
     }

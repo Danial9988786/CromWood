@@ -4,6 +4,7 @@ using CromWood.Business.Models;
 using CromWood.Business.Services.Interface;
 using CromWood.Data.Entities;
 using CromWood.Data.Repository.Interface;
+using CromWood.Helper;
 
 namespace CromWood.Business.Services.Implementation
 {
@@ -36,10 +37,11 @@ namespace CromWood.Business.Services.Implementation
             {
                 
                 var mappedUser = _mapper.Map<User>(user);
+                mappedUser.Password = PasswordHasher.Password2hash(mappedUser.Password);
                 var result = await _userRepo.InviteUser(mappedUser);
                 if (result == 1)
                 {
-                    // Sending Email to user about their email and default password.
+                    EmailSender.SendInvitationEmail(user.Email, user.Password);
                 }
                 return ResponseCreater<string>.CreateSuccessResponse(null, "User invited successfully");
 
@@ -74,7 +76,6 @@ namespace CromWood.Business.Services.Implementation
                 return ResponseCreater<string>.CreateErrorResponse(null, ex.ToString());
             }
         }
-
         public async Task<AppResponse<string>> DeleteUserById(Guid Id)
         {
             try

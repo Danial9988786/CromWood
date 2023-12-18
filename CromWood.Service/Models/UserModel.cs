@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace CromWood.Business.Models
 {
@@ -12,7 +13,7 @@ namespace CromWood.Business.Models
         [Required, MaxLength(100)]
         public string Email { get; set; }
 
-        [Required, MaxLength(500)]
+        [Required, MaxLength(500), PasswordPropertyText]
         public string Password { get; set; }
         public Guid RoleId { get; set; }
         public bool IsActive { get; set; }

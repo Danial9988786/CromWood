@@ -16,8 +16,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Sora:wght@200;300;400;500;600;700&display=swap"
           rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-    <link href="css/styles.css" rel="stylesheet" />
-    <link href="css/custom.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
             crossorigin="anonymous"></script>
@@ -27,7 +25,7 @@
     <nav class="sb-topnav navbar navbar-expand navbar-dark border-bottom bg-white">
         <!-- Navbar Brand-->
         <a class="navbar-brand ps-5" href="index.html">
-            <img src="./assets/img/site__logo.png" />
+            <img src="~/assets/img/site__logo.png" />
         </a>
 
         <!-- Sidebar Toggle-->
@@ -48,12 +46,12 @@
         <!-- Notification  -->
         <div class="btn-group noti__f me-5">
             <a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="./assets/img/bell-icon.svg" />
+                <img src="~/assets/img/bell-icon.svg" />
                 <span class="notic__num">20</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-0">
                 <li class="annoce">
-                    <h4><img class="me-1" src="./assets/img/annocement_icon.svg" /> Announcement </h4>
+                    <h4><img class="me-1" src="~/assets/img/annocement_icon.svg" /> Announcement </h4>
                     <p>
                         Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna.
                         Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris.
@@ -66,7 +64,7 @@
                     <hr class="dropdown-divider">
                 </li>
                 <li class="req__">
-                    <h4><img class="me-1" src="./assets/img/requist__icon.svg" /> Request </h4>
+                    <h4><img class="me-1" src="~/assets/img/requist__icon.svg" /> Request </h4>
                     <div class="date__qqq">
                         <span>11 Dec, 22 at 9:42 AM</span>
                     </div>
@@ -75,7 +73,7 @@
                     <hr class="dropdown-divider">
                 </li>
                 <li class="approve__">
-                    <h4><img class="me-1" src="./assets/img/approvel__icon.svg" /> Approved </h4>
+                    <h4><img class="me-1" src="~/assets/img/approvel__icon.svg" /> Approved </h4>
                     <div class="date__qqq">
                         <span>11 Dec, 22 at 9:42 AM</span>
                     </div>
@@ -84,7 +82,7 @@
                     <hr class="dropdown-divider">
                 </li>
                 <li class="annoce_2">
-                    <h4><img class="me-1" src="./assets/img/annocement_icon.svg" /> Announcement </h4>
+                    <h4><img class="me-1" src="~/assets/img/annocement_icon.svg" /> Announcement </h4>
                     <p>
                         Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna.
                         Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris.
@@ -97,7 +95,7 @@
                     <hr class="dropdown-divider">
                 </li>
                 <li class="mark__btn text-center">
-                    <img class="me-1" src="./assets/img/marked_all.svg" />
+                    <img class="me-1" src="~/assets/img/marked_all.svg" />
                     <a href="#">Mark all as read</a>
                 </li>
             </ul>
@@ -107,19 +105,19 @@
         <div class="dropdown ms-auto ms-md-0 me-3 me-lg-4 ">
             <button class="btn text-black dropdown-toggle" type="button" id="dropdownMenuButton1"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                <img class="avtar_img" src="./assets/img/avtar__img.png" />
+                <img class="avtar_img" src="~/assets/img/avtar__img.png" />
                 <span class="avtar_name main-font">Jacob Hershberg</span>
             </button>
             <ul class="dropdown-menu shadow border-0 rounded-0 w-100" aria-labelledby="dropdownMenuButton1">
                 <li class="pb-2">
                     <a class="dropdown-item" href="#">
-                        <img class="pe-2" src="./assets/img/user--settings.svg" />
+                        <img class="pe-2" src="~/assets/img/user--settings.svg" />
                         Profile Settings
                     </a>
                 </li>
                 <li class="pb-2">
                     <a class="dropdown-item" href="#">
-                        <img class="pe-2" src="./assets/img/logout.svg" />
+                        <img class="pe-2" src="~/assets/img/logout.svg" />
                         Sign Out
                     </a>
                 </li>
@@ -132,52 +130,52 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav ms-3">
                         <a class="nav-link active" href="index.html">
-                            <div class="sb-nav-link-icon"><img src="./assets/img/Dashboard.svg" /></div>
+                            <div class="sb-nav-link-icon"><img src="~/assets/img/Dashboard.svg" /></div>
                             Dashboard
                         </a>
                         <a class="nav-link" href="index.html">
-                            <div class="sb-nav-link-icon"><img src="./assets/img/scheme per.svg" /></div>
+                            <div class="sb-nav-link-icon"><img src="~/assets/img/scheme per.svg" /></div>
                             Scheme Performance
                         </a>
-                        <a class="nav-link" href="index.html">
-                            <div class="sb-nav-link-icon"><img src="./assets/img/Property Management.svg" /></div>
+                        <a class="nav-link" asp-action="Index" asp-controller="Property">
+                            <div class="sb-nav-link-icon"><img src="~/assets/img/Property Management.svg" /></div>
                             Property Management
                         </a>
-                        <a class="nav-link" href="index.html">
-                            <div class="sb-nav-link-icon"><img src="./assets/img/Asset Management.svg" /></div>
+                        <a class="nav-link"  asp-action="Index" asp-controller="Asset">
+                            <div class="sb-nav-link-icon"><img src="~/assets/img/Asset Management.svg" /></div>
                             Asset Management
                         </a>
                         <a class="nav-link" href="index.html">
-                            <div class="sb-nav-link-icon"><img src="./assets/img/License.svg" /></div>
+                            <div class="sb-nav-link-icon"><img src="~/assets/img/License.svg" /></div>
                             License & Certifications
                         </a>
                         <a class="nav-link" href="index.html">
-                            <div class="sb-nav-link-icon"><img src="./assets/img/Property.svg" /></div>
+                            <div class="sb-nav-link-icon"><img src="~/assets/img/Property.svg" /></div>
                             Property Assessment
                         </a>
                         <a class="nav-link" href="index.html">
-                            <div class="sb-nav-link-icon"><img src="./assets/img/Notices.svg" /></div>
+                            <div class="sb-nav-link-icon"><img src="~/assets/img/Notices.svg" /></div>
                             Notices & Claims
                         </a>
                         <a class="nav-link" href="index.html">
-                            <div class="sb-nav-link-icon"><img src="./assets/img/Tenants.svg" /></div>
+                            <div class="sb-nav-link-icon"><img src="~/assets/img/Tenants.svg" /></div>
                             Tenants
                         </a>
                         <a class="nav-link" href="index.html">
-                            <div class="sb-nav-link-icon"><img src="./assets/img/TenancyManagement.svg" /></div>
+                            <div class="sb-nav-link-icon"><img src="~/assets/img/TenancyManagement.svg" /></div>
                             Tenancy Management
                         </a>
                         <a class="nav-link" href="index.html">
-                            <div class="sb-nav-link-icon"><img src="./assets/img/msg.svg" /></div>
+                            <div class="sb-nav-link-icon"><img src="~/assets/img/msg.svg" /></div>
                             Messages
                         </a>
                         <a class="nav-link" href="index.html">
-                            <div class="sb-nav-link-icon"><img src="./assets/img/report.svg" /></div>
+                            <div class="sb-nav-link-icon"><img src="~/assets/img/report.svg" /></div>
                             Reports
                         </a>
                         <a class="nav-link collapsed myc" href="#" data-bs-toggle="collapse"
                            data-bs-target="#collapseSetting" aria-expanded="false" aria-controls="collapseSetting">
-                            <div class="sb-nav-link-icon"><img src="./assets/img/settings.svg" /></div>
+                            <div class="sb-nav-link-icon"><img src="~/assets/img/settings.svg" /></div>
                             Settings
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
@@ -213,10 +211,13 @@
         </div>
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/js//scripts.js" asp-append-version="true"></script>
+
+    <script src="~/js/scripts.js" asp-append-version="true"></script>
     <script src="~/js/datatables-simple-demo.js" asp-append-version="true"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
             crossorigin="anonymous"></script>
     <script src="js/scripts.js"></script>
@@ -226,8 +227,7 @@
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="js/datatables-simple-demo.js"></script>
     <script src="assets/demo/chart-pie-demo.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
-
-
 </body>
 </html>

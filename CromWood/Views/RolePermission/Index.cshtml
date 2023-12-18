@@ -13,7 +13,7 @@
             <div class="col-6 text-end">
                 <div class="custom__btn">
                     <a onclick="CreateRole()">
-                        <img class="pe-1" src="./assets/img/user_plus_icon.svg"
+                        <img class="pe-1" src="~/assets/img/user_plus_icon.svg"
                              alt="user_icon">
                         New Role
                     </a>
@@ -42,17 +42,19 @@
                             </a>
                         </td>
                         <td>@Html.DisplayFor(modelItem => item.NoOfUsers)</td>
-                        <td>@Html.DisplayFor(modelItem => item.LastUpdated)</td>
+                        <td>
+                            @item.LastUpdated.ToString("MMM dd, yyyy")
+                        </td>
                         <td class="text-end">
                             @{
                                 string url = "'" + item.Id.ToString() + "'";
                             }
                             <a onclick="EditRole(@url)" class="text-decoration-none">
-                                <img class="pe-1" src="./assets/img/edit-icon.svg" alt="">
+                                <img class="pe-1" src="~/assets/img/edit-icon.svg" alt="">
                                 <span class="main-text">Edit</span>
                             </a>
                             <a onclick="DeleteRole(@url)">
-                                <img class="ps-5" src="./assets/img/delete_icon.svg" alt="">
+                                <img class="ps-5" src="~/assets/img/delete_icon.svg" alt="">
                             </a>
                         </td>
                     </tr>
@@ -71,15 +73,27 @@
     function CreateRole() {
         var url = "/RolePermission/AddModifyRole";
         $("#rolePermissionDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+            });
+            });
             $("#rolePermissionDialogBody").css("max-width", "950px");
             $("#rolePermissionDialogBody").css("width", "100%");
             $("#rolePermissionDialog").modal("show");
-        })
+
+        });
+
     }
 
     function EditRole(Id) {
         var url = "/RolePermission/AddModifyRole?Id=" + Id;
         $("#rolePermissionDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+            });
+            });
             $("#rolePermissionDialogBody").css("max-width", "950px");
             $("#rolePermissionDialogBody").css("width", "100%");
             $("#rolePermissionDialog").modal("show");

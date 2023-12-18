@@ -82,6 +82,13 @@ INSERT INTO dbo.PropertyTypes values
 ('914d1a66-0ee7-45f6-ab77-19c928c5a426','PT4'),
 ('01289643-bba0-48d0-b34c-c69b466be7ec','PT5')
 
+INSERT INTO dbo.AssetTypes values 
+('a8228559-11be-4d9a-9544-8241f2ec59c1','AT1'),
+('c6f007f8-2d30-49a0-a248-add219f4748d','AT2'),
+('64432c8e-8cc3-4365-a8f5-e4dc925c42fd','AT3'),
+('914d1a66-0ee7-45f6-ab77-19c928c5a426','AT4'),
+('01289643-bba0-48d0-b34c-c69b466be7ec','AT5')
+
 INSERT INTO dbo.RentFrequencies values 
 ('a8228559-11be-4d9a-9544-8241f2ec59c1','RF1'),
 ('c6f007f8-2d30-49a0-a248-add219f4748d','RF2'),
@@ -116,6 +123,13 @@ INSERT INTO dbo.TransactionTypes values
 ('64432c8e-8cc3-4365-a8f5-e4dc925c42fd','TT3'),
 ('914d1a66-0ee7-45f6-ab77-19c928c5a426','TT4'),
 ('01289643-bba0-48d0-b34c-c69b466be7ec','TT5')
+
+INSERT INTO dbo.Amenities  values 
+('a8228559-11be-4d9a-9544-8241f2ec59c1','Bills Included','Internet', 'internet'),
+('c6f007f8-2d30-49a0-a248-add219f4748d','Bills Included','Phone', 'phone'),
+('64432c8e-8cc3-4365-a8f5-e4dc925c42fd','General','Fireplace', 'fireplace'),
+('914d1a66-0ee7-45f6-ab77-19c928c5a426','General','Gym', 'gym'),
+('01289643-bba0-48d0-b34c-c69b466be7ec','Appliances','Washing Machine', 'washing_machine')
 
 
 -- Default Roles, Permission, User : At first --
