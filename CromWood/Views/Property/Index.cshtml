@@ -1,0 +1,97 @@
+﻿@model IEnumerable<CromWood.Business.Models.PropertyViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a onclick="CreateProperty()">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PropertyCode)
+            </th>
+            <th colspan="4">
+                @Html.DisplayNameFor(model => model.Asset)
+            </th>
+            <th>
+                Expected
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Sq. Ft
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FloorNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NoOfBedroom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NoOfBathroom)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-action="Detail" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.PropertyCode)
+                    </a>
+                </td>
+                <td colspan="4">
+                    @Html.DisplayFor(modelItem => item.Asset.StreetAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExpectedMonthlyRate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PropertyType.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SquareFootage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FloorNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoOfBedroom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoOfBathroom)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<div class="modal fade" id="propertyDialog">
+    <div class="modal-dialog modal-dialog-centered" id="propertyDialogBody">
+    </div>
+</div>
+
+
+<script>
+    function CreateProperty() {
+        var url = "/Property/AddProperty";
+        $("#propertyDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#propertyDialogBody").css("width", "100%");
+            $("#propertyDialog").modal("show");
+        });
+    }
+</script>

@@ -1,0 +1,86 @@
+﻿@using CromWood.Business.Services.Interface;
+@using CromWood.Data.Entities.Default;
+@using CromWood.Data.Entities;
+@model CromWood.Business.Models.PropertyModel
+@inject ILookupService<PropertyType> _propertyTypeService;
+@inject IAssetService _assetService;
+
+@{
+    var asyncPropertyTypes = await _propertyTypeService.GetAllItems();
+    var propertyTypes = new SelectList(asyncPropertyTypes.Data, "Id", "Name");
+
+    var asyncAssets = await _assetService.GetAssetsForList();
+    var assets = new SelectList(asyncAssets.Data, "Id", "StreetAddress");
+}
+
+<div class="modal-content rounded-0">
+    <div class="modal-header py-2">
+        <h5 class="modal-title" id="staticBackdropLabel">Add Property</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form asp-action="AddProperty">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m=>m.PropertyCode)
+
+            <div class="form-group">
+                <label asp-for="PropertyCode" class="control-label"></label>
+                <input asp-for="PropertyCode" disabled class="form-control" />
+                <span asp-validation-for="PropertyCode" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="AssetId" class="control-label"></label>
+                <select asp-for="AssetId" asp-items="assets" class="form-control"></select>
+                <span asp-validation-for="AssetId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ExpectedMonthlyRate" class="control-label"></label>
+                <input asp-for="ExpectedMonthlyRate" class="form-control" />
+                <span asp-validation-for="ExpectedMonthlyRate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PropertyTypeId" class="control-label"></label>
+                <select asp-for="PropertyTypeId" asp-items="propertyTypes" class="form-control"></select>
+                <span asp-validation-for="PropertyTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SquareFootage" class="control-label"></label>
+                <input asp-for="SquareFootage" class="form-control" />
+                <span asp-validation-for="SquareFootage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FloorNumber" class="control-label"></label>
+                <input asp-for="FloorNumber" class="form-control" />
+                <span asp-validation-for="FloorNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NoOfBedroom" class="control-label"></label>
+                <input asp-for="NoOfBedroom" class="form-control" />
+                <span asp-validation-for="NoOfBedroom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NoOfBathroom" class="control-label"></label>
+                <input asp-for="NoOfBathroom" class="form-control" />
+                <span asp-validation-for="NoOfBathroom" class="text-danger"></span>
+            </div>
+
+            <div>
+                @for (int i = 0; i < Model.PropertyAmenities.Count; i++)
+                {
+                    <label>@Model.PropertyAmenities[i].Amenity.Name</label>
+                    @Html.CheckBoxFor(m => m.PropertyAmenities[i].Included,new { @class = "form-check-input ip"})
+
+                    @Html.HiddenFor(m=>m.PropertyAmenities[i].Amenity.Id)
+                    @Html.HiddenFor(m=>m.PropertyAmenities[i].PropertyId)
+                    @Html.HiddenFor(m=>m.PropertyAmenities[i].Id)
+                }
+            </div>
+
+            <div class="custom__btn2 text-end border-top pt-3 mt-5">
+                <input type="submit" value="Add Property" />
+            </div>
+        </form>
+    </div>
+</div>

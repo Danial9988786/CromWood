@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CromWood", "CromWood.csproj", "{A04659B8-8497-4DA1-A517-63092FBB800F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CromWood", "CromWood.csproj", "{A04659B8-8497-4DA1-A517-63092FBB800F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CromWood.Business", "..\CromWood.Service\CromWood.Business.csproj", "{1B397CC4-0A97-48DC-8B55-2B863CC19B2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CromWood.Business", "..\CromWood.Service\CromWood.Business.csproj", "{1B397CC4-0A97-48DC-8B55-2B863CC19B2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CromWood.Data", "..\CromWood.Repository\CromWood.Data.csproj", "{6B6828DD-8FC4-4B89-806D-A0DC98C9F263}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CromWood.Data", "..\CromWood.Repository\CromWood.Data.csproj", "{6B6828DD-8FC4-4B89-806D-A0DC98C9F263}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CromWood.Helper", "..\CromWood.Helper\CromWood.Helper.csproj", "{693DDE4A-1C66-4CDC-A465-1469FFF57597}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CromWood.Helper", "..\CromWood.Helper\CromWood.Helper.csproj", "{693DDE4A-1C66-4CDC-A465-1469FFF57597}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

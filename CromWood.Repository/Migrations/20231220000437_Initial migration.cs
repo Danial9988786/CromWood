@@ -12,48 +12,29 @@ namespace CromWood.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Assets",
+                name: "Amenities",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AssetId = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    HouseNoStreet = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Locality = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Borough = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    PostCode = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
-                    TitleNumber = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Ownership = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    AquisitionDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    PurchasePrice = table.Column<float>(type: "real", nullable: true),
-                    Valuation = table.Column<float>(type: "real", nullable: true),
-                    ValuationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Reinstatement = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Lender = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Chargee = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    DateOfCharge = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    FinancialPrgoramId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    GrantProvider = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    AttributableGrant = table.Column<float>(type: "real", nullable: true),
-                    ConstructionPeriod = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    LandlordResponsible = table.Column<bool>(type: "bit", nullable: false),
-                    FreeholderResponsible = table.Column<bool>(type: "bit", nullable: false),
-                    OwnerResponsible = table.Column<bool>(type: "bit", nullable: false),
-                    LandlordName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ManagingAgent = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ManagingAgentHouseNoStreet = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ManagingAgentLocality = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ManagingAgentBorough = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ManagingAgentPostCode = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
-                    LeaseTerm = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LeaseExpiry = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    GroupName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Key = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Assets", x => x.Id);
+                    table.PrimaryKey("PK_Amenities", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AssetTypes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AssetTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -206,6 +187,19 @@ namespace CromWood.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PropertyKeyTypes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Icon = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PropertyKeyTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PropertyTypes",
                 columns: table => new
                 {
@@ -310,19 +304,41 @@ namespace CromWood.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Properties",
+                name: "Assets",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PropertyCode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    AssetId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ExpectedMonthlyRate = table.Column<float>(type: "real", nullable: false),
-                    PropertyTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SquareFootage = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
-                    FloorNumber = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
-                    NoOfBedroom = table.Column<float>(type: "real", nullable: false),
-                    NoOfBathroom = table.Column<float>(type: "real", nullable: false),
-                    Amenities = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AssetId = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    AssetTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    HouseNoStreet = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Locality = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Borough = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    PostCode = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
+                    TitleNumber = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Ownership = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    AquisitionDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    PurchasePrice = table.Column<float>(type: "real", nullable: true),
+                    Valuation = table.Column<float>(type: "real", nullable: true),
+                    ValuationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Reinstatement = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Lender = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Chargee = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    DateOfCharge = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    FinancialPrgoramId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    GrantProvider = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    AttributableGrant = table.Column<float>(type: "real", nullable: true),
+                    ConstructionPeriod = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    LandlordResponsible = table.Column<bool>(type: "bit", nullable: false),
+                    FreeholderResponsible = table.Column<bool>(type: "bit", nullable: false),
+                    OwnerResponsible = table.Column<bool>(type: "bit", nullable: false),
+                    LandlordName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ManagingAgent = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ManagingAgentHouseNoStreet = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ManagingAgentLocality = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ManagingAgentBorough = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ManagingAgentPostCode = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
+                    LeaseTerm = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LeaseExpiry = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -330,19 +346,17 @@ namespace CromWood.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Properties", x => x.Id);
+                    table.PrimaryKey("PK_Assets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Properties_Assets_AssetId",
-                        column: x => x.AssetId,
-                        principalTable: "Assets",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Assets_AssetTypes_AssetTypeId",
+                        column: x => x.AssetTypeId,
+                        principalTable: "AssetTypes",
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Properties_PropertyTypes_PropertyTypeId",
-                        column: x => x.PropertyTypeId,
-                        principalTable: "PropertyTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Assets_FinancialPrgorams_FinancialPrgoramId",
+                        column: x => x.FinancialPrgoramId,
+                        principalTable: "FinancialPrgorams",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -365,6 +379,12 @@ namespace CromWood.Data.Migrations
                 {
                     table.PrimaryKey("PK_RolePermissions", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_RolePermissions_Permissions_PermissionId",
+                        column: x => x.PermissionId,
+                        principalTable: "Permissions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_RolePermissions_Roles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Roles",
@@ -385,6 +405,7 @@ namespace CromWood.Data.Migrations
                     Password = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    LastActive = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -445,6 +466,179 @@ namespace CromWood.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Properties",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PropertyCode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    AssetId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ExpectedMonthlyRate = table.Column<float>(type: "real", nullable: false),
+                    PropertyTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SquareFootage = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
+                    FloorNumber = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
+                    NoOfBedroom = table.Column<float>(type: "real", nullable: false),
+                    NoOfBathroom = table.Column<float>(type: "real", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Properties", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Properties_Assets_AssetId",
+                        column: x => x.AssetId,
+                        principalTable: "Assets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Properties_PropertyTypes_PropertyTypeId",
+                        column: x => x.PropertyTypeId,
+                        principalTable: "PropertyTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Claims",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClaimReference = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ClaimTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClaimNo = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
+                    Fee = table.Column<float>(type: "real", nullable: true),
+                    HearingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CourtId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Action = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Claims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Claims_ClaimTypes_ClaimTypeId",
+                        column: x => x.ClaimTypeId,
+                        principalTable: "ClaimTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Claims_Courts_CourtId",
+                        column: x => x.CourtId,
+                        principalTable: "Courts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Claims_Tenants_TenantId",
+                        column: x => x.TenantId,
+                        principalTable: "Tenants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Notice",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TrackingNumber = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    ConcernId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ASTLicense = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SectionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsDrafted = table.Column<bool>(type: "bit", nullable: false),
+                    EmailedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ServedAndPictured = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notice", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Notice_Concerns_ConcernId",
+                        column: x => x.ConcernId,
+                        principalTable: "Concerns",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Notice_Sections_SectionId",
+                        column: x => x.SectionId,
+                        principalTable: "Sections",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Notice_Tenants_TenantId",
+                        column: x => x.TenantId,
+                        principalTable: "Tenants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Complaints",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PropertyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ComplaintTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ExpectedResolveDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ComplaintCategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ComplaintNatureId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
+                    FileUrl = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Complaints", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Complaints_ComplaintCategories_ComplaintCategoryId",
+                        column: x => x.ComplaintCategoryId,
+                        principalTable: "ComplaintCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Complaints_ComplaintNatures_ComplaintNatureId",
+                        column: x => x.ComplaintNatureId,
+                        principalTable: "ComplaintNatures",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Complaints_ComplaintTypes_ComplaintTypeId",
+                        column: x => x.ComplaintTypeId,
+                        principalTable: "ComplaintTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Complaints_Properties_PropertyId",
+                        column: x => x.PropertyId,
+                        principalTable: "Properties",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Complaints_Tenants_TenantId",
+                        column: x => x.TenantId,
+                        principalTable: "Tenants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "LicenseCertificates",
                 columns: table => new
                 {
@@ -470,6 +664,78 @@ namespace CromWood.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_LicenseCertificates_Properties_PropertyId",
+                        column: x => x.PropertyId,
+                        principalTable: "Properties",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PropertyAmenities",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PropertyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AmenityId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Included = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PropertyAmenities", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PropertyAmenities_Amenities_AmenityId",
+                        column: x => x.AmenityId,
+                        principalTable: "Amenities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PropertyAmenities_Properties_PropertyId",
+                        column: x => x.PropertyId,
+                        principalTable: "Properties",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PropertyInsurances",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Insurer = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FileUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PropertyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PropertyInsurances", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PropertyInsurances_Properties_PropertyId",
+                        column: x => x.PropertyId,
+                        principalTable: "Properties",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PropertyKeys",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PropertyKeyType = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    AdditionalInformation = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    SharedWithTenant = table.Column<bool>(type: "bit", nullable: true),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PropertyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PropertyKeys", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PropertyKeys_Properties_PropertyId",
                         column: x => x.PropertyId,
                         principalTable: "Properties",
                         principalColumn: "Id",
@@ -548,143 +814,15 @@ namespace CromWood.Data.Migrations
                         principalColumn: "Id");
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Claims",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ClaimReference = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ClaimTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ClaimNo = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
-                    Fee = table.Column<float>(type: "real", nullable: true),
-                    HearingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CourtId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Comment = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    Action = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Claims", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Claims_ClaimTypes_ClaimTypeId",
-                        column: x => x.ClaimTypeId,
-                        principalTable: "ClaimTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Claims_Courts_CourtId",
-                        column: x => x.CourtId,
-                        principalTable: "Courts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Claims_Tenants_TenantId",
-                        column: x => x.TenantId,
-                        principalTable: "Tenants",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_Assets_AssetTypeId",
+                table: "Assets",
+                column: "AssetTypeId");
 
-            migrationBuilder.CreateTable(
-                name: "Complaints",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PropertyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ComplaintTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ExpectedResolveDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ComplaintCategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ComplaintNatureId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
-                    FileUrl = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Complaints", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Complaints_ComplaintCategories_ComplaintCategoryId",
-                        column: x => x.ComplaintCategoryId,
-                        principalTable: "ComplaintCategories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Complaints_ComplaintNatures_ComplaintNatureId",
-                        column: x => x.ComplaintNatureId,
-                        principalTable: "ComplaintNatures",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Complaints_ComplaintTypes_ComplaintTypeId",
-                        column: x => x.ComplaintTypeId,
-                        principalTable: "ComplaintTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Complaints_Properties_PropertyId",
-                        column: x => x.PropertyId,
-                        principalTable: "Properties",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Complaints_Tenants_TenantId",
-                        column: x => x.TenantId,
-                        principalTable: "Tenants",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Notice",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TrackingNumber = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    ConcernId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ASTLicense = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SectionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsDrafted = table.Column<bool>(type: "bit", nullable: false),
-                    EmailedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ServedAndPictured = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Comment = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Notice", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Notice_Concerns_ConcernId",
-                        column: x => x.ConcernId,
-                        principalTable: "Concerns",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Notice_Sections_SectionId",
-                        column: x => x.SectionId,
-                        principalTable: "Sections",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Notice_Tenants_TenantId",
-                        column: x => x.TenantId,
-                        principalTable: "Tenants",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_Assets_FinancialPrgoramId",
+                table: "Assets",
+                column: "FinancialPrgoramId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Claims_ClaimTypeId",
@@ -762,6 +900,32 @@ namespace CromWood.Data.Migrations
                 column: "PropertyTypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PropertyAmenities_AmenityId",
+                table: "PropertyAmenities",
+                column: "AmenityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PropertyAmenities_PropertyId",
+                table: "PropertyAmenities",
+                column: "PropertyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PropertyInsurances_PropertyId",
+                table: "PropertyInsurances",
+                column: "PropertyId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PropertyKeys_PropertyId",
+                table: "PropertyKeys",
+                column: "PropertyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RolePermissions_PermissionId",
+                table: "RolePermissions",
+                column: "PermissionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RolePermissions_RoleId",
                 table: "RolePermissions",
                 column: "RoleId");
@@ -822,16 +986,22 @@ namespace CromWood.Data.Migrations
                 name: "Complaints");
 
             migrationBuilder.DropTable(
-                name: "FinancialPrgorams");
-
-            migrationBuilder.DropTable(
                 name: "LicenseCertificates");
 
             migrationBuilder.DropTable(
                 name: "Notice");
 
             migrationBuilder.DropTable(
-                name: "Permissions");
+                name: "PropertyAmenities");
+
+            migrationBuilder.DropTable(
+                name: "PropertyInsurances");
+
+            migrationBuilder.DropTable(
+                name: "PropertyKeys");
+
+            migrationBuilder.DropTable(
+                name: "PropertyKeyTypes");
 
             migrationBuilder.DropTable(
                 name: "RolePermissions");
@@ -873,6 +1043,12 @@ namespace CromWood.Data.Migrations
                 name: "Tenants");
 
             migrationBuilder.DropTable(
+                name: "Amenities");
+
+            migrationBuilder.DropTable(
+                name: "Permissions");
+
+            migrationBuilder.DropTable(
                 name: "ContractTypes");
 
             migrationBuilder.DropTable(
@@ -904,6 +1080,12 @@ namespace CromWood.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "PropertyTypes");
+
+            migrationBuilder.DropTable(
+                name: "AssetTypes");
+
+            migrationBuilder.DropTable(
+                name: "FinancialPrgorams");
         }
     }
 }

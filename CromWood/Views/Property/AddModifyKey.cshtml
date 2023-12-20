@@ -1,0 +1,59 @@
+﻿@using CromWood.Business.Services.Interface;
+@using CromWood.Data.Entities.Default;
+@model CromWood.Business.Models.PropertyKeyModel
+@inject ILookupService<PropertyKeyType> _lookupService;
+
+    @{
+    var asyncKeyType = await _lookupService.GetAllItems();
+    var KeyTypes = new SelectList(asyncKeyType.Data, "Id", "Name");
+    }
+
+<div class="modal-content rounded-0">
+    <div class="modal-header py-2">
+        <h5 class="modal-title" id="staticBackdropLabel">Add Asset</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form asp-action="AddModifyKey">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m=>m.Id)
+            <div class="form-group">
+                <label asp-for="PropertyKeyType" class="control-label"></label>
+                <select asp-for="PropertyKeyType" asp-items="KeyTypes" class="form-control"></select>
+                <span asp-validation-for="PropertyKeyType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Quantity" class="control-label"></label>
+                <input asp-for="Quantity" type="number" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdditionalInformation" class="control-label"></label>
+                <input asp-for="AdditionalInformation" class="form-control" />
+                <span asp-validation-for="AdditionalInformation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="SharedWithTenant" /> @Html.DisplayNameFor(model => model.SharedWithTenant)
+                    </label>
+                </div>
+                <span asp-validation-for="SharedWithTenant" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageUrl" class="control-label"></label>
+                <input asp-for="ImageUrl" class="form-control" />
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+            @Html.HiddenFor(m=>m.PropertyId)
+            <div class="custom__btn2 text-end border-top pt-3 mt-5">
+                <input type="submit" value="Add Key" />
+            </div>
+        </form>
+    </div>
+</div>

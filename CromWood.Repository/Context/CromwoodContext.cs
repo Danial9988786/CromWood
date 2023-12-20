@@ -43,6 +43,7 @@ namespace CromWood.Data.Context
         public DbSet<LicenseCertificateType> LicenseCertificateTypes { get; set; }
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
         public DbSet<PropertyType> PropertyTypes { get; set; }
+        public DbSet<PropertyKeyType> PropertyKeyTypes { get; set; }
         public DbSet<AssetType> AssetTypes { get; set; }
         public DbSet<RentFrequency> RentFrequencies { get; set; }
         public DbSet<Salution> Salutions { get; set; }
@@ -55,14 +56,14 @@ namespace CromWood.Data.Context
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<RolePermission> RolePermissions { get; set; }
         public DbSet<User> Users { get; set; }
-
         public DbSet<Asset> Assets { get; set; }
         public DbSet<Amenity> Amenities { get; set; }
         public DbSet<Property> Properties { get; set; }
+        public DbSet<PropertyKey> PropertyKeys { get; set; }
+        public DbSet<PropertyInsurance> PropertyInsurances { get; set; }
         public DbSet<PropertyAmenity> PropertyAmenities { get; set; }
         public DbSet<Tenancy> Tenancies { get; set; }
         public DbSet<Tenant> Tenants { get; set; }
-
         public DbSet<Claim> Claims { get; set; }
         public DbSet<Complaint> Complaints { get; set; }
         public DbSet<LicenseCertificate> LicenseCertificates { get; set; }

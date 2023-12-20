@@ -82,6 +82,13 @@ INSERT INTO dbo.PropertyTypes values
 ('914d1a66-0ee7-45f6-ab77-19c928c5a426','PT4'),
 ('01289643-bba0-48d0-b34c-c69b466be7ec','PT5')
 
+INSERT INTO dbo.PropertyKeyTypes (Id, Name) values 
+('e40e3062-29b3-49fb-a786-e9523ced99df','Physical Key'),
+('4607fce5-af4b-49bf-a977-c27c621a0eb2','Lock Box'),
+('4027e368-034c-4854-9cd3-82284797f037','Alarm'),
+('914d1a66-0ee7-45f6-ab77-19c928c5a426','Entry Code'),
+('ef7dc97d-d49b-40ca-8214-09d14f701246','Other')
+
 INSERT INTO dbo.AssetTypes values 
 ('a8228559-11be-4d9a-9544-8241f2ec59c1','AT1'),
 ('c6f007f8-2d30-49a0-a248-add219f4748d','AT2'),
@@ -148,3 +155,8 @@ INSERT INTO dbo.Roles (Id, Name) values
 
 INSERT INTO dbo.RolePermissions(Id, RoleId, PermissionId, CanRead, CanWrite, CanDelete, CanViewAll) values
 ('01289643-bba0-48d0-b34c-c69b466be7ec', '01289643-bba0-48d0-b34c-c69b466be7ec', '4e7581a5-b838-41f4-97c0-2a17388cd855', 1, 1, 1, 1)
+
+
+-- INSERT ADMIN INTO USER TABLE
+INSERT INTO dbo.Users (Id, FirstName, LastName, Email, Password,RoleId, IsActive, LastActive) values 
+('01289643-bba0-48d0-b34c-c69b466be7ec', 'Cromwood','Admin','admin@cromwood.com','8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918','01289643-bba0-48d0-b34c-c69b466be7ec', 1, GETDATE())

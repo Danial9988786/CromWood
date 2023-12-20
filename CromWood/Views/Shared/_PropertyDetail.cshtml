@@ -1,0 +1,62 @@
+﻿@using CromWood.Business.Services.Interface;
+@inject IPropertyService _propertyService;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var rawId = ViewContext.RouteData.Values["id"] as string;
+    var id = Guid.Parse(rawId);
+    var property = await _propertyService.GetPropertyOverView(id);
+}
+
+
+<ol class="breadcrumb mb-3 mt-3">
+    <li class="breadcrumb-item">
+        <a href="index.html"><img src="~/assets/img/Home_icon.svg" alt="home_icon"></a>
+    </li>
+    <li class="breadcrumb-item active">Settings</li>
+</ol>
+<h1 class="mt-2 mb-3 custom_h">Property: @property.Data.PropertyCode</h1>
+<nav class="user___tabs">
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-link text-capitalize" id="nav-property-overview-tab" asp-route-id="@property.Data.Id" asp-action="Overview">
+            property overview
+        </a>
+        <a class="nav-link text-capitalize" id="nav-property-detail-tab" asp-route-id="@property.Data.Id" asp-action="Detail">
+            property details
+        </a>
+        <a class="nav-link text-capitalize" id="nav-insurance-detail-tab" asp-route-id="@property.Data.Id" asp-action="Insurance">
+            insurance details
+        </a>
+        <a class="nav-link text-capitalize" id="nav-key-tab" asp-route-id="@property.Data.Id" asp-action="Keys">
+            keys
+        </a>
+        <a class="nav-link text-capitalize" id="nav-tenancy-tab" asp-route-id="@property.Data.Id" asp-action="Tenancy">
+            tenancy details
+        </a>
+        <a class="nav-link text-capitalize" id="nav-condition-assesment-tab" asp-route-id="@property.Data.Id" asp-action="ConditonAssesment">
+            consition assesment
+        </a>
+        <a class="nav-link text-capitalize" id="nav-licensing-tab" asp-route-id="@property.Data.Id" asp-action="Licensing">
+            licensing and certification
+        </a>
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    @RenderBody()
+</div>
+
+<script>
+    if (window.location.pathname.includes('/Property/Overview')) {
+        document.getElementById("nav-property-overview-tab").classList.add('active');
+    }
+    if (window.location.pathname.includes('/Property/Detail')) {
+        document.getElementById("nav-property-detail-tab").classList.add('active');
+    }
+    if (window.location.pathname.includes('/Property/Insurance')) {
+        document.getElementById("nav-insurance-detail-tab").classList.add('active');
+    }
+    if (window.location.pathname.includes('/Property/Keys')) {
+        document.getElementById("nav-key-tab").classList.add('active');
+    }
+</script>

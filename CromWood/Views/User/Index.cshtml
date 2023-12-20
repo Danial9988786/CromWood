@@ -58,18 +58,22 @@
                         <td> @Html.DisplayFor(modelItem => item.Phone)</td>
                         <td> @item.LastActive.ToString("MMM dd, yyyy")</td>
                         <td>
-                            <form>
                                 <select id="roleDropdown" class="form-select" onchange="changeRole(@url)" asp-for="@item.RoleId" asp-items="roles">
                                 </select>
-                            </form>
                         </td>
                         <td class="text-end">
 
-                            <a onclick="BlockUser(@url)">
-                                <img class="pe-1" src="~/assets/img/block__icon.svg" alt="">
-                                <span class="text-danger">Block</span>
-                            </a>
-
+                            @if (item.IsActive)
+                            {
+                                <a onclick="BlockUser(@url)">
+                                    <img class="pe-1" src="~/assets/img/block__icon.svg" alt="">
+                                    <span class="text-danger">Block</span>
+                                </a>
+                            }
+                            else
+                            {
+                                <p>BLOCKED</p>
+                            }
 
                             <a onclick="DeleteUser(@url)">
                                 <img class="ps-5" src="~/assets/img/delete_icon.svg" alt="">
@@ -115,15 +119,15 @@
             $("#userDialog").modal("show");
         })
     }
-</script>
 
-<script>
     function changeRole(userId) {
         var roleId = $("#roleDropdown").val();
+        console.log(roleId)
         $.ajax({
             type: "POST",
             url: `/User/ChangeRole?userId=${userId}&roleId=${roleId}`,
             success: function (result) {
+                window.location.reload();
             },
             error: function () {
             }

@@ -22,6 +22,6 @@ namespace CromWood.Business.Models
         public string FloorNumber { get; set; }
         public float NoOfBedroom { get; set; }
         public float NoOfBathroom { get; set; }
-        public ICollection<PropertyAmenity> PropertyAmenities { get; set; }
+        public List<PropertyAmenity> PropertyAmenities { get; set; }
     }
 }

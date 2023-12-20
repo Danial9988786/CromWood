@@ -8,7 +8,7 @@ namespace CromWood.Business.Models
         public Guid Id { get; set; }
         public string PropertyCode { get; set; }
         public Guid AssetId { get; set; }
-        public Asset Asset { get; set; }
+        public AssetViewModel Asset { get; set; }
         public float ExpectedMonthlyRate { get; set; }
         public Guid PropertyTypeId { get; set; }
         public PropertyType PropertyType { get; set; }

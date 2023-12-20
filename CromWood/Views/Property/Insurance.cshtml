@@ -1,0 +1,89 @@
+﻿@model CromWood.Business.Models.PropertyInsuranceModel
+
+@{
+    ViewData["Title"] = "Insurance";
+    Layout = "~/Views/Shared/_PropertyDetail.cshtml";
+
+    var rawId = ViewContext.RouteData.Values["id"] as string;
+    string url = "'" + Guid.Parse(rawId).ToString() + "'";
+}
+
+
+@if (Model != null)
+{
+    <div class="m-3">
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Id)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Insurer)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Insurer)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.StartDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StartDate)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.EndDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.EndDate)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.FileUrl)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.FileUrl)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.PropertyId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PropertyId)
+            </dd>
+        </dl>
+
+        <div>
+            <a onclick="AddModifyInsurance(@url)">Edit Details</a>
+        </div>
+    </div>
+
+}
+
+else
+{
+    <p>
+        <a onclick="AddModifyInsurance(@url)">Create New</a>
+    </p>
+}
+
+<div class="modal fade" id="insuranceDialog">
+    <div class="modal-dialog modal-dialog-centered" id="insuranceDialogBody">
+    </div>
+</div>
+
+
+<script>
+    function AddModifyInsurance(propertyId) {
+        var url = `/Property/AddModifyInsurance?propertyId=${propertyId}`;
+        $("#insuranceDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#insuranceDialogBody").css("width", "100%");
+            $("#insuranceDialog").modal("show");
+        });
+    }
+   
+</script>
+
