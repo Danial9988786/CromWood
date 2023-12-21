@@ -1,81 +1,52 @@
-name: Build and deploy ASP.Net Core app to Azure Web App
+name: Deploy ASP.NET Core app to Azure Web App
 
 on:
   push:
-    branches: [ master ]
-    paths-ignore:
-      - '**.md'
+    branches:
+      - master
   pull_request:
-    branches: [ master ]
-
+    branches:
+      - '*'
+# CONFIGURATION
+# For help, go to https://github.com/Azure/Actions
+#
+# 1. Set up the following secrets in your repository:
+#   AZURE_WEBAPP_PUBLISH_PROFILE
+#
+# 2. Change these variables for your configuration:
 env:
-  DOTNET_VERSION: '7.0.x' # Azure App Services Deployment Center
-  WORKING_DIR: src
-  BUILD_CONFIG: Debug
-  PROJECT_FILE: CromWood.csproj # `dotnet publish` requires the does not work when specifying the .sln file
-  APPSERVICE_NAME: cromwood
-  APPSERVICE_SLOT: Production
-  PACKAGE_PATH: '/publish' # Specifying '/' at the beginning of the path is required due to differences in action working-directory.
+  AZURE_WEBAPP_NAME: 'CromWood'   # set this to your application's name
+  AZURE_WEBAPP_PACKAGE_PATH: './CromWood'      # set this to the path to your web app project, defaults to the repository root
+  DOTNET_VERSION: '7.0.13'            
 
 jobs:
-  build:
-    runs-on: windows-latest
-    defaults:
-      run:
-        # Since the directory is not in root, specify working directory for the dotnet commands to work.
-        working-directory: $
-
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: dev
     steps:
+
+      # Checkout the repo
       - uses: actions/checkout@v3
-
-      - name: Set up .NET 7.0.x
-        uses: actions/setup-dotnet@v3
+      
+      # Setup .NET Core SDK
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: $
-
-      - name: Restore Dependencies
-        # Split build step to restore and build (with --no-restore)
-        run: dotnet restore
-
-      - name: Build the .NET Solution
-        run: dotnet build -c $ --no-restore
-
-      - name: Test
-        run: dotnet test --no-build --no-restore --verbosity normal
-
-      - name: dotnet publish
-        # Azure App Services defaults to '-o $/myapp'
-        run: dotnet publish -c $ -o $
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
-        with:
-          name: .net-app
-          # Azure App Services defaults to $/myapp
-          path: $
-
-  deploy:
-    runs-on: windows-latest
-    defaults:
-      run:
-        working-directory: $
-    needs: build
-    environment:
-      name: 'Production'
-      url: $
-
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v3
-        with:
-          name: .net-app
-
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
+          dotnet-version: ${{ env.DOTNET_VERSION }} 
+      
+      # Run dotnet build and publish
+      - name: dotnet build and publish
+        run: |
+          dotnet restore
+          dotnet build --configuration Release
+          dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp' 
+          
+      # Deploy to Azure Web apps
+      - name: 'Run Azure webapp deploy action using publish profile credentials'
         uses: azure/webapps-deploy@v2
-        with:
-          app-name: $
-          slot-name: $
-          publish-profile: $
-          # Path = "." is the default and is the one that's working. The downloaded artifact does not contain the package folder of $PACKAGE_PATH
-          package: .
+        with: 
+          app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }} # Define secret variable in repository settings as per action documentation
+          package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp'
+
+# For more samples to get started with GitHub Action workflows to deploy to Azure, refer to https://github.com/Azure/actions-workflow-samples
