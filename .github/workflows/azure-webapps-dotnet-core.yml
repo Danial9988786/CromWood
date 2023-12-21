@@ -32,7 +32,6 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: $
-          dotnet-quality: $
 
       - name: Restore Dependencies
         # Split build step to restore and build (with --no-restore)
