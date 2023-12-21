@@ -9,7 +9,7 @@ on:
     branches: [ master ]
 
 env:
-  DOTNET_VERSION: '7.0' # Azure App Services Deployment Center
+  DOTNET_VERSION: '7.0.x' # Azure App Services Deployment Center
   WORKING_DIR: src
   BUILD_CONFIG: Debug
   PROJECT_FILE: CromWood.csproj # `dotnet publish` requires the does not work when specifying the .sln file
