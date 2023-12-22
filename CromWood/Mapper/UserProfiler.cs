@@ -26,13 +26,16 @@ namespace CromWood.Mapper
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => GetLastName(src.Name)));
 
             CreateMap<Asset, AssetViewModel>()
-                .ForMember(dest => dest.StreetAddress, opt => opt.MapFrom(src => $"{(src.AssetType != null ? src.AssetType.Name + " " : "")}{src.HouseNoStreet} ,{src.Borough}"));
+                .ForMember(dest => dest.StreetAddress, opt => opt.MapFrom(src => $"{(src.AssetType != null ? $"{src.AssetType.Name} " : "")}{src.HouseNoStreet} ,{src.Borough}"));
             CreateMap<AssetModel, Asset>().ReverseMap();
 
             CreateMap<Property, PropertyViewModel>();
             CreateMap<PropertyModel, Property>().ReverseMap();
             CreateMap<PropertyInsuranceModel, PropertyInsurance>().ReverseMap();
             CreateMap<PropertyKeyModel, PropertyKey>().ReverseMap();
+
+            CreateMap<LicenseCertificate, LicenseCertificateViewModel>().ReverseMap();
+            CreateMap<LicenseCertificate, LicenseCertificateModel>().ReverseMap();
         }
 
         private string GetFirstName(string name)

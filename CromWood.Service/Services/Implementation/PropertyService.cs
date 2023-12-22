@@ -4,17 +4,20 @@ using CromWood.Business.Models;
 using CromWood.Business.Services.Interface;
 using CromWood.Data.Entities;
 using CromWood.Data.Repository.Interface;
+using CromWood.Helper;
 
 namespace CromWood.Business.Services.Implementation
 {
-    public class PropertyService: IPropertyService
+    public class PropertyService : IPropertyService
     {
         private readonly IPropertyRepository _properyRepository;
         private readonly IMapper _mapper;
-        public PropertyService(IPropertyRepository propertyRepository, IMapper mapper)
+        private readonly IFileUploader _fileUploader;
+        public PropertyService(IPropertyRepository propertyRepository, IMapper mapper, IFileUploader uploader)
         {
             _properyRepository = propertyRepository;
             _mapper = mapper;
+            _fileUploader = uploader;
         }
 
         public async Task<AppResponse<IEnumerable<PropertyViewModel>>> GetPropertyForList()
@@ -54,7 +57,7 @@ namespace CromWood.Business.Services.Implementation
             {
                 var mappedProperty = _mapper.Map<Property>(property);
                 mappedProperty.PropertyAmenities.ToList().ForEach(x => x.AmenityId = x.Amenity.Id);
-                mappedProperty.PropertyAmenities.ToList().ForEach(x => x.Amenity=null);
+                mappedProperty.PropertyAmenities.ToList().ForEach(x => x.Amenity = null);
                 var result = await _properyRepository.AddProperty(mappedProperty);
                 return ResponseCreater<int>.CreateSuccessResponse(result, "Property added successfully");
             }
@@ -84,15 +87,20 @@ namespace CromWood.Business.Services.Implementation
             try
             {
                 var mappedInsurance = _mapper.Map<PropertyInsurance>(insurance);
-                var result = 0 ;
-                if (mappedInsurance.Id == Guid.Empty)
+                var result = 0;
+
+                if (insurance.File != null)
                 {
-                    result = await _properyRepository.AddInsurance(mappedInsurance);
+                    // In case of Edit, delete prev file & add new one
+                    if (mappedInsurance.Id != Guid.Empty)
+                    {
+                        await _fileUploader.Delete(mappedInsurance.FileUrl, "propertyinsurance");
+                    }
+                    mappedInsurance.FileUrl = await _fileUploader.Upload(insurance.File, "propertyinsurance");
                 }
-                else
-                {
-                    result= await _properyRepository.ModifyInsurance(mappedInsurance);
-                }
+
+                result = mappedInsurance.Id == Guid.Empty ? await _properyRepository.AddInsurance(mappedInsurance) : await _properyRepository.ModifyInsurance(mappedInsurance);
+
                 return ResponseCreater<int>.CreateSuccessResponse(result, "Property added successfully");
             }
 
@@ -138,14 +146,17 @@ namespace CromWood.Business.Services.Implementation
             {
                 var mappedKey = _mapper.Map<PropertyKey>(key);
                 var result = 0;
-                if (mappedKey.Id == Guid.Empty)
+                if (key.ImageFile != null)
                 {
-                    result = await _properyRepository.AddKey(mappedKey);
+                    // In case of Edit, delete prev file & add new one
+                    if (mappedKey.Id != Guid.Empty)
+                    {
+                        await _fileUploader.Delete(mappedKey.ImageUrl, "propertykey");
+                    }
+                    mappedKey.ImageUrl = await _fileUploader.Upload(key.ImageFile, "propertykey");
                 }
-                else
-                {
-                    result = await _properyRepository.ModifyKey(mappedKey);
-                }
+
+                result = mappedKey.Id == Guid.Empty ? await _properyRepository.AddKey(mappedKey) : await _properyRepository.ModifyKey(mappedKey);
                 return ResponseCreater<int>.CreateSuccessResponse(result, "Key add/update successfully");
             }
 
@@ -155,9 +166,19 @@ namespace CromWood.Business.Services.Implementation
             }
         }
 
-        public Task<AppResponse<int>> DeleteKey(Guid id)
+        public async Task<AppResponse<int>> DeleteKey(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var imageUrl = await _properyRepository.DeleteKey(id);
+                if (imageUrl != null) await _fileUploader.Delete(imageUrl, "propertykey");
+                return ResponseCreater<int>.CreateSuccessResponse(1, "Key deleted successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
         }
     }
 }

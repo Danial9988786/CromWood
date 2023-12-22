@@ -3,6 +3,7 @@ using CromWood.Business.Services.Interface;
 using CromWood.Business.ViewModels;
 using CromWood.Data.Entities;
 using CromWood.Data.Repository.Interface;
+using CromWood.Helper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
@@ -13,13 +14,11 @@ namespace CromWood.Business.Services.Implementation
 {
     public class AuthService : IAuthService
     {
-        private readonly IConfiguration _config;
         private readonly IUserRepository _userRepo;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public AuthService(IConfiguration config, IUserRepository userRepo, IHttpContextAccessor httpContextAccessor)
         {
-            _config = config;
             _userRepo = userRepo;
             _httpContextAccessor = httpContextAccessor;
         }
@@ -47,6 +46,9 @@ namespace CromWood.Business.Services.Implementation
                 if (user != null)
                 {
                     var result = await GenerateLogin(user);
+                    // Update user LastActiveDate to null 
+                    user.LastActive = null;
+                    await _userRepo.SetUserActive(user);
                     return ResponseCreater<string>.CreateSuccessResponse(result, "User login found.");
                 }
                 else
@@ -67,6 +69,8 @@ namespace CromWood.Business.Services.Implementation
                 if (_httpContextAccessor.HttpContext.User != null)
                 {
                     await _httpContextAccessor.HttpContext.SignOutAsync();
+                    var userId = Guid.Parse(IdentityExtension.GetId(_httpContextAccessor.HttpContext.User.Identity));
+                    await _userRepo.SetUserInactive(userId);
                     return ResponseCreater<string>.CreateSuccessResponse("Success", "User logged out successfully.");
                 }
                 else

@@ -575,6 +575,9 @@ namespace CromWood.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool?>("Archieved")
+                        .HasColumnType("bit");
+
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 

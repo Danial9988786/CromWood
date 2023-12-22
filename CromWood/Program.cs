@@ -3,6 +3,7 @@ using CromWood.Business.Services.Interface;
 using CromWood.Data.Context;
 using CromWood.Data.Repository.Implementation;
 using CromWood.Data.Repository.Interface;
+using CromWood.Helper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,8 @@ builder.Services.AddHttpContextAccessor();
 
 // Connection to database using connection string.
 builder.Services.AddDbContext<CromwoodContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("CromWoodDBConnection")));
+builder.Services.AddScoped<IFileUploader, FileUploader>();
+
 
 // Dependency Injection for Repository and Service layers.
 builder.Services.AddScoped<ITestRepository, TestRepository>();
@@ -22,6 +25,7 @@ builder.Services.AddScoped<IRolePermissionRepository, RolePermissionRepository>(
 builder.Services.AddScoped<IAssetRepository, AssetRepository>();
 builder.Services.AddScoped<IAmenityRepository, AmenityRepository>();
 builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
+builder.Services.AddScoped<ILicenseCertificateRepository, LicenseCertificateRepository>();
 builder.Services.AddScoped(typeof(ILookupRepository<>), typeof(LookupRepository<>));
 
 builder.Services.AddScoped<ITestService, TestService>();
@@ -31,12 +35,14 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAssetService, AssetService>();
 builder.Services.AddScoped<IAmenityService, AmenityService>();
 builder.Services.AddScoped<IPropertyService, PropertyService>();
+builder.Services.AddScoped<ILicenseCertificateService, LicenseCertificateService>();
 builder.Services.AddScoped(typeof(ILookupService<>), typeof(LookupService<>));
 
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(option =>
-    {   option.LoginPath = "/Auth/Login";
+    {
+        option.LoginPath = "/Auth/Login";
         option.LogoutPath = "/Auth/Logout";
     });
 
@@ -60,6 +66,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Test}/{action=Index}/{id?}");
+    pattern: "{controller=User}/{action=Index}/{id?}");
 
 app.Run();

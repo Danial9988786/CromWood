@@ -6,6 +6,7 @@ namespace CromWood.Data.Repository.Interface
     {
         #region For Logins
         public Task<User> GetUser(string email, string password);
+        public Task<User> GetUser(Guid Id);
         public bool CheckEmail(string email);
         #endregion
 
@@ -14,7 +15,9 @@ namespace CromWood.Data.Repository.Interface
         public Task<int> InviteUser(User user);
         public Task<int> ChangeUserRole(Guid UserId, Guid RoleId);
         public Task<int> BlockUserById(Guid Id);
-        public Task<int> DeleteUserById(Guid Id);
+        public Task<int> SetUserActive(User user);
+        public Task<int> SetUserInactive(Guid Id);
+        public Task<string> DeleteUserById(Guid Id);
 
         #endregion
     }

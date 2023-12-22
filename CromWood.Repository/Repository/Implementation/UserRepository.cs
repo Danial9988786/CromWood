@@ -31,6 +31,13 @@ namespace CromWood.Data.Repository.Implementation
             return currentUser;
         }
 
+        public async Task<User> GetUser(Guid Id)
+        {
+            var currentUser = await _context.Users
+                .FirstOrDefaultAsync(o => o.Id==Id);
+            return currentUser;
+        }
+
         public async Task<IEnumerable<User>> GetAllUsers()
         {
             return await _context.Users.ToListAsync();
@@ -54,7 +61,7 @@ namespace CromWood.Data.Repository.Implementation
             {
                 var user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == UserId);
                 user.RoleId = RoleId;
-                _context.Update(user);
+                _context.Users.Update(user);
                 await _context.SaveChangesAsync();
                 return 1;
             }
@@ -69,7 +76,7 @@ namespace CromWood.Data.Repository.Implementation
             {
                 var user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == Id);
                 user.IsActive = false;
-                _context.Update(user);
+                _context.Users.Update(user);
                 await _context.SaveChangesAsync();
                 return 1;
             }
@@ -78,14 +85,45 @@ namespace CromWood.Data.Repository.Implementation
                 throw;
             }
         }
-        public async Task<int> DeleteUserById(Guid Id)
+
+        public async Task<int> SetUserActive(User user)
+        {
+            try
+            {
+                _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<int> SetUserInactive(Guid id)
+        {
+            try
+            {
+                var user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+                user.LastActive = DateTime.Now;
+                _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<string> DeleteUserById(Guid Id)
         {
             try
             {
                 var user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == Id);
-                _context.Remove(user);
+                _context.Users.Remove(user);
                 await _context.SaveChangesAsync();
-                return 1;
+                return user.FirstName + " " + user.LastName;
             }
             catch
             {

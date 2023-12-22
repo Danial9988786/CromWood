@@ -1,0 +1,60 @@
+﻿@model CromWood.Business.Models.LicenseCertificateViewModel
+
+<div class="modal-content rounded-0">
+    <div class="modal-header py-2">
+        <h5 class="modal-title" id="staticBackdropLabel">View License</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+
+        <div>
+            @{
+                string url = "'" + Model.Id.ToString() + "'";
+            }
+            <a onclick="ViewLicense(@url)">View</a> |
+            <a onclick="AddModifyLicense(@url)">Edit</a> |
+            @if (Model.Archieved == null || Model.Archieved == false)
+            {
+                <a onclick="ArchieveLicense(@url)">Archieve</a> <span> |</span>
+            }
+            <a onclick="DeleteLicense(@url)">Delete</a>
+        </div>
+
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Property)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Property.Asset.StreetAddress)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.LicenseCertificateType)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.LicenseCertificateType.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ExpiryDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ExpiryDate)
+            </dd>
+            
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Note)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Note)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Archieved)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Archieved)
+            </dd>
+
+        </dl>
+        <embed type="application/pdf" src="@Model.DocUrl" />
+
+    </div>
+</div>

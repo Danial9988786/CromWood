@@ -1,0 +1,54 @@
+﻿@using CromWood.Business.Services.Interface;
+@using CromWood.Data.Entities.Default;
+@model CromWood.Business.Models.LicenseCertificateModel
+@inject IPropertyService _propertyService;
+@inject ILookupService<LicenseCertificateType> _lookupService;
+
+@{
+    var asynProperty = await _propertyService.GetPropertyForList();
+    var properties = new SelectList(asynProperty.Data, "Id", "Asset.StreetAddress");
+
+    var asynLicenseTypes = await _lookupService.GetAllItems();
+    var licenseTypes = new SelectList(asynLicenseTypes.Data, "Id", "Name");
+}
+
+<div class="modal-content rounded-0">
+    <div class="modal-header py-2">
+        <h5 class="modal-title" id="staticBackdropLabel">Add License & certification</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form asp-action="AddModifyLicense" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(x=>x.Id)
+            <div class="form-group">
+                <label asp-for="PropertyId" class="control-label"></label>
+                <select asp-for="PropertyId" asp-items="properties" class="form-control"></select>
+                <span asp-validation-for="PropertyId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LicenseCertificateTypeId" class="control-label"></label>
+                <select asp-for="LicenseCertificateTypeId" asp-items="licenseTypes" class="form-control"></select>
+                <span asp-validation-for="LicenseCertificateTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExpiryDate" class="control-label"></label>
+                <input asp-for="ExpiryDate" type="date" class="form-control" />
+                <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="DocFile" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Note" class="control-label"></label>
+                <textarea asp-for="Note" class="form-control"></textarea>
+                <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+            @Html.HiddenFor(x=>x.Archieved)
+            @Html.HiddenFor(x=>x.DocUrl)
+            <div class="custom__btn2 text-end border-top pt-3 mt-5">
+                <input type="submit" value="Add License & Certificate" />
+            </div>
+        </form>
+    </div>
+</div>

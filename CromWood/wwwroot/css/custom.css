@@ -1,7 +1,66 @@
+.tab-content > .active {
+    display: block;
+    min-height: 500px;
+    background-color: white;
+}
+
+a{
+    cursor:pointer !important;
+}
+
 table {
     font-family: var(--main-font);
-    font-size: 14px;
+    font-size: 12px;
     color: var(--black-text);
+}
+
+.sm_select_text {
+    font-size: 12px;
+}
+
+.sm__row_table .datatable-table tbody tr td {
+    padding: 7px 16px;
+    min-height: 50px;
+    height: 50px;
+    vertical-align: middle;
+}
+
+.sm48__row_table .datatable-table tbody tr td {
+    padding: 12px 12px;
+    height: 48px;
+    min-height: 48px;
+    vertical-align: middle;
+}
+
+.maintable_head {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.ser_lpading .datatable-search {
+    margin-left: 18px;
+}
+
+thead tr {
+    background-color: #F5FAFC;
+    height: 48px;
+}
+
+.tenancies_tt tbody tr {
+    min-height: 74px;
+    height: 74px;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: var(--table-row-bg);
+}
+
+.recent__c .rc__box:nth-child(even) {
+    background-color: var(--table-row-bg) !important;
+}
+
+table tbody tr:nth-child(odd) {
+    background-color: #fff;
 }
 
 .datatable-pagination .datatable-active button {
@@ -29,7 +88,12 @@ table {
 .datatable-bottom {
     display: flex;
     justify-content: end;
-    margin-top: 14px;
+    padding-top: 14px;
+    border: 1px solid #dee2e6 !important;
+    border-top: 0px !important;
+    background-color: #fff;
+    border-bottom-left-radius: 0.25rem !important;
+    border-bottom-right-radius: 0.25rem !important;
 }
 
     .datatable-bottom .datatable-info {
@@ -39,57 +103,64 @@ table {
         margin-right: 18px;
     }
 
-.datatable-sorter::before, .datatable-sorter::after {
-    opacity: 1;
+.datatable-table th button {
+    font-size: 14px;
 }
 
-table thead tr th:not(:first-child) .datatable-sorter::before {
-    border-top: 0px !important;
+.datatable-sorter::before,
+.datatable-sorter::after {
+    opacity: 1 !important;
 }
 
-table thead tr th:not(:first-child) .datatable-sorter::after {
-    border-bottom: 0px !important;
+/* hide before sorting as show   arrow icon of table */
+.datatable-table .datatable-sorter::before {
+    display: none;
 }
-
-table thead tr th:first-child .datatable-sorter::before {
-    /* position: absolute; */
-    border-top: 0px !important;
-    content: url(../assets/img/sort_after.svg);
-    background-size: cover;
-    right: 60px;
-    top: 18%;
-    background-repeat: no-repeat;
-}
-
-table thead tr th:first-child .datatable-sorter::after {
-    border-bottom: 0px !important;
-    /* position: absolute; */
+/* ----------------- */
+.datatable-table .datatable-sorter::after {
     content: url(../assets/img/sort_before.svg);
-    background-size: cover;
-    right: 50px;
-    top: -2px;
+    border: none !important;
+    position: relative;
+    left: 2px;
+    top: 1.2px;
 }
 
-.ft_show table thead tr th .datatable-sorter::before {
+/* Added custom sorting icon in table */
+table thead tr th .datatable-sorter .c__icon::after {
     content: url(../assets/img/sort_after.svg);
-    background-size: cover;
-    right: 73%;
-    top: 18%;
+    position: relative;
+    top: 2px;
+    left: 3px;
+}
+/* ----------------- */
+
+/* hide sorting icon on top of header */
+.hide_sort_all .datatable-table .datatable-sorter::after,
+.hide_sort_all table thead tr th .datatable-sorter .c__icon::after {
+    display: none !important;
+}
+/* ----------------- */
+
+/* Show 1 sorting icon on top of header */
+.show_sort_1 .datatable-table th:not(:first-child) .datatable-sorter::after,
+.show_sort_1 table thead tr th:not(:first-child) .datatable-sorter .c__icon::after {
+    display: none !important;
+}
+/* ----------------- */
+
+/* hidi on last sorting icon on top of header */
+.hide_sort_last .datatable-table th:last-child .datatable-sorter::after,
+.hide_sort_last table thead tr th:last-child .datatable-sorter .c__icon::after {
+    display: none !important;
 }
 
-.ft_show table thead tr th .datatable-sorter::after {
-    content: url(../assets/img/sort_before.svg);
-    background-size: cover;
-    right: 70%;
-    top: -2px;
-}
+/* ----------------- */
 
-.no_fil .datatable-sorter::after,
-.no_fil .datatable-sorter::before {
-    content: none !important;
-}
 
-.btn-check:focus + .btn, .btn:focus, input[type=text]:focus, .form-control:focus, .form-select:focus, .btn-close:focus {
+.btn-check:focus + .btn,
+.btn:focus, input[type=text]:focus,
+.form-control:focus, .form-select:focus,
+.btn-close:focus, .form-check-input:focus {
     outline: none;
     box-shadow: none;
 }
@@ -102,12 +173,8 @@ input[type=text]:focus, .form-control:focus, .form-select:focus {
     border-color: var(--main-color);
 }
 
-.t_search input[type=text], .t_search #addon-wrapping {
-    background-color: #F1F7F6;
-}
-
 .datatable-table > tbody > tr > td {
-    vertical-align: middle;
+    /* vertical-align: middle; */
     padding: 12px 8px;
 }
 
@@ -120,7 +187,7 @@ input[type=text]:focus, .form-control:focus, .form-select:focus {
     padding-left: 0;
 }
 
-thead, tbody, tfoot, tr, td, th {
+thead, tbody, tfoot, tr:not(:last-child), td, th {
     border-bottom: 1px solid #dee2e6 !important;
 }
 
@@ -133,17 +200,9 @@ input[type='checkbox'] {
     accent-color: var(--main-color);
 }
 
-.user__list table thead tr th .datatable-sorter::before {
-    content: none;
-}
-
-.user__list table thead tr th .datatable-sorter::after {
-    content: none;
-}
-
 .custom__btn a {
     background: #F1F7F6;
-    padding: 10px 20px;
+    padding: 9px 20px;
     border-radius: 30px;
     font-family: var(--sora-font);
     font-weight: 600;
@@ -154,12 +213,29 @@ input[type='checkbox'] {
     color: var(--bran-color);
     transition: .3s ease-in-out;
     display: inline-block;
-    box-shadow: 0px 4px 0px 0px rgba(0, 0, 0, 0.10);
+    box-shadow: 0px 4px 0px 0px #D1D5DB;
+}
+
+a.custom__btn, input.custom__btn {
+    background: #F1F7F6;
+    border: none;
+    padding: 9px 20px;
+    border-radius: 30px;
+    font-family: var(--sora-font);
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1px;
+    color: var(--bran-color);
+    transition: .3s ease-in-out;
+    display: inline-block;
+    box-shadow: 0px 4px 0px 0px #D1D5DB;
 }
 
 .custom__btn2 a {
     background: var(--secondary-color);
-    padding: 10px 20px;
+    padding: 9px 20px;
     border-radius: 30px;
     font-family: var(--sora-font);
     font-weight: 600;
@@ -170,12 +246,29 @@ input[type='checkbox'] {
     color: white;
     transition: .3s ease-in-out;
     display: inline-block;
-    box-shadow: 0px 4px 0rem 0px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 4px 0rem 0px #4D6D00;
+}
+
+a.custom__btn2, input.custom__btn2 {
+    background: var(--secondary-color);
+    border: none;
+    padding: 9px 20px;
+    border-radius: 30px;
+    font-family: var(--sora-font);
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1px;
+    color: white;
+    transition: .3s ease-in-out;
+    display: inline-block;
+    box-shadow: 0px 4px 0rem 0px #4D6D00;
 }
 
 .custom__btn3 a {
     background: var(--red-color);
-    padding: 10px 20px;
+    padding: 9px 20px;
     border-radius: 30px;
     font-family: var(--sora-font);
     font-weight: 600;
@@ -186,19 +279,48 @@ input[type='checkbox'] {
     color: white;
     transition: .3s ease-in-out;
     display: inline-block;
-    box-shadow: 0px 4px 0rem 0px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 4px 0rem 0px #AC0223;
+}
+
+a.custom__btn3, input.custom__btn3 {
+    background: var(--red-color);
+    border: none;
+    padding: 9px 20px;
+    border-radius: 30px;
+    font-family: var(--sora-font);
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1px;
+    color: white;
+    transition: .3s ease-in-out;
+    display: inline-block;
+    box-shadow: 0px 4px 0rem 0px #AC0223;
 }
 
 .custom__btn a:hover {
-    box-shadow: -2px 8px 0rem 2px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 4px 0rem 2px #D1D5DB;
+}
+
+a.custom__btn:hover, input.custom__btn:hover {
+    box-shadow: 0px 4px 0rem 2px #D1D5DB;
 }
 
 .custom__btn2 a:hover {
-    box-shadow: -2px 8px 0rem 2px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 4px 0rem 2px #4D6D00;
+}
+
+a.custom__btn2:hover, input.custom__btn2:hover {
+    box-shadow: 0px 4px 0rem 2px #4D6D00;
 }
 
 .custom__btn3 a:hover {
-    box-shadow: -2px 8px 0rem 2px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 4px 0rem 2px #AC0223;
+}
+
+a.custom__btn3:hover, input.custom__btn3:hover {
+    box-shadow: 0px 4px 0rem 2px #AC0223;
 }
 
 .pare__btn .custom__btn a {
@@ -207,7 +329,18 @@ input[type='checkbox'] {
     margin-right: -4px;
 }
 
+.pare__btn a.custom__btn, .pare__btn input.custom__btn {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    margin-right: -4px;
+}
+
 .pare__btn .custom__btn2 a {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.pare__btn a.custom__btn2, .pare__btn input.custom__btn2 {
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
 }
@@ -262,6 +395,12 @@ span.money__t {
 .noti__f a.dropdown-toggle {
     text-decoration: none;
     cursor: pointer;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .noti__f .dropdown-toggle::after {
@@ -270,21 +409,20 @@ span.money__t {
 
 .noti__f .dropdown-toggle img {
     font-size: 30px;
-    width: 25px;
-    margin-bottom: -6px;
+    width: 23px;
 }
 
 span.notic__num {
     position: absolute;
-    top: -12px;
-    right: -20px;
+    top: -5px;
+    right: -13px;
     background: #FF0031;
     color: #fff;
     font-weight: 600;
-    padding: 1px 8px;
-    font-size: 11px;
+    padding: 0px 8px;
+    font-size: 10px;
     border-radius: 20px;
-    font-family: 'Inter';
+    font-family: var(--main-font);
 }
 
 .noti__f ul.dropdown-menu {
@@ -326,11 +464,6 @@ span.notic__num {
 .rc__box h5 {
     font-family: var(--main-font);
     font-size: 14px;
-}
-
-.rc__box + .dropdown-divider {
-    border-color: #a5acb7;
-    margin-top: 0;
 }
 
 .acti_vites {
@@ -412,6 +545,7 @@ Table#add_prTable tr th, Table#add_prTable tr td {
     border: 1px solid #BBC0C9;
     padding: 4px;
     border-radius: 5px;
+    background-color: #fff;
 }
 
     #nav-user-list .datatable-search .datatable-input, .as__menag .datatable-search .datatable-input {
@@ -428,11 +562,13 @@ Table#add_prTable tr th, Table#add_prTable tr td {
 
 .filter_btn {
     position: relative;
-    top: 36px;
+    top: 30px;
+    max-width: 500px;
+    margin-left: auto;
 }
 
     .filter_btn > a {
-        padding: 12px 20px;
+        padding: 9px 20px;
         border-radius: 8px;
         border: 2px solid var(--light-green);
         color: var(--main-color);
@@ -449,21 +585,237 @@ Table#add_prTable tr th, Table#add_prTable tr td {
         width: 330px;
     }
 
+.ft__list li {
+    border-bottom: 1px solid #E4E8EE;
+    padding-bottom: 6px;
+}
+
+    .ft__list li a {
+        font-size: 14px;
+        font-family: var(--main-font);
+        font-weight: 400;
+        color: var(--g-text-color);
+    }
+
+        .ft__list li a:hover {
+            transition: .3s ease-in-out;
+            background-color: var(--secondary-color);
+            color: var(--bs-body-bg);
+        }
+
+.filter___c input[type=text] {
+    font-size: 14px;
+    color: #9CA6AF;
+}
+
+
+/* --------------  Steps form style start here ------------------ */
+.step__f .step {
+    text-align: center;
+    width: 100%;
+    position: relative;
+}
+
+    .step__f .step .bullet {
+        height: 25px;
+        width: 25px;
+        border: 1px solid #BBC0C9;
+        color: #BBC0C9;
+        display: inline-block;
+        border-radius: 50%;
+        position: relative;
+        transition: 0.2s;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 25px;
+        font-family: var(--main-font);
+    }
+
+    .step__f .step:not(:last-child) .bullet:after {
+        position: absolute;
+        content: '';
+        bottom: 11px;
+        right: -205px;
+        height: 1px;
+        width: 205px;
+        background: #BBC0C9;
+    }
+
+    .step__f .step .bullet span {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .step__f .step p {
+        font-size: 14px;
+        font-family: var(--main-font);
+        font-weight: 400;
+        color: #8D97A5;
+    }
+
+    .step__f .step.active .bullet {
+        border: 1px solid var(--secondary-color);
+        background-color: var(--secondary-color);
+        color: #fff;
+    }
+
+    .step__f .step.active p {
+        color: var(--secondary-color);
+        font-weight: 500;
+    }
+/* --------------  Steps form style End here ------------------ */
 
 
 
+/* --------------------------------------     new steps from  ----------------------------- */
 
 
+/* --------------------------------------     new steps from  ----------------------------- */
 
 
+/* ------------------Property Management  CSS Start Here ------------------*/
+
+span.owner_clr {
+    font-weight: 400;
+    color: #768293;
+    font-size: 12px;
+}
+
+span.pm_date {
+    color: #000;
+}
+
+span.occ {
+    color: #EB5757;
+}
+
+span.atl {
+    color: #4d6d00;
+}
+
+span.occ:hover {
+    text-decoration: underline;
+}
+
+span.atl:hover {
+    text-decoration: underline;
+}
+
+/* ---------------Property Management  CSS end Here -------------------*/
 
 
+/* ------------------License & Certifications CSS Start Here ------------------*/
 
+span.fra {
+    color: #000;
+    font-size: 12px;
+    font-weight: 400;
+}
 
+span.exp {
+    border: 1px solid red;
+    border-radius: 56px;
+    background: #FF00310D;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 6px;
+}
 
+h2.t_t {
+    font-size: 24px;
+    font-weight: 400;
+    font-family: 'Sora';
+    color: #2F80ED;
+}
 
+h2.etm {
+    font-size: 24px;
+    font-weight: 400;
+    font-family: 'Sora';
+    color: #ff9255;
+}
 
+h2.expd {
+    font-size: 24px;
+    font-weight: 400;
+    font-family: 'Sora';
+    color: #FF0031;
+}
 
+.col-xl-2 {
+    margin-top: -17px;
+}
+
+input.alc_date {
+    padding: 4px 96px;
+    border: 1px solid #D1D5DB;
+    border-radius: 5px;
+    color: #768293;
+    outline-color: #8DB300;
+    outline-style: 1px solid;
+}
+
+h4.lc_label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #5F6D81;
+    outline-color: #8DB300;
+    outline-style: 1px solid;
+}
+
+a.cf_btn {
+    padding: 11px 25px;
+    border-radius: 28px;
+    border: 2px solid #8DB300;
+    text-decoration: none;
+    color: #4D6D00;
+    font-size: 14px;
+    font-family: 'Sora';
+    font-weight: 600;
+    background: #F1F7F6;
+}
+
+textarea {
+    width: 100%;
+    height: 120px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 1px solid #D1D5DB;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 400;
+    resize: none;
+    outline-color: #8DB300;
+    outline-style: 1px solid;
+}
+
+.input-container {
+    width: 100%;
+    margin-top: -5px;
+}
+
+input[type="date"] {
+    width: 100%;
+    padding: 8px 8px;
+    box-sizing: border-box;
+    border: 1px solid #D1D5DB;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #768293;
+    outline: none;
+}
+
+.calendar-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+/* ------------------License & Certifications CSS End Here ------------------*/
 
 
 
@@ -471,12 +823,12 @@ Table#add_prTable tr th, Table#add_prTable tr td {
 /* ------ Responsive style start here --------- */
 
 @media only screen and (min-width:576px) {
-    .modal-dialog {
+    .cm1_size {
         max-width: 560px;
         width: 100%;
     }
 
-    #new_role .modal-dialog, #edit_role .modal-dialog {
+    .cm2_size {
         max-width: 950px;
         width: 100%;
     }

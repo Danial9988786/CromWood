@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace CromWood.Business.Models
 {
@@ -12,6 +13,7 @@ namespace CromWood.Business.Models
         [MaxLength(250)]
         public string AdditionalInformation { get; set; }
         public bool? SharedWithTenant { get; set; }
+        public IFormFile ImageFile { get; set; }
         public string ImageUrl { get; set; }
         public Guid PropertyId { get; set; }
     }

@@ -6,7 +6,7 @@ namespace CromWood.Business.Models
     public class RoleModel
     {
         public Guid Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "This is a required field")]
         public string Name { get; set; }
         public List<RolePermissionModel> RolePermission { get; set; }
     }

@@ -5,74 +5,134 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<ol class="breadcrumb mb-3 mt-3">
+    <li class="breadcrumb-item">
+        <a href="index.html"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
+    </li>
+    <li class="breadcrumb-item active">Property Management</li>
+</ol>
+<div class="row">
+    <div class="col-xl-6">
+        <h1 class="mt-2 mb-3 custom_h">Property Management</h1>
+    </div>
+    <div class="col-xl-6 text-end">
+        <div class="pare__btn">
+                <a class="custom__btn">
+                    <img src="~/assets/img/explor_icon.svg" alt="">
+                    Export XLS
+                    <img src="~/assets/img/down_arrow.svg" alt="">
+                </a>
+                <a class="custom__btn2" onclick="CreateProperty()">
+                    <img src="~/assets/img/add_new_icon.svg" alt="">
+                    add new Property
+                </a>
+        </div>
+    </div>
+</div>
 
-<p>
-    <a onclick="CreateProperty()">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.PropertyCode)
-            </th>
-            <th colspan="4">
-                @Html.DisplayNameFor(model => model.Asset)
-            </th>
-            <th>
-                Expected
-            </th>
-            <th>
-                Type
-            </th>
-            <th>
-                Sq. Ft
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FloorNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NoOfBedroom)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NoOfBathroom)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<!-------filter start here --- -->
+<div class="filter_btn text-end me-3">
+    <a class="" href="#" role="button" id="fil_ter" data-bs-toggle="dropdown" aria-expanded="false">
+        <img class="pe-1" src="./assets/img/filter-lines.svg" alt="user__iocn">
+        Filter
+        <img class="ps-2" src="./assets/img/filter_down_arrow.svg">
+    </a>
+
+    <div class="filter___c dropdown-menu dropdown-menu-end shadow border rounded-0 p-3"
+         aria-labelledby="fil_ter">
+        <div class="input-group mb-3">
+            <span class="input-group-text bg-transparent" id="srf">
+                <img src="./assets/img/search-gray.svg" alt="search_iocn">
+            </span>
+            <input type="text" class="form-control border-start-0 ps-0"
+                   placeholder="Search for filters" aria-label="Username" aria-describedby="srf">
+        </div>
+        <ul class="list-unstyled ft__list">
+            <li>
+                <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded"
+                   href="#">
+                    <span>My Filter 1</span>
+                    <span class="i__gro">
+                        <span class="ed pe-2">
+                            <img src="./assets/img/Edit_white_Icon.svg" alt="edit">
+                        </span>
+                        <span class="de">
+                            <img src="./assets/img/delete_white_Icon.svg" alt="delete">
+                        </span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded"
+                   href="#">
+                    <span>My Filter 2</span>
+                    <span class="i__gro">
+                        <span class="ed pe-2">
+                            <img src="./assets/img/Edit_white_Icon.svg" alt="edit">
+                        </span>
+                        <span class="de">
+                            <img src="./assets/img/delete_white_Icon.svg" alt="delete">
+                        </span>
+                    </span>
+                </a>
+            </li>
+        </ul>
+        <div class="mark__btn text-center">
+            <img class="me-1" src="./assets/img/green__plus_icon.svg" />
+            <a href="#" class="text-uppercase">add new Filter</a>
+        </div>
+    </div>
+</div>
+<!------ filter end here  --------->
+
+<!-- ----- Property Management table start here ------->
+<div class="user__list as__menag sm48__row_table pt-0 hide_sort_all">
+    <table id="datatablesSimple" class="border rounded-top">
+        <thead>
             <tr>
-                <td>
-                    <a asp-action="Detail" asp-route-id="@item.Id">
-                        @Html.DisplayFor(modelItem => item.PropertyCode)
+                <th class="maintable_head">Property ID</th>
+                <th class="maintable_head">Description</th>
+                <th class="maintable_head">Tenancies</th>
+                <th class="maintable_head">Status</th>
+                <th class="maintable_head">Totals</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model){
+            <tr>
+                <td class="maintext_size align-top">
+                    <a class="main-text" asp-action="Detail" asp-route-id="@item.Id">
+                        @item.PropertyCode
                     </a>
                 </td>
-                <td colspan="4">
-                    @Html.DisplayFor(modelItem => item.Asset.StreetAddress)
+                <td class="maintext_size">
+                    <a class="main-text">
+                        @item.PropertyType.Name No. @item.FloorNumber <br> <img src="~/assets/img/Location.svg" alt=""> @item.Asset.StreetAddress <br><span class="owner_clr">Owner</span>
+                        <br>@item.Asset.Ownership
+                    </a>
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ExpectedMonthlyRate)
+                <td class="maintext_size align-top">-</td>
+                <td class="maintext_size align-top ">
+                    <a class="main-text" href="#">
+                        <img src="~/assets/img/Ellipse 11.svg"><a class="u_n"><span class="atl"> Available To Let</span></a>
+                        <br><span class="owner_clr">Available From</span>
+                        <br><span class="pm_date">31 Aug 2023</span>
+                    </a>
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PropertyType.Name)
+
+                <td class="maintext_size">
+                    <span class="owner_clr">Market Rent </span>
+                    <br><span class="pm_date">£ @item.ExpectedMonthlyRate monthly</span><br>
+                    <span class="owner_clr">Current Rent Amount</span>
+                        <br><span class="pm_date">£ @item.ExpectedMonthlyRate monthly</span>
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SquareFootage)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FloorNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NoOfBedroom)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NoOfBathroom)
-                </td>
+
             </tr>
-        }
-    </tbody>
-</table>
+            }
+        </tbody>
+    </table>
+</div>
+<!-- ----- Property Management table end here ---- -->
 
 
 <div class="modal fade" id="propertyDialog">

@@ -8,6 +8,7 @@ namespace CromWood.Business.Services.Interface
     {
         #region Admin accessible features
         public Task<AppResponse<IEnumerable<UserViewModel>>> GetAllUsersAsync();
+        public Task<AppResponse<UserViewModel>> GetUserById(Guid Id);
         public Task<AppResponse<string>> InviteUser(UserModel user);
         public Task<AppResponse<string>> ChangeUserRole(Guid UserId, Guid RoleId);
         public Task<AppResponse<string>> BlockUserById(Guid Id);

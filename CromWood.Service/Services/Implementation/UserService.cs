@@ -31,6 +31,22 @@ namespace CromWood.Business.Services.Implementation
                 return ResponseCreater<IEnumerable<UserViewModel>>.CreateErrorResponse(null, ex.ToString());
             }
         }
+
+        public async Task<AppResponse<UserViewModel>> GetUserById(Guid Id)
+        {
+            try
+            {
+                var users = await _userRepo.GetUser(Id);
+                var mapppedUsers = _mapper.Map<UserViewModel>(users);
+                return ResponseCreater<UserViewModel>.CreateSuccessResponse(mapppedUsers, "User loaded successfully");
+
+            }
+            catch (Exception ex)
+            {
+                return ResponseCreater<UserViewModel>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
         public async Task<AppResponse<string>> InviteUser(UserModel user)
         {
             try
@@ -80,8 +96,8 @@ namespace CromWood.Business.Services.Implementation
         {
             try
             {
-                await _userRepo.DeleteUserById(Id);
-                return ResponseCreater<string>.CreateSuccessResponse(null, "User deleted Successfully");
+                var result = await _userRepo.DeleteUserById(Id);
+                return ResponseCreater<string>.CreateSuccessResponse(result, "User deleted Successfully");
 
             }
             catch (Exception ex)

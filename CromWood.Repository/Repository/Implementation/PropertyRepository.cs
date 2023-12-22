@@ -110,14 +110,14 @@ namespace CromWood.Data.Repository.Implementation
             }
         }
 
-        public async Task<int> DeleteKey(Guid id)
+        public async Task<string> DeleteKey(Guid id)
         {
             try
             {
                 var key = await _context.PropertyKeys.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
                 _context.PropertyKeys.Remove(key);
                 await _context.SaveChangesAsync();
-                return 1;
+                return key.ImageUrl;
             }
             catch
             {

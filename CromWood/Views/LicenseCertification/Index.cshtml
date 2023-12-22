@@ -1,0 +1,210 @@
+﻿@model IEnumerable<CromWood.Business.Models.LicenseCertificateViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    string emptyGuid = "'" + Guid.Empty.ToString() + "'";
+}
+
+<ol class="breadcrumb mb-3 mt-3">
+    <li class="breadcrumb-item">
+        <a href="index.html"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
+    </li>
+    <li class="breadcrumb-item active">License & Certifications</li>
+</ol>
+<div class="row align-items-center">
+    <div class="col-4">
+        <h1 class="mt-2 mb-3 custom_h">License & Certifications</h1>
+    </div>
+
+    <div class="col-1">
+        <span class="owner_clr">Total</span>
+        <h2 class="t_t">126,783</h2>
+    </div>
+    <div class="col-2">
+        <span class="owner_clr">Expiring this month</span>
+        <h2 class="etm">5,387</h2>
+    </div>
+    <div class="col-1">
+        <span class="owner_clr">Expired</span>
+        <h2 class="expd">450</h2>
+    </div>
+
+    <div class="col-4 text-end">
+        <a onclick="AddModifyLicense(@emptyGuid)" class="custom__btn2">
+                <img src="~/assets/img/add_new_icon.svg" class="pe-2" alt="">
+                add License/ Certification
+            </a>
+    </div>
+</div>
+
+<!-------filter start here --- -->
+
+<div class="filter_btn text-end me-3">
+    <a class="" href="#" role="button" id="fil_ter" data-bs-toggle="dropdown" aria-expanded="false">
+        <img class="pe-1" src="~/assets/img/filter-lines.svg" alt="user__iocn">
+        Filter
+        <img class="ps-2" src="~/assets/img/filter_down_arrow.svg">
+    </a>
+
+    <div class="filter___c dropdown-menu dropdown-menu-end shadow border rounded-0 p-3"
+         aria-labelledby="fil_ter">
+        <div class="input-group mb-3">
+            <span class="input-group-text bg-transparent" id="srf">
+                <img src="~/assets/img/search-gray.svg" alt="search_iocn">
+            </span>
+            <input type="text" class="form-control border-start-0 ps-0"
+                   placeholder="Search for filters" aria-label="Username" aria-describedby="srf">
+        </div>
+        <ul class="list-unstyled ft__list">
+            <li>
+                <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded"
+                   href="#">
+                    <span>My Filter 1</span>
+                    <span class="i__gro">
+                        <span class="ed pe-2">
+                            <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
+                        </span>
+                        <span class="de">
+                            <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
+                        </span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded"
+                   href="#">
+                    <span>My Filter 2</span>
+                    <span class="i__gro">
+                        <span class="ed pe-2">
+                            <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
+                        </span>
+                        <span class="de">
+                            <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
+                        </span>
+                    </span>
+                </a>
+            </li>
+        </ul>
+        <div class="mark__btn text-center">
+            <img class="me-1" src="~/assets/img/green__plus_icon.svg" />
+            <a href="#" class="text-uppercase">add new Filter</a>
+        </div>
+    </div>
+</div>
+<!----- filter end here  ---------->
+
+<!------- License/Certification table start here ------->
+<div class="user__list as__menag  sm48__row_table pt-0 hide_sort_all" style="margin-top: -15px;">
+    <table id="datatablesSimple" class="border rounded-top">
+        <thead>
+            <tr>
+                <th class="maintable_head">Description</th>
+                <th class="maintable_head">Notes</th>
+                <th class="maintable_head">Date</th>
+                <th class="maintable_head"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="maintext_size">
+                        <a class="main-text">
+                            <span class="fra">@item.LicenseCertificateType.Name</span><br>
+                            <span class="d-inline-block pt-1">
+                                <img src="~/assets/img/Location.svg"
+                                     alt=""> @item.Property.Asset.StreetAddress
+                            </span><br>
+
+                            <span class="d-inline-block pt-2">
+                                <img src="~/assets/img/downloadfile.svg"
+                                     class="pe-1" alt="">Download File
+                            </span>
+                        </a>
+                    </td>
+                    <td class="maintext_size align-top">@item.Note</td>
+                    <td class="maintext_size">
+                        <span class="owner_clr">Expiry Date</span>
+                        <br><span class="pm_date">@item.ExpiryDate.ToString("MMM dd, yyyy")</span><br>
+                        <span class="owner_clr d-inline-block pt-2">Added By</span>
+                        <br><span class="pm_date">Jacob Hershberg</span>
+                    </td>
+
+                    <td class="maintext_size">
+                        @{
+                            string url = "'" + item.Id.ToString() + "'";
+                        }
+                        <a onclick="ViewLicense(@url)">View</a> |
+                        <a onclick="AddModifyLicense(@url)">Edit</a> |
+                        @if (item.Archieved == null || item.Archieved == false)
+                        {
+                            <a onclick="ArchieveLicense(@url)">Archieve</a> <span> |</span>
+                        }
+                        <a onclick="DeleteLicense(@url)">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<!-------- License/ Certification table end here ---- -->
+
+<div class="modal fade" id="licenseCertificationDialog">
+    <div class="modal-dialog modal-dialog-centered" id="licenseCertificationDialogBody">
+    </div>
+</div>
+
+<script>
+    function ViewLicense(id) {
+        var url = "/LicenseCertification/ViewLicense?id=" + id;
+        $("#licenseCertificationDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#licenseCertificationDialogBody").css("width", "100%");
+            $("#licenseCertificationDialog").modal("show");
+        });
+    }
+
+    function AddModifyLicense(id) {
+        var url = "/LicenseCertification/AddModifyLicense?id=" + id;
+        $("#licenseCertificationDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#licenseCertificationDialogBody").css("width", "100%");
+            $("#licenseCertificationDialog").modal("show");
+        });
+    }
+
+    function ArchieveLicense(id) {
+        var url = "/LicenseCertification/ArchieveLicense?id=" + id;
+        $.ajax({
+            type: "POST",
+            url: url,
+            success: function (result) {
+                window.location.reload();
+            },
+            error: function () {
+            }
+        })
+    }
+
+    function DeleteLicense(id) {
+        var url = "/LicenseCertification/DeleteLicense?id=" + id;
+        $.ajax({
+            type: "POST",
+            url: url,
+            success: function (result) {
+                window.location.reload();
+            },
+            error: function () {
+            }
+        })
+    }
+
+</script>

@@ -3,18 +3,18 @@
 @model CromWood.Business.Models.PropertyKeyModel
 @inject ILookupService<PropertyKeyType> _lookupService;
 
-    @{
+@{
     var asyncKeyType = await _lookupService.GetAllItems();
     var KeyTypes = new SelectList(asyncKeyType.Data, "Id", "Name");
-    }
+}
 
 <div class="modal-content rounded-0">
     <div class="modal-header py-2">
-        <h5 class="modal-title" id="staticBackdropLabel">Add Asset</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">Add Key</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body">
-        <form asp-action="AddModifyKey">
+        <form asp-action="AddModifyKey" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @Html.HiddenFor(m=>m.Id)
             <div class="form-group">
@@ -46,11 +46,10 @@
                 <span asp-validation-for="SharedWithTenant" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ImageUrl" class="control-label"></label>
-                <input asp-for="ImageUrl" class="form-control" />
-                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                <input asp-for="ImageFile" class="form-control" />
             </div>
             @Html.HiddenFor(m=>m.PropertyId)
+            @Html.HiddenFor(m=>m.ImageUrl)
             <div class="custom__btn2 text-end border-top pt-3 mt-5">
                 <input type="submit" value="Add Key" />
             </div>

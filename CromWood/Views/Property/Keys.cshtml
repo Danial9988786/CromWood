@@ -51,14 +51,14 @@
                 @Html.DisplayFor(modelItem => item.SharedWithTenant)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ImageUrl)
+                <img height="50" src="@item.ImageUrl">
             </td>
             <td>
                @{
                         string url = "'" + item.Id.ToString() + "'";
                }
                     <a onclick="AddModifyKey(@propertyId,@url)">Edit</a>
-                    <a onclick="DeleteKey(@propertyId,@url)">Delete</a>
+                    <a onclick="DeleteKey(@url)">Delete</a>
             </td>
         </tr>
 }
@@ -85,11 +85,12 @@
         });
     }
 
-    function DeleteKey(propertyId, keyId) {
+    function DeleteKey(keyId) {
         $.ajax({
             type: "POST",
-            url: `/Property/AddModifyKey?propertyId=${propertyId}&keyId=${keyId}`,
+            url: `/Property/DeleteKey?keyId=${keyId}`,
             success: function (result) {
+                window.location.reload();
             },
             error: function () {
             }

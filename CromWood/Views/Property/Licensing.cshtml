@@ -1,0 +1,8 @@
+﻿@model IEnumerable<CromWood.Business.Models.LicenseCertificateViewModel>
+
+@{
+    ViewData["Title"] = "Licensing & Certification";
+    Layout = "~/Views/Shared/_PropertyDetail.cshtml";
+}
+
+@await Html.PartialAsync("~/Views/LicenseCertification/Index.cshtml", Model)

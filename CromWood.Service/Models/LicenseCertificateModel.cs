@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace CromWood.Business.Models
 {
@@ -10,7 +11,9 @@ namespace CromWood.Business.Models
         public DateTime ExpiryDate { get; set; }
         [MaxLength(200)]
         public string DocUrl { get; set; }
+        public IFormFile DocFile { get; set; }
         [MaxLength(500)]
         public string Note { get; set; }
+        public bool? Archieved { get; set; }
     }
 }

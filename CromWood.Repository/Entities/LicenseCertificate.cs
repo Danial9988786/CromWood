@@ -17,5 +17,6 @@ namespace CromWood.Data.Entities
 
         [MaxLength(500)]
         public string Note { get; set; }
+        public bool? Archieved { get; set; }
     }
 }

@@ -12,16 +12,16 @@
             <h5 class="modal-title" id="staticBackdropLabel">Invites New Members</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body p-0">
         <form asp-action="InviteUser">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="row">
+            <div class="row px-3 pt-4">
                     <div class="col-xl-6">
                         <div class="mb-3">
                         <label asp-for="Name" class="form-label">User's Name</label>
                         <input type="text" class="form-control" asp-for="Name"
                                    placeholder="Marcus Smart">
-                        <span asp-validation-for="Name" id="es" class="text-danger"></span>
+                        <span asp-validation-for="Name" class="text-danger sm_select_text"></span>
                         </div>
                     </div>
                     <div class="col-xl-6">
@@ -29,15 +29,15 @@
                         <label asp-for="Email" class="form-label">Email Address</label>
                         <input type="email" class="form-control" asp-for="Email"
                                    placeholder="markussmart@abs.com">
-                        <span asp-validation-for="Email" class="text-danger"></span>
+                        <span asp-validation-for="Email" class="text-danger sm_select_text"></span>
                         </div>
                     </div>
                     <div class="col-xl-6">
                         <div class="mb-3">
                         <label asp-for="Password" class="form-label">Default Password</label>
-                        <input type="text" class="form-control" asp-for="Password"
+                        <input type="password" class="form-control" asp-for="Password"
                                    placeholder="0000 0000">
-                        <span asp-validation-for="Password" id="es" class="text-danger"></span>
+                        <span asp-validation-for="Password" class="text-danger sm_select_text"></span>
                         </div>
                     </div>
                     <div class="col-xl-6">
@@ -46,12 +46,13 @@
                             <select class="form-select" aria-label="Default select example" asp-for=RoleId asp-items="roles">
                                 <option selected>Select Role</option>
                             </select>
-                        <span asp-validation-for="RoleId" id="es" class="text-danger"></span>
+                        <span asp-validation-for="RoleId" class="text-danger sm_select_text"></span>
                         </div>
                     </div>
                 </div>
-                <div class="custom__btn2 text-end border-top pt-3 mt-5">
-                    <input type="submit" value="Invite" />
+            <hr class="c_border mt-5 mb-0" />
+            <div class="text-end px-3 pt-2 pb-3">
+                <input class="custom__btn2" type="submit" value="Invite" />
                 </div>
             </form>
         </div>

@@ -4,27 +4,31 @@
 
 <ol class="breadcrumb mb-3 mt-3">
     <li class="breadcrumb-item">
-        <a href="index.html"><img src="~/assets/img/Home_icon.svg" alt="home_icon"></a>
+        <a href="index.html"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
     </li>
     <li class="breadcrumb-item active">Settings</li>
 </ol>
 <h1 class="mt-2 mb-3 custom_h">User Roles & Permission</h1>
+
+<!-- ----- Tab box start here ---- -->
 <nav class="user___tabs">
-    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <div class="nav nav-tabs" id="nav-tab">
         <a class="nav-link text-capitalize" id="nav-user-list-tab" asp-action="Index" asp-controller="User">
-            user list
+            users list
         </a>
         <a class="nav-link text-capitalize" id="role_permission-tab" asp-action="Index" asp-controller="RolePermission">
             roles & permissions
         </a>
     </div>
 </nav>
+
+
 <div class="tab-content" id="nav-tabContent">
     @RenderBody()
 </div>
 
 <script>
-    if (window.location.pathname == "/User"){
+    if (window.location.pathname == "/"){
         document.getElementById("nav-user-list-tab").classList.add('active');
     }
     if (window.location.pathname == "/RolePermission") {

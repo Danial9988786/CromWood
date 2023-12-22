@@ -1,4 +1,6 @@
-﻿namespace CromWood.Business.Models
+﻿using Microsoft.AspNetCore.Http;
+
+namespace CromWood.Business.Models
 {
     public class PropertyInsuranceModel
     {
@@ -7,6 +9,7 @@
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string FileUrl { get; set; }
+        public IFormFile File { get; set; }
         public Guid PropertyId { get; set; }
     }
 }

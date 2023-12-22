@@ -2,20 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - CromWood</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/CromWood.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/custom.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
-
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>CromWood Dashboard</title>
     <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Sora:wght@200;300;400;500;600;700&display=swap"
           rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> -->
+    <!-- -->
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+    <link href="~/css/styles.css" rel="stylesheet" />
+    <link href="~/css/custom.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
             crossorigin="anonymous"></script>
@@ -27,25 +28,22 @@
         <a class="navbar-brand ps-5" href="index.html">
             <img src="~/assets/img/site__logo.png" />
         </a>
-
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
             <i class="fas fa-bars"></i>
         </button>
-
         <!-- Navbar Search-->
-        <form class="d-none d-md-inline-block form-inline me-auto ms-5 w-50">
-            <div class="input-group flex-nowrap ms-5">
-                <span class="input-group-text bg-transparent" id="addon-wrapping"><i class="fas fa-search"></i></span>
-                <input type="text" class="form-control border-start-0" placeholder="" aria-label="Username"
+        <form class="t_search d-none d-md-inline-block form-inline mx-auto w-50 ">
+            <div class="input-group flex-nowrap">
+                <span class="input-group-text element-bg" id="addon-wrapping"><i class="fas fa-search"></i></span>
+                <input type="text" class="form-control border-start-0 element-bg" placeholder="" aria-label="Username"
                        aria-describedby="addon-wrapping">
             </div>
         </form>
-
         <!-- Navbar-->
         <!-- Notification  -->
-        <div class="btn-group noti__f me-5">
-            <a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <div class="btn-group noti__f me-5 ">
+            <a class="dropdown-toggle element-bg" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="~/assets/img/bell-icon.svg" />
                 <span class="notic__num">20</span>
             </a>
@@ -116,7 +114,7 @@
                     </a>
                 </li>
                 <li class="pb-2">
-                    <a asp-controller="Auth" asp-action="LogOut" class="dropdown-item">
+                    <a class="dropdown-item" href="#">
                         <img class="pe-2" src="~/assets/img/logout.svg" />
                         Sign Out
                     </a>
@@ -124,56 +122,57 @@
             </ul>
         </div>
     </nav>
+
     <div id="layoutSidenav">
-        <div id="layoutSidenav_nav" class="border-end">
+        <div id="layoutSidenav_nav" class="border-end bg-white">
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav ms-3">
-                        <a class="nav-link active" href="index.html">
+                        <a class="nav-link active" id="nav-dashboard">
                             <div class="sb-nav-link-icon"><img src="~/assets/img/Dashboard.svg" /></div>
                             Dashboard
                         </a>
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" id="nav-scheme-performance">
                             <div class="sb-nav-link-icon"><img src="~/assets/img/scheme per.svg" /></div>
                             Scheme Performance
                         </a>
-                        <a class="nav-link" asp-action="Index" asp-controller="Property">
+                        <a class="nav-link" id="nav-property-management" asp-action="Index" asp-controller="Property">
                             <div class="sb-nav-link-icon"><img src="~/assets/img/Property Management.svg" /></div>
                             Property Management
                         </a>
-                        <a class="nav-link"  asp-action="Index" asp-controller="Asset">
+                        <a class="nav-link" id="nav-asset-management" asp-action="Index" asp-controller="Asset">
                             <div class="sb-nav-link-icon"><img src="~/assets/img/Asset Management.svg" /></div>
                             Asset Management
                         </a>
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" id="nav-license-certification" asp-action="Index" asp-controller="LicenseCertification">
                             <div class="sb-nav-link-icon"><img src="~/assets/img/License.svg" /></div>
                             License & Certifications
                         </a>
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" id="property-assessment">
                             <div class="sb-nav-link-icon"><img src="~/assets/img/Property.svg" /></div>
                             Property Assessment
                         </a>
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" id="nav-notice-claims">
                             <div class="sb-nav-link-icon"><img src="~/assets/img/Notices.svg" /></div>
                             Notices & Claims
                         </a>
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" id="nav-tenants">
                             <div class="sb-nav-link-icon"><img src="~/assets/img/Tenants.svg" /></div>
                             Tenants
                         </a>
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" id="nav-tenancy-management">
                             <div class="sb-nav-link-icon"><img src="~/assets/img/TenancyManagement.svg" /></div>
                             Tenancy Management
                         </a>
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" id="nav-messages">
                             <div class="sb-nav-link-icon"><img src="~/assets/img/msg.svg" /></div>
                             Messages
                         </a>
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" id="nav-report">
                             <div class="sb-nav-link-icon"><img src="~/assets/img/report.svg" /></div>
                             Reports
                         </a>
-                        <a class="nav-link collapsed myc" href="#" data-bs-toggle="collapse"
+                        <a class="nav-link collapsed myc" id="nav-settings" data-bs-toggle="collapse"
                            data-bs-target="#collapseSetting" aria-expanded="false" aria-controls="collapseSetting">
                             <div class="sb-nav-link-icon"><img src="~/assets/img/settings.svg" /></div>
                             Settings
@@ -190,41 +189,26 @@
                 </div>
             </nav>
         </div>
-        <div id="layoutSidenav_content">
+
+        <div id="layoutSidenav_content" class="dashboard-bg">
             <main>
                 <div class="container-fluid px-4">
                     @RenderBody()
                 </div>
             </main>
-            <footer class="py-4 bg-light mt-auto">
-                <div class="container-fluid px-4">
-                    <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Designed by Danial Balwinder</div>
-                        <div>
-                            <a href="#">Privacy Policy</a>
-                            &middot;
-                            <a href="#">Terms &amp; Conditions</a>
-                        </div>
-                    </div>
-                </div>
-            </footer>
         </div>
     </div>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-
-    <script src="~/js/scripts.js" asp-append-version="true"></script>
-    <script src="~/js/datatables-simple-demo.js" asp-append-version="true"></script>
-
-    <script src="js/scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="assets/demo/chart-area-demo.js"></script>
-    <script src="assets/demo/chart-bar-demo.js"></script>
+    <script src="~/assets/demo/chart-area-demo.js"></script>
+    <script src="~/assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-    <script src="js/datatables-simple-demo.js"></script>
-    <script src="assets/demo/chart-pie-demo.js"></script>
+    <script src="~/js/datatables-simple-demo.js"></script>
+    <script src="~/assets/demo/chart-pie-demo.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -1,4 +1,5 @@
 ﻿using CromWood.Business.Models;
+using CromWood.Business.Services.Implementation;
 using CromWood.Business.Services.Interface;
 using CromWood.Data.Entities;
 using CromWood.Helper;
@@ -13,10 +14,12 @@ namespace CromWood.Controllers
     {
         private IPropertyService _propertyService;
         private IAmenityService _amenityService;
-        public PropertyController(IPropertyService propertyService, IAmenityService amenityService)
+        private ILicenseCertificateService _licenseCertificateService;
+        public PropertyController(IPropertyService propertyService, IAmenityService amenityService, ILicenseCertificateService licenseCertificateService)
         {
             _propertyService = propertyService;
             _amenityService = amenityService;
+            _licenseCertificateService = licenseCertificateService;
         }
         public async Task<IActionResult> Index()
         {
@@ -77,7 +80,7 @@ namespace CromWood.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddModifyInsurance(PropertyInsuranceModel insurance)
+        public async Task<IActionResult> AddModifyInsurance([FromForm]PropertyInsuranceModel insurance)
         {
             await _propertyService.AddModifyInsurance(insurance);
             return RedirectToAction("Insurance", new { id = insurance.PropertyId });
@@ -106,17 +109,25 @@ namespace CromWood.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddModifyKey(PropertyKeyModel key)
+        public async Task<IActionResult> AddModifyKey([FromForm] PropertyKeyModel key)
         {
             var result = await _propertyService.AddModifyKey(key);
             return RedirectToAction("Keys", new { id = key.PropertyId });
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteKey(Guid propertyId, Guid keyId)
+        public async Task<IActionResult> DeleteKey(Guid keyId)
         {
             var result = await _propertyService.DeleteKey(keyId);
-            return RedirectToAction("Keys", new { id = propertyId });
+            return StatusCode(result.StatusCode,result.Data);
+        }
+        #endregion
+
+        #region License & Certification
+        public async  Task<IActionResult> Licensing(Guid id)
+        {
+            var result = await _licenseCertificateService.GetAllLicenseCertificates(id);
+            return View(result.Data);
         }
         #endregion
     }

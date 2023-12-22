@@ -13,5 +13,6 @@ namespace CromWood.Business.Models
         public DateTime ExpiryDate { get; set; }
         public string DocUrl { get; set; }
         public string Note { get; set; }
+        public bool? Archieved { get; set; }
     }
 }

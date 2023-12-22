@@ -4,30 +4,30 @@
     string title = Model.Id == Guid.Empty ? "Add New Role" : "Edit Role";
     string buttonName = Model.Id == Guid.Empty ? "Save Role" : "Save Changes";
 }
-<div class="modal-content rounded-0">
-    <div class="modal-header py-2">
+<div class="modal-content rounded-0 model-custom-bg">
+    <div class="modal-header py-2 bg-white">
         <h5 class="modal-title" id="staticBackdropLabel">@title</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
+    <form asp-action="AddModifyRole" method="post">
     <div class="modal-body">
-        <form asp-action="AddModifyRole" method="post">
+        
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
             @Html.HiddenFor(m=>m.Id)
             <div class="row">
                 <div class="col-12">
-                    <div class="mb-3 border p-3 border-bottom-0">
-                        <label asp-for="Name" class="form-label">Role Name</label>
+                    <div class="mb-3 border p-3 bg-white">
+                        <label asp-for="Name" class="form-label mb-1">Role Name</label>
                         <input asp-for=Name type="text" class="form-control"
                                placeholder="Enter Role Name">
-                        <span asp-validation-for="Name" id="es" class="text-danger"></span>
+                        <span asp-validation-for="Name" id="es" class="text-danger sm_select_text"></span>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="">
                     <div class="col-12">
-                        <div class="border p-3 border-bottom-0">
+                        <div class="border p-3 border-bottom-0 bg-white">
                             <span>Permissions</span>
                             <div class="form-check form-check-inline ps-5 ms-5">
                                 <input id="allPermissionCheckbox"  class="form-check-input" type="checkbox">
@@ -81,18 +81,16 @@
                     </div>
                 </div>
             </div>
-
-            <div class="text-end border-top pt-3">
-                <div class="custom__btn2">
-                    <a onclick="submitBtn.click()">
-                        <img class="pe-1" src="~/assets/img/save-role.svg" alt="save role icon">
-                        @buttonName
-                    </a>
-                    <input id="submitBtn" type="submit" hidden />
-                </div>
-            </div>
-        </form>
     </div>
+        <div class="text-end border-top py-3 pe-3 bg-white">
+            <a onclick="submitBtn.click()" class="custom__btn2">
+                <img class="pe-1" src="~/assets/img/save-role.svg" alt="save role icon">
+                @buttonName
+            </a>
+            <input id="submitBtn" type="submit" hidden />
+        </div>
+    </form>
+
 </div>
 
 <script>

@@ -16,8 +16,11 @@ namespace CromWood.Controllers
         /// <summary>
         /// This method will list the users and display in respective tab.
         /// </summary>
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
+            ViewBag.ActionDone = TempData["action"];
+            ViewBag.UserName = TempData["userName"];
             var result = await _userService.GetAllUsersAsync();
             return View(result.Data);
         }
@@ -42,6 +45,7 @@ namespace CromWood.Controllers
             user.IsActive = true;
             user.Id = Guid.NewGuid();
             await _userService.InviteUser(user);
+            TempData["action"] = "invited";
             return RedirectToAction("Index");
         }
 
@@ -67,8 +71,10 @@ namespace CromWood.Controllers
         /// GET: This method will show modal to confirm user deletion
         /// </summary>
         [HttpGet]
-        public IActionResult DeleteUserModal(Guid Id)
+        public async Task<IActionResult> DeleteUserModal(Guid Id)
         {
+            var result = await _userService.GetUserById(Id);
+            ViewBag.Name = result.Data.Name;
             return PartialView("DeleteUser", Id);
         }
 
@@ -77,7 +83,9 @@ namespace CromWood.Controllers
         /// </summary>
         public async Task<IActionResult> DeleteUser(Guid Id)
         {
-            await _userService.DeleteUserById(Id);
+            var result = await _userService.DeleteUserById(Id);
+            TempData["action"] = "deleted";
+            TempData["userName"] = result.Data;
             return RedirectToAction("Index");
         }
 

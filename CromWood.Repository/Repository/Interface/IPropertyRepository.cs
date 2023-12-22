@@ -15,7 +15,7 @@ namespace CromWood.Data.Repository.Interface
         public Task<PropertyKey> GetPropertyKey(Guid id);
         public Task<int> AddKey(PropertyKey key);
         public Task<int> ModifyKey(PropertyKey key);
-        public Task<int> DeleteKey(Guid id);
+        public Task<string> DeleteKey(Guid id);
 
     }
 }

@@ -4,32 +4,30 @@
     ViewData["Title"] = "Role & Permission";
 }
 
-<div class="tab-pane fade show border border-top-0 active">
-    <div class="card-header border-bottom-0 pt-4">
-        <div class="row">
+<div class="tab-pane show fade border border-top-0 active" id="role_permission">
+    <div class="card-header border-bottom-0 pt-4 bg-white">
+        <div class="row align-items-center mb-2">
             <div class="col-6">
-                <h4 class="heading-style2">Role & permissions</h4>
+                <h4 class="heading-style2 mb-0">Role & permissions</h4>
             </div>
-            <div class="col-6 text-end">
-                <div class="custom__btn">
-                    <a onclick="CreateRole()">
-                        <img class="pe-1" src="~/assets/img/user_plus_icon.svg"
-                             alt="user_icon">
-                        New Role
-                    </a>
-                </div>
+            <div class="col-6 text-end mb-2">
+                <a onclick="CreateRole()" class="custom__btn">
+                    <img class="pe-1" src="~/assets/img/user_plus_icon.svg"
+                         alt="user_icon">
+                    New Role
+                </a>
             </div>
         </div>
 
     </div>
-    <div class="card-body user__list pt-0">
-        <table id="datatablesSimple">
+    <div class="card-body role_perm sm__row_table hide_sort_last pt-0 px-0 bg-white pb-0">
+        <table id="role_permissions">
             <thead>
                 <tr>
-                    <th>Role Title</th>
+                    <th class="ps-2">Role Title</th>
                     <th>No. of Users</th>
                     <th>Last Updated</th>
-                    <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                    <th class="no_fil">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
@@ -70,18 +68,26 @@
 </div>
 
 <script>
+
+    window.addEventListener('DOMContentLoaded', event => {
+        const role_permissions = document.getElementById('role_permissions');
+        if (role_permissions) {
+            new simpleDatatables.DataTable(role_permissions);
+        }
+            $(".datatable-table thead tr th button.datatable-sorter").append("<span class='c__icon'></span>");
+    });
+
     function CreateRole() {
         var url = "/RolePermission/AddModifyRole";
         $("#rolePermissionDialogBody").load(url, function () {
             // This is done to add validation to partial view, as they don't support validationscript partial.
             $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
-            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
-            });
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
             });
             $("#rolePermissionDialogBody").css("max-width", "950px");
             $("#rolePermissionDialogBody").css("width", "100%");
             $("#rolePermissionDialog").modal("show");
-
         });
 
     }
@@ -91,8 +97,8 @@
         $("#rolePermissionDialogBody").load(url, function () {
             // This is done to add validation to partial view, as they don't support validationscript partial.
             $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
-            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
-            });
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
             });
             $("#rolePermissionDialogBody").css("max-width", "950px");
             $("#rolePermissionDialogBody").css("width", "100%");
