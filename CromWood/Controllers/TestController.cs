@@ -14,10 +14,9 @@ namespace CromWood.Controllers
             this.authService = authService;
 
         }
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var tests = await testService.GetTests();
-            return View(tests);
+            return View();
         }
 
         [Authorize]

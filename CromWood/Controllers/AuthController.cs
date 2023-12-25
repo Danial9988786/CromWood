@@ -1,7 +1,5 @@
 ﻿using CromWood.Business.Services.Interface;
 using CromWood.Business.ViewModels;
-using CromWood.Data.Entities;
-using CromWood.Helper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CromWood.Controllers
@@ -19,9 +17,20 @@ namespace CromWood.Controllers
             return View();
         }
 
-        public IActionResult Login()
+        [HttpGet]
+        public IActionResult Login(string ReturnUrl = "/")
+        {
+            return View(new LoginModel() { ReturnUrl = ReturnUrl});
+        }
+
+        public IActionResult NotAuthorized()
         {
             return View();
+        }
+
+        public IActionResult NotAuthorizedJSON()
+        {
+            return Ok();
         }
 
         [HttpPost]
@@ -35,7 +44,11 @@ namespace CromWood.Controllers
             }
             else
             {
-                return RedirectToAction("Auth" , "Test");
+                if (login.ReturnUrl != null)
+                {
+                    return Redirect(login.ReturnUrl);
+                }
+                return RedirectToAction("Auth", "Test");
             }
         }
 

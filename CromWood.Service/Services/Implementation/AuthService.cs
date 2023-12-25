@@ -1,4 +1,5 @@
-﻿using CromWood.Business.Helper;
+﻿using CromWood.Business.Constants;
+using CromWood.Business.Helper;
 using CromWood.Business.Services.Interface;
 using CromWood.Business.ViewModels;
 using CromWood.Data.Entities;
@@ -7,6 +8,7 @@ using CromWood.Helper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 
@@ -15,12 +17,16 @@ namespace CromWood.Business.Services.Implementation
     public class AuthService : IAuthService
     {
         private readonly IUserRepository _userRepo;
+        private readonly IMemoryCache _cache;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AuthService(IConfiguration config, IUserRepository userRepo, IHttpContextAccessor httpContextAccessor)
+        private List<RolePermission> rolePermissions = new();
+
+        public AuthService(IConfiguration config, IUserRepository userRepo, IHttpContextAccessor httpContextAccessor, IMemoryCache cache)
         {
             _userRepo = userRepo;
             _httpContextAccessor = httpContextAccessor;
+            _cache = cache;
         }
 
         public UserClaimModel GetCurrentUser(ClaimsPrincipal identity)
@@ -68,8 +74,8 @@ namespace CromWood.Business.Services.Implementation
             {
                 if (_httpContextAccessor.HttpContext.User != null)
                 {
+                    var userId = IdentityExtension.GetId(_httpContextAccessor.HttpContext.User);
                     await _httpContextAccessor.HttpContext.SignOutAsync();
-                    var userId = Guid.Parse(IdentityExtension.GetId(_httpContextAccessor.HttpContext.User.Identity));
                     await _userRepo.SetUserInactive(userId);
                     return ResponseCreater<string>.CreateSuccessResponse("Success", "User logged out successfully.");
                 }
@@ -115,6 +121,47 @@ namespace CromWood.Business.Services.Implementation
                 return user;
             }
             return null;
+        }
+
+        public async Task<bool> CheckPermission(string permissionKey, string permissionMatch)
+        {
+            if (_httpContextAccessor.HttpContext.User != null)
+            {
+                Guid RoleId = IdentityExtension.GetRoleId(_httpContextAccessor.HttpContext.User);
+                _cache.TryGetValue("role_permission", out rolePermissions);
+                if (rolePermissions == null || rolePermissions.Count == 0)
+                {
+                    rolePermissions = await _userRepo.GetAllRolesAndPermission();
+                    _cache.Set("role_permission", rolePermissions);
+                }
+                // Now check the role is fine or not. 
+                var roleWithPermission = rolePermissions.Where(x => x.RoleId == RoleId);
+                bool havePermission = false;
+
+                switch (permissionMatch)
+                {
+                    case PermissionConstant.ViewAll:
+                        havePermission = roleWithPermission.Any(x => x.Permission.PermissionKey == permissionKey && x.CanViewAll);
+                        break;
+
+                    case PermissionConstant.CanRead:
+                        havePermission = roleWithPermission.Any(x => x.Permission.PermissionKey == permissionKey && x.CanRead);
+                        break;
+
+                    case PermissionConstant.CanWrite:
+                        havePermission = roleWithPermission.Any(x => x.Permission.PermissionKey == permissionKey && x.CanWrite);
+                        break;
+
+                    case PermissionConstant.CanDelete:
+                        havePermission = roleWithPermission.Any(x => x.Permission.PermissionKey == permissionKey && x.CanDelete);
+                        break;
+
+                    default:
+                        break;
+                }
+                return havePermission;
+            }
+            return false;
         }
         #endregion
     }

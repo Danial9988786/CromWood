@@ -6,9 +6,12 @@ using CromWood.Data.Repository.Interface;
 using CromWood.Helper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddLogging();
+builder.Services.AddMemoryCache();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
@@ -42,6 +45,8 @@ builder.Services.AddScoped(typeof(ILookupService<>), typeof(LookupService<>));
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(option =>
     {
+        option.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+        option.SlidingExpiration = true;
         option.LoginPath = "/Auth/Login";
         option.LogoutPath = "/Auth/Logout";
     });
@@ -66,6 +71,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=User}/{action=Index}/{id?}");
+    pattern: "{controller=Test}/{action=Index}/{id?}");
 
 app.Run();

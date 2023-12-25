@@ -38,10 +38,17 @@ namespace CromWood.Data.Repository.Implementation
             return currentUser;
         }
 
+        public async Task<List<RolePermission>> GetAllRolesAndPermission()
+        {
+            return await _context.RolePermissions.Include(x => x.Permission).ToListAsync();
+        }
+
+
         public async Task<IEnumerable<User>> GetAllUsers()
         {
             return await _context.Users.ToListAsync();
         }
+
         public async Task<int> InviteUser(User user)
         {
             try
@@ -70,7 +77,7 @@ namespace CromWood.Data.Repository.Implementation
                 throw;
             }
         }
-        public async Task<int> BlockUserById(Guid Id)
+        public async Task<string> BlockUserById(Guid Id)
         {
             try
             {
@@ -78,7 +85,7 @@ namespace CromWood.Data.Repository.Implementation
                 user.IsActive = false;
                 _context.Users.Update(user);
                 await _context.SaveChangesAsync();
-                return 1;
+                return user.FirstName + " " + user.LastName;
             }
             catch
             {
@@ -130,5 +137,6 @@ namespace CromWood.Data.Repository.Implementation
                 throw;
             }
         }
+
     }
 }

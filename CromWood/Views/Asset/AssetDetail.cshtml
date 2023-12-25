@@ -1,212 +1,333 @@
-﻿@model CromWood.Business.Models.AssetModel
+﻿@using System.Globalization;
+@model CromWood.Business.Models.AssetModel
 
 @{
     ViewData["Title"] = "AssetDetail";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string leaseLength = "--";
+    if (Model.LeaseTerm != null && Model.LeaseExpiry != null)
+    {
+        DateTime lT = Model.LeaseTerm ?? DateTime.Now;
+        DateTime lE = Model.LeaseExpiry ?? DateTime.Now;
+        leaseLength = lE.Subtract(lT).Days.ToString() + " days";
+    }
+    string Id = Model.Id.ToString();
 }
+<ol class="breadcrumb mb-3 mt-3">
+    <li class="breadcrumb-item">
+        <a href="index.html"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
+    </li>
+    <li class="breadcrumb-item active"><a asp-action="Index" class="text-decoration-none"><span class="a_m">Asset Management</span></a></li>
+    <li class="breadcrumb-item active"><span>@Model.AssetId</span></li>
 
-<h1>AssetDetail</h1>
+</ol>
+<div class="d-flex">
+    <h1 class="mt-2 mb-3 custom_h">
+        <img src="~/assets/img/left_Icon.svg" alt="">&nbsp @Model.AssetId
+    </h1>
+    <div class="d-md-inline-block  ms-5">
+        <h6 class="cre ms-4 mt-2">
+            Created on: <sapn>@Model.CreatedDate?.ToString("yyyy-MM-dd")</sapn>
+        </h6>
+        <h6 class="cre ms-4">
+            Last Modified: <sapn>@Model.UpdatedDate?.ToString("yyyy-MM-dd")</sapn> <a class="v_c" href="#">View Changelog</a>
+        </h6>
 
-<div>
-    <h4>AssetModel</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-       
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AssetTypeId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AssetType!.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AssetId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AssetId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.HouseNoStreet)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.HouseNoStreet)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Locality)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Locality)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Borough)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Borough)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PostCode)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PostCode)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TitleNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TitleNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Ownership)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Ownership)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AquisitionDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AquisitionDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PurchasePrice)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PurchasePrice)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Valuation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Valuation)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ValuationDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ValuationDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Reinstatement)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Reinstatement)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Lender)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Lender)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Chargee)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Chargee)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateOfCharge)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateOfCharge)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FinancialPrgoramId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FinancialPrgoramId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GrantProvider)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GrantProvider)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AttributableGrant)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AttributableGrant)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ConstructionPeriod)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ConstructionPeriod)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LandlordResponsible)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LandlordResponsible)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FreeholderResponsible)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FreeholderResponsible)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.OwnerResponsible)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.OwnerResponsible)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LandlordName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LandlordName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ManagingAgent)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ManagingAgent)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ManagingAgentHouseNoStreet)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ManagingAgentHouseNoStreet)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ManagingAgentLocality)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ManagingAgentLocality)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ManagingAgentBorough)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ManagingAgentBorough)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ManagingAgentPostCode)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ManagingAgentPostCode)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LeaseTerm)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LeaseTerm)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LeaseExpiry)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LeaseExpiry)
-        </dd>
-    </dl>
+    </div>
 </div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+
+<nav class="user___tabs mt-3">
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+
+        <a class="nav-link text-capitalize" id="asset_overview-tab" data-bs-toggle="tab"
+           data-bs-target="#asset_overview" role="tab" aria-controls="asset_overview"
+           aria-selected="false">Asset Overview</a>
+
+        <a class="nav-link text-capitalize active" id="naddress_details-tab" data-bs-toggle="tab"
+           data-bs-target="#address_details" role="tab" aria-controls="address_details"
+           aria-selected="true">Address Details</a>
+
+        <a class="nav-link text-capitalize" id="valuation_ownership-tab" data-bs-toggle="tab"
+           data-bs-target="#valuation_ownership" role="tab"
+           aria-controls="valuation_ownership" aria-selected="false">Valuation & Ownership</a>
+
+
+        <a class="nav-link text-capitalize" id="Financial_Details-tab" data-bs-toggle="tab"
+           data-bs-target="#Financial_Details" role="tab"
+           aria-controls="Financial_Details" aria-selected="false">Financial Details</a>
+
+        <a class="nav-link text-capitalize" id="landlord_management-tab" data-bs-toggle="tab"
+           data-bs-target="#landlord_management" role="tab"
+           aria-controls="landlord_management" aria-selected="false">Landlord/ Management</a>
+
+    </div>
+</nav>
+
+<div class="tab-content" id="nav-tabContent">
+
+    <!-- Address Details tab start here -->
+    <div class="tab-pane fade show border border-top-0 active bg-white" id="address_details"
+         role="tabpanel" aria-labelledby="nav-user-list-tab">
+        <div class="card-header border-bottom-0 pt-4 pb-0 bg-white">
+            <div class="row align-items-center">
+                <div class="col-6">
+                    <h4 class="heading-style2 mb-0">Address Details</h4>
+                </div>
+                <div class="col-6 text-end">
+                    <a onclick="EditAddressSection()" class="custom__btn" data-bs-toggle="edit_detail">
+                        <img class="pe-1" src="~/assets/img/edit_icon.svg" alt="edit_icon">
+                        Edit details
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <table class="table mt-3">
+
+            <tbody class="asset_table">
+                <tr>
+                    <th class="r_heading" scope="row">Asset Code</th>
+                    <td>@Model.AssetId</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Asset Type</th>
+                    <td colspan="2">@Model.AssetType?.Name</td>
+                </tr>
+                <tr>
+                    <th class="r_heading" scope="row">House No. & Street</th>
+                    <td colspan="2">@Model.HouseNoStreet</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Locality</th>
+                    <td colspan="2">@Model.Locality</td>
+                </tr>
+                <tr>
+                    <th class="r_heading" scope="row">Borough</th>
+                    <td colspan="2">@Model.Borough</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Post Code</th>
+                    <td colspan="2">@Model.PostCode</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <!-- Address Details tab end here -->
+    <!-- Valuation & Ownership tab stat here -->
+    <div class="tab-pane fade border border-top-0" id="valuation_ownership" role="tabpanel"
+         aria-labelledby="nav-roles-per-tab">
+        <div class="card-header border-bottom-0 pt-4 pb-0 bg-white">
+            <div class="row align-items-center">
+                <div class="col-6">
+                    <h4 class="heading-style2 mb-0">Ownership Details</h4>
+                </div>
+                <div class="col-6 text-end">
+                    <a onclick="EditOwnershipSection()" class="custom__btn" data-bs-toggle="edit_detail">
+                        <img class="pe-1" src="~/assets/img/edit_icon.svg" alt="edit_icon">
+                        Edit details
+                    </a>
+                </div>
+            </div>
+        </div>
+        <table class="table mt-3">
+
+            <tbody class="asset_table">
+                <tr>
+                    <th class="r_heading" scope="row">Title Number</th>
+                    <td>@Model.TitleNumber</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Ownership</th>
+                    <td colspan="2">@Model.Ownership</td>
+                </tr>
+                <tr>
+                    <th class="r_heading" scope="row">Acquisition Date</th>
+                    <td colspan="2">@Model.AquisitionDate?.ToString("dddd, MMM dd, yyyy")</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Purchase Price</th>
+                    <td colspan="2">
+                        @(Model.PurchasePrice != null ? Model.PurchasePrice.Value.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ") : "--")
+                    </td>
+                </tr>
+                <tr>
+                    <th class="r_heading" scope="row">Valuation</th>
+                    <td colspan="2">
+                        @(Model.Valuation != null ? Model.Valuation.Value.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ") : "--")
+                    </td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Valuation Date</th>
+                    <td colspan="2">@Model.ValuationDate?.ToString("dddd, MMM dd, yyyy")</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Reinstatement</th>
+                    <td colspan="2">@Model.Reinstatement</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Valuation & Ownership tab end here -->
+    <!-- Financial Details start here -->
+    <div class="tab-pane fade border border-top-0" id="Financial_Details" role="tabpanel"
+         aria-labelledby="nav-roles-per-tab">
+        <div class="card-header border-bottom-0 pt-4 pb-0 bg-white">
+            <div class="row align-items-center">
+                <div class="col-6">
+                    <h4 class="heading-style2 mb-0">Financial Details</h4>
+                </div>
+                <div class="col-6 text-end">
+                    <a onclick="EditFinancialSection()" class="custom__btn" data-bs-toggle="edit_detail">
+                        <img class="pe-1" src="~/assets/img/edit_icon.svg" alt="edit_icon">
+                        Edit details
+                    </a>
+                </div>
+            </div>
+        </div>
+        <table class="table mt-3">
+
+            <tbody class="asset_table">
+                <tr>
+                    <th class="r_heading" scope="row">Lender</th>
+                    <td>@Model.Lender</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Chargee</th>
+                    <td colspan="2">
+                        @Model.Chargee
+                    </td>
+                </tr>
+                <tr>
+                    <th class="r_heading" scope="row">Date of Charge</th>
+                    <td colspan="2">@Model.DateOfCharge?.ToString("dddd, MMM dd, yyyy")</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Program</th>
+                    <td colspan="2">@Model.FinancialPrgoram.Name</td>
+                </tr>
+                <tr>
+                    <th class="r_heading" scope="row">Grant Provider</th>
+                    <td colspan="2">@Model.GrantProvider</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Attributable Grant</th>
+                    <td colspan="2">
+                        @(Model.AttributableGrant != null ? Model.AttributableGrant.Value.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ") : "--")
+                    </td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Ground Rent</th>
+                    <td colspan="2">
+                        @(Model.AttributableGrant != null ? Model.AttributableGrant.Value.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ") : "--")
+                    </td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Estimated Earnings Per Month</th>
+                    <td colspan="2">£ 20,000.00</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Construction Period</th>
+                    <td colspan="2">@Model.ConstructionPeriod</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Financial Details end here -->
+    <!-- Landlord/ Management Start Here -->
+    <div class="tab-pane fade border border-top-0" id="landlord_management" role="tabpanel"
+         aria-labelledby="nav-roles-per-tab">
+        <div class="card-header border-bottom-0 pt-4 pb-0 bg-white">
+            <div class="row align-items-center">
+                <div class="col-6">
+                    <h4 class="heading-style2 mb-0">Landlord/ Management</h4>
+                </div>
+                <div class="col-6 text-end">
+                    <a onclick="EditLandlordSection()" class="custom__btn" data-bs-toggle="edit_detail">
+                        <img class="pe-1" src="~/assets/img/edit_icon.svg" alt="edit_icon">
+                        Edit details
+                    </a>
+                </div>
+            </div>
+        </div>
+        <table class="table mt-3">
+
+            <tbody class="asset_table">
+                <tr>
+                    <th class="r_heading" scope="row">Landlord</th>
+                    <td>@Model.LandlordName</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Managing Agent</th>
+                    <td colspan="2">
+                        @Model.ManagingAgent
+                    </td>
+                </tr>
+                <tr>
+                    <th class="r_heading" scope="row">Managing Agent Address</th>
+                    <td colspan="2">@Model.ManagingAgentHouseNoStreet, @Model.ManagingAgentLocality</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row"></th>
+                    <td colspan="2">@Model.ManagingAgentBorough, @Model.ManagingAgentPostCode</td>
+                </tr>
+                <tr>
+                    <th class="r_heading" scope="row">Lease Term</th>
+                    <td colspan="2">@Model.LeaseTerm?.ToString("dddd, MMMM")</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Lease Day</th>
+                    <td colspan="2">@Model.LeaseTerm?.ToString("dddd, MMMM")</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Lease Expiry</th>
+                    <td colspan="2">@Model.LeaseExpiry?.ToString("dddd, MMMM")</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Lease Length</th>
+                    <td>@(Model.LeaseExpiry != null && Model.LeaseTerm != null ? leaseLength : "--")</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <!-- Landlord/ Management end Here -->
+
 </div>
+
+
+<div class="modal fade" id="assetDialog">
+    <div class="modal-dialog modal-dialog-centered" id="assetDialogBody">
+    </div>
+</div>
+
+
+<script>
+
+    function EditAddressSection() {
+        var url = "/Asset/AddAsset/@Id";
+        $("#assetDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#assetDialogBody").css("max-width", "950px");
+            $("#assetDialogBody").css("width", "100%");
+            $("#assetDialog").modal("show");
+        });
+    }  
+    
+    function EditOwnershipSection() {
+        console.log("edit ownership section")
+    }
+
+    function EditFinancialSection() {
+         console.log("edit financial section")
+    }  
+
+    function EditLandlordSection() {
+        console.log("edit landlord section")
+    }
+
+</script>

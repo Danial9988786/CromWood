@@ -1,16 +1,21 @@
-﻿using CromWood.Business.Models;
+﻿using CromWood.Business.Constants;
+using CromWood.Business.Models;
 using CromWood.Business.Services.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CromWood.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         private readonly IUserService _userService;
+        private readonly IAuthService _authService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IAuthService authService)
         {
             _userService = userService;
+            _authService = authService;
         }
 
         /// <summary>
@@ -19,6 +24,11 @@ namespace CromWood.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+            var havePermission = await _authService.CheckPermission(PermissionKeyConstant.UserManagement, PermissionConstant.ViewAll);
+            if (!havePermission)
+            {
+                return RedirectToAction("NotAuthorized", "Auth");
+            }
             ViewBag.ActionDone = TempData["action"];
             ViewBag.UserName = TempData["userName"];
             var result = await _userService.GetAllUsersAsync();
@@ -28,20 +38,29 @@ namespace CromWood.Controllers
         /// <summary>
         /// This method is used to show modal to invite user.
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
-        public IActionResult InviteUser()
+        public async Task<IActionResult> InviteUser()
         {
+            var havePermission = await _authService.CheckPermission(PermissionKeyConstant.UserManagement, PermissionConstant.CanWrite);
+            if (!havePermission)
+            {
+                return RedirectToAction("NotAuthorized", "Auth");
+            }
             return PartialView();
         }
 
         /// <summary>
         /// This method is used to send invitation to user
         /// </summary>
-        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> InviteUser([FromForm]UserModel user)
         {
+            var havePermission = await _authService.CheckPermission(PermissionKeyConstant.UserManagement, PermissionConstant.CanWrite);
+            if (!havePermission)
+            {
+                return RedirectToAction("NotAuthorized", "Auth");
+            }
+
             user.IsActive = true;
             user.Id = Guid.NewGuid();
             await _userService.InviteUser(user);
@@ -53,8 +72,15 @@ namespace CromWood.Controllers
         /// GET: This method will show modal to confirm block user
         /// </summary>
         [HttpGet]
-        public IActionResult BlockUserModal(Guid Id)
+        public async Task<IActionResult> BlockUserModal(Guid Id)
         {
+            var havePermission = await _authService.CheckPermission(PermissionKeyConstant.UserManagement, PermissionConstant.CanWrite);
+            if (!havePermission)
+            {
+                return RedirectToAction("NotAuthorized", "Auth");
+            }
+            var result = await _userService.GetUserById(Id);
+            ViewBag.Name = result.Data.Name;
             return PartialView("BlockUser", Id);
         }
 
@@ -63,7 +89,14 @@ namespace CromWood.Controllers
         /// </summary>
         public async Task<IActionResult> BlockUser(Guid Id)
         {
-            await _userService.BlockUserById(Id);
+            var havePermission = await _authService.CheckPermission(PermissionKeyConstant.UserManagement, PermissionConstant.CanWrite);
+            if (!havePermission)
+            {
+                return RedirectToAction("NotAuthorized", "Auth");
+            }
+            var result = await _userService.BlockUserById(Id);
+            TempData["action"] = "blocked";
+            TempData["userName"] = result.Data;
             return RedirectToAction("Index");
         }
 
@@ -73,6 +106,11 @@ namespace CromWood.Controllers
         [HttpGet]
         public async Task<IActionResult> DeleteUserModal(Guid Id)
         {
+            var havePermission = await _authService.CheckPermission(PermissionKeyConstant.UserManagement, PermissionConstant.CanDelete);
+            if (!havePermission)
+            {
+                return RedirectToAction("NotAuthorized", "Auth");
+            }
             var result = await _userService.GetUserById(Id);
             ViewBag.Name = result.Data.Name;
             return PartialView("DeleteUser", Id);
@@ -83,14 +121,27 @@ namespace CromWood.Controllers
         /// </summary>
         public async Task<IActionResult> DeleteUser(Guid Id)
         {
+            var havePermission = await _authService.CheckPermission(PermissionKeyConstant.UserManagement, PermissionConstant.CanDelete);
+            if (!havePermission)
+            {
+                return RedirectToAction("NotAuthorized", "Auth");
+            }
             var result = await _userService.DeleteUserById(Id);
             TempData["action"] = "deleted";
             TempData["userName"] = result.Data;
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// POST: This method will take action as a post request to change user role.
+        /// </summary>
         public async Task<IActionResult> ChangeRole(Guid userId, Guid roleId)
         {
+            var havePermission = await _authService.CheckPermission(PermissionKeyConstant.UserManagement, PermissionConstant.CanWrite);
+            if (!havePermission)
+            {
+                return RedirectToAction("NotAuthorized", "Auth");
+            }
             await _userService.ChangeUserRole(userId, roleId);
             return RedirectToAction("Index");
         }

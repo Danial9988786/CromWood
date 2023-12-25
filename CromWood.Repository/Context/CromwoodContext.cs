@@ -23,9 +23,9 @@ namespace CromWood.Data.Context
         public CromwoodContext(DbContextOptions options, IHttpContextAccessor httpContextAccessor) : base(options)
         {
             _httpContextAccessor = httpContextAccessor;
-            if(_httpContextAccessor?.HttpContext !=null)
+            if (_httpContextAccessor?.HttpContext != null)
                 if (_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
-                    UserId = Guid.Parse(IdentityExtension.GetId(_httpContextAccessor.HttpContext.User.Identity));
+                    UserId = IdentityExtension.GetId(_httpContextAccessor.HttpContext.User);
         }
 
         public DbSet<Test> Tests { get; set; }

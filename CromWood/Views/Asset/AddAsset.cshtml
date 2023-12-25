@@ -10,9 +10,492 @@
 
     var asyncAssetType = await _lookupAService.GetAllItems();
     var assetTypes = new SelectList(asyncAssetType.Data, "Id", "Name");
-}
 
+    string title = Model.Id == Guid.Empty ? "Add New Asset" : "Edit Asset";
+}
 <div class="modal-content rounded-0">
+    <div class="modal-header py-2 position-relative w-100 bg-white">
+        <h5 class="modal-title" id="staticBackdropLabel">@title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body p-0">
+        <div class="mutli_steps_f">
+            <div class="border pt-4 rounded mx-3 mt-3">
+                <div class="step__f d-flex">
+                    <div class="step">
+                        <div class="bullet">
+                            <span>
+                                <span class="s_n">1</span>
+                                <span class="s_tick">
+                                    <img src="~/assets/img/tick-icon.svg" alt="tick-">
+                                </span>
+                            </span>
+                        </div>
+                        <p>
+                            Address Details
+                        </p>
+                    </div>
+                    <div class="step">
+                        <div class="bullet">
+                            <span>
+                                <span class="s_n">2</span>
+                                <span class="s_tick">
+                                    <img src="~/assets/img/tick-icon.svg" alt="tick-">
+                                </span>
+                            </span>
+                        </div>
+                        <p>
+                            Valuation & Ownership
+                        </p>
+                    </div>
+                    <div class="step">
+                        <div class="bullet">
+                            <span>
+                                <span class="s_n">3</span>
+                                <span class="s_tick">
+                                    <img src="~/assets/img/tick-icon.svg" alt="tick-">
+                                </span>
+                            </span>
+                        </div>
+                        <p>
+                            Financial Details
+                        </p>
+                    </div>
+                    <div class="step">
+                        <div class="bullet">
+                            <span>
+                                <span class="s_n">4</span>
+                                <span class="s_tick">
+                                    <img src="~/assets/img/tick-icon.svg" alt="tick-">
+                                </span>
+                            </span>
+                        </div>
+                        <p>
+                            Landlord/ Management
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form___info mt-3">
+                <form asp-action="AddAsset">
+                    <!---------  Address Details form start here ----------->
+                    <fieldset>
+                        <div class="p-3 pt-0">
+                            <div class="border rounded p-3">
+                                <h5 class="text-cpitlize">Address Details</h5>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div class="mb-3">
+                                            <label for="pro-code" class="form-label">
+                                                Property Code 
+                                                <span class="form-text label_sm-text">
+                                                    (Auto Generated)
+                                                </span>
+                                            </label>
+                                            @Html.HiddenFor(m=>m.AssetId)
+                                            <input asp-for="@Model.AssetId" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="exampleFormControlInput1"
+                                                   class="form-label">Asset Type</label>
+                                            <select class="form-select" asp-for="@Model.AssetTypeId" asp-items="assetTypes" aria-label="Default select example">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="house-no" class="form-label">
+                                                House No. &
+                                                Street
+                                            </label>
+                                            <input type="text" class="form-control" asp-for="@Model.HouseNoStreet"
+                                                   placeholder="House No. & Street Address" id="house-no"
+                                                   aria-describedby="house-no-Help">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label for="Locality" class="form-label">Locality</label>
+                                            <input type="text" class="form-control" asp-for="@Model.Locality"
+                                                   placeholder="Locality" id="Locality"
+                                                   aria-describedby="Locality-Help">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="Borough" class="form-label">Borough</label>
+                                            <input type="text" class="form-control" asp-for="@Model.Borough"
+                                                   placeholder="Borough" id="Borough"
+                                                   aria-describedby="Borough-Help">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="post-code" class="form-label">Post Code</label>
+                                            <input type="text" class="form-control" asp-for="@Model.PostCode"
+                                                   placeholder="Post Code" id="post-code"
+                                                   aria-describedby="Post Code-Help">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="border-top px-3 pt-2 pb-3 d-flex justify-content-end">
+                            <div class="custom__btn2">
+                                <a href="#" class="step_nextbtn">
+                                    Next, Valuation & Ownership
+                                    <img class="ps-2" src="~/assets/img/right_white_aroow_Icon.svg"
+                                         alt="right__arrow">
+                                </a>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!---------  Address Details form end here ----------->
+                    <!---------  Valuation & Ownership form start here ----------->
+                    <fieldset>
+                        <div class="p-3 pt-0">
+                            <div class="border rounded p-3">
+                                <h5 class="text-cpitlize">Valuation & Ownership</h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="title-number" class="form-label">Title Number</label>
+                                            <input class="form-control" asp-for="@Model.TitleNumber"
+                                                   placeholder="Title Number" id="title-number"
+                                                   aria-describedby="Title Number-Help">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="ownership" class="form-label">Ownership</label>
+                                            <input type="text" class="form-control" asp-for="@Model.Ownership"
+                                                   placeholder="Ownership" id="Owner_ship"
+                                                   aria-describedby="Ownership-Help">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="Borough" class="form-label">Acquisition Date</label>
+                                            <input type="date" class="form-control" asp-for="@Model.AquisitionDate"
+                                                   placeholder="Select Acquisition Date" id="acquisition-date"
+                                                   aria-describedby="Acquisition Date-Help">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="purchase-price" class="form-label">Purchase Price</label>
+                                            <input type="number" class="form-control" asp-for="@Model.PurchasePrice"
+                                                   placeholder="£ Enter Amount" id="Owner_ship"
+                                                   aria-describedby="Purchase Price-Help">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="valuation" class="form-label">Valuation</label>
+                                            <input type="number" class="form-control" asp-for="@Model.Valuation"
+                                                   placeholder="£ Enter Amount" id="valuation"
+                                                   aria-describedby="Valuation-Help">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="valuation-date" class="form-label">Valuation Date</label>
+                                            <input type="date" class="form-control" asp-for="@Model.ValuationDate"
+                                                   placeholder="Select Valuation Date" id="valuation-date"
+                                                   aria-describedby="Valuation Date-Help">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="Reinstatement" class="form-label">Reinstatement</label>
+                                            <input type="text" class="form-control" asp-for="@Model.Reinstatement"
+                                                   placeholder="Enter Reinstatement" id="reinstatement"
+                                                   aria-describedby="Reinstatement-Help">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border-top px-3 pt-2 pb-3 d-flex justify-content-between">
+                            <div class="custom__btn">
+                                <a href="#" class="stepbackbtn">
+                                    <img class="pe-2" src="~/assets/img/back_black-arrow.svg"
+                                         alt="back-arrow">
+                                    back, Address details
+                                </a>
+                            </div>
+                            <div class="custom__btn2">
+                                <a href="#" class="step_nextbtn">
+                                    Next, Financial Details
+                                    <img class="ps-2" src="~/assets/img/right_white_aroow_Icon.svg"
+                                         alt="right__arrow">
+                                </a>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!---------  Valuation & Ownership form end here ----------->
+                    <!---------  Financial Details form start here ----------->
+                    <fieldset>
+                        <div class="p-3 pt-0">
+                            <div class="border rounded p-3">
+                                <h5 class="text-cpitlize">Financial Details</h5>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label for="Lender" class="form-label">Lender</label>
+                                            <input type="text" class="form-control" asp-for="@Model.Lender"
+                                                   placeholder="Lender Name" id="lender-name"
+                                                   aria-describedby="Lender Name-Help">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label for="Chargee" class="form-label">Chargee</label>
+                                            <input type="text" class="form-control" asp-for="@Model.Chargee"
+                                                   placeholder="Chargee Name" id="chargee-name"
+                                                   aria-describedby="Chargee-Help">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="Date of Charge" class="form-label">
+                                                Date of
+                                                Charge
+                                            </label>
+                                            <input type="date" class="form-control" asp-for="@Model.DateOfCharge"
+                                                   placeholder="Select Date of Charge" id="Date of Charge"
+                                                   aria-describedby="Date of Charge-Help">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="exampleFormControlInput1"
+                                                   class="form-label">Program</label>
+                                            <select class="form-select" asp-for="@Model.FinancialPrgoramId" asp-items="financialPrograms" aria-label="Default select example">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label for="grant-provider" class="form-label">Grant Provider</label>
+                                            <input type="text" class="form-control" asp-for="@Model.GrantProvider"
+                                                   placeholder="Grant Provider Name" id="grant-provider"
+                                                   aria-describedby="Grant Provider Name-Help">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="Attributable Grant" class="form-label">
+                                                Attributable
+                                                Grant
+                                            </label>
+                                            <input type="number" class="form-control" asp-for="@Model.AttributableGrant"
+                                                   placeholder="£ Enter Amount" id="Attributable Grant"
+                                                   aria-describedby="Attributable Grant-Help">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="Construction Period" class="form-label">
+                                                Construction
+                                                Period
+                                            </label>
+                                            <input type="text" class="form-control" asp-for="@Model.ConstructionPeriod"
+                                                   placeholder="Construction Period" id="Construction Period"
+                                                   aria-describedby="Construction Period-Help">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="">
+                                            <span>Builiding Insurance Responsibilty</span>
+                                            <div class="row pt-3 pb-4">
+                                                <div class="col-md-2">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="checkbox"
+                                                               asp-for="@Model.LandlordResponsible" value="option1">
+                                                        <label class="form-check-label"
+                                                               for="inlineCheckbox1">Landloard</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="checkbox"
+                                                               asp-for="@Model.FreeholderResponsible" value="option1">
+                                                        <label class="form-check-label"
+                                                               for="inlineCheckbox1">Freeholder</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="checkbox"
+                                                               asp-for="@Model.OwnerResponsible" value="option1">
+                                                        <label class="form-check-label"
+                                                               for="inlineCheckbox1">
+                                                            Asset Owner
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="border-top px-3 pt-2 pb-3 d-flex justify-content-between">
+                            <div class="custom__btn">
+                                <a href="#" class="stepbackbtn">
+                                    <img class="pe-2" src="~/assets/img/back_black-arrow.svg"
+                                         alt="back-arrow">
+                                    back, Valuation & Ownership
+                                </a>
+                            </div>
+                            <div class="custom__btn2">
+                                <a href="#" class="step_nextbtn">
+                                    Next, Landlord/ Management
+                                    <img class="ps-2" src="~/assets/img/right_white_aroow_Icon.svg"
+                                         alt="right__arrow">
+                                </a>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!---------  Financial Details form end here ----------->
+                    <!---------  Landlord/ Management form start here ----------->
+                    <fieldset>
+                        <div class="p-3 pt-0">
+                            <div class="border rounded p-3">
+                                <h5 class="text-cpitlize">Landlord/ Management</h5>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label for="Landlord" class="form-label">Landlord</label>
+                                            <input type="text" class="form-control" asp-for="@Model.LandlordName"
+                                                   placeholder="Landlord Name" id="Landlord"
+                                                   aria-describedby="Landlord-Help">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label for="Managing Agent" class="form-label">Managing Agent</label>
+                                            <input type="text" class="form-control" asp-for="@Model.ManagingAgent"
+                                                   placeholder="Managing Agent Name" id="Managing Agent"
+                                                   aria-describedby="Managing Agent-Help">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label for="Landlord" class="form-label">Managing Agent Address</label>
+                                            <input type="text" class="form-control" asp-for="@Model.ManagingAgentHouseNoStreet"
+                                                   placeholder="House No. & Street Address" id="Landlord"
+                                                   aria-describedby="Landlord-Help">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control" asp-for="@Model.ManagingAgentLocality"
+                                                   placeholder="Locality" id=""
+                                                   aria-describedby="Locality-Help">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control" asp-for="@Model.ManagingAgentBorough"
+                                                   placeholder="Borough" id="Borough"
+                                                   aria-describedby="Borough-Help">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control" asp-for="@Model.ManagingAgentPostCode"
+                                                   placeholder="Post Code" id="house-no"
+                                                   aria-describedby="Post Code-Help">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="Landlord" class="form-label">Lease Term</label>
+                                            <input type="date" class="form-control" asp-for="@Model.LeaseTerm"
+                                                   placeholder="Select Lease Term Date" id="Select Lease Term Date"
+                                                   aria-describedby="Select Lease Term Date-Help">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="Landlord" class="form-label">Lease Expiry</label>
+                                            <input type="date" class="form-control" asp-for="@Model.LeaseExpiry"
+                                                   placeholder="Select Lease Expiry Date" id="house-no"
+                                                   aria-describedby="Select Lease Expiry Date-Help">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="Landlord" class="form-label">Lease Length</label>
+                                            <p>18 months</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border-top px-3 pt-2 pb-3 d-flex justify-content-between">
+                            <div class="custom__btn">
+                                <a href="#" class="stepbackbtn">
+                                    <img class="pe-2" src="~/assets/img/back_black-arrow.svg"
+                                         alt="back-arrow">
+                                    back, Financial Details
+                                </a>
+                            </div>
+                            <div class="custom__btn2">
+                                <a onclick="submitBtn.click()" class="step_nextbtn">
+                                    <img class="pe-1" src="~/assets/img/save-role.svg" alt="right__arrow">
+                                    save Asset
+                                </a>
+                                <input id="submitBtn" type="submit" hidden />
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!---------  Landlord/ Management form end here ----------->
+                </form>
+            </div>
+        </div>
+        <!------- multi steps form end here --------->
+
+    </div>
+</div>
+
+
+@* <div class="modal-content rounded-0">
     <div class="modal-header py-2">
         <h5 class="modal-title" id="staticBackdropLabel">Add Asset</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -188,5 +671,46 @@
             </div>
         </form>
     </div>
-</div>
+</div> *@
 
+<script>
+    $(document).ready(function () {
+
+        var currentIndex = 0;
+
+        $('.step_nextbtn').click(function () {
+            // Remove the active class from the current item
+            $('.step__f .step').eq(currentIndex).removeClass('active');
+            $('.form___info form fieldset').eq(currentIndex).removeClass('active');
+
+            // Increment the index or reset to 0 if it exceeds the number of items
+            currentIndex = (currentIndex + 1) % $('.step__f .step').length;
+            // currentIndex = (currentIndex + 1) % $('.form___info form fieldset').length;
+
+            // Add the active class to the next item
+            $('.step__f .step').eq(currentIndex).addClass('active');
+            $('.step__f .step').eq(currentIndex).addClass('pass');
+            $('.form___info form fieldset').eq(currentIndex).addClass('active');
+        });
+
+        $('.stepbackbtn').click(function () {
+            // Remove the active class from the current item
+            $('.step__f .step').eq(currentIndex).removeClass('active');
+            $('.form___info form fieldset').eq(currentIndex).removeClass('active');
+
+            // Decrement the index or set to the last item if it goes below 0
+            currentIndex = (currentIndex - 1 + $('.step__f .step').length) % $('.step__f .step').length;
+
+            // Add the active class to the previous item
+            $('.step__f .step').eq(currentIndex).addClass('active');
+            $('.form___info form fieldset').eq(currentIndex).addClass('active');
+        });
+
+        // Set the first items as active initially
+        $('.step__f .step:first-child').addClass('active');
+        $('.step__f .step:first-child').addClass('pass');
+        // $('.step__f .step:last-child').removeClass('pass');
+        $('.form___info form fieldset:first-child').addClass('active');
+
+    });
+</script>

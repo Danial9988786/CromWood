@@ -84,8 +84,8 @@ namespace CromWood.Business.Services.Implementation
         {
             try
             {
-                await _userRepo.BlockUserById(Id);
-                return ResponseCreater<string>.CreateSuccessResponse(null, "User blocked successfully");
+                var result = await _userRepo.BlockUserById(Id);
+                return ResponseCreater<string>.CreateSuccessResponse(result, "User blocked successfully");
             }
             catch (Exception ex)
             {

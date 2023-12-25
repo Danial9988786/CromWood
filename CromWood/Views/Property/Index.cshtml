@@ -1,8 +1,12 @@
-﻿@model IEnumerable<CromWood.Business.Models.PropertyViewModel>
+﻿@using CromWood.Business.Constants;
+@using CromWood.Business.Services.Interface;
+@model IEnumerable<CromWood.Business.Models.PropertyViewModel>
+@inject IAuthService _authService;
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var havePermission = await _authService.CheckPermission(PermissionKeyConstant.AssetManagement, PermissionConstant.CanWrite);
 }
 
 <ol class="breadcrumb mb-3 mt-3">
@@ -33,16 +37,16 @@
 <!-------filter start here --- -->
 <div class="filter_btn text-end me-3">
     <a class="" href="#" role="button" id="fil_ter" data-bs-toggle="dropdown" aria-expanded="false">
-        <img class="pe-1" src="./assets/img/filter-lines.svg" alt="user__iocn">
+        <img class="pe-1" src="~/assets/img/filter-lines.svg" alt="user__iocn">
         Filter
-        <img class="ps-2" src="./assets/img/filter_down_arrow.svg">
+        <img class="ps-2" src="~/assets/img/filter_down_arrow.svg">
     </a>
 
     <div class="filter___c dropdown-menu dropdown-menu-end shadow border rounded-0 p-3"
          aria-labelledby="fil_ter">
         <div class="input-group mb-3">
             <span class="input-group-text bg-transparent" id="srf">
-                <img src="./assets/img/search-gray.svg" alt="search_iocn">
+                <img src="~/assets/img/search-gray.svg" alt="search_iocn">
             </span>
             <input type="text" class="form-control border-start-0 ps-0"
                    placeholder="Search for filters" aria-label="Username" aria-describedby="srf">
@@ -54,10 +58,10 @@
                     <span>My Filter 1</span>
                     <span class="i__gro">
                         <span class="ed pe-2">
-                            <img src="./assets/img/Edit_white_Icon.svg" alt="edit">
+                            <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
                         </span>
                         <span class="de">
-                            <img src="./assets/img/delete_white_Icon.svg" alt="delete">
+                            <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
                         </span>
                     </span>
                 </a>
@@ -68,17 +72,17 @@
                     <span>My Filter 2</span>
                     <span class="i__gro">
                         <span class="ed pe-2">
-                            <img src="./assets/img/Edit_white_Icon.svg" alt="edit">
+                            <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
                         </span>
                         <span class="de">
-                            <img src="./assets/img/delete_white_Icon.svg" alt="delete">
+                            <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
                         </span>
                     </span>
                 </a>
             </li>
         </ul>
         <div class="mark__btn text-center">
-            <img class="me-1" src="./assets/img/green__plus_icon.svg" />
+            <img class="me-1" src="~/assets/img/green__plus_icon.svg" />
             <a href="#" class="text-uppercase">add new Filter</a>
         </div>
     </div>
@@ -132,7 +136,7 @@
         </tbody>
     </table>
 </div>
-<!-- ----- Property Management table end here ---- -->
+<!-- ----- Property Management table end here ------->
 
 
 <div class="modal fade" id="propertyDialog">
@@ -143,6 +147,13 @@
 
 <script>
     function CreateProperty() {
+        var havePermission = '@havePermission.ToString()';
+        if (havePermission == 'False') {
+            $.get('/Auth/NotAuthorizedJSON', function (result) {
+                window.location.pathname = "/Auth/NotAuthorized"
+            });
+            return;
+        }
         var url = "/Property/AddProperty";
         $("#propertyDialogBody").load(url, function () {
             // This is done to add validation to partial view, as they don't support validationscript partial.

@@ -5,7 +5,7 @@ using CromWood.Business.Services.Interface;
 using CromWood.Business.ViewModels;
 using CromWood.Data.Entities;
 using CromWood.Data.Repository.Interface;
-using System.Data;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace CromWood.Business.Services.Implementation
 {
@@ -13,10 +13,12 @@ namespace CromWood.Business.Services.Implementation
     {
         private readonly IRolePermissionRepository _roleRepo;
         private readonly IMapper _mapper;
-        public RolePermissionService(IRolePermissionRepository roleRepo, IMapper mapper)
+        private readonly IMemoryCache _cache;
+        public RolePermissionService(IRolePermissionRepository roleRepo, IMapper mapper, IMemoryCache cache)
         {
             _roleRepo = roleRepo;
             _mapper = mapper;
+            _cache = cache;
         }
 
         public async Task<AppResponse<IEnumerable<PermissionModel>>> GetPermissionsAsync()
@@ -54,6 +56,9 @@ namespace CromWood.Business.Services.Implementation
                 var mappedRole = _mapper.Map<Role>(role);
                 mappedRole.Permissions.ToList().ForEach(x => x.Permission = null);
                 await _roleRepo.AddRole(mappedRole);
+
+                // If new Role is added, role_permission cache is cleared to keep this upto date.
+                _cache.Remove("role_permission");
                 return ResponseCreater<string>.CreateSuccessResponse(null, "Roles added successfully.");
             }
             catch (Exception ex)
@@ -83,6 +88,8 @@ namespace CromWood.Business.Services.Implementation
                 var mappedRole = _mapper.Map<Role>(role);
                 mappedRole.Permissions.ToList().ForEach(x => x.Permission = null);
                 await _roleRepo.EditRole(mappedRole);
+                // If new Role is edited, role_permission cache is cleared to keep this upto date.
+                _cache.Remove("role_permission");
                 return ResponseCreater<string>.CreateSuccessResponse(null, "Roles added successfully.");
             }
             catch (Exception ex)
@@ -96,6 +103,8 @@ namespace CromWood.Business.Services.Implementation
             try
             {
                 await _roleRepo.DeleteAsync(Id);
+                // If new Role is deleted, role_permission cache is cleared to keep this upto date.
+                _cache.Remove("role_permission");
                 return ResponseCreater<string>.CreateSuccessResponse(null, "Roles deleted successfully.");
             }
             catch (Exception ex)

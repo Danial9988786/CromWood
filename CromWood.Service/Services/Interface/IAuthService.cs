@@ -9,5 +9,6 @@ namespace CromWood.Business.Services.Interface
         public UserClaimModel GetCurrentUser(ClaimsPrincipal identity);
         public Task<AppResponse<string>> Login(LoginModel login);
         public Task<AppResponse<string>> Logout();
+        public Task<bool> CheckPermission(string permissionKey, string permissionMatch);
     }
 }

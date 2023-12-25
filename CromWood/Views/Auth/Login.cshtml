@@ -5,27 +5,33 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Login</h1>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-5">
+            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
+                <div class="card-body">
+                    <form asp-action="Login" formaction="POST">
+                        @Html.HiddenFor(m=>m.ReturnUrl)
+                        <div class="form-floating mb-3">
+                            <input asp-for="@Model.Email" class="form-control" id="inputEmail" type="email" placeholder="name@example.com" />
+                            <label for="inputEmail">Email address</label>
+                            <span asp-validation-for="Email" class="text-danger"></span>
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Login" formaction="POST">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="@Model.Password" class="form-control" id="inputPassword" type="password" placeholder="Password" />
+                            <label for="inputPassword">Password</label>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                            <input type="submit" value="Login" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 

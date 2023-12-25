@@ -1,8 +1,13 @@
-﻿@model IEnumerable<CromWood.Business.Models.AssetViewModel>
+﻿@using CromWood.Business.Constants;
+@using CromWood.Business.Services.Interface;
+@model IEnumerable<CromWood.Business.Models.AssetViewModel>
+@inject IAuthService _authService;
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var havePermission = await _authService.CheckPermission(PermissionKeyConstant.AssetManagement, PermissionConstant.CanWrite);
 }
 <ol class="breadcrumb mb-3 mt-3">
     <li class="breadcrumb-item">
@@ -132,6 +137,13 @@
 
 <script>
     function CreateAsset() {
+        var havePermission = '@havePermission.ToString()';
+        if (havePermission == 'False') {
+            $.get('/Auth/NotAuthorizedJSON', function (result) {
+                window.location.pathname="/Auth/NotAuthorized"
+            });
+            return;
+        }
         var url = "/Asset/AddAsset";
         $("#assetDialogBody").load(url, function () {
             // This is done to add validation to partial view, as they don't support validationscript partial.
@@ -139,6 +151,7 @@
                 $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
                 });
             });
+            $("#assetDialogBody").css("max-width", "950px");
             $("#assetDialogBody").css("width", "100%");
             $("#assetDialog").modal("show");
         });

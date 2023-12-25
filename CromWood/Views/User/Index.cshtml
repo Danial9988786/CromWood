@@ -1,5 +1,7 @@
-﻿@using CromWood.Business.Services.Interface;
+﻿@using CromWood.Business.Constants;
+@using CromWood.Business.Services.Interface;
 @inject IRolePermissionService _rolePermisssion;
+@inject IAuthService _authService;
 @model IEnumerable<CromWood.Business.Models.UserViewModel>
 
 @{
@@ -8,6 +10,8 @@
     string userName = ViewBag.UserName;
     var asyncRoles = await _rolePermisssion.GetRolesAsync();
     var roles = new SelectList(asyncRoles.Data, "Id", "Name");
+    var havePermission = await _authService.CheckPermission(PermissionKeyConstant.AssetManagement, PermissionConstant.CanWrite);
+    var haveDeletePermission = await _authService.CheckPermission(PermissionKeyConstant.AssetManagement, PermissionConstant.CanWrite);
 }
 
 <div class="tab-pane fade show border border-top-0 active bg-white" id="nav-user-list">
@@ -230,6 +234,14 @@
     });
 
     function InviteUser(Id) {
+        var havePermission = '@havePermission.ToString()';
+        if (havePermission == 'False') {
+            $.get('/Auth/NotAuthorizedJSON', function (result) {
+                window.location.pathname = "/Auth/NotAuthorized"
+            });
+            return;
+        }
+
         var url = "/User/InviteUser";
         $("#userDialogBody").load(url, function () {
             // This is done to add validation to partial view, as they don't support validationscript partial.
@@ -242,6 +254,13 @@
     }
 
     function BlockUser(Id) {
+        var havePermission = '@havePermission.ToString()';
+        if (havePermission == 'False') {
+            $.get('/Auth/NotAuthorizedJSON', function (result) {
+                window.location.pathname = "/Auth/NotAuthorized"
+            });
+            return;
+        }
         var url = "/User/BlockUserModal?Id=" + Id;
         $("#userDialogBody").load(url, function () {
             $("#userDialog").modal("show");
@@ -249,6 +268,13 @@
     }
 
     function DeleteUser(Id) {
+        var havePermission = '@haveDeletePermission.ToString()';
+        if (havePermission == 'False') {
+            $.get('/Auth/NotAuthorizedJSON', function (result) {
+                window.location.pathname = "/Auth/NotAuthorized"
+            });
+            return;
+        }
         var url = "/User/DeleteUserModal?Id=" + Id;
         $("#userDialogBody").load(url, function () {
             $("#userDialog").modal("show");
@@ -256,6 +282,13 @@
     }
 
     function changeRole(userId) {
+        var havePermission = '@havePermission.ToString()';
+        if (havePermission == 'False') {
+            $.get('/Auth/NotAuthorizedJSON', function (result) {
+                window.location.pathname = "/Auth/NotAuthorized"
+            });
+            return;
+        }
         var roleId = $("#roleDropdown").val();
         $.ajax({
             type: "POST",

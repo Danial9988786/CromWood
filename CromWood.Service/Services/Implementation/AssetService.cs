@@ -62,5 +62,20 @@ namespace CromWood.Business.Services.Implementation
                 return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
             }
         }
+
+        public async Task<AppResponse<int>> EditAsset(AssetModel asset)
+        {
+            try
+            {
+                var mappedAsset = _mapper.Map<Asset>(asset);
+                var result = await _assetRepository.EditAsset(mappedAsset);
+                return ResponseCreater<int>.CreateSuccessResponse(result, "Asset edited successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
+        }
     }
 }

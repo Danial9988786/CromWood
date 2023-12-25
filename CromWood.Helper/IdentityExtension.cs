@@ -1,18 +1,18 @@
 ﻿using System.Security.Claims;
-using System.Security.Principal;
 
 namespace CromWood.Helper
 {
 
     public static class IdentityExtension
     {
-        public static string GetId(this IIdentity identity)
+        public static Guid GetId(ClaimsPrincipal identity)
         {
-            ClaimsIdentity claimsIdentity = identity as ClaimsIdentity;
+            return Guid.Parse(identity.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value.ToString());
+        }
 
-            Claim claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-
-            return claim.Value;
+        public static Guid GetRoleId(ClaimsPrincipal identity)
+        {
+            return Guid.Parse(identity.Claims.First(x => x.Type == ClaimTypes.Role).Value);
         }
     }
 }

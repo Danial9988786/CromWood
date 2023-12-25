@@ -1,36 +1,548 @@
-﻿@model IEnumerable<CromWood.Business.ViewModels.TestModel>
-
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
 @{
-    ViewData["Title"] = "Index";
 }
 
 <h1 class="mt-4 mb-3 custom_h">Dashboard</h1>
+<!-- <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Dashboard</li>
+    </ol> -->
+<div class="row pb-3 top___card">
+    <div class="col-xl-3 col-md-6">
+        <div class="card_box border rounded p-3 bg-white">
+            <div class="row pb-3">
+                <span class="g-text-color ov__text">Overview of April 22 - March 23</span>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    <h3>£ 46,589.00</h3>
+                    <span class="per__cetage" style="color:#41BD00;">
+                        <img class="me-1" src="./assets/img/green__arrow.svg" />
+                        5.8%
+                    </span>
+                </div>
+                <div class="col-4 text-end">
+                    <div class="mb-3">
+                        <img class="me-1" src="./assets/img/green__data_bar.svg" />
+                    </div>
+                    <span class="money__t">Money In</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card_box border rounded p-3 bg-white">
+            <div class="row pb-3">
+                <span class="g-text-color ov__text">Overview of April 22 - March 23</span>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    <h3>£ 36,589.00</h3>
+                    <span class="per__cetage" style="color:#FF0031;">
+                        <img class="me-1" src="./assets/img/red__arrow.svg" />
+                        5.8%
+                    </span>
+                </div>
+                <div class="col-4 text-end">
+                    <div class="mb-3">
+                        <img src="./assets/img/red__data_bar.svg" />
+                    </div>
+                    <span class="money__t">Money In</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card_box border rounded p-3 bg-white">
+            <div class="row pb-3">
+                <span class="g-text-color ov__text">Last 30 Days</span>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    <h3>£ 24,840.00</h3>
+                    <span class="per__cetage">Paid Invoices</span>
+                </div>
+                <div class="col-4 text-end">
+                    <div class="mb-3 p_invoic">
+                        <img src="./assets/img/last_day_erning.svg" />
+                    </div>
+                    <span class="money__t">Inward Payments</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card_box border rounded p-3 bg-white">
+            <div class="row pb-3">
+                <span class="g-text-color ov__text">Overview of April 22 - March 23</span>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    <h3>£ 8,420.00</h3>
+                    <span class="per__cetage">Open Invoices</span>
+                </div>
+                <div class="col-4 text-end">
+                    <div class="mb-3 p_invoic">
+                        <img src="./assets/img/Cash payment.svg" />
+                    </div>
+                    <span class="money__t">Invoices</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="row chart__bar">
+    <div class="col-xl-9">
+        <div class="card mb-4">
+            <div class="card-header border-bottom-0 py-4 bg-white">
+                <!-- <i class="fas fa-chart-bar me-1"></i> -->
+                <h4 class="heading-style">Property Revenue Overview</h4>
+                <span class="g-text-color ov__text">Overview of April 22 - March 23</span>
+            </div>
+            <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+        </div>
+    </div>
+    <div class="col-xl-3">
+        <div class="card rounder__c mb-4">
+            <div class="card-header border-bottom-0 py-4 bg-white">
+                <!-- <i class="fas fa-chart-area me-1"></i> -->
+                <h4 class="heading-style">Properties Overview</h4>
+            </div>
+            <div class="card-body">
+                <canvas id="myPieChart" width="100%" height="50"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-9">
+        <div class="card mb-4 tenancies_tt show_sort_1">
+            <div class="card-header border-0 bg-white">
+                <!-- <i class="fas fa-table me-1"></i> -->
+                <h4 class="heading-style pt-3">Tenancies</h4>
+            </div>
+            <div class="card-body  p-0">
+                <table id="datatablesSimple">
+                    <thead>
+                        <tr>
+                            <th class="ps-2">Tenancy ID</th>
+                            <th>Description</th>
+                            <th>Start/ End Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                    </tfoot>
+                    <tbody>
+                        <tr>
+                            <td class="main-text maintext_size ps-3">
+                                <a class="u_n main-text" href="#">112384</a>
+                            </td>
+                            <td class="main-text maintext_size">
+                                <a class="u_n main-text" href="#">
+                                    <img src="./assets/img/Location.svg" alt="">
+                                    25 Meadowford Close, London, Greenwich
+                                </a>
+                            </td>
+                            <td class="mdblacktext">
+                                <p class="mb-0">16 Jan 2023</p>
+                                <p class="mb-0">16 May 2024</p>
+                            </td>
+                            <td class="pe-4 align-middle">
+                                <div class="acti_vites ongoing ">
+                                    <img class="pe-1" src="./assets/img/ongoing.svg" alt="">
+                                    Ongoing
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="main-text maintext_size ps-3">
+                                <a class="u_n main-text" href="#">112384</a>
+                            </td>
+                            <td class="main-text maintext_size">
+                                <a class="u_n main-text" href="#">
+                                    <img src="./assets/img/Location.svg" alt="">
+                                    25 Meadowford Close, London, Greenwich
+                                </a>
+                            </td>
+                            <td class="mdblacktext">
+                                <p class="mb-0">16 Jan 2023</p>
+                                <p class="mb-0">16 May 2024</p>
+                            </td>
+                            <td class="pe-4 align-middle">
+                                <div class="acti_vites past">
+                                    <img class="pe-1" src="./assets/img/past.svg" alt="">
+                                    Past
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="main-text maintext_size ps-3">
+                                <a class="u_n main-text" href="#">112384</a>
+                            </td>
+                            <td class="main-text maintext_size">
+                                <a class="u_n main-text" href="#">
+                                    <img src="./assets/img/Location.svg" alt="">
+                                    25 Meadowford Close, London, Greenwich
+                                </a>
+                            </td>
+                            <td class="mdblacktext">
+                                <p class="mb-0">16 Jan 2023</p>
+                                <p class="mb-0">16 May 2024</p>
+                            </td>
+                            <td class="pe-4 align-middle">
+                                <div class="acti_vites rent">
+                                    <img class="pe-1" src="./assets/img/rent.svg" alt="">
+                                    Rent Arrear
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="main-text maintext_size ps-3">
+                                <a class="u_n main-text" href="#">112384</a>
+                            </td>
+                            <td class="main-text maintext_size">
+                                <a class="u_n main-text" href="#">
+                                    <img src="./assets/img/Location.svg" alt="">
+                                    25 Meadowford Close, London, Greenwich
+                                </a>
+                            </td>
+                            <td class="mdblacktext">
+                                <p class="mb-0">16 Jan 2023</p>
+                                <p class="mb-0">16 May 2024</p>
+                            </td>
+                            <td class="pe-4 align-middle">
+                                <div class="acti_vites ongoing ">
+                                    <img class="pe-1" src="./assets/img/ongoing.svg" alt="">
+                                    Ongoing
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="main-text maintext_size ps-3">
+                                <a class="u_n main-text" href="#">112384</a>
+                            </td>
+                            <td class="main-text maintext_size">
+                                <a class="u_n main-text" href="#">
+                                    <img src="./assets/img/Location.svg" alt="">
+                                    25 Meadowford Close, London, Greenwich
+                                </a>
+                            </td>
+                            <td class="mdblacktext">
+                                <p class="mb-0">16 Jan 2023</p>
+                                <p class="mb-0">16 May 2024</p>
+                            </td>
+                            <td class="pe-4 align-middle">
+                                <div class="acti_vites ongoing ">
+                                    <img class="pe-1" src="./assets/img/ongoing.svg" alt="">
+                                    Ongoing
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="main-text maintext_size ps-3">
+                                <a class="u_n main-text" href="#">112384</a>
+                            </td>
+                            <td class="main-text maintext_size">
+                                <a class="u_n main-text" href="#">
+                                    <img src="./assets/img/Location.svg" alt="">
+                                    25 Meadowford Close, London, Greenwich
+                                </a>
+                            </td>
+                            <td class="mdblacktext">
+                                <p class="mb-0">16 Jan 2023</p>
+                                <p class="mb-0">16 May 2024</p>
+                            </td>
+                            <td class="pe-4 align-middle">
+                                <div class="acti_vites ongoing ">
+                                    <img class="pe-1" src="./assets/img/ongoing.svg" alt="">
+                                    Ongoing
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="main-text maintext_size ps-3">
+                                <a class="u_n main-text" href="#">112384</a>
+                            </td>
+                            <td class="main-text maintext_size">
+                                <a class="u_n main-text" href="#">
+                                    <img src="./assets/img/Location.svg" alt="">
+                                    25 Meadowford Close, London, Greenwich
+                                </a>
+                            </td>
+                            <td class="mdblacktext">
+                                <p class="mb-0">16 Jan 2023</p>
+                                <p class="mb-0">16 May 2024</p>
+                            </td>
+                            <td class="pe-4 align-middle">
+                                <div class="acti_vites ongoing ">
+                                    <img class="pe-1" src="./assets/img/ongoing.svg" alt="">
+                                    Ongoing
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="main-text maintext_size ps-3">
+                                <a class="u_n main-text" href="#">112384</a>
+                            </td>
+                            <td class="main-text maintext_size">
+                                <a class="u_n main-text" href="#">
+                                    <img src="./assets/img/Location.svg" alt="">
+                                    25 Meadowford Close, London, Greenwich
+                                </a>
+                            </td>
+                            <td class="mdblacktext">
+                                <p class="mb-0">16 Jan 2023</p>
+                                <p class="mb-0">16 May 2024</p>
+                            </td>
+                            <td class="pe-4 align-middle">
+                                <div class="acti_vites ongoing ">
+                                    <img class="pe-1" src="./assets/img/ongoing.svg" alt="">
+                                    Ongoing
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="main-text maintext_size ps-3">
+                                <a class="u_n main-text" href="#">00000</a>
+                            </td>
+                            <td class="main-text maintext_size">
+                                <a class="u_n main-text" href="#">
+                                    <img src="./assets/img/Location.svg" alt="">
+                                    25 Meadowford Close, London, Greenwich
+                                </a>
+                            </td>
+                            <td class="mdblacktext">
+                                <p class="mb-0">00000</p>
+                                <p class="mb-0">16 May 2024</p>
+                            </td>
+                            <td class="pe-4 align-middle">
+                                <div class="acti_vites ongoing ">
+                                    <img class="pe-1" src="./assets/img/ongoing.svg" alt="">
+                                    Ongoing
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="main-text maintext_size ps-3">
+                                <a class="u_n main-text" href="#">00000</a>
+                            </td>
+                            <td class="main-text maintext_size">
+                                <a class="u_n main-text" href="#">
+                                    <img src="./assets/img/Location.svg" alt="">
+                                    25 Meadowford Close, London, Greenwich
+                                </a>
+                            </td>
+                            <td class="mdblacktext">
+                                <p class="mb-0">00000</p>
+                                <p class="mb-0">16 May 2024</p>
+                            </td>
+                            <td class="pe-4 align-middle">
+                                <div class="acti_vites ongoing ">
+                                    <img class="pe-1" src="./assets/img/ongoing.svg" alt="">
+                                    Ongoing
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="main-text maintext_size ps-3">
+                                <a class="u_n main-text" href="#">00000</a>
+                            </td>
+                            <td class="main-text maintext_size">
+                                <a class="u_n main-text" href="#">
+                                    <img src="./assets/img/Location.svg" alt="">
+                                    25 Meadowford Close, London, Greenwich
+                                </a>
+                            </td>
+                            <td class="mdblacktext">
+                                <p class="mb-0">00000</p>
+                                <p class="mb-0">16 May 2024</p>
+                            </td>
+                            <td class="pe-4 align-middle">
+                                <div class="acti_vites ongoing ">
+                                    <img class="pe-1" src="./assets/img/ongoing.svg" alt="">
+                                    Ongoing
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="main-text maintext_size ps-3">
+                                <a class="u_n main-text" href="#">00000</a>
+                            </td>
+                            <td class="main-text maintext_size">
+                                <a class="u_n main-text" href="#">
+                                    <img src="./assets/img/Location.svg" alt="">
+                                    25 Meadowford Close, London, Greenwich
+                                </a>
+                            </td>
+                            <td class="mdblacktext">
+                                <p class="mb-0">00000</p>
+                                <p class="mb-0">16 May 2024</p>
+                            </td>
+                            <td class="pe-4 align-middle">
+                                <div class="acti_vites ongoing ">
+                                    <img class="pe-1" src="./assets/img/ongoing.svg" alt="">
+                                    Ongoing
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="main-text maintext_size ps-3">
+                                <a class="u_n main-text" href="#">00000</a>
+                            </td>
+                            <td class="main-text maintext_size">
+                                <a class="u_n main-text" href="#">
+                                    <img src="./assets/img/Location.svg" alt="">
+                                    25 Meadowford Close, London, Greenwich
+                                </a>
+                            </td>
+                            <td class="mdblacktext">
+                                <p class="mb-0">00000</p>
+                                <p class="mb-0">16 May 2024</p>
+                            </td>
+                            <td class="pe-4 align-middle">
+                                <div class="acti_vites ongoing ">
+                                    <img class="pe-1" src="./assets/img/ongoing.svg" alt="">
+                                    Ongoing
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="main-text maintext_size ps-3">
+                                <a class="u_n main-text" href="#">00000</a>
+                            </td>
+                            <td class="main-text maintext_size">
+                                <a class="u_n main-text" href="#">
+                                    <img src="./assets/img/Location.svg" alt="">
+                                    25 Meadowford Close, London, Greenwich
+                                </a>
+                            </td>
+                            <td class="mdblacktext">
+                                <p class="mb-0">00000</p>
+                                <p class="mb-0">16 May 2024</p>
+                            </td>
+                            <td class="pe-4 align-middle">
+                                <div class="acti_vites ongoing ">
+                                    <img class="pe-1" src="./assets/img/ongoing.svg" alt="">
+                                    Ongoing
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="main-text maintext_size ps-3">
+                                <a class="u_n main-text" href="#">00000</a>
+                            </td>
+                            <td class="main-text maintext_size">
+                                <a class="u_n main-text" href="#">
+                                    <img src="./assets/img/Location.svg" alt="">
+                                    25 Meadowford Close, London, Greenwich
+                                </a>
+                            </td>
+                            <td class="mdblacktext">
+                                <p class="mb-0">00000</p>
+                                <p class="mb-0">16 May 2024</p>
+                            </td>
+                            <td class="pe-4 align-middle">
+                                <div class="acti_vites ongoing ">
+                                    <img class="pe-1" src="./assets/img/ongoing.svg" alt="">
+                                    Ongoing
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3">
+        <div class="card rounder__c mb-4">
+            <div class="card-header border-bottom-0 pt-4 bg-white">
+                <!-- <i class="fas fa-chart-area me-1"></i> -->
+                <h4 class="heading-style">Recent Complaints</h4>
+            </div>
+            <div class="card-body border mx-2 mb-2 p-0 recent__c">
+                <!-- ---content box --- -->
+                <div class="rc__box p-3 border-bottom">
+                    <div class="row">
+                        <div class="col-9">
+                            <span class="main-text">CP3627</span>
+                        </div>
+                        <div class="col-3 text-end">
+                            <span class="c__bages badge rounded-pill p-2 text-black border ">New</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h5 class="text-black">Anti-Social Behaviour</h5>
+                        <span class="darkgray pb-2">Tenant Behaviour</span>
+                        <p class="smblacktext mb-1">Tenant (Allison Philips)</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <span class="smblacktext">22 Aug 2023</span>
+                        </div>
+                        <div class="col-6 text-end">
+                            <span class="darkgray">Jacob Hershberg</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- ---content box --- -->
+                <!-- ---content box --- -->
+                <div class="rc__box p-3 border-bottom">
+                    <div class="row">
+                        <div class="col-9">
+                            <span class="main-text">CP3627</span>
+                        </div>
+                        <div class="col-3 text-end">
+                            <span class="c__bages badge rounded-pill p-2 text-black border ">New</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h5 class="text-black">Anti-Social Behaviour</h5>
+                        <span class="darkgray pb-2">Tenant Behaviour</span>
+                        <p class="smblacktext mb-1">Tenant (Allison Philips)</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <span class="smblacktext">22 Aug 2023</span>
+                        </div>
+                        <div class="col-6 text-end">
+                            <span class="darkgray">Jacob Hershberg</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- ---content box --- -->
+                <!-- ---content box --- -->
+                <div class="rc__box p-3 border-bottom">
+                    <div class="row">
+                        <div class="col-9">
+                            <span class="main-text">CP3627</span>
+                        </div>
+                        <div class="col-3 text-end">
+                            <span class="c__bages badge rounded-pill p-2 text-black border ">New</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h5 class="text-black">Anti-Social Behaviour</h5>
+                        <span class="darkgray pb-2">Tenant Behaviour</span>
+                        <p class="smblacktext mb-1">Tenant (Allison Philips)</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <span class="smblacktext">22 Aug 2023</span>
+                        </div>
+                        <div class="col-6 text-end">
+                            <span class="darkgray">Jacob Hershberg</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- ---content box --- -->
+
+            </div>
+        </div>
+    </div>
+
+</div>

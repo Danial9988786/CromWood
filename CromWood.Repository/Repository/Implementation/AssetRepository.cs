@@ -18,15 +18,28 @@ namespace CromWood.Data.Repository.Implementation
 
         public async Task<Asset> GetAssetsOverView(Guid assetId)
         {
-            return await _context.Assets.Include(x=>x.AssetType).FirstOrDefaultAsync(x => x.Id == assetId);
+            return await _context.Assets.Include(x=>x.AssetType).Include(x=>x.FinancialPrgoram).FirstOrDefaultAsync(x => x.Id == assetId);
         }
 
         public async Task<int> AddAsset(Asset asset)
         {
             try
             {
-                asset.Id = Guid.NewGuid();
                 await _context.Assets.AddAsync(asset);
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<int> EditAsset(Asset asset)
+        {
+            try
+            {
+                _context.Assets.Update(asset);
                 await _context.SaveChangesAsync();
                 return 1;
             }

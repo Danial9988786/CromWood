@@ -1,7 +1,12 @@
-﻿@model IEnumerable<CromWood.Business.Models.RoleViewModel>
+﻿@using CromWood.Business.Constants;
+@using CromWood.Business.Services.Interface;
+@model IEnumerable<CromWood.Business.Models.RoleViewModel>
+@inject IAuthService _authService;
 
 @{
     ViewData["Title"] = "Role & Permission";
+    var havePermission = await _authService.CheckPermission(PermissionKeyConstant.RoleManagement, PermissionConstant.CanWrite);
+    var deletePermission = await _authService.CheckPermission(PermissionKeyConstant.RoleManagement, PermissionConstant.CanDelete);
 }
 
 <div class="tab-pane show fade border border-top-0 active" id="role_permission">
@@ -78,7 +83,15 @@
     });
 
     function CreateRole() {
-        var url = "/RolePermission/AddModifyRole";
+        const havePermission = '@havePermission.ToString()';
+        if (havePermission == 'False') {
+            $.get('/Auth/NotAuthorizedJSON', function (result) {
+                window.location.pathname = "/Auth/NotAuthorized"
+            });
+            return;
+        }
+
+        const url = "/RolePermission/AddModifyRole";
         $("#rolePermissionDialogBody").load(url, function () {
             // This is done to add validation to partial view, as they don't support validationscript partial.
             $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
@@ -93,7 +106,15 @@
     }
 
     function EditRole(Id) {
-        var url = "/RolePermission/AddModifyRole?Id=" + Id;
+        const havePermission = '@havePermission.ToString()';
+        if (havePermission == 'False') {
+            $.get('/Auth/NotAuthorizedJSON', function (result) {
+                window.location.pathname = "/Auth/NotAuthorized"
+            });
+            return;
+        }
+
+        const url = "/RolePermission/AddModifyRole?Id=" + Id;
         $("#rolePermissionDialogBody").load(url, function () {
             // This is done to add validation to partial view, as they don't support validationscript partial.
             $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
@@ -107,7 +128,15 @@
     }
 
     function DeleteRole(Id) {
-        var url = "/RolePermission/DeleteRoleModal?Id=" + Id;
+        const havePermission = '@deletePermission.ToString()';
+        if (havePermission == 'False') {
+            $.get('/Auth/NotAuthorizedJSON', function (result) {
+                window.location.pathname = "/Auth/NotAuthorized"
+            });
+            return;
+        }
+
+        const url = "/RolePermission/DeleteRoleModal?Id=" + Id;
         $("#rolePermissionDialogBody").load(url, function () {
             $("#rolePermissionDialogBody").css("max-width", "560px");
             $("#rolePermissionDialogBody").css("width", "100%");
