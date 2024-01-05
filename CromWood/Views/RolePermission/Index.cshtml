@@ -1,6 +1,7 @@
 ﻿@using CromWood.Business.Constants;
 @using CromWood.Business.Services.Interface;
-@model IEnumerable<CromWood.Business.Models.RoleViewModel>
+@using CromWood.Business.Models.ViewModel;
+@model IEnumerable<RoleViewModel>
 @inject IAuthService _authService;
 
 @{
@@ -9,23 +10,25 @@
     var deletePermission = await _authService.CheckPermission(PermissionKeyConstant.RoleManagement, PermissionConstant.CanDelete);
 }
 
-<div class="tab-pane show fade border border-top-0 active" id="role_permission">
+<div class="tab-pane show fade border active bg-white" id="role_permission">
     <div class="card-header border-bottom-0 pt-4 bg-white">
         <div class="row align-items-center mb-2">
             <div class="col-6">
                 <h4 class="heading-style2 mb-0">Role & permissions</h4>
             </div>
-            <div class="col-6 text-end mb-2">
-                <a onclick="CreateRole()" class="custom__btn">
-                    <img class="pe-1" src="~/assets/img/user_plus_icon.svg"
-                         alt="user_icon">
-                    New Role
-                </a>
+            <div class="col-6 d-flex justify-content-end">
+                <div class="shadow-box">
+                    <a onclick="CreateRole()" class="custom__btn">
+                        <img class="pe-2" src="~/assets/img/user_plus_icon.svg"
+                             alt="user_icon">
+                        New Role
+                    </a>
+                </div>
             </div>
         </div>
 
     </div>
-    <div class="card-body role_perm sm__row_table hide_sort_last pt-0 px-0 bg-white pb-0">
+    <div class="card-body role_perm no_top_search sm__row_table hide_sort_last pt-0 px-0 pb-0">
         <table id="role_permissions">
             <thead>
                 <tr>
@@ -39,7 +42,7 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>
+                        <td class="ps-3">
                             <a class="u_n main-text" href="#">
                                 @Html.DisplayFor(modelItem => item.Name)
                             </a>
@@ -48,7 +51,7 @@
                         <td>
                             @item.LastUpdated.ToString("MMM dd, yyyy")
                         </td>
-                        <td class="text-end">
+                        <td class="text-end pe-4">
                             @{
                                 string url = "'" + item.Id.ToString() + "'";
                             }
@@ -68,79 +71,93 @@
 </div>
 
 <div class="modal fade" id="rolePermissionDialog">
-    <div class="modal-dialog modal-dialog-centered" id="rolePermissionDialogBody">
+    <div class="modal-dialog modal-dialog-centered rp_popup add_edit_popup" id="rolePermissionDialogBody">
     </div>
 </div>
 
-<script>
+@section Scripts {
+    <script>
 
-    window.addEventListener('DOMContentLoaded', event => {
-        const role_permissions = document.getElementById('role_permissions');
-        if (role_permissions) {
-            new simpleDatatables.DataTable(role_permissions);
-        }
+        $(document).ready(function () {
+            const role_permissions = document.getElementById('role_permissions');
+            if (role_permissions) {
+                new simpleDatatables.DataTable(role_permissions);
+            }
             $(".datatable-table thead tr th button.datatable-sorter").append("<span class='c__icon'></span>");
-    });
 
-    function CreateRole() {
-        const havePermission = '@havePermission.ToString()';
-        if (havePermission == 'False') {
-            $.get('/Auth/NotAuthorizedJSON', function (result) {
-                window.location.pathname = "/Auth/NotAuthorized"
-            });
-            return;
-        }
+            // Code for datatable manipulation
+            var rowCount = $('.datatable-table tbody tr').length;
+            var threshold = 10;
+            if (rowCount < threshold) {
+                $('.datatable-bottom').hide();
+            } else {
+                $('.datatable-bottom').show();
+            }
 
-        const url = "/RolePermission/AddModifyRole";
-        $("#rolePermissionDialogBody").load(url, function () {
-            // This is done to add validation to partial view, as they don't support validationscript partial.
-            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
-                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
-                });
-            });
-            $("#rolePermissionDialogBody").css("max-width", "950px");
-            $("#rolePermissionDialogBody").css("width", "100%");
-            $("#rolePermissionDialog").modal("show");
+            var filter = $(".filter_btn");
+            $(".datatable-top").append(filter);
         });
 
-    }
-
-    function EditRole(Id) {
-        const havePermission = '@havePermission.ToString()';
-        if (havePermission == 'False') {
-            $.get('/Auth/NotAuthorizedJSON', function (result) {
-                window.location.pathname = "/Auth/NotAuthorized"
-            });
-            return;
-        }
-
-        const url = "/RolePermission/AddModifyRole?Id=" + Id;
-        $("#rolePermissionDialogBody").load(url, function () {
-            // This is done to add validation to partial view, as they don't support validationscript partial.
-            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
-                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+        function CreateRole() {
+            const havePermission = '@havePermission.ToString()';
+            if (havePermission == 'False') {
+                $.get('/Auth/NotAuthorizedJSON', function (result) {
+                    window.location.pathname = "/Auth/NotAuthorized"
                 });
-            });
-            $("#rolePermissionDialogBody").css("max-width", "950px");
-            $("#rolePermissionDialogBody").css("width", "100%");
-            $("#rolePermissionDialog").modal("show");
-        })
-    }
+                return;
+            }
 
-    function DeleteRole(Id) {
-        const havePermission = '@deletePermission.ToString()';
-        if (havePermission == 'False') {
-            $.get('/Auth/NotAuthorizedJSON', function (result) {
-                window.location.pathname = "/Auth/NotAuthorized"
+            const url = "/RolePermission/AddModifyRole";
+            $("#rolePermissionDialogBody").load(url, function () {
+                // This is done to add validation to partial view, as they don't support validationscript partial.
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                    $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                    });
+                });
+                $("#rolePermissionDialogBody").css("max-width", "950px");
+                $("#rolePermissionDialogBody").css("width", "100%");
+                $("#rolePermissionDialog").modal("show");
             });
-            return;
+
         }
 
-        const url = "/RolePermission/DeleteRoleModal?Id=" + Id;
-        $("#rolePermissionDialogBody").load(url, function () {
-            $("#rolePermissionDialogBody").css("max-width", "560px");
-            $("#rolePermissionDialogBody").css("width", "100%");
-            $("#rolePermissionDialog").modal("show");
-        })
-    }
-</script>
+        function EditRole(Id) {
+            const havePermission = '@havePermission.ToString()';
+            if (havePermission == 'False') {
+                $.get('/Auth/NotAuthorizedJSON', function (result) {
+                    window.location.pathname = "/Auth/NotAuthorized"
+                });
+                return;
+            }
+
+            const url = "/RolePermission/AddModifyRole?Id=" + Id;
+            $("#rolePermissionDialogBody").load(url, function () {
+                // This is done to add validation to partial view, as they don't support validationscript partial.
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                    $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                    });
+                });
+                $("#rolePermissionDialogBody").css("max-width", "950px");
+                $("#rolePermissionDialogBody").css("width", "100%");
+                $("#rolePermissionDialog").modal("show");
+            })
+        }
+
+        function DeleteRole(Id) {
+            const havePermission = '@deletePermission.ToString()';
+            if (havePermission == 'False') {
+                $.get('/Auth/NotAuthorizedJSON', function (result) {
+                    window.location.pathname = "/Auth/NotAuthorized"
+                });
+                return;
+            }
+
+            const url = "/RolePermission/DeleteRoleModal?Id=" + Id;
+            $("#rolePermissionDialogBody").load(url, function () {
+                $("#rolePermissionDialogBody").css("max-width", "560px");
+                $("#rolePermissionDialogBody").css("width", "100%");
+                $("#rolePermissionDialog").modal("show");
+            })
+        }
+    </script>
+}

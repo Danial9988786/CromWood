@@ -1,4 +1,4 @@
-﻿namespace CromWood.Business.Models
+﻿namespace CromWood.Business.Models.ViewModel
 {
     public class UserViewModel
     {

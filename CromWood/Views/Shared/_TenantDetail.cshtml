@@ -1,0 +1,47 @@
+﻿@using CromWood.Business.Services.Interface;
+@inject ITenantService _tenantService;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var rawId = ViewContext.RouteData.Values["id"] as string;
+    var id = Guid.Parse(rawId ?? Guid.Empty.ToString());
+    var tenancy = await _tenantService.GetTenantViewModel(id);
+}
+
+
+<ol class="breadcrumb mb-3 mt-3">
+    <li class="breadcrumb-item">
+        <a href="index.html"><img src="~/assets/img/Home_icon.svg" alt="home_icon"></a>
+    </li>
+    <li class="breadcrumb-item active">Tenant Management</li>
+</ol>
+<h1 class="mt-2 mb-3 custom_h">@tenancy.Data.FullName</h1>
+<nav class="user___tabs">
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-link text-capitalize" id="nav-tenant-detail-tab" asp-route-id="@tenancy.Data.Id" asp-action="Detail">
+            Individual Details
+        </a>
+        <a class="nav-link text-capitalize" id="nav-tenant-tenancies-tab" asp-route-id="@tenancy.Data.Id" asp-action="Tenancies">
+            Tenancies
+        </a>
+        <a class="nav-link text-capitalize" id="nav-tenant-bank-tab" asp-route-id="@tenancy.Data.Id" asp-action="BankDetail">
+            Bank Details
+        </a>
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    @RenderBody()
+</div>
+
+<script>
+    if (window.location.pathname.includes('/Tenant/Detail')) {
+        document.getElementById("nav-tenant-detail-tab").classList.add('active');
+    }
+    if (window.location.pathname.includes('/Tenant/Tenancies')) {
+        document.getElementById("nav-tenant-tenancies-tab").classList.add('active');
+    }
+    if (window.location.pathname.includes('/Tenant/BankDetail')) {
+        document.getElementById("nav-tenant-bank-tab").classList.add('active');
+    }
+</script>

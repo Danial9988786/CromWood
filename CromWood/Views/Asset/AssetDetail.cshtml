@@ -13,20 +13,20 @@
     }
     string Id = Model.Id.ToString();
 }
-<ol class="breadcrumb mb-3 mt-3">
+<ol class="breadcrumb align-items-end mb-3 mt-3">
     <li class="breadcrumb-item">
-        <a href="index.html"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
+        <a asp-action="Index" asp-controller="Test"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
     </li>
     <li class="breadcrumb-item active"><a asp-action="Index" class="text-decoration-none"><span class="a_m">Asset Management</span></a></li>
     <li class="breadcrumb-item active"><span>@Model.AssetId</span></li>
 
 </ol>
-<div class="d-flex">
+<div class="d-flex pt-1 align-items-center aseet_m_d">
     <h1 class="mt-2 mb-3 custom_h">
-        <img src="~/assets/img/left_Icon.svg" alt="">&nbsp @Model.AssetId
+        <a asp-action="Index"><img src="~/assets/img/left_Icon.svg"></a>&nbsp @Model.AssetId
     </h1>
-    <div class="d-md-inline-block  ms-5">
-        <h6 class="cre ms-4 mt-2">
+    <div class="d-md-inline-block ms-5">
+        <h6 class="cre ms-4">
             Created on: <sapn>@Model.CreatedDate?.ToString("yyyy-MM-dd")</sapn>
         </h6>
         <h6 class="cre ms-4">
@@ -43,14 +43,13 @@
            data-bs-target="#asset_overview" role="tab" aria-controls="asset_overview"
            aria-selected="false">Asset Overview</a>
 
-        <a class="nav-link text-capitalize active" id="naddress_details-tab" data-bs-toggle="tab"
-           data-bs-target="#address_details" role="tab" aria-controls="address_details"
+        <a class="nav-link text-capitalize active" id="address_details-tab" data-bs-toggle="tab"
+           data-bs-target="#nav_address_details" role="tab" aria-controls="nav_address_details"
            aria-selected="true">Address Details</a>
 
         <a class="nav-link text-capitalize" id="valuation_ownership-tab" data-bs-toggle="tab"
            data-bs-target="#valuation_ownership" role="tab"
            aria-controls="valuation_ownership" aria-selected="false">Valuation & Ownership</a>
-
 
         <a class="nav-link text-capitalize" id="Financial_Details-tab" data-bs-toggle="tab"
            data-bs-target="#Financial_Details" role="tab"
@@ -63,27 +62,44 @@
     </div>
 </nav>
 
-<div class="tab-content" id="nav-tabContent">
+<div class="tab-content aseet_m_d" id="nav-tabContent">
+
+    <!-- Address Overview tab start here -->
+    <div class="tab-pane fade show border bg-white" id="asset_overview"
+         role="tabpanel" aria-labelledby="nav-user-list-tab">
+        <div class="card-header border-bottom-0 pb-0 bg-white">
+            <div class="row align-items-center pb-3">
+                <div class="col-6">
+                    <h4 class="heading-style2 mb-0">Address Overview</h4>
+                </div>
+            </div>
+        </div>
+        <div class="mx-3">
+            <table class="table">
+                @* This is dummy content *@
+            </table>
+        </div>
+    </div>
+    <!-- Address Details tab end here -->
 
     <!-- Address Details tab start here -->
-    <div class="tab-pane fade show border border-top-0 active bg-white" id="address_details"
+    <div class="tab-pane fade show border active bg-white" id="nav_address_details"
          role="tabpanel" aria-labelledby="nav-user-list-tab">
-        <div class="card-header border-bottom-0 pt-4 pb-0 bg-white">
-            <div class="row align-items-center">
+        <div class="card-header border-bottom-0 pb-0 bg-white">
+            <div class="row align-items-center pb-3">
                 <div class="col-6">
                     <h4 class="heading-style2 mb-0">Address Details</h4>
                 </div>
                 <div class="col-6 text-end">
                     <a onclick="EditAddressSection()" class="custom__btn" data-bs-toggle="edit_detail">
-                        <img class="pe-1" src="~/assets/img/edit_icon.svg" alt="edit_icon">
+                        <img class="pe-2" src="~/assets/img/edit_icon.svg" alt="edit_icon">
                         Edit details
                     </a>
                 </div>
             </div>
         </div>
-
-        <table class="table mt-3">
-
+        <div class="mx-3">
+        <table class="table">
             <tbody class="asset_table">
                 <tr>
                     <th class="r_heading" scope="row">Asset Code</th>
@@ -111,26 +127,28 @@
                 </tr>
             </tbody>
         </table>
-
+        </div>
     </div>
     <!-- Address Details tab end here -->
+
     <!-- Valuation & Ownership tab stat here -->
-    <div class="tab-pane fade border border-top-0" id="valuation_ownership" role="tabpanel"
+    <div class="tab-pane fade border bg-white" id="valuation_ownership" role="tabpanel"
          aria-labelledby="nav-roles-per-tab">
-        <div class="card-header border-bottom-0 pt-4 pb-0 bg-white">
-            <div class="row align-items-center">
+        <div class="card-header border-bottom-0 pb-0 bg-white">
+            <div class="row align-items-center pb-3">
                 <div class="col-6">
                     <h4 class="heading-style2 mb-0">Ownership Details</h4>
                 </div>
                 <div class="col-6 text-end">
                     <a onclick="EditOwnershipSection()" class="custom__btn" data-bs-toggle="edit_detail">
-                        <img class="pe-1" src="~/assets/img/edit_icon.svg" alt="edit_icon">
+                        <img class="pe-2" src="~/assets/img/edit_icon.svg" alt="edit_icon">
                         Edit details
                     </a>
                 </div>
             </div>
         </div>
-        <table class="table mt-3">
+        <div class="mx-3">
+        <table class="table">
 
             <tbody class="asset_table">
                 <tr>
@@ -167,25 +185,28 @@
                 </tr>
             </tbody>
         </table>
+        </div>
     </div>
     <!-- Valuation & Ownership tab end here -->
+
     <!-- Financial Details start here -->
-    <div class="tab-pane fade border border-top-0" id="Financial_Details" role="tabpanel"
+    <div class="tab-pane fade border bg-white" id="Financial_Details" role="tabpanel"
          aria-labelledby="nav-roles-per-tab">
-        <div class="card-header border-bottom-0 pt-4 pb-0 bg-white">
-            <div class="row align-items-center">
+        <div class="card-header border-bottom-0 pb-0 bg-white">
+            <div class="row align-items-center pb-3">
                 <div class="col-6">
                     <h4 class="heading-style2 mb-0">Financial Details</h4>
                 </div>
                 <div class="col-6 text-end">
                     <a onclick="EditFinancialSection()" class="custom__btn" data-bs-toggle="edit_detail">
-                        <img class="pe-1" src="~/assets/img/edit_icon.svg" alt="edit_icon">
+                        <img class="pe-2" src="~/assets/img/edit_icon.svg" alt="edit_icon">
                         Edit details
                     </a>
                 </div>
             </div>
         </div>
-        <table class="table mt-3">
+        <div class="mx-3">
+        <table class="table">
 
             <tbody class="asset_table">
                 <tr>
@@ -232,25 +253,28 @@
                 </tr>
             </tbody>
         </table>
+        </div>
     </div>
     <!-- Financial Details end here -->
+
     <!-- Landlord/ Management Start Here -->
-    <div class="tab-pane fade border border-top-0" id="landlord_management" role="tabpanel"
+    <div class="tab-pane fade border bg-white" id="landlord_management" role="tabpanel"
          aria-labelledby="nav-roles-per-tab">
-        <div class="card-header border-bottom-0 pt-4 pb-0 bg-white">
-            <div class="row align-items-center">
+        <div class="card-header border-bottom-0 pb-0 bg-white">
+            <div class="row align-items-center pb-3">
                 <div class="col-6">
                     <h4 class="heading-style2 mb-0">Landlord/ Management</h4>
                 </div>
                 <div class="col-6 text-end">
                     <a onclick="EditLandlordSection()" class="custom__btn" data-bs-toggle="edit_detail">
-                        <img class="pe-1" src="~/assets/img/edit_icon.svg" alt="edit_icon">
+                        <img class="pe-2" src="~/assets/img/edit_icon.svg" alt="edit_icon">
                         Edit details
                     </a>
                 </div>
             </div>
         </div>
-        <table class="table mt-3">
+        <div class="mx-3">
+        <table class="table">
 
             <tbody class="asset_table">
                 <tr>
@@ -290,6 +314,7 @@
 
             </tbody>
         </table>
+        </div>
     </div>
     <!-- Landlord/ Management end Here -->
 
@@ -303,9 +328,9 @@
 
 
 <script>
-
+    
     function EditAddressSection() {
-        var url = "/Asset/AddAsset/@Id";
+        var url = "/Asset/AddAsset/@Id?section=address";
         $("#assetDialogBody").load(url, function () {
             // This is done to add validation to partial view, as they don't support validationscript partial.
             $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
@@ -319,15 +344,45 @@
     }  
     
     function EditOwnershipSection() {
-        console.log("edit ownership section")
+        var url = "/Asset/AddAsset/@Id?section=ownership";
+        $("#assetDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#assetDialogBody").css("max-width", "950px");
+            $("#assetDialogBody").css("width", "100%");
+            $("#assetDialog").modal("show");
+        });
     }
 
     function EditFinancialSection() {
-         console.log("edit financial section")
+        var url = "/Asset/AddAsset/@Id?section=financial";
+        $("#assetDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#assetDialogBody").css("max-width", "950px");
+            $("#assetDialogBody").css("width", "100%");
+            $("#assetDialog").modal("show");
+        });
     }  
 
     function EditLandlordSection() {
-        console.log("edit landlord section")
+        var url = "/Asset/AddAsset/@Id?section=landlord";
+        $("#assetDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#assetDialogBody").css("max-width", "950px");
+            $("#assetDialogBody").css("width", "100%");
+            $("#assetDialog").modal("show");
+        });
     }
 
 </script>

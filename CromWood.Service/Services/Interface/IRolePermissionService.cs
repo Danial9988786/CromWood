@@ -1,6 +1,7 @@
 ﻿using Azure;
 using CromWood.Business.Helper;
 using CromWood.Business.Models;
+using CromWood.Business.Models.ViewModel;
 using CromWood.Business.ViewModels;
 
 namespace CromWood.Business.Services.Interface

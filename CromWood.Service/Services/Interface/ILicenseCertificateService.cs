@@ -1,5 +1,7 @@
 ﻿using CromWood.Business.Helper;
 using CromWood.Business.Models;
+using CromWood.Business.Models.ViewModel;
+using CromWood.Helper;
 
 namespace CromWood.Business.Services.Interface
 {
@@ -12,5 +14,6 @@ namespace CromWood.Business.Services.Interface
         public Task<AppResponse<int>> AddModifyLicense(LicenseCertificateModel license);
         public Task<AppResponse<int>> DeleteLicense(Guid Id);
         public Task<AppResponse<int>> ArchieveLicense(Guid Id);
+        public Task<ExportFile> DownloadLicense(string url);
     }
 }

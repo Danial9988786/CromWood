@@ -1,0 +1,102 @@
+﻿@using CromWood.Business.Models.ViewModel;
+@model IEnumerable<TenancyViewModel>
+
+<ol class="breadcrumb mb-3 mt-3">
+    <li class="breadcrumb-item">
+        <a href="index.html"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
+    </li>
+    <li class="breadcrumb-item active">Tenancy Management</li>
+</ol>
+
+<div class="row">
+    <div class="col-xl-6">
+        <h1 class="mt-2 mb-3 custom_h">Tenancy Management</h1>
+    </div>
+    <div class="col-xl-6 text-end">
+        <div class="pare__btn">
+            <form asp-action="Export" method="post">
+                <a onclick="submitBtn.click()" class="custom__btn">
+                    <img src="~/assets/img/explor_icon.svg" alt="">
+                    Export XLS
+                    <img src="~/assets/img/down_arrow.svg" alt="">
+                </a>
+                <input id="submitBtn" type="submit" hidden />
+            </form>
+            
+            <a class="custom__btn2" onclick="AddTenancy()">
+                <img src="~/assets/img/add_new_icon.svg" class="pe-1" alt="">
+                add Tenancy
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- ----- Tenancy Management table start here ------->
+<div class="user__list as__menag sm48__row_table pt-0 hide_sort_all">
+    <table id="datatablesSimple" class="border rounded-top">
+        <thead>
+            <tr>
+                <th class="maintable_head">Tenancy ID</th>
+                <th class="maintable_head">Description</th>
+                <th class="maintable_head">Start Date</th>
+                <th class="maintable_head">End Date</th>
+                <th class="maintable_head">Status</th>
+                <th class="maintable_head">Rent</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="maintext_size align-top">
+                        <a class="main-text" asp-action="Detail" asp-route-id="@item.Id">
+                            @item.TenancyId
+                        </a>
+                    </td>
+                    <td class="maintext_size">
+                        <a class="main-text">
+                            @item.Property.PropertyType.Name No. @item.Property.FloorNumber <br> <img src="~/assets/img/Location.svg" alt=""> @item.Property.Asset.StreetAddress <br><span class="owner_clr">Owner</span>
+                            <br>@item.Property.Asset.Ownership
+                        </a>
+                    </td>
+                    <td class="maintext_size align-top">@item.StartDate</td>
+                    <td class="maintext_size align-top">@item.EndDate</td>
+                    <td class="maintext_size align-top">Status</td>
+                    <td class="maintext_size align-top">@item.RentAmount @item.RentFrequency.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<!-- ----- Tenancy Management table end here ------->
+
+<div class="modal fade" id="tenancyDialog">
+    <div class="modal-dialog modal-dialog-centered" id="tenancyDialogBody">
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#datatablesSimple').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        });
+    });
+
+    function AddTenancy() {
+        var url = "/Tenancy/AddTenancy";
+        $("#tenancyDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#tenancyDialogBody").css("max-width", "950px");
+            $("#tenancyDialogBody").css("width", "100%");
+            $("#tenancyDialog").modal("show");
+        });
+    }
+</script>

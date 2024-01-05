@@ -1,0 +1,48 @@
+﻿@model IEnumerable<CromWood.Business.Models.ViewModel.TenancyViewModel>
+
+@{
+    ViewData["Title"] = "Tenancies";
+    Layout = "~/Views/Shared/_TenantDetail.cshtml";
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TenancyId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RentAmount)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-action="Detail" asp-controller="Tenancy" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.TenancyId)
+                    </a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RentAmount)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

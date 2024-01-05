@@ -1,17 +1,17 @@
 ﻿@using CromWood.Business.Constants;
 @using CromWood.Business.Services.Interface;
-@model IEnumerable<CromWood.Business.Models.PropertyViewModel>
+@using CromWood.Business.Models.ViewModel;
+@model IEnumerable<PropertyViewModel>
 @inject IAuthService _authService;
 
 @{
-    ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var havePermission = await _authService.CheckPermission(PermissionKeyConstant.AssetManagement, PermissionConstant.CanWrite);
 }
 
-<ol class="breadcrumb mb-3 mt-3">
+<ol class="breadcrumb align-items-end mb-3 mt-3">
     <li class="breadcrumb-item">
-        <a href="index.html"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
+        <a asp-action="Index" asp-controller="Test"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
     </li>
     <li class="breadcrumb-item active">Property Management</li>
 </ol>
@@ -20,22 +20,27 @@
         <h1 class="mt-2 mb-3 custom_h">Property Management</h1>
     </div>
     <div class="col-xl-6 text-end">
-        <div class="pare__btn">
-                <a class="custom__btn">
-                    <img src="~/assets/img/explor_icon.svg" alt="">
-                    Export XLS
-                    <img src="~/assets/img/down_arrow.svg" alt="">
-                </a>
+        <div class="d-flex justify-content-end">
+            <div class="pare__btn shadow-box">
+                <form asp-action="Export" method="post">
+                    <a onclick="submitBtn.click()" class="custom__btn">
+                        <img src="~/assets/img/explor_icon.svg" class="pe-2" alt="">
+                        Export XLS
+                        <img src="~/assets/img/down_arrow.svg" class="ps-2" alt="">
+                    </a>
+                    <input id="submitBtn" type="submit" hidden />
+                </form>
                 <a class="custom__btn2" onclick="CreateProperty()">
                     <img src="~/assets/img/add_new_icon.svg" alt="">
                     add new Property
                 </a>
+            </div>
         </div>
     </div>
 </div>
 
 <!-------filter start here --- -->
-<div class="filter_btn text-end me-3">
+<div class="filter_btn ms-auto">
     <a class="" href="#" role="button" id="fil_ter" data-bs-toggle="dropdown" aria-expanded="false">
         <img class="pe-1" src="~/assets/img/filter-lines.svg" alt="user__iocn">
         Filter
@@ -88,9 +93,8 @@
     </div>
 </div>
 <!------ filter end here  --------->
-
 <!-- ----- Property Management table start here ------->
-<div class="user__list as__menag sm48__row_table pt-0 hide_sort_all">
+<div class="user__list as__menag  sm48__row_table hide_sort_all pt-0 pm_page_top_m table_bottom_border mt-1">
     <table id="datatablesSimple" class="border rounded-top">
         <thead>
             <tr>
@@ -102,36 +106,37 @@
             </tr>
         </thead>
         <tbody>
-            @foreach(var item in Model){
-            <tr>
-                <td class="maintext_size align-top">
-                    <a class="main-text" asp-action="Detail" asp-route-id="@item.Id">
-                        @item.PropertyCode
-                    </a>
-                </td>
-                <td class="maintext_size">
-                    <a class="main-text">
-                        @item.PropertyType.Name No. @item.FloorNumber <br> <img src="~/assets/img/Location.svg" alt=""> @item.Asset.StreetAddress <br><span class="owner_clr">Owner</span>
-                        <br>@item.Asset.Ownership
-                    </a>
-                </td>
-                <td class="maintext_size align-top">-</td>
-                <td class="maintext_size align-top ">
-                    <a class="main-text" href="#">
-                        <img src="~/assets/img/Ellipse 11.svg"><a class="u_n"><span class="atl"> Available To Let</span></a>
-                        <br><span class="owner_clr">Available From</span>
-                        <br><span class="pm_date">31 Aug 2023</span>
-                    </a>
-                </td>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="maintext_size align-top">
+                        <a class="main-text u_n" asp-action="Detail" asp-route-id="@item.Id">
+                            @item.PropertyCode
+                        </a>
+                    </td>
+                    <td class="maintext_size">
+                        <a class="main-text">
+                            @item.PropertyType.Name No. @item.FloorNumber <br> <img src="~/assets/img/Location.svg" alt=""> @item.Asset.StreetAddress <br><span class="owner_clr">Owner</span>
+                            <br>@item.Asset.Ownership
+                        </a>
+                    </td>
+                    <td class="maintext_size align-top">-</td>
+                    <td class="maintext_size align-top ">
+                        <a class="main-text" href="#">
+                            <img src="~/assets/img/Ellipse 11.svg"><a class="u_n"><span class="atl"> Available To Let</span></a>
+                            <br><span class="owner_clr">Available From</span>
+                            <br><span class="pm_date">31 Aug 2023</span>
+                        </a>
+                    </td>
 
-                <td class="maintext_size">
-                    <span class="owner_clr">Market Rent </span>
-                    <br><span class="pm_date">£ @item.ExpectedMonthlyRate monthly</span><br>
-                    <span class="owner_clr">Current Rent Amount</span>
+                    <td class="maintext_size">
+                        <span class="owner_clr">Market Rent </span>
+                        <br><span class="pm_date">£ @item.ExpectedMonthlyRate monthly</span><br>
+                        <span class="owner_clr">Current Rent Amount</span>
                         <br><span class="pm_date">£ @item.ExpectedMonthlyRate monthly</span>
-                </td>
+                    </td>
 
-            </tr>
+                </tr>
             }
         </tbody>
     </table>
@@ -145,24 +150,42 @@
 </div>
 
 
-<script>
-    function CreateProperty() {
-        var havePermission = '@havePermission.ToString()';
-        if (havePermission == 'False') {
-            $.get('/Auth/NotAuthorizedJSON', function (result) {
-                window.location.pathname = "/Auth/NotAuthorized"
-            });
-            return;
-        }
-        var url = "/Property/AddProperty";
-        $("#propertyDialogBody").load(url, function () {
-            // This is done to add validation to partial view, as they don't support validationscript partial.
-            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
-                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
-                });
-            });
-            $("#propertyDialogBody").css("width", "100%");
-            $("#propertyDialog").modal("show");
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".datatable-table thead tr th button.datatable-sorter").append("<span class='c__icon'></span>");
+
+            // Code for datatable manipulation
+            var rowCount = $('.datatable-table tbody tr').length;
+            var threshold = 10;
+            if (rowCount < threshold) {
+                $('.datatable-bottom').hide();
+            } else {
+                $('.datatable-bottom').show();
+            }
+
+            var filter = $(".filter_btn");
+            $(".datatable-top").append(filter);
         });
-    }
-</script>
+
+        function CreateProperty() {
+            var havePermission = '@havePermission.ToString()';
+            if (havePermission == 'False') {
+                $.get('/Auth/NotAuthorizedJSON', function (result) {
+                    window.location.pathname = "/Auth/NotAuthorized"
+                });
+                return;
+            }
+            var url = "/Property/AddProperty";
+            $("#propertyDialogBody").load(url, function () {
+                // This is done to add validation to partial view, as they don't support validationscript partial.
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                    $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                    });
+                });
+                $("#propertyDialogBody").css("width", "100%");
+                $("#propertyDialog").modal("show");
+            });
+        }
+    </script>
+}

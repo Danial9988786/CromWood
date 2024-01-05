@@ -1,0 +1,74 @@
+﻿@model CromWood.Business.Models.TenantModel
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_TenantDetail.cshtml";
+
+    string id = "'" + Model.Id.ToString() + "'";
+}
+
+
+<div>
+    <hr />
+    <a onclick="ModifyTenant(@id)">Modify Tenant</a>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SalutationId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SalutationId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NIN)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NIN)
+        </dd>
+    </dl>
+</div>
+
+<div class="modal fade" id="tenantDialog">
+    <div class="modal-dialog modal-dialog-centered" id="tenantDialogBody">
+    </div>
+</div>
+
+
+<script>
+    function ModifyTenant(id) {
+        var url = "/Tenant/ModifyTenant/"+id;
+        $("#tenantDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#tenantDialogBody").css("max-width", "950px");
+            $("#tenantDialogBody").css("width", "100%");
+            $("#tenantDialog").modal("show");
+        });
+    }
+</script>

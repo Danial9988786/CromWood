@@ -1,7 +1,6 @@
 ﻿using CromWood.Data.Entities.Default;
-using System.ComponentModel.DataAnnotations;
 
-namespace CromWood.Business.Models
+namespace CromWood.Business.Models.ViewModel
 {
     public class LicenseCertificateViewModel
     {
@@ -14,5 +13,7 @@ namespace CromWood.Business.Models
         public string DocUrl { get; set; }
         public string Note { get; set; }
         public bool? Archieved { get; set; }
+        public Guid? CreatedBy { get; set; }
+
     }
 }

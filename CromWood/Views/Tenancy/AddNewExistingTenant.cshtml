@@ -1,0 +1,103 @@
+﻿@using CromWood.Business.Services.Interface;
+@using CromWood.Data.Entities.Default;
+@model CromWood.Business.Models.TenancyTenantModel
+@inject ITenantService _tenantService;
+@inject ITenancyService _tenancyService;
+@inject ILookupService<Country> _lookupCountry;
+@inject ILookupService<Salution> _lookupSalutation;
+
+@{
+    var asyncSalutions = await _lookupSalutation.GetAllItems();
+    var salutations = new SelectList(asyncSalutions.Data, "Id", "Name");
+
+    var asyncCountries = await _lookupCountry.GetAllItems();
+    var countries = new SelectList(asyncCountries.Data, "Id", "Name");
+
+    var asyncTenants = await _tenantService.GetTenantsNotInTenancy(Model.TenancyId);
+    var tenants = new SelectList(asyncTenants.Data, "Id", "FullName");
+
+    
+
+}
+
+<div class="modal-content rounded-0">
+    <div class="modal-header py-2 position-relative w-100 bg-white">
+        <h5 class="modal-title" id="staticBackdropLabel">Link Tenant</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body p-4">
+        <div class="col-md-12">
+        <form asp-action="AddNewExistingTenant">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m=>m.TenancyId)
+
+            @if (Model.IsNew)
+            {
+                <div class="form-group">
+                    <label class="form-label"> Salutation </label>
+                    <select class="form-control" asp-for="Tenant.SalutationId" asp-items="salutations">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label"> Tenant Name </label>
+                    <input class="form-control" asp-for="Tenant.FullName">
+                </div>
+                <div class="form-group">
+                    <label class="form-label"> Phone </label>
+                    <input class="form-control" asp-for="Tenant.Phone">
+                </div>
+                <div class="form-group">
+                    <label class="form-label"> Email </label>
+                    <input class="form-control" asp-for="Tenant.Email">
+                </div>
+                <p>Tenant Address</p>
+                <div class="form-group">
+                    <label class="form-label">Address Line 1 </label>
+                        <input class="form-control" asp-for="Tenant.AddressLine1">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Address Line 2 </label>
+                    <input class="form-control" asp-for="Tenant.AddressLine2">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Street Area </label>
+                    <input class="form-control" asp-for="Tenant.StreetArea">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Landmark </label>
+                    <input class="form-control" asp-for="Tenant.Landmark">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">City </label>
+                    <input class="form-control" asp-for="Tenant.City">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">County </label>
+                    <input class="form-control" asp-for="Tenant.County">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Postal code </label>
+                    <input class="form-control" asp-for="Tenant.PostCode">
+                </div>
+                <div class="form-group">
+                    <label class="form-label"> Country </label>
+                    <select class="form-control" asp-for="Tenant.CountryId" asp-items="countries">
+                    </select>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label class="form-label"> Tenant </label>
+                    <select class="form-control" asp-for="@Model.TenantId" asp-items="tenants">
+                    </select>
+                </div>
+            }
+            <div class="form-group">
+                <input type="submit" value="Link" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+

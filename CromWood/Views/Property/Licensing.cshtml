@@ -1,8 +1,12 @@
-﻿@model IEnumerable<CromWood.Business.Models.LicenseCertificateViewModel>
+﻿@using CromWood.Business.Models.ViewModel;
+@model IEnumerable<LicenseCertificateViewModel>
 
 @{
     ViewData["Title"] = "Licensing & Certification";
     Layout = "~/Views/Shared/_PropertyDetail.cshtml";
+
+    var rawId = ViewContext.RouteData.Values["id"] as string;
+    string propertyId = Guid.Parse(rawId ?? Guid.Empty.ToString()).ToString();
 }
 
-@await Html.PartialAsync("~/Views/LicenseCertification/Index.cshtml", Model)
+@await Html.PartialAsync("~/Views/LicenseCertification/Index.cshtml", Model,new ViewDataDictionary(this.ViewData) { { "PropId", propertyId } })

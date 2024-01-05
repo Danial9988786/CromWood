@@ -6,6 +6,7 @@ namespace CromWood.Data.Entities
     public class Tenancy: DBTable
     {
         public Guid Id { get; set; }
+        public string TenancyId { get; set; }
 
         [Required]
         public Guid TenancyTypeId { get; set; }
@@ -54,5 +55,6 @@ namespace CromWood.Data.Entities
 
         [MaxLength(500)]
         public string TransactionDescription { get; set; }
+        public ICollection<TenancyTenant> TenancyTenants { get; set; }
     }
 }

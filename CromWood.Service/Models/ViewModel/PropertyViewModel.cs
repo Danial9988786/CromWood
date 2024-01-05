@@ -1,7 +1,7 @@
 ﻿using CromWood.Data.Entities;
 using CromWood.Data.Entities.Default;
 
-namespace CromWood.Business.Models
+namespace CromWood.Business.Models.ViewModel
 {
     public class PropertyViewModel
     {

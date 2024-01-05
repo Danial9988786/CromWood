@@ -1,0 +1,88 @@
+﻿@model IEnumerable<CromWood.Business.Models.TenancyNoteModel>
+
+@{
+    ViewData["Title"] = "Notes";
+    Layout = "~/Views/Shared/_TenancyDetail.cshtml";
+
+    var rawId = ViewContext.RouteData.Values["id"] as string;
+    string tenancyId = "'" + Guid.Parse(rawId).ToString() + "'";
+    string emptyGuid = "'" + Guid.Empty.ToString() + "'";
+}
+
+<h1>Notes</h1>
+
+<p>
+    <a onclick="AddModifyNotes(@tenancyId,@emptyGuid)">Add Notes</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Note)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FileUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TenancyId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            string id = "'" + item.Id.ToString() + "'";
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Note)
+                </td>
+                <td>
+                    <img height="50" src="@item.FileUrl">
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenancyId)
+                </td>
+                <td>
+                    <a onclick="AddModifyNotes(@tenancyId,@id)">Edit</a>
+                    <a onclick="DeleteNote(@id)">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<div class="modal fade" id="notesDialog">
+    <div class="modal-dialog modal-dialog-centered" id="notesDialogBody">
+    </div>
+</div>
+
+
+<script>
+    function AddModifyNotes(tenancyId, noteId) {
+        var url = `/Tenancy/AddModifyNote?tenancyId=${tenancyId}&noteId=${noteId}`;
+        $("#notesDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#notesDialogBody").css("width", "100%");
+            $("#notesDialog").modal("show");
+        });
+    }
+
+    function DeleteNote(noteId) {
+        $.ajax({
+            type: "POST",
+            url: `/Tenancy/DeleteNote?noteId=${noteId}`,
+            success: function (result) {
+                window.location.reload();
+            },
+            error: function () {
+            }
+        })
+    }
+
+</script>

@@ -7,52 +7,55 @@
     var roles = new SelectList(asyncRoles.Data, "Id", "Name");
 }
 
-    <div class="modal-content rounded-0">
-        <div class="modal-header py-2">
-            <h5 class="modal-title" id="staticBackdropLabel">Invites New Members</h5>
+<div class="modal-content i_n_m rounded-0">
+    <div class="modal-header py-10">
+            <h5 class="modal-title" id="staticBackdropLabel">Invite New Member</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body p-0">
         <form asp-action="InviteUser">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="row px-3 pt-4">
+            @* <div asp-validation-summary="ModelOnly" class="text-danger"></div> *@
+            <div class="row px-3 pt-2">
                     <div class="col-xl-6">
                         <div class="mb-3">
                         <label asp-for="Name" class="form-label">User's Name</label>
-                        <input type="text" class="form-control" asp-for="Name"
-                                   placeholder="Marcus Smart">
+                        <input type="text" class="form-control h-40" asp-for="Name"
+                                   placeholder="Enter Name Here">
                         <span asp-validation-for="Name" class="text-danger sm_select_text"></span>
                         </div>
                     </div>
                     <div class="col-xl-6">
                         <div class="mb-3">
                         <label asp-for="Email" class="form-label">Email Address</label>
-                        <input type="email" class="form-control" asp-for="Email"
-                                   placeholder="markussmart@abs.com">
+                        <input type="email" class="form-control h-40" asp-for="Email"
+                                   placeholder="Enter Email Address Here">
                         <span asp-validation-for="Email" class="text-danger sm_select_text"></span>
                         </div>
                     </div>
                     <div class="col-xl-6">
                         <div class="mb-3">
                         <label asp-for="Password" class="form-label">Default Password</label>
-                        <input type="password" class="form-control" asp-for="Password"
-                                   placeholder="0000 0000">
+                        <input type="password" class="form-control h-40" asp-for="Password"
+                                   placeholder="Enter Default Password">
                         <span asp-validation-for="Password" class="text-danger sm_select_text"></span>
                         </div>
                     </div>
                     <div class="col-xl-6">
                         <div class="mb-3">
                         <label asp-for="RoleId" class="form-label">Role</label>
-                            <select class="form-select" aria-label="Default select example" asp-for=RoleId asp-items="roles">
+                        <select class="form-select h-40" aria-label="Default select example" asp-for=RoleId asp-items="roles">
                                 <option selected>Select Role</option>
                             </select>
                         <span asp-validation-for="RoleId" class="text-danger sm_select_text"></span>
                         </div>
                     </div>
                 </div>
+            <hr class="mt-5 mb-0" style="height:0px;" />
             <hr class="c_border mt-5 mb-0" />
-            <div class="text-end px-3 pt-2 pb-3">
+            <div class="d-flex justify-content-end px-3 py-10 pb-3">
+                <div class="shadow-box">
                 <input class="custom__btn2" type="submit" value="Invite" />
+                </div>
                 </div>
             </form>
         </div>

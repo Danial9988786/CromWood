@@ -6,7 +6,6 @@ using CromWood.Data.Repository.Interface;
 using CromWood.Helper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +28,8 @@ builder.Services.AddScoped<IAssetRepository, AssetRepository>();
 builder.Services.AddScoped<IAmenityRepository, AmenityRepository>();
 builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
 builder.Services.AddScoped<ILicenseCertificateRepository, LicenseCertificateRepository>();
+builder.Services.AddScoped<ITenancyRepository, TenancyRepository>();
+builder.Services.AddScoped<ITenantRepository, TenantRepository>();
 builder.Services.AddScoped(typeof(ILookupRepository<>), typeof(LookupRepository<>));
 
 builder.Services.AddScoped<ITestService, TestService>();
@@ -39,13 +40,15 @@ builder.Services.AddScoped<IAssetService, AssetService>();
 builder.Services.AddScoped<IAmenityService, AmenityService>();
 builder.Services.AddScoped<IPropertyService, PropertyService>();
 builder.Services.AddScoped<ILicenseCertificateService, LicenseCertificateService>();
+builder.Services.AddScoped<ITenancyService, TenancyService>();
+builder.Services.AddScoped<ITenantService, TenantService>();
 builder.Services.AddScoped(typeof(ILookupService<>), typeof(LookupService<>));
 
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(option =>
     {
-        option.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+        option.ExpireTimeSpan = TimeSpan.FromMinutes(1000);
         option.SlidingExpiration = true;
         option.LoginPath = "/Auth/Login";
         option.LogoutPath = "/Auth/Logout";

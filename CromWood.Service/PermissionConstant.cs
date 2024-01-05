@@ -6,6 +6,8 @@
         public const string PropertyManagement = "property_management";
         public const string UserManagement = "user_management";
         public const string RoleManagement = "role_management";
+        public const string TenancyManagement = "tenancy_management";
+        public const string TenantManagement = "tenant_management";
         public const string LicenseManagement = "license_management";
     }
 

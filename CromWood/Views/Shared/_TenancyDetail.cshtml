@@ -1,0 +1,74 @@
+﻿@using CromWood.Business.Services.Interface;
+@inject ITenancyService _tenancyService;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var rawId = ViewContext.RouteData.Values["id"] as string;
+    var id = Guid.Parse(rawId ?? Guid.Empty.ToString());
+    var tenancy = await _tenancyService.GetTenancyViewDetail(id);
+}
+
+
+<ol class="breadcrumb mb-3 mt-3">
+    <li class="breadcrumb-item">
+        <a href="index.html"><img src="~/assets/img/Home_icon.svg" alt="home_icon"></a>
+    </li>
+    <li class="breadcrumb-item active">Tenancy Management</li>
+</ol>
+<h1 class="mt-2 mb-3 custom_h">@tenancy.Data.TenancyId</h1>
+<nav class="user___tabs">
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-link text-capitalize" id="nav-tenancy-overview-tab" asp-route-id="@tenancy.Data.Id" asp-action="Detail">
+            tenancy details
+        </a>
+        <a class="nav-link text-capitalize" id="nav-tenancy-tenants" asp-route-id="@tenancy.Data.Id" asp-action="Tenants">
+            tenants
+        </a>
+        <a class="nav-link text-capitalize" id="nav-tenancy-notes" asp-route-id="@tenancy.Data.Id" asp-action="Notes">
+            notes
+        </a>
+        <a class="nav-link text-capitalize" id="nav-tenancy-documents" asp-route-id="@tenancy.Data.Id" asp-action="Documents">
+            documents
+        </a>
+        <a class="nav-link text-capitalize" id="nav-tenancy-statement" asp-route-id="@tenancy.Data.Id" asp-action="Statement">
+            statement
+        </a>
+        <a class="nav-link text-capitalize" id="nav-tenancy-recurring-charges" asp-route-id="@tenancy.Data.Id" asp-action="Recurring">
+            recurring charges
+        </a>
+        <a class="nav-link text-capitalize" id="nav-tenancy-payment-plans" asp-route-id="@tenancy.Data.Id" asp-action="PaymentPlan">
+            payment plans
+        </a>
+        <a class="nav-link text-capitalize" id="nav-tenancy-complaints" asp-route-id="@tenancy.Data.Id" asp-action="Complaints">
+            complaints
+        </a>
+        <a class="nav-link text-capitalize" id="nav-tenancy-messages" asp-route-id="@tenancy.Data.Id" asp-action="Messages">
+            messages
+        </a>
+        <a class="nav-link text-capitalize" id="nav-tenancy-notices" asp-route-id="@tenancy.Data.Id" asp-action="Notices">
+            notices
+        </a>
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    @RenderBody()
+</div>
+
+<script>
+    if (window.location.pathname.includes('/Tenancy/Detail')) {
+        document.getElementById("nav-tenancy-overview-tab").classList.add('active');
+    }
+    if (window.location.pathname.includes('/Tenancy/Tenants')) {
+        document.getElementById("nav-tenancy-tenants").classList.add('active');
+    }
+    if (window.location.pathname.includes('/Tenancy/Notes')) {
+        document.getElementById("nav-tenancy-notes").classList.add('active');
+    }
+    if (window.location.pathname.includes('/Tenancy/Documents')) {
+        document.getElementById("nav-tenancy-documents").classList.add('active');
+    }
+    if (window.location.pathname.includes('/Tenancy/Statement')) {
+        document.getElementById("nav-tenancy-statement").classList.add('active');
+    }
+</script>

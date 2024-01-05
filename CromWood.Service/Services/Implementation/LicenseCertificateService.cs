@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CromWood.Business.Helper;
 using CromWood.Business.Models;
+using CromWood.Business.Models.ViewModel;
 using CromWood.Business.Services.Interface;
 using CromWood.Data.Entities;
 using CromWood.Data.Repository.Interface;
@@ -90,7 +91,7 @@ namespace CromWood.Business.Services.Implementation
                 if (license.DocFile != null)
                 {
                     // In case of Edit, delete prev file & add new one
-                    if (mappedRequest.Id != Guid.Empty)
+                    if (!string.IsNullOrEmpty(mappedRequest.DocUrl))
                     {
                         await _fileUploader.Delete(mappedRequest.DocUrl, "licensecertification");
                     }
@@ -133,6 +134,19 @@ namespace CromWood.Business.Services.Implementation
             catch (Exception ex)
             {
                 return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
+        }
+
+        public async Task<ExportFile> DownloadLicense(string url)
+        {
+            try
+            {
+                return  await _fileUploader.Download(url, "licensecertification");
+            }
+
+            catch
+            {
+                throw;
             }
         }
     }

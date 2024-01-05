@@ -1,0 +1,34 @@
+
+/* ----------------------------- Responsive style start here -------------------------- */
+
+@media only screen and (min-width:576px){
+  
+    /* -------- Custom mode size 1 ----- */
+    .cm1_size{
+        max-width: 560px;
+        width: 100%;
+    }
+    /* -------- Custom mode size 1 end here  ----- */
+
+
+   /* -------- Custom mode size 2 ----- */
+    .cm2_size{
+        max-width: 950px;
+        width: 100%;
+    }
+    .add_edit_popup .modal-content{
+        height: 100%!important;
+        overflow-y: none;
+    }
+    .cm2_size .modal-content{
+        min-height: 650px!important;
+        height: 650px;
+        overflow-y: auto;
+    }
+    .cm2_size .modal-content::-webkit-scrollbar {
+        display: none;
+    }
+    /* -------- Custom mode size 2 end here ----- */
+}
+
+/* --------------------------------------------- Responsive style start here ----------------------------------------- */

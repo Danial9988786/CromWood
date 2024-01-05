@@ -1,0 +1,94 @@
+﻿@model IEnumerable<CromWood.Business.Models.TenancyDocumentModel>
+
+@{
+    ViewData["Title"] = "Documents";
+    Layout = "~/Views/Shared/_TenancyDetail.cshtml";
+
+    var rawId = ViewContext.RouteData.Values["id"] as string;
+    string tenancyId = "'" + Guid.Parse(rawId).ToString() + "'";
+    string emptyGuid = "'" + Guid.Empty.ToString() + "'";
+}
+
+<h1>Documents</h1>
+
+<p>
+    <a onclick="AddModifyDocuments(@tenancyId,@emptyGuid)">Add Documents</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DocumentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DocUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TenancyId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            string id = "'" + item.Id.ToString() + "'";
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DocumentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DocUrl)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenancyId)
+                </td>
+                <td>
+                    <a onclick="AddModifyDocuments(@tenancyId,@id)">Edit</a>
+                    <a onclick="DeleteDocument(@id)">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="modal fade" id="documentsDialog">
+    <div class="modal-dialog modal-dialog-centered" id="documentsDialogBody">
+    </div>
+</div>
+
+
+<script>
+    function AddModifyDocuments(tenancyId, documentId) {
+        var url = `/Tenancy/AddModifyDocument?tenancyId=${tenancyId}&documentId=${documentId}`;
+        $("#documentsDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#documentsDialogBody").css("width", "100%");
+            $("#documentsDialog").modal("show");
+        });
+    }
+
+    function DeleteDocument(documentId) {
+        $.ajax({
+            type: "POST",
+            url: `/Tenancy/DeleteDocument?documentId=${documentId}`,
+            success: function (result) {
+                window.location.reload();
+            },
+            error: function () {
+            }
+        })
+    }
+
+</script>
+

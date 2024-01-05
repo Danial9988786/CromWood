@@ -1,0 +1,89 @@
+﻿@model IEnumerable<CromWood.Business.Models.ViewModel.TenantViewModel>
+
+@{
+    ViewData["Title"] = "Tenants";
+    Layout = "~/Views/Shared/_TenancyDetail.cshtml";
+
+    var rawId = ViewContext.RouteData.Values["id"] as string;
+    string tenancyId = "'" + Guid.Parse(rawId).ToString() + "'";
+
+}
+
+<h1>Tenants</h1>
+
+<p>
+    <a onclick="AddNewExistingTenant(@tenancyId,'true')">Add New</a>
+    <a onclick="AddNewExistingTenant(@tenancyId,'false')">Add Existing</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="modal fade" id="tenantDialog">
+    <div class="modal-dialog modal-dialog-centered" id="tenantDialogBody">
+    </div>
+</div>
+
+<script>
+    function AddNewExistingTenant(tenancyId, isNew) {
+        var url = `/Tenancy/AddNewExistingTenant?tenancyId=${tenancyId}&isNew=${isNew}`;
+        $("#tenantDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#tenantDialogBody").css("width", "100%");
+            $("#tenantDialog").modal("show");
+        });
+    }
+
+    function DeleteTenancyTenant(id) {
+        $.ajax({
+            type: "POST",
+            url: `/Tenancy/DeleteTenancyTenant?tenancyTenantId=${id}`,
+            success: function (result) {
+                window.location.reload();
+            },
+            error: function () {
+            }
+        })
+    }
+
+</script>

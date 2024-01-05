@@ -58,5 +58,7 @@ namespace CromWood.Data.Entities
 
         [MaxLength(100)]
         public string BankName { get; set; }
+
+        public ICollection<TenancyTenant> TenancyTenants { get; set; }
     }
 }

@@ -61,5 +61,38 @@ namespace CromWood.Helper
             }
 
         }
+
+        public async Task<ExportFile> Download(string url, string containerName)
+        {
+            try
+            {
+                string blobName = url.Split('/')[^1];
+                var file = new ExportFile();
+                BlobContainerClient container = new(storageAccount, containerName);
+                if (container.Exists())
+                {
+                    BlobClient blobClient = container.GetBlobClient(blobName);
+                    BlobProperties bP = await blobClient.GetPropertiesAsync();
+
+                    if (blobClient.ExistsAsync().Result)
+                    {
+                        using var ms = new MemoryStream();
+                        blobClient.DownloadTo(ms);
+                        file = new ExportFile
+                        {
+                            bytes = ms.ToArray(),
+                            Name = blobName,
+                            ContentType = bP.ContentType
+                        };
+                    }
+                }
+                return file;
+            }
+
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

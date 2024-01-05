@@ -1,3 +1,4 @@
+-- Here will go the inital query that we have to run while inisitalizing this project
 INSERT INTO dbo.ClaimTypes values 
 ('a8228559-11be-4d9a-9544-8241f2ec59c1','CT1'),
 ('c6f007f8-2d30-49a0-a248-add219f4748d','CT2'),
@@ -144,10 +145,13 @@ INSERT INTO dbo.Amenities  values
 INSERT INTO dbo.Permissions (Id, PermissionKey, PermissionDisplayName) values 
 ('80341c60-c482-4249-979d-0d10a1e41d9b','dashboard_management', 'Dashboard Management'),
 ('0c0c5a45-741d-4ae9-8e3c-a976a1d9c3bd','user_management', 'User Management'),
-('b4b9dfa1-b26a-4c16-98f7-c706fc29a568','finance_management', 'Finance Management'),
+('84533fc1-d782-4d9d-98c8-d558397909b1','role_management', 'Role Management'),
 ('92b759ee-7da6-49ba-838e-56144187042d','asset_management', 'Asset Management'),
+('a3a31140-bdb7-4b82-8742-1547e0c1232a','property_management', 'Property Management'),
 ('3d6a1f89-ed7f-46d2-8ea8-87cc279dcf32','tenancy_management', 'Tenancy Management'),
-('a3a31140-bdb7-4b82-8742-1547e0c1232a','property_management', 'Property Management')
+('b4b9dfa1-b26a-4c16-98f7-c706fc29a568','finance_management', 'Finance Management'),
+('ded2522b-487a-46f1-b452-010c15fd0fce','license_management', 'License/Certification Management');
+
 
 INSERT INTO dbo.Roles (Id, Name) values
 ('01289643-bba0-48d0-b34c-c69b466be7ec', 'Administrator')
@@ -158,7 +162,9 @@ INSERT INTO dbo.RolePermissions(Id, RoleId, PermissionId, CanRead, CanWrite, Can
 ('3d6a1f89-ed7f-46d2-8ea8-87cc279dcf32', '01289643-bba0-48d0-b34c-c69b466be7ec', 'b4b9dfa1-b26a-4c16-98f7-c706fc29a568', 1, 1, 1, 1),
 ('0c0c5a45-741d-4ae9-8e3c-a976a1d9c3bd', '01289643-bba0-48d0-b34c-c69b466be7ec', '92b759ee-7da6-49ba-838e-56144187042d', 1, 1, 1, 1),
 ('80341c60-c482-4249-979d-0d10a1e41d9b', '01289643-bba0-48d0-b34c-c69b466be7ec', '3d6a1f89-ed7f-46d2-8ea8-87cc279dcf32', 1, 1, 1, 1),
-('a3a31140-bdb7-4b82-8742-1547e0c1232a', '01289643-bba0-48d0-b34c-c69b466be7ec', 'a3a31140-bdb7-4b82-8742-1547e0c1232a', 1, 1, 1, 1);
+('a3a31140-bdb7-4b82-8742-1547e0c1232a', '01289643-bba0-48d0-b34c-c69b466be7ec', 'a3a31140-bdb7-4b82-8742-1547e0c1232a', 1, 1, 1, 1),
+('b4b9dfa1-b26a-4c16-98f7-c706fc29a568', '01289643-bba0-48d0-b34c-c69b466be7ec', 'b4b9dfa1-b26a-4c16-98f7-c706fc29a568', 1, 1, 1, 1),
+('ded2522b-487a-46f1-b452-010c15fd0fce', '01289643-bba0-48d0-b34c-c69b466be7ec', 'ded2522b-487a-46f1-b452-010c15fd0fce', 1, 1, 1, 1);
 
 
 -- INSERT ADMIN INTO USER TABLE

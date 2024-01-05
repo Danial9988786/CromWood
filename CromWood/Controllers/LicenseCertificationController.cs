@@ -20,15 +20,15 @@ namespace CromWood.Controllers
         [HttpGet]
         public async Task<IActionResult> ViewLicense(Guid id)
         {
-            var insurance = await _licenseCertificateService.GetLicenseCertificateView(id);
-            return PartialView(insurance.Data);
+            var license = await _licenseCertificateService.GetLicenseCertificateView(id);
+            return PartialView(license.Data);
         }
 
         [HttpGet]
         public async Task<IActionResult> AddModifyLicense(Guid id)
         {
-            var insurance = await _licenseCertificateService.GetLicenseCertificateById(id);
-            return PartialView(insurance.Data);
+            var license =  await _licenseCertificateService.GetLicenseCertificateById(id);
+            return PartialView(license.Data);
         }
 
         [HttpPost]
@@ -54,6 +54,12 @@ namespace CromWood.Controllers
         {
             var result = await _licenseCertificateService.DeleteLicense(id);
             return StatusCode(result.StatusCode, result.Data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Download(string url) {
+            var result = await _licenseCertificateService.DownloadLicense(url);
+            return File(result.bytes,result.ContentType, result.Name);
         }
     }
 }

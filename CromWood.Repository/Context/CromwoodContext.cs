@@ -63,6 +63,9 @@ namespace CromWood.Data.Context
         public DbSet<PropertyInsurance> PropertyInsurances { get; set; }
         public DbSet<PropertyAmenity> PropertyAmenities { get; set; }
         public DbSet<Tenancy> Tenancies { get; set; }
+        public DbSet<TenancyNote> TenancyNotes { get; set; }
+        public DbSet<TenancyDocument> TenancyDocuments { get; set; }
+        public DbSet<TenancyTenant> TenancyTenants { get; set; }
         public DbSet<Tenant> Tenants { get; set; }
         public DbSet<Claim> Claims { get; set; }
         public DbSet<Complaint> Complaints { get; set; }

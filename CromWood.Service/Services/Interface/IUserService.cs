@@ -1,6 +1,7 @@
 ﻿
 using CromWood.Business.Helper;
 using CromWood.Business.Models;
+using CromWood.Business.Models.ViewModel;
 
 namespace CromWood.Business.Services.Interface
 {

@@ -66,5 +66,8 @@ namespace CromWood.Business.Models
         public string ManagingAgentPostCode { get; set; }
         public DateTime? LeaseTerm { get; set; }
         public DateTime? LeaseExpiry { get; set; }
+
+        // For Edit purpose in UI
+        public string Section { get; set; }
     }
 }

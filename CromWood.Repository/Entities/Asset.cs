@@ -65,6 +65,7 @@ namespace CromWood.Data.Entities
         public string ManagingAgentPostCode { get; set; }
         public DateTime? LeaseTerm { get; set; }
         public DateTime? LeaseExpiry { get; set; }
+        public ICollection<Property> Properties { get; set; }
 
     }
 }

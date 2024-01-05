@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CromWood.Business.Models;
+using CromWood.Business.Models.ViewModel;
 using CromWood.Business.ViewModels;
 using CromWood.Data.Entities;
 
@@ -26,7 +27,8 @@ namespace CromWood.Mapper
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => GetLastName(src.Name)));
 
             CreateMap<Asset, AssetViewModel>()
-                .ForMember(dest => dest.StreetAddress, opt => opt.MapFrom(src => $"{(src.AssetType != null ? $"{src.AssetType.Name} " : "")}{src.HouseNoStreet} ,{src.Borough}"));
+                .ForMember(dest => dest.StreetAddress, opt => opt.MapFrom(src => $"{(src.AssetType != null ? $"{src.AssetType.Name} " : "")}{src.HouseNoStreet} ,{src.Borough}"))
+                .ForMember(dest => dest.TotalUnit, opt => opt.MapFrom(src => src.Properties.Count));
             CreateMap<AssetModel, Asset>().ReverseMap();
 
             CreateMap<Property, PropertyViewModel>();
@@ -36,6 +38,14 @@ namespace CromWood.Mapper
 
             CreateMap<LicenseCertificate, LicenseCertificateViewModel>().ReverseMap();
             CreateMap<LicenseCertificate, LicenseCertificateModel>().ReverseMap();
+
+            CreateMap<Tenancy, TenancyViewModel>().ReverseMap();
+            CreateMap<TenancyTenant, TenancyTenantModel>().ReverseMap();
+            CreateMap<Tenancy, TenancyModel>().ReverseMap();
+            CreateMap<Tenant, TenantModel>().ReverseMap();
+            CreateMap<Tenant, TenantViewModel>().ReverseMap();
+            CreateMap<TenancyNote, TenancyNoteModel>().ReverseMap();
+            CreateMap<TenancyDocument, TenancyDocumentModel>().ReverseMap();
         }
 
         private string GetFirstName(string name)

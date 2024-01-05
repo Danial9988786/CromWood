@@ -12,10 +12,19 @@ var navigations = [
         url: '/LicenseCertification', id: 'nav-license-certification'
     },
     {
+        url: '/Tenancy', id: 'nav-tenancy-management'
+    },
+    {
+        url: '/Tenant', id: 'nav-tenant-management'
+    },
+    {
         url: '/User', id: 'nav-settings'
     },
     {
         url: '/RolePermission', id: 'nav-settings'
+    },
+    {
+        url: '/Auth', id: 'nav-login'
     },
 ]
 

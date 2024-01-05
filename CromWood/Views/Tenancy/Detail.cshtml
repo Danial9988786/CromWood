@@ -1,0 +1,41 @@
+﻿@model CromWood.Business.Models.TenancyModel
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_TenancyDetail.cshtml";
+}
+
+
+<table class="table mt-3">
+
+    <tbody class="asset_table">
+        <tr>
+            <th class="r_heading" scope="row">Property Code</th>
+            <td>@Model.Property.PropertyCode</td>
+        </tr>
+        <tr class="bg-white">
+            <th class="r_heading" scope="row">Property Owner</th>
+            <td colspan="2">@Model.Property.Asset.Ownership</td>
+        </tr>
+        <tr>
+            <th class="r_heading" scope="row">Contract Rent</th>
+            <td colspan="2">@Model.ContractFee</td>
+        </tr>
+        <tr class="bg-white">
+            <th class="r_heading" scope="row">Recurring charge</th>
+            <td colspan="2">@Model.RentAmount</td>
+        </tr>
+        <tr>
+            <th class="r_heading" scope="row">Tenancy Type</th>
+            <td colspan="2">@Model.TenancyType.Name</td>
+        </tr>
+        <tr class="bg-white">
+            <th class="r_heading" scope="row">Start Date</th>
+            <td colspan="2">@Model.StartDate</td>
+        </tr>
+        <tr class="bg-white">
+            <th class="r_heading" scope="row">End Date</th>
+            <td colspan="2">@Model.EndDate</td>
+        </tr>
+    </tbody>
+</table>

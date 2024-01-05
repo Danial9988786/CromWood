@@ -2,9 +2,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<ol class="breadcrumb mb-3 mt-3">
+<ol class="breadcrumb align-items-end mb-3 mt-3">
     <li class="breadcrumb-item">
-        <a href="index.html"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
+        <a asp-action="Index" asp-controller="Test"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
     </li>
     <li class="breadcrumb-item active">Settings</li>
 </ol>
@@ -23,9 +23,11 @@
 </nav>
 
 
-<div class="tab-content" id="nav-tabContent">
+<div class="tab-content user_l_m" id="nav-tabContent">
     @RenderBody()
 </div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+@await RenderSectionAsync("Scripts", required: false)
 
 <script>
     if (window.location.pathname == "/User"){

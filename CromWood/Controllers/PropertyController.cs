@@ -1,4 +1,5 @@
-﻿using CromWood.Business.Constants;
+﻿using ClosedXML.Excel;
+using CromWood.Business.Constants;
 using CromWood.Business.Models;
 using CromWood.Business.Services.Interface;
 using CromWood.Data.Entities;
@@ -31,6 +32,49 @@ namespace CromWood.Controllers
             }
             var result = await _propertyService.GetPropertyForList();
             return View(result.Data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Export()
+        {
+            // Get assets for exporting
+            var assets = await _propertyService.GetPropertyForList();
+            var source = assets.Data.ToList();
+            List<string> headers = new() { "Property ID", "Street Address", "Ownership", "Status", "Rent Amount" };
+
+            #region Exporting for Excel
+
+            // This is the best way to export, as we have to loop anyway in another helper as well.
+            string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            string fileName = $"property-management.xlsx";
+            string tabName = "Properties";
+
+            using var workbook = new XLWorkbook();
+            IXLWorksheet worksheet =
+            workbook.Worksheets.Add(tabName);
+
+            // For Header
+            for (int header = 1; header <= headers.Count; header++)
+            {
+                worksheet.Cell(1, header).Value = headers[header - 1];
+                worksheet.Cell(1, header).Style.Font.SetBold();
+            }
+
+            // For Data
+            for (int data = 1; data <= source.Count; data++)
+            {
+                worksheet.Cell(data + 1, 1).Value = source[data - 1].PropertyCode;
+                worksheet.Cell(data + 1, 2).Value = source[data - 1].Asset.StreetAddress;
+                worksheet.Cell(data + 1, 3).Value = source[data - 1].Asset.Ownership;
+                worksheet.Cell(data + 1, 4).Value = "Available to let";
+                worksheet.Cell(data + 1, 5).Value = source[data - 1].ExpectedMonthlyRate + " monthly";
+            }
+            using var stream = new MemoryStream();
+            workbook.SaveAs(stream);
+            var content = stream.ToArray();
+            return File(content, contentType, fileName);
+            #endregion
+
         }
 
         [HttpGet]
