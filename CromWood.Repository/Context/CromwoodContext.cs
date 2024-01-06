@@ -70,7 +70,7 @@ namespace CromWood.Data.Context
         public DbSet<Claim> Claims { get; set; }
         public DbSet<Complaint> Complaints { get; set; }
         public DbSet<LicenseCertificate> LicenseCertificates { get; set; }
-        public DbSet<Notice> Notice { get; set; }
+        public DbSet<Notice> Notices { get; set; }
 
         public override int SaveChanges()
         {

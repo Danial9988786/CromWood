@@ -1,0 +1,84 @@
+﻿@using CromWood.Business.Services.Interface;
+@using CromWood.Data.Entities.Default;
+@model CromWood.Business.Models.NoticeModel
+@inject ILookupService<Concern> _concernLookup;
+@inject ILookupService<Section> _sectionLookup;
+@inject ITenantService _tenantService;
+
+@{
+    var asyncConcern = await _concernLookup.GetAllItems();
+    var concerns = new SelectList(asyncConcern.Data, "Id", "Name");
+
+    var asyncSection = await _sectionLookup.GetAllItems();
+    var sections = new SelectList(asyncSection.Data, "Id", "Name");
+
+    var asyncTenants = await _tenantService.GetTenantForList();
+    var tenants = new SelectList(asyncTenants.Data, "Id", "FullName");
+}
+
+<div class="modal-content rounded-0">
+    <div class="modal-header py-2">
+        <h5 class="modal-title" id="staticBackdropLabel">Add/Edit Notice</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form asp-action="AddModifyNotice">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(x=>x.Id)
+            <div class="form-group">
+                <label asp-for="TrackingNumber" class="control-label"></label>
+                <input asp-for="TrackingNumber" class="form-control" />
+                <span asp-validation-for="TrackingNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConcernId" class="control-label"></label>
+                <select asp-for="ConcernId" asp-items="concerns" class="form-control"></select>
+                <span asp-validation-for="ConcernId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TenantId" class="control-label"></label>
+                <select asp-for="TenantId" asp-items="tenants" class="form-control"></select>
+                <span asp-validation-for="TenantId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ASTLicense" class="control-label"></label>
+                <input asp-for="ASTLicense" class="form-control" />
+                <span asp-validation-for="ASTLicense" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SectionId" class="control-label"></label>
+                <select asp-for="SectionId" asp-items="sections" class="form-control"></select>
+                <span asp-validation-for="SectionId" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsDrafted" /> @Html.DisplayNameFor(model => model.IsDrafted)
+                </label>
+            </div>
+            @Html.HiddenFor(x=>x.Archived)
+            <div class="form-group">
+                <label asp-for="EmailedOn" class="control-label"></label>
+                <input asp-for="EmailedOn" class="form-control" />
+                <span asp-validation-for="EmailedOn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ServedAndPictured" class="control-label"></label>
+                <input asp-for="ServedAndPictured" class="form-control" />
+                <span asp-validation-for="ServedAndPictured" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExpiryDate" class="control-label"></label>
+                <input asp-for="ExpiryDate" class="form-control" />
+                <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Comment" class="control-label"></label>
+                <input asp-for="Comment" class="form-control" />
+                <span asp-validation-for="Comment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,105 @@
+﻿@model IEnumerable<CromWood.Business.Models.ViewModel.NoticeViewModel>
+
+@{
+    ViewData["Title"] = "Notice";
+    Layout = "~/Views/Shared/_NoticeClaim.cshtml";
+    string emptyGuid = "'" + Guid.Empty.ToString() + "'";
+}
+<h1>Notice</h1>
+
+<a onclick="AddModifyNotice(@emptyGuid)">Create New</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TrackingNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TenantId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ASTLicense)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TrackingNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenantId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ASTLicense)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </td>
+                <td>
+                    @{
+                        string id = "'" + item.Id.ToString() + "'";
+                    }
+                    <a onclick="AddModifyNotice(@id)">Edit</a>
+                    <a onclick="ArchiveNotice(@id)">Archive</a>
+                    <a onclick="DeleteNotice(@id)">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+<div class="modal fade" id="noticeDialog">
+    <div class="modal-dialog modal-dialog-centered" id="noticeDialogBody">
+    </div>
+</div>
+
+
+<script>
+    function AddModifyNotice(noticeId) {
+        var url = `/NoticeClaims/AddModifyNotice?id=${noticeId}`;
+        $("#noticeDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#noticeDialogBody").css("width", "100%");
+            $("#noticeDialog").modal("show");
+        });
+    }
+
+    function ArchiveNotice(noticeId) {
+        $.ajax({
+            type: "POST",
+            url: `/NoticeClaims/ArchiveNotice?id=${noticeId}`,
+            success: function (result) {
+                window.location.reload();
+            },
+            error: function () {
+            }
+        })
+    }
+
+    function DeleteNotice(noticeId) {
+        $.ajax({
+            type: "POST",
+            url: `/NoticeClaims/DeleteNotice?id=${noticeId}`,
+            success: function (result) {
+                window.location.reload();
+            },
+            error: function () {
+            }
+        })
+    }
+
+</script>

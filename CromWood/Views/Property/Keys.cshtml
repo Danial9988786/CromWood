@@ -36,32 +36,33 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdditionalInformation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SharedWithTenant)
-            </td>
-            <td>
-                <img height="50" src="@item.ImageUrl">
-            </td>
-            <td>
-               @{
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdditionalInformation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SharedWithTenant)
+                </td>
+                <td>
+                    <img height="50" src="@item.ImageUrl">
+                </td>
+                <td>
+                    @{
                         string url = "'" + item.Id.ToString() + "'";
-               }
+                    }
                     <a onclick="AddModifyKey(@propertyId,@url)">Edit</a>
                     <a onclick="DeleteKey(@url)">Delete</a>
-            </td>
-        </tr>
-}
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 
@@ -72,7 +73,7 @@
 
 
 <script>
-    function AddModifyKey(propertyId,keyId) {
+    function AddModifyKey(propertyId, keyId) {
         var url = `/Property/AddModifyKey?propertyId=${propertyId}&keyId=${keyId}`;
         $("#keyDialogBody").load(url, function () {
             // This is done to add validation to partial view, as they don't support validationscript partial.

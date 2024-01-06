@@ -232,21 +232,22 @@
                         }
 
 
-                        @*                         <a class="nav-link" id="property-assessment">
+                        @*<a class="nav-link" id="property-assessment">
                         <div class="sb-nav-link-icon">
                         <img class="main_nav_icon" src="~/assets/img/main_property_ass.svg" />
                         <img class="active_nav_icon" src="~/assets/img/active_property_ass.svg" />
                         </div>
                         <span class="nav__text">Property Assessment</span>
                         </a>
-                        <a class="nav-link" id="nav-notice-claims">
-                        <div class="sb-nav-link-icon">
-                        <img class="main_nav_icon" src="~/assets/img/main_notices.svg" />
-                        <img class="active_nav_icon" src="~/assets/img/active_main_notices.svg" />
-                        </div>
-                        <span class="nav__text">Notices & Claims</span>
-                        </a>
                         *@
+                        <a class="nav-link" id="nav-notice-claims" asp-action="Notice" asp-controller="NoticeClaims">
+                            <div class="sb-nav-link-icon">
+                                <img class="main_nav_icon" src="~/assets/img/main_notices.svg" />
+                                <img class="active_nav_icon" src="~/assets/img/active_main_notices.svg" />
+                            </div>
+                            <span class="nav__text">Notices & Claims</span>
+                        </a>
+
                         @if (accessTenantManagement)
                         {
                             <a class="nav-link" id="nav-tenant-management" asp-action="Index" asp-controller="Tenant">
@@ -269,14 +270,14 @@
                         }
 
 
-                        @*                         <a class="nav-link" id="nav-messages">
-                        <div class="sb-nav-link-icon">
-                        <img class="main_nav_icon" src="~/assets/img/main_messages.svg" />
-                        <img class="active_nav_icon" src="~/assets/img/active_main_messages.svg" />
-                        </div>
-                        <span class="nav__text">Messages</span>
+                        <a class="nav-link" id="nav-messages" asp-action="Sent" asp-controller="Messages">
+                            <div class="sb-nav-link-icon">
+                                <img class="main_nav_icon" src="~/assets/img/main_messages.svg" />
+                                <img class="active_nav_icon" src="~/assets/img/active_main_messages.svg" />
+                            </div>
+                            <span class="nav__text">Messages</span>
                         </a>
-
+                        @*
                         <a class="nav-link collapsed myc" href="finance-management.html" data-bs-toggle="collapse"
                         data-bs-target="#Finance-tab" aria-expanded="false" aria-controls="Finance-tab">
                         <!-- <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div> -->
@@ -304,15 +305,16 @@
                         <a class="nav-link" href="index.html">Revenue & Expenses</a>
                         </nav>
                         </div>
-
-                        <a class="nav-link" href="complaints.html">
-                        <div class="sb-nav-link-icon">
-                        <img class="main_nav_icon" src="~/assets/img/main_complaints.svg" />
-                        <img class="active_nav_icon" src="~/assets/img/active_main_complaints.svg" />
-                        </div>
-                        <span class="nav__text">Complaints</span>
+                        *@
+                        <a class="nav-link" id="nav-complaints" asp-action="Index" asp-controller="Complaints">
+                            <div class="sb-nav-link-icon">
+                                <img class="main_nav_icon" src="~/assets/img/main_complaints.svg" />
+                                <img class="active_nav_icon" src="~/assets/img/active_main_complaints.svg" />
+                            </div>
+                            <span class="nav__text">Complaints</span>
                         </a>
 
+                        @*
                         <a class="nav-link" href="reports.html">
                         <div class="sb-nav-link-icon">
                         <img class="main_nav_icon" src="~/assets/img/main_reports.svg" />

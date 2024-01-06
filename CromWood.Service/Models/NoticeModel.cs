@@ -1,21 +1,19 @@
 ﻿using CromWood.Data.Entities.Default;
+using CromWood.Data.Entities;
 using System.ComponentModel.DataAnnotations;
 
-namespace CromWood.Data.Entities
+namespace CromWood.Business.Models
 {
-    public class Notice: DBTable
+    public class NoticeModel
     {
         public Guid Id { get; set; }
 
         [Required, MaxLength(100)]
         public string TrackingNumber { get; set; }
         public Guid ConcernId { get; set; }
-        public Concern Concern { get; set; }
         public Guid TenantId { get; set; }
-        public Tenant Tenant { get; set; }
         public string ASTLicense { get; set; }
         public Guid SectionId { get; set; }
-        public Section Section { get; set; }
         public bool IsDrafted { get; set; }
         public bool Archived { get; set; }
         public DateTime? EmailedOn { get; set; }
@@ -24,6 +22,5 @@ namespace CromWood.Data.Entities
 
         [MaxLength(500)]
         public string Comment { get; set; }
-
     }
 }

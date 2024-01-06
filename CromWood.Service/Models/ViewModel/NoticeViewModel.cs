@@ -1,18 +1,15 @@
 ﻿using CromWood.Data.Entities.Default;
-using System.ComponentModel.DataAnnotations;
 
-namespace CromWood.Data.Entities
+namespace CromWood.Business.Models.ViewModel
 {
-    public class Notice: DBTable
+    public class NoticeViewModel
     {
         public Guid Id { get; set; }
-
-        [Required, MaxLength(100)]
         public string TrackingNumber { get; set; }
         public Guid ConcernId { get; set; }
         public Concern Concern { get; set; }
         public Guid TenantId { get; set; }
-        public Tenant Tenant { get; set; }
+        public TenantViewModel Tenant { get; set; }
         public string ASTLicense { get; set; }
         public Guid SectionId { get; set; }
         public Section Section { get; set; }
@@ -21,9 +18,6 @@ namespace CromWood.Data.Entities
         public DateTime? EmailedOn { get; set; }
         public DateTime? ServedAndPictured { get; set; }
         public DateTime? ExpiryDate { get; set; }
-
-        [MaxLength(500)]
         public string Comment { get; set; }
-
     }
 }

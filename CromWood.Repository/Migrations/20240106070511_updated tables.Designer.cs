@@ -4,6 +4,7 @@ using CromWood.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CromWood.Data.Migrations
 {
     [DbContext(typeof(CromwoodContext))]
-    partial class CromwoodContextModelSnapshot : ModelSnapshot
+    [Migration("20240106070511_updated tables")]
+    partial class updatedtables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -227,13 +230,13 @@ namespace CromWood.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ComplaintCategoryId")
+                    b.Property<Guid>("ComplaintCategoryId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ComplaintNatureId")
+                    b.Property<Guid>("ComplaintNatureId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ComplaintTypeId")
+                    b.Property<Guid>("ComplaintTypeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("CreatedBy")
@@ -242,7 +245,7 @@ namespace CromWood.Data.Migrations
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("ExpectedResolveDate")
+                    b.Property<DateTime>("ExpectedResolveDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FileUrl")
@@ -255,12 +258,6 @@ namespace CromWood.Data.Migrations
                     b.Property<string>("Status")
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
-
-                    b.Property<string>("StatusUpdateFileUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StatusUpdateRemark")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uniqueidentifier");
@@ -1340,15 +1337,21 @@ namespace CromWood.Data.Migrations
                 {
                     b.HasOne("CromWood.Data.Entities.Default.ComplaintCategory", "ComplaintCategory")
                         .WithMany()
-                        .HasForeignKey("ComplaintCategoryId");
+                        .HasForeignKey("ComplaintCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CromWood.Data.Entities.Default.ComplaintNature", "ComplaintNature")
                         .WithMany()
-                        .HasForeignKey("ComplaintNatureId");
+                        .HasForeignKey("ComplaintNatureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CromWood.Data.Entities.Default.ComplaintType", "ComplaintType")
                         .WithMany()
-                        .HasForeignKey("ComplaintTypeId");
+                        .HasForeignKey("ComplaintTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CromWood.Data.Entities.Property", "Property")
                         .WithMany()

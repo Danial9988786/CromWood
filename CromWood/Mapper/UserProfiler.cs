@@ -46,6 +46,12 @@ namespace CromWood.Mapper
             CreateMap<Tenant, TenantViewModel>().ReverseMap();
             CreateMap<TenancyNote, TenancyNoteModel>().ReverseMap();
             CreateMap<TenancyDocument, TenancyDocumentModel>().ReverseMap();
+
+            CreateMap<Notice, NoticeModel>().ReverseMap();
+            CreateMap<Notice, NoticeViewModel>().ReverseMap();
+
+            CreateMap<Claim, ClaimModel>().ReverseMap();
+            CreateMap<Claim, ClaimViewModel>().ReverseMap();
         }
 
         private string GetFirstName(string name)

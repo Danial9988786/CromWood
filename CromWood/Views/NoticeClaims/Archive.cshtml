@@ -1,0 +1,71 @@
+﻿@model IEnumerable<CromWood.Business.Models.ViewModel.NoticeViewModel>
+
+@{
+    ViewData["Title"] = "Notice";
+    Layout = "~/Views/Shared/_NoticeClaim.cshtml";
+}
+
+<h1>Archive Notice</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TrackingNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TenantId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ASTLicense)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDrafted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmailedOn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ServedAndPictured)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpiryDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TrackingNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenantId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ASTLicense)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsDrafted)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmailedOn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ServedAndPictured)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExpiryDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -18,6 +18,9 @@ var navigations = [
         url: '/Tenant', id: 'nav-tenant-management'
     },
     {
+        url: '/NoticeClaims', id:'nav-notice-claims'
+    },
+    {
         url: '/User', id: 'nav-settings'
     },
     {

@@ -30,6 +30,7 @@ builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
 builder.Services.AddScoped<ILicenseCertificateRepository, LicenseCertificateRepository>();
 builder.Services.AddScoped<ITenancyRepository, TenancyRepository>();
 builder.Services.AddScoped<ITenantRepository, TenantRepository>();
+builder.Services.AddScoped<INoticeClaimsRepository, NoticeClaimsRepository>();
 builder.Services.AddScoped(typeof(ILookupRepository<>), typeof(LookupRepository<>));
 
 builder.Services.AddScoped<ITestService, TestService>();
@@ -42,6 +43,7 @@ builder.Services.AddScoped<IPropertyService, PropertyService>();
 builder.Services.AddScoped<ILicenseCertificateService, LicenseCertificateService>();
 builder.Services.AddScoped<ITenancyService, TenancyService>();
 builder.Services.AddScoped<ITenantService, TenantService>();
+builder.Services.AddScoped<INoticeClaimsService, NoticeClaimsService>();
 builder.Services.AddScoped(typeof(ILookupService<>), typeof(LookupService<>));
 
 

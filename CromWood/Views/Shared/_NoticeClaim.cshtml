@@ -1,0 +1,45 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb align-items-end mb-3 mt-3">
+    <li class="breadcrumb-item">
+        <a asp-action="Index" asp-controller="Test"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
+    </li>
+    <li class="breadcrumb-item active">Notices & Claims</li>
+</ol>
+<h1 class="mt-2 mb-3 custom_h">Notice & Claims</h1>
+
+<!-- ----- Tab box start here ------->
+<nav class="user___tabs">
+    <div class="nav nav-tabs" id="nav-tab">
+        <a class="nav-link text-capitalize" id="nav-eviction-notices" asp-action="Notice" asp-controller="NoticeClaims">
+            eviction notices
+        </a>
+        <a class="nav-link text-capitalize" id="nav-possession-claims" asp-action="Claim" asp-controller="NoticeClaims">
+            possession claims
+        </a>
+        <a class="nav-link text-capitalize" id="nav-notice-archive" asp-action="Archive" asp-controller="NoticeClaims">
+            notice archieve
+        </a>
+    </div>
+</nav>
+
+
+<div class="tab-content user_l_m" id="nav-tabContent">
+    @RenderBody()
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+@await RenderSectionAsync("Scripts", required: false)
+
+<script>
+    if (window.location.pathname == "/NoticeClaims/Notice") {
+        document.getElementById("nav-eviction-notices").classList.add('active');
+    }
+    if (window.location.pathname == "/NoticeClaims/Claim") {
+        document.getElementById("nav-possession-claims").classList.add('active');
+    }
+    if (window.location.pathname == "/NoticeClaims/Archive") {
+        document.getElementById("nav-notice-archive").classList.add('active');
+    }
+</script>
