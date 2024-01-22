@@ -3,8 +3,6 @@
     public class PaymentPlan: DBTable
     {
         public Guid Id { get; set; }
-        public Guid TenancyId { get; set; }
-        public Tenancy Tenancy { get; set; }
         public Guid ReferenceStatementId { get; set; }
         public TenancyStatement ReferenceStatement { get; set; }
         public Guid? ToPaidBy { get; set; }

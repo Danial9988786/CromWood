@@ -14,6 +14,8 @@
         public const string NoticeAndClaimManagement = "notice_claim_management";
         public const string ComplaintManagement = "complaint_management";
         public const string MessageManagement = "message_management";
+        public const string AssementManagement = "assesment_management";
+        public const string ReportManagement = "report_management";
     }
 
     public static class PermissionConstant

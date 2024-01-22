@@ -50,6 +50,11 @@ namespace CromWood.Data.Context
         public DbSet<Section> Sections { get; set; }
         public DbSet<TenantType> TenantTypes { get; set; }
         public DbSet<TransactionType> TransactionTypes { get; set; }
+        public DbSet<TransactionMode> TransactionModes { get; set; }
+        public DbSet<RecurringFrequency> RecurringFrequencies { get; set; }
+        public DbSet<StatementType> StatementTypes { get; set; }
+        public DbSet<UtilityType> UtilityTypes { get; set; }
+        public DbSet<UtilityProvider> UtilityProviders { get; set; }
         #endregion
 
         public DbSet<Role> Roles { get; set; }
@@ -82,6 +87,18 @@ namespace CromWood.Data.Context
         public DbSet<PropertyAssesment> PropertyAssesments { get; set; }
         public DbSet<PropertyInspectionItem> PropertyInspectionItems { get; set; }
         public DbSet<PropertyInspectionItemImage> PropertyInspectionItemImage { get; set; }
+
+        // Tenancy Related
+        public DbSet<UnitUtility> UnitUtilities { get; set; }
+        public DbSet<UnitUtilityDocument> UnitUtilityDocuments { get; set; }
+        public DbSet<UnitUtilityReading> UnitUtilityReadings { get; set; }
+        public DbSet<TenancyStatement> Statements { get; set; }
+        public DbSet<StatementDocument> StatementDocuments { get; set; }
+        public DbSet<StatementTransaction> StatementTransactions { get; set; }
+        public DbSet<TenancyMessage> TenancyMessages { get; set; }
+        public DbSet<RecurringCharge> RecurringCharges { get; set; }
+        public DbSet<PaymentPlan> PaymentPlans { get; set; }
+        public DbSet<PaymentPlanInstallment> PaymentPlanInstallments { get; set; }
 
 
         public override int SaveChanges()

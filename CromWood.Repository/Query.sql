@@ -160,6 +160,36 @@ INSERT INTO dbo.UnitOfMeasurements values
 ('914d1a66-0ee7-45f6-ab77-19c928c5a426','Ounce'),
 ('01289643-bba0-48d0-b34c-c69b466be7ec','Pieces')
 
+INSERT INTO dbo.TransactionModes values 
+('a8228559-11be-4d9a-9544-8241f2ec59c1','Cash'),
+('c6f007f8-2d30-49a0-a248-add219f4748d','Cheque'),
+('64432c8e-8cc3-4365-a8f5-e4dc925c42fd','Online Bank Transfer'),
+
+INSERT INTO dbo.RecurringFrequencies values 
+('a8228559-11be-4d9a-9544-8241f2ec59c1','Monthly'),
+('c6f007f8-2d30-49a0-a248-add219f4748d','Quarterly'),
+('64432c8e-8cc3-4365-a8f5-e4dc925c42fd','Half Yearly'),
+('914d1a66-0ee7-45f6-ab77-19c928c5a426','Annually'),
+('01289643-bba0-48d0-b34c-c69b466be7ec','Agreement End Date')
+
+INSERT INTO dbo.StatementTypes(Id, GroupName, Name) values 
+('a8228559-11be-4d9a-9544-8241f2ec59c1','Charges and Credit', 'Contract Fee Charge'),
+('c6f007f8-2d30-49a0-a248-add219f4748d','Charges and Credit','DirectRent'),
+('64432c8e-8cc3-4365-a8f5-e4dc925c42fd','Reciepts and Payments','Contractor Refund'),
+('914d1a66-0ee7-45f6-ab77-19c928c5a426','Reciepts and Payments','Tenancy Refund'),
+('01289643-bba0-48d0-b34c-c69b466be7ec','Reciepts and Payments','Tenancy Reciept')
+
+INSERT INTO dbo.UtilityTypes values 
+('a8228559-11be-4d9a-9544-8241f2ec59c1','Water'),
+('c6f007f8-2d30-49a0-a248-add219f4748d','Electricity'),
+('64432c8e-8cc3-4365-a8f5-e4dc925c42fd','TV'),
+('914d1a66-0ee7-45f6-ab77-19c928c5a426','Wifi'),
+('01289643-bba0-48d0-b34c-c69b466be7ec','Others')
+
+INSERT INTO dbo.UtilityProviders values 
+('a8228559-11be-4d9a-9544-8241f2ec59c1','Torret Power Limited'),
+('c6f007f8-2d30-49a0-a248-add219f4748d','Rogers Network'),
+('64432c8e-8cc3-4365-a8f5-e4dc925c42fd','Millenium Gas Company'),
 
 -- Default Roles, Permission, User : At first --
 
@@ -175,7 +205,12 @@ INSERT INTO dbo.Permissions (Id, PermissionKey, PermissionDisplayName) values
 ('b4b9dfa1-b26a-4c16-98f7-c706fc29a568','finance_management', 'Finance Management'),
 ('ded2522b-487a-46f1-b452-010c15fd0fce','license_management', 'License/Certification Management'),
 ('f6095e87-ba99-49ac-9124-d7ce2c7e2c83','notice_claim_management', 'Notice/Claim Management'),
-('1b8af2ee-bcd8-448c-9c43-c0325cdb060c','complaint_management', 'Complaint Management');
+('1b8af2ee-bcd8-448c-9c43-c0325cdb060c','complaint_management', 'Complaint Management'),
+('325de514-5e8b-499b-b5b2-1bb155660617','tenant_management', 'Tenant Management'),
+('d35c8646-4bcb-44a5-bfb4-aa442985bf66','assesment_management', 'Property Assessement Management'),
+('1c481114-2153-409e-ad17-bf09902bd6ae','financial_management', 'Financial Management'),
+('02957c7c-db0a-43cb-a171-a301e8936892','report_management', 'Report Management'),
+('300a2718-37ff-4ac1-be8e-de36a6a2b42f','message_management', 'Message Management');
 
 
 INSERT INTO dbo.Roles (Id, Name) values

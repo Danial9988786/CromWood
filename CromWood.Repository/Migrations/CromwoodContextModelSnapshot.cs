@@ -556,6 +556,20 @@ namespace CromWood.Data.Migrations
                     b.ToTable("PropertyTypes");
                 });
 
+            modelBuilder.Entity("CromWood.Data.Entities.Default.RecurringFrequency", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RecurringFrequencies");
+                });
+
             modelBuilder.Entity("CromWood.Data.Entities.Default.RentFrequency", b =>
                 {
                     b.Property<Guid>("Id")
@@ -598,6 +612,23 @@ namespace CromWood.Data.Migrations
                     b.ToTable("Sections");
                 });
 
+            modelBuilder.Entity("CromWood.Data.Entities.Default.StatementType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("GroupName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StatementTypes");
+                });
+
             modelBuilder.Entity("CromWood.Data.Entities.Default.SurverySection", b =>
                 {
                     b.Property<Guid>("Id")
@@ -626,6 +657,20 @@ namespace CromWood.Data.Migrations
                     b.ToTable("TenantTypes");
                 });
 
+            modelBuilder.Entity("CromWood.Data.Entities.Default.TransactionMode", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TransactionModes");
+                });
+
             modelBuilder.Entity("CromWood.Data.Entities.Default.TransactionType", b =>
                 {
                     b.Property<Guid>("Id")
@@ -652,6 +697,34 @@ namespace CromWood.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UnitOfMeasurements");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.Default.UtilityProvider", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UtilityProviders");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.Default.UtilityType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UtilityTypes");
                 });
 
             modelBuilder.Entity("CromWood.Data.Entities.LicenseCertificate", b =>
@@ -856,6 +929,90 @@ namespace CromWood.Data.Migrations
                     b.HasIndex("TenantId");
 
                     b.ToTable("Notices");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.PaymentPlan", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("Amount")
+                        .HasColumnType("real");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("InstallmentAmount")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime>("InstallmentStart")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("InstallmentType")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("IntrestCharge")
+                        .HasColumnType("real");
+
+                    b.Property<int>("NoOfInstallment")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("ReferenceStatementId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ToPaidBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReferenceStatementId");
+
+                    b.ToTable("PaymentPlans");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.PaymentPlanInstallment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("Amount")
+                        .HasColumnType("real");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<float>("Paid")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PaymentPlanInstallments");
                 });
 
             modelBuilder.Entity("CromWood.Data.Entities.Permission", b =>
@@ -1222,6 +1379,67 @@ namespace CromWood.Data.Migrations
                     b.ToTable("PropertyKeys");
                 });
 
+            modelBuilder.Entity("CromWood.Data.Entities.RecurringCharge", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ChargerFor")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpectedPaymentDueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("InvoiceRaisedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("InvoiceRaisedToDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<float>("NetAmount")
+                        .HasColumnType("real");
+
+                    b.Property<Guid?>("RecurringBasisForId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RecurringFrequencyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TenancyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("TransactionDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("TransactionTypeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecurringBasisForId");
+
+                    b.HasIndex("RecurringFrequencyId");
+
+                    b.HasIndex("TenancyId");
+
+                    b.HasIndex("TransactionTypeId");
+
+                    b.ToTable("RecurringCharges");
+                });
+
             modelBuilder.Entity("CromWood.Data.Entities.Role", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1293,6 +1511,93 @@ namespace CromWood.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("RolePermissions");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.StatementDocument", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DocUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("StatementId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StatementId");
+
+                    b.ToTable("StatementDocuments");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.StatementTransaction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InvoiceNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("NetAmount")
+                        .HasColumnType("real");
+
+                    b.Property<string>("PaidBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("PaidByTenantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("StatementId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("TransactionDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("TransactionModeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PaidByTenantId");
+
+                    b.HasIndex("StatementId");
+
+                    b.HasIndex("TransactionModeId");
+
+                    b.ToTable("StatementTransactions");
                 });
 
             modelBuilder.Entity("CromWood.Data.Entities.Tenancy", b =>
@@ -1437,6 +1742,49 @@ namespace CromWood.Data.Migrations
                     b.ToTable("TenancyDocuments");
                 });
 
+            modelBuilder.Entity("CromWood.Data.Entities.TenancyMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AttachmentUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool?>("IsDraft")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Medium")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("TenancyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenancyId");
+
+                    b.ToTable("TenancyMessages");
+                });
+
             modelBuilder.Entity("CromWood.Data.Entities.TenancyNote", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1475,6 +1823,51 @@ namespace CromWood.Data.Migrations
                     b.HasIndex("TenancyId");
 
                     b.ToTable("TenancyNotes");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.TenancyStatement", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<float>("NetAmount")
+                        .HasColumnType("real");
+
+                    b.Property<string>("ReferenceID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StatementDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("StatementTypeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TenancyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StatementTypeId");
+
+                    b.HasIndex("TenancyId");
+
+                    b.ToTable("Statements");
                 });
 
             modelBuilder.Entity("CromWood.Data.Entities.TenancyTenant", b =>
@@ -1629,6 +2022,124 @@ namespace CromWood.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tests");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.UnitUtility", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AccountNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("MeterSerialNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("TenancyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UtilityProviderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UtilityTypeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenancyId");
+
+                    b.HasIndex("UtilityProviderId");
+
+                    b.HasIndex("UtilityTypeId");
+
+                    b.ToTable("UnitUtilities");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.UnitUtilityDocument", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DocUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UnitUtilityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UnitUtilityId");
+
+                    b.ToTable("UnitUtilityDocuments");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.UnitUtilityReading", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOfReading")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("MeterReading")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UnitUtilityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UnitUtilityId");
+
+                    b.ToTable("UnitUtilityReadings");
                 });
 
             modelBuilder.Entity("CromWood.Data.Entities.User", b =>
@@ -1843,6 +2354,17 @@ namespace CromWood.Data.Migrations
                     b.Navigation("Tenant");
                 });
 
+            modelBuilder.Entity("CromWood.Data.Entities.PaymentPlan", b =>
+                {
+                    b.HasOne("CromWood.Data.Entities.TenancyStatement", "ReferenceStatement")
+                        .WithMany()
+                        .HasForeignKey("ReferenceStatementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ReferenceStatement");
+                });
+
             modelBuilder.Entity("CromWood.Data.Entities.Property", b =>
                 {
                     b.HasOne("CromWood.Data.Entities.Asset", "Asset")
@@ -1966,6 +2488,37 @@ namespace CromWood.Data.Migrations
                     b.Navigation("PropertyKeyType");
                 });
 
+            modelBuilder.Entity("CromWood.Data.Entities.RecurringCharge", b =>
+                {
+                    b.HasOne("CromWood.Data.Entities.Tenant", "RecurringBasisFor")
+                        .WithMany()
+                        .HasForeignKey("RecurringBasisForId");
+
+                    b.HasOne("CromWood.Data.Entities.Default.RecurringFrequency", "RecurringFrequency")
+                        .WithMany()
+                        .HasForeignKey("RecurringFrequencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CromWood.Data.Entities.Tenancy", "Tenancy")
+                        .WithMany()
+                        .HasForeignKey("TenancyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CromWood.Data.Entities.Default.TransactionType", "TransactionType")
+                        .WithMany()
+                        .HasForeignKey("TransactionTypeId");
+
+                    b.Navigation("RecurringBasisFor");
+
+                    b.Navigation("RecurringFrequency");
+
+                    b.Navigation("Tenancy");
+
+                    b.Navigation("TransactionType");
+                });
+
             modelBuilder.Entity("CromWood.Data.Entities.RolePermission", b =>
                 {
                     b.HasOne("CromWood.Data.Entities.Permission", "Permission")
@@ -1981,6 +2534,38 @@ namespace CromWood.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Permission");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.StatementDocument", b =>
+                {
+                    b.HasOne("CromWood.Data.Entities.TenancyStatement", "Statement")
+                        .WithMany()
+                        .HasForeignKey("StatementId");
+
+                    b.Navigation("Statement");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.StatementTransaction", b =>
+                {
+                    b.HasOne("CromWood.Data.Entities.Tenant", "PaidByTenant")
+                        .WithMany()
+                        .HasForeignKey("PaidByTenantId");
+
+                    b.HasOne("CromWood.Data.Entities.TenancyStatement", "Statement")
+                        .WithMany()
+                        .HasForeignKey("StatementId");
+
+                    b.HasOne("CromWood.Data.Entities.Default.TransactionMode", "TransactionMode")
+                        .WithMany()
+                        .HasForeignKey("TransactionModeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PaidByTenant");
+
+                    b.Navigation("Statement");
+
+                    b.Navigation("TransactionMode");
                 });
 
             modelBuilder.Entity("CromWood.Data.Entities.Tenancy", b =>
@@ -2043,6 +2628,17 @@ namespace CromWood.Data.Migrations
                     b.Navigation("Tenancy");
                 });
 
+            modelBuilder.Entity("CromWood.Data.Entities.TenancyMessage", b =>
+                {
+                    b.HasOne("CromWood.Data.Entities.Tenancy", "Tenancy")
+                        .WithMany()
+                        .HasForeignKey("TenancyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tenancy");
+                });
+
             modelBuilder.Entity("CromWood.Data.Entities.TenancyNote", b =>
                 {
                     b.HasOne("CromWood.Data.Entities.Tenancy", "Tenancy")
@@ -2050,6 +2646,25 @@ namespace CromWood.Data.Migrations
                         .HasForeignKey("TenancyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Tenancy");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.TenancyStatement", b =>
+                {
+                    b.HasOne("CromWood.Data.Entities.Default.StatementType", "StatementType")
+                        .WithMany()
+                        .HasForeignKey("StatementTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CromWood.Data.Entities.Tenancy", "Tenancy")
+                        .WithMany()
+                        .HasForeignKey("TenancyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("StatementType");
 
                     b.Navigation("Tenancy");
                 });
@@ -2088,6 +2703,55 @@ namespace CromWood.Data.Migrations
                     b.Navigation("Country");
 
                     b.Navigation("Salutation");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.UnitUtility", b =>
+                {
+                    b.HasOne("CromWood.Data.Entities.Tenancy", "Tenancy")
+                        .WithMany()
+                        .HasForeignKey("TenancyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CromWood.Data.Entities.Default.UtilityProvider", "UtilityProvider")
+                        .WithMany()
+                        .HasForeignKey("UtilityProviderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CromWood.Data.Entities.Default.UtilityType", "UtilityType")
+                        .WithMany()
+                        .HasForeignKey("UtilityTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tenancy");
+
+                    b.Navigation("UtilityProvider");
+
+                    b.Navigation("UtilityType");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.UnitUtilityDocument", b =>
+                {
+                    b.HasOne("CromWood.Data.Entities.UnitUtility", "UnitUtility")
+                        .WithMany()
+                        .HasForeignKey("UnitUtilityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UnitUtility");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.UnitUtilityReading", b =>
+                {
+                    b.HasOne("CromWood.Data.Entities.UnitUtility", "UnitUtility")
+                        .WithMany()
+                        .HasForeignKey("UnitUtilityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UnitUtility");
                 });
 
             modelBuilder.Entity("CromWood.Data.Entities.User", b =>
