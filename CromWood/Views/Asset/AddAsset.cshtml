@@ -90,7 +90,7 @@
                                     <div class="col-4">
                                         <div class="mb-3">
                                             <label for="pro-code" class="form-label">
-                                                Property Code
+                                                Asset ID
                                                 <span class="form-text label_sm-text">
                                                     (Auto Generated)
                                                 </span>
@@ -105,7 +105,7 @@
                                         <div class="mb-3">
                                             <label for="exampleFormControlInput1"
                                                    class="form-label">Asset Type</label>
-                                            <select class="form-select h-40" asp-for="@Model.AssetTypeId" asp-items="assetTypes" aria-label="Default select example">
+                                            <select id="assetType" class="form-select select_font_14 pagagraph" asp-for="@Model.AssetTypeId" asp-items="assetTypes" aria-label="Default select example">
                                             </select>
                                         </div>
                                     </div>
@@ -297,7 +297,7 @@
                                         <div class="mb-3">
                                             <label for="exampleFormControlInput1"
                                                    class="form-label">Program</label>
-                                            <select class="form-select h-40" asp-for="@Model.FinancialPrgoramId" asp-items="financialPrograms" aria-label="Default select example">
+                                            <select id="financialPgrogram" class="form-select select_font_14 pagagraph" asp-for="@Model.FinancialPrgoramId" asp-items="financialPrograms" aria-label="Default select example">
                                             </select>
                                         </div>
                                     </div>
@@ -344,7 +344,7 @@
                                                 <div class="col-md-2">
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="checkbox"
-                                                               asp-for="@Model.LandlordResponsible" value="option1">
+                                                               asp-for="@Model.LandlordResponsible">
                                                         <label class="form-check-label"
                                                                for="inlineCheckbox1">Landloard</label>
                                                     </div>
@@ -352,7 +352,7 @@
                                                 <div class="col-md-2">
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="checkbox"
-                                                               asp-for="@Model.FreeholderResponsible" value="option1">
+                                                               asp-for="@Model.FreeholderResponsible">
                                                         <label class="form-check-label"
                                                                for="inlineCheckbox1">Freeholder</label>
                                                     </div>
@@ -360,7 +360,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="checkbox"
-                                                               asp-for="@Model.OwnerResponsible" value="option1">
+                                                               asp-for="@Model.OwnerResponsible">
                                                         <label class="form-check-label"
                                                                for="inlineCheckbox1">
                                                             Asset Owner
@@ -492,15 +492,15 @@
                             </div>
                             <div class="shadow-box">
                                 <div class="custom__btn2">
-                                    <a onclick="submitBtn.click()" class="step_nextbtn">
+                                    <a onclick="submitClick()" class="step_nextbtn">
                                         <img class="pe-1" src="~/assets/img/save-role.svg" alt="right__arrow">
                                         save Asset
                                     </a>
-                                    <input id="submitBtn" type="submit" hidden />
                                 </div>
                             </div>
                         </div>
                     </fieldset>
+                    <input id="submitBtnAddAsset" type="submit" value="Submit" hidden />
                     <!---------  Landlord/ Management form end here ----------->
                 </form>
             </div>
@@ -510,7 +510,9 @@
     </div>
 </div>
 
+
 <script>
+
     $(document).ready(function () {
 
         const monthDiff = (d1, d2) => {
@@ -520,6 +522,15 @@
             months += d2.getMonth();
             return months <= 0 ? 0 : months;
         }
+
+        // For Select2 Functionality
+        $('.select_font_14').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: true,
+            dropdownCssClass: "select_font_14",
+        });
 
         var currentIndex = 0;
 
@@ -535,7 +546,7 @@
             $(".stepbackbtn").hide();
             $(".step_nextbtn").html("Save");
             $(".step_nextbtn").click(function(){
-                $("#submitBtn").click();
+                $("#submitBtnAddAsset").click();
             });
 
         }
@@ -547,7 +558,7 @@
             $(".stepbackbtn").hide();
             $(".step_nextbtn").html("Save");
             $(".step_nextbtn").click(function () {
-                $("#submitBtn").click();
+                $("#submitBtnAddAsset").click();
             });
             if (section == 'ownership') {
                 $('.step__f .step:nth-child(2)').addClass('active');
@@ -605,6 +616,10 @@
         }
         
     });
+
+    function submitClick (){
+        $("#submitBtnAddAsset").click()
+    }
 
     $("#leaseTerm").change(function (e) {
         const leaseTerm = e.target.value;

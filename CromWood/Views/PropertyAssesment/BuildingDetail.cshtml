@@ -1,0 +1,67 @@
+﻿@using CromWood.Business.Models.ViewModel;
+@model PropertyAssesmentViewModel;
+@{
+    ViewData["Title"] = "BuildingDetail";
+    Layout = "~/Views/Shared/_PropertyAssesmentDetail.cshtml";
+}
+
+<div class="tab-pane fade show active border border-top-0" id="nav-building-details"
+     role="tabpanel" aria-labelledby="nav-building-details-tab">
+    <div class="d-flex justify-content-between align-items-center p-3 bg-white rounded">
+        <h1 class="custom_h mb-0 pb-1">Building Details</h1>
+        <div class="shadow-box ms-auto">
+            <a class="custom__btn">
+                <img src="~/assets/img/bd_edit.svg" alt="edit__iocn">
+                Edit
+            </a>
+        </div>
+    </div>
+    <div class="bg-white" style="height: 100vh;">
+        <div class="mx-3">
+            <table class="w-100">
+                <tbody class="asset_table">
+                    <tr>
+                        <th class="r_heading pt-2 pb-2" scope="row">Asset ID</th>
+                        <td class="main-text pt-2 pb-2">
+                            <span>@Model.Property.Asset.AssetId</span><span class="pca_divder">&nbsp;|&nbsp;</span>@Model.Property.Asset.StreetAddress
+                        </td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading pt-2 pb-2" scope="row">Building Date</th>
+                        <td class="pt-2 pb-2">@Model.BuildingDate</td>
+                    </tr>
+                    <tr>
+                        <th class="r_heading pt-2 pb-2" scope="row">Building Type</th>
+                        <td class="pt-2 pb-2">@Model.Property.PropertyType</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading pt-2 pb-2" scope="row">
+                            Building Description
+                        </th>
+                        <td class="pt-2 pb-2">
+                            @Model.BuildingNote
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="r_heading pt-2 pb-2" scope="row">Borough</th>
+                        <td class="pt-2 pb-2">Havering</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading pt-2 pb-2" scope="row">Tenure</th>
+                        <td class="pt-2 pb-2">Leasehold</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading pt-2 pb-2" scope="row">Building Form</th>
+                        <td class="pt-2 pb-2">Purpose Built Household</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading pt-2 pb-2" scope="row">
+                            Building Construction
+                        </th>
+                        <td class="earn_p_month pt-2 pb-2">Traditional Brick</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

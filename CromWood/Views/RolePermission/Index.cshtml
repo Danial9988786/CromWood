@@ -16,15 +16,15 @@
             <div class="col-6">
                 <h4 class="heading-style2 mb-0">Role & permissions</h4>
             </div>
-            <div class="col-6 d-flex justify-content-end">
-                <div class="shadow-box">
+            <div class="col-6 mb-2">
+                <div class="shadow-box ms-auto">
                     <a onclick="CreateRole()" class="custom__btn">
                         <img class="pe-2" src="~/assets/img/user_plus_icon.svg"
                              alt="user_icon">
                         New Role
                     </a>
                 </div>
-            </div>
+                </div>
         </div>
 
     </div>
@@ -154,7 +154,7 @@
 
             const url = "/RolePermission/DeleteRoleModal?Id=" + Id;
             $("#rolePermissionDialogBody").load(url, function () {
-                $("#rolePermissionDialogBody").css("max-width", "560px");
+                $("#rolePermissionDialogBody").css("max-width", "380px");
                 $("#rolePermissionDialogBody").css("width", "100%");
                 $("#rolePermissionDialog").modal("show");
             })

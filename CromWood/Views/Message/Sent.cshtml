@@ -1,0 +1,93 @@
+﻿@model IEnumerable<CromWood.Business.Models.ViewModel.MessageViewModel>
+
+@{
+    ViewData["Title"] = "Sent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Sent</h1>
+
+<p>
+    <a onclick="ComposeMessage()">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Content)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Medium)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Content)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Medium)
+                </td>
+                
+                <td>
+                    @{
+                        string id = "'" + item.Id.ToString() +"'";
+                    }
+                    <a onclick="ComposeMessage(@id)">Edit</a>
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<div class="modal fade" id="messageDialog">
+    <div class="modal-dialog modal-dialog-centered" id="messageDialogBody">
+    </div>
+</div>
+
+
+<script>
+    function ComposeMessage(id) {
+        var url = `/Message/ComposeMessage?id=${id}`;
+        $("#messageDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#messageDialogBody").css("width", "100%");
+            $("#messageDialog").modal("show");
+        });
+    }
+</script>

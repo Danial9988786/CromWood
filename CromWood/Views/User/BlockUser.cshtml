@@ -16,18 +16,19 @@
             </div>
         </div>
 
-        <hr class="c_border mb-0" />
-        <div class="text-end px-3 py-10 pb-3 d-flex justify-content-between" data-bs-dismiss="modal">
+        <div class="popup_footer_fixed border-top d-flex justify-content-between" data-bs-dismiss="modal">
             <div class="shadow-box">
-                <a href="#" class="custom__btn">
+                <a class="custom__btn" href="#">
                     Cancel
                 </a>
             </div>
             <form asp-action="BlockUser" asp-route-Id="@Model">
-                <div class="shadow-box">
-                    <input class="custom__btn3" type="submit" value="Confirm" />
+                <div class="shadow-box ms-auto">
+                    <a onclick="confirmBtn.click()" class="custom__btn3">Confirm</a>
+                    <input id="confirmBtn" hidden class="custom__btn3" type="submit" value="Confirm" />
                 </div>
             </form>
+
         </div>
     </div>
 </div>

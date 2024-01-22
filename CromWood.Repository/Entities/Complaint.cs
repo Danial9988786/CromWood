@@ -19,6 +19,7 @@ namespace CromWood.Data.Entities
         public ComplaintNature ComplaintNature { get; set; }
         [MaxLength(25)]
         public string Status { get;set; }
+        public string Description { get;set; }
         [MaxLength(100)]
         public string FileUrl { get; set; }
 

@@ -16,12 +16,14 @@ namespace CromWood.Controllers
         private IAmenityService _amenityService;
         private ILicenseCertificateService _licenseCertificateService;
         private readonly IAuthService _authService;
-        public PropertyController(IPropertyService propertyService, IAmenityService amenityService, ILicenseCertificateService licenseCertificateService, IAuthService authService)
+        private IFileUploader _fileUploader;
+        public PropertyController(IPropertyService propertyService, IAmenityService amenityService, ILicenseCertificateService licenseCertificateService, IAuthService authService, IFileUploader fileUploader)
         {
             _propertyService = propertyService;
             _amenityService = amenityService;
             _licenseCertificateService = licenseCertificateService;
             _authService = authService;
+            _fileUploader = fileUploader;
         }
         public async Task<IActionResult> Index()
         {
@@ -78,12 +80,17 @@ namespace CromWood.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddProperty()
+        public async Task<IActionResult> AddModifyProperty(Guid id)
         {
             var havePermission = await _authService.CheckPermission(PermissionKeyConstant.PropertyManagement, PermissionConstant.CanWrite);
             if (!havePermission)
             {
                 return RedirectToAction("NotAuthorized", "Auth");
+            }
+            if(id != Guid.Empty)
+            {
+                var result = await _propertyService.GetPropertyOverView(id);
+                return PartialView("AddModifyProperty", result.Data);
             }
             var property = new PropertyModel();
             var amenities = await _amenityService.GetAmenities();
@@ -97,19 +104,18 @@ namespace CromWood.Controllers
             }
             property.PropertyAmenities = propertyAmenities;
             property.PropertyCode = "PROP-" + RandomAlphaNumbericGenerator.Random(6);
-            return PartialView("AddProperty", property);
+            return PartialView("AddModifyProperty", property);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddProperty(PropertyModel property)
+        public async Task<IActionResult> AddModifyProperty(PropertyModel property)
         {
             var havePermission = await _authService.CheckPermission(PermissionKeyConstant.PropertyManagement, PermissionConstant.CanWrite);
             if (!havePermission)
             {
                 return RedirectToAction("NotAuthorized", "Auth");
             }
-            property.Id = Guid.NewGuid();
-            await _propertyService.AddProperty(property);
+            await _propertyService.AddModifyProperty(property);
             return RedirectToAction("Index");
         }
 
@@ -145,6 +151,14 @@ namespace CromWood.Controllers
             }
             var result = await _propertyService.GetPropertyInsuranceDetail(id);
             return View(result.Data);
+        }
+
+        
+        [HttpPost]
+        public async Task<IActionResult> DownloadInsurance(string url)
+        {
+            var result = await _fileUploader.Download(url, "propertyinsurance");
+            return File(result.bytes, result.ContentType, result.Name);
         }
 
         [HttpGet]
@@ -199,7 +213,7 @@ namespace CromWood.Controllers
             }
             else
             {
-                return PartialView(new PropertyKeyModel() { PropertyId = propertyId });
+                return PartialView(new PropertyKeyModel() { PropertyId = propertyId, SharedWithTenant = false });
             }
         }
 
@@ -227,6 +241,17 @@ namespace CromWood.Controllers
             return StatusCode(result.StatusCode, result.Data);
         }
         #endregion
+
+        public async Task<IActionResult> Tenancy(Guid id)
+        {
+            var havePermission = await _authService.CheckPermission(PermissionKeyConstant.PropertyManagement, PermissionConstant.CanRead);
+            if (!havePermission)
+            {
+                return RedirectToAction("NotAuthorized", "Auth");
+            }
+            var result = await _propertyService.GetPropertyTenancy(id);
+            return View(result.Data);
+        }
 
         #region License & Certification
         public async Task<IActionResult> Licensing(Guid id)

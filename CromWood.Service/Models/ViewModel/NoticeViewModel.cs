@@ -1,8 +1,9 @@
-﻿using CromWood.Data.Entities.Default;
+﻿using CromWood.Data.Entities;
+using CromWood.Data.Entities.Default;
 
 namespace CromWood.Business.Models.ViewModel
 {
-    public class NoticeViewModel
+    public class NoticeViewModel: DBTable
     {
         public Guid Id { get; set; }
         public string TrackingNumber { get; set; }

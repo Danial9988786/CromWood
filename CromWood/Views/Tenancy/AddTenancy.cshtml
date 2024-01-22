@@ -28,13 +28,13 @@
     var propertyTypes = new SelectList(asyncPropertyType.Data, "Id", "Name");
 
     var asyncContractType = await _lookupContractType.GetAllItems();
-    var contractTypes = new SelectList(asyncPropertyType.Data, "Id", "Name");
+    var contractTypes = new SelectList(asyncContractType.Data, "Id", "Name");
 
     var asyncRentFrequency = await _lookupRentFrequency.GetAllItems();
-    var rentFrequency = new SelectList(asyncPropertyType.Data, "Id", "Name");
+    var rentFrequency = new SelectList(asyncRentFrequency.Data, "Id", "Name");
 
     var asyncPaymentMethod = await _lookupPaymentMethod.GetAllItems();
-    var paymentMethods = new SelectList(asyncPropertyType.Data, "Id", "Name");
+    var paymentMethods = new SelectList(asyncPaymentMethod.Data, "Id", "Name");
 
     var asyncTransactionType = await _lookupTransactionType.GetAllItems();
     var transactionTypes = new SelectList(asyncTransactionType.Data, "Id", "Name");
@@ -71,220 +71,426 @@
 }
 
 <div class="modal-content rounded-0">
-    <div class="modal-header py-2 position-relative w-100 bg-white">
-        <h5 class="modal-title" id="staticBackdropLabel">Add Tenancy</h5>
+    <div class="modal-header modal_header_fixed py-2 w-100 bg-white">
+        <h5 class="modal-title" id="staticBackdropLabel">Add New Tenancy</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
-    <div class="modal-body p-4">
-        <div class="col-md-12">
-            <form asp-action="AddTenancy">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                @Html.HiddenFor(m=>m.TenancyId)
-                <div class="form-group">
-                    <label class="form-label">Tenancy ID</label>
-                    <input asp-for="TenancyId" disabled class="form-control" />
-                    <span asp-validation-for="TenancyId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <div class="mb-3">
-                        <label class="form-label">Tenant Type</label>
-                        <select class="form-select" asp-for="@Model.TenancyTypeId" asp-items="tenantTypes">
-                        </select>
+    <div class="modal-body p-0 h-100">
+        <div class="mutli_steps_f">
+            <div class="border pt-3 rounded mx-3 mt-3 bg-white">
+                <div class="step__f d-flex">
+                    <div class="step">
+                        <div class="bullet">
+                            <span>
+                                <span class="s_n">1</span>
+                                <span class="s_tick">
+                                    <img src="~/assets/img/tick-icon.svg" alt="tick-">
+                                </span>
+                            </span>
+                        </div>
+                        <p>
+                            Tenancy Details
+                        </p>
+                    </div>
+                    <div class="step">
+                        <div class="bullet">
+                            <span>
+                                <span class="s_n">2</span>
+                                <span class="s_tick">
+                                    <img src="~/assets/img/tick-icon.svg" alt="tick-">
+                                </span>
+                            </span>
+                        </div>
+                        <p>
+                            Contract Rent
+                        </p>
+                    </div>
+                    <div class="step">
+                        <div class="bullet">
+                            <span>
+                                <span class="s_n">3</span>
+                                <span class="s_tick">
+                                    <img src="~/assets/img/tick-icon.svg" alt="tick-">
+                                </span>
+                            </span>
+                        </div>
+                        <p>
+                            Tenant Details
+                        </p>
+                    </div>
+                    <div class="step">
+                        <div class="bullet">
+                            <span>
+                                <span class="s_n">4</span>
+                                <span class="s_tick">
+                                    <img src="~/assets/img/tick-icon.svg" alt="tick-">
+                                </span>
+                            </span>
+                        </div>
+                        <p>
+                            Move in Charges
+                        </p>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="mb-3">
-                        <label class="form-label">Property</label>
-                        <select class="form-select" asp-for="@Model.PropertyId" asp-items="properties">
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="mb-3">
-                        <label class="form-label">Contract Type</label>
-                        <select class="form-select" asp-for="@Model.ContractTypeId" asp-items="contractTypes">
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">No Of Tenants</label>
-                    <input type="number" asp-for="NoOfTenants" class="form-control" />
-                    <span asp-validation-for="NoOfTenants" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Start Date</label>
-                    <input type="date" asp-for="StartDate" class="form-control" />
-                    <span asp-validation-for="StartDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">End Date</label>
-                    <input type="date" asp-for="EndDate" class="form-control" />
-                    <span asp-validation-for="EndDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Rent Amount</label>
-                    <input type="number" asp-for="RentAmount" class="form-control" />
-                    <span asp-validation-for="RentAmount" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <div class="mb-3">
-                        <label class="form-label">Rent Frequency</label>
-                        <select class="form-select" asp-for="@Model.RentFrequencyId" asp-items="rentFrequency">
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="mb-3">
-                        <label class="form-label">Payment method</label>
-                        <select class="form-select" asp-for="@Model.PaymentMethodId" asp-items="paymentMethods">
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Security Deposit</label>
-                    <input asp-for="SecurityDeposit" class="form-control" />
-                    <span asp-validation-for="SecurityDeposit" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Split Between Tenants</label>
-                    <input asp-for="SplitBetweenTenants" class="form-control" />
-                    <span asp-validation-for="SplitBetweenTenants" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Schedule Rent Statement</label>
-                    <input asp-for="ScheduleRentStatement" class="form-control" />
-                    <span asp-validation-for="ScheduleRentStatement" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Statement Due Day</label>
-                    <input asp-for="StatementDueDay" class="form-control" />
-                    <span asp-validation-for="StatementDueDay" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Bank Name</label>
-                    <input asp-for="BankName" class="form-control" />
-                    <span asp-validation-for="BankName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Account Number</label>
-                    <input asp-for="AccountNumber" class="form-control" />
-                    <span asp-validation-for="AccountNumber" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Bank Code</label>
-                    <input asp-for="BankCode" class="form-control" />
-                    <span asp-validation-for="BankCode" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <div class="mb-3">
-                        <label class="form-label">Transaction Type</label>
-                        <select class="form-select" asp-for="@Model.TransactionTypeId" asp-items="transactionTypes">
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Move In Date</label>
-                    <input asp-for="MoveInDate" class="form-control" />
-                    <span asp-validation-for="MoveInDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Paid By</label>
-                    <input asp-for="PaidBy" class="form-control" />
-                    <span asp-validation-for="PaidBy" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Contact Fee Applicable</label>
-                    <input asp-for="ContactFeeApplicable" class="form-control" />
-                    <span asp-validation-for="ContactFeeApplicable" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Contract Fee</label>
-                    <input asp-for="ContractFee" class="form-control" />
-                    <span asp-validation-for="ContractFee" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Transaction Description</label>
-                    <input asp-for="TransactionDescription" class="form-control" />
-                    <span asp-validation-for="TransactionDescription" class="text-danger"></span>
-                </div>
+            </div>
 
-                <button onclick="AddRow()" type="button">Add Tenant</button>
-                <div id="tenantAdder">
-                    @* These tenant form are added dynamically *@
-                    @* Here we should have option to decide either to add existing one or add new tenant *@
-                    @* @for (i = 0; i <= count; i++)
-                    {
-                    Model.TenancyTenants.Add(new TenancyTenantModel() { Tenant = new TenantModel() });
-                    <div class="form-group">
-                    <label class="form-label"> Salutation </label>
-                    <select asp-for="@Model.TenancyTenants[i].Tenant.SalutationId" asp-items="salutations" class="form-control"></select>
-                    </div>
+            <div class="form___info mt-3">
+                <form asp-action="AddTenancy">
+                    @Html.HiddenFor(m=>m.TenancyId)
 
-                    <div class="form-group">
-                    <label class="form-label"> Tenant Name </label>
-                    <input asp-for="@Model.TenancyTenants[i].Tenant.FullName" class="form-control" />
-                    </div>
+                    <fieldset class="active">
+                        <div class="step_body_content ps-3 pe-1 me-2">
+                            <div class="border p-3 bg-white h-100">
+                                <h5 class="text-cpitlize mb-3">Tenancy Details</h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="exampleFormControlInput1"
+                                                   class="form-label">Tenancy ID</label>
+                                            <input disabled class="form-control text-black" asp-for="TenancyId" />
+                                        </div>
+                                    </div>
 
-                    <div class="form-group">
-                    <label class="form-label"> Phone </label>
-                    <input asp-for="@Model.TenancyTenants[i].Tenant.Phone" class="form-control" />
-                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="exampleFormControlInput1" class="form-label">
+                                                Tenant
+                                                Type
+                                            </label>
+                                            <select id="tenantType" class="form-select select_font_14" asp-for="TenancyTypeId" asp-items="tenantTypes">
+                                            </select>
+                                        </div>
+                                    </div>
 
-                    <div class="form-group">
-                    <label class="form-label"> Email </label>
-                    <input asp-for="@Model.TenancyTenants[i].Tenant.Email" class="form-control" />
-                    </div>
-                    <p>Tenant Address</p>
-                    <div class="form-group">
-                    <label class="form-label">Address Line 1 </label>
-                    <input asp-for="@Model.TenancyTenants[i].Tenant.AddressLine1" class="form-control" />
-                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="exampleFormControlInput1" class="form-label">
+                                                Choose
+                                                Property
+                                            </label>
+                                            <select id="property" class="form-select select_font_14" asp-for="PropertyId" asp-items="properties">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="exampleFormControlInput1"
+                                                   class="form-label">Contract Type</label>
+                                            <select id="contract-type" class="form-select select_font_14" asp-for="ContractTypeId" asp-items="contractTypes">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="Start-Date" class="form-label">Start Date</label>
+                                            <input type="date" class="form-control"
+                                                   placeholder="01 /06 / 2023" asp-for="StartDate">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="End-Date" class="form-label">End Date</label>
+                                            <input type="date" class="form-control"
+                                                   placeholder="30 /06 / 2023" asp-for="EndDate">
+                                        </div>
+                                    </div>
+                                </div>
 
-                    <div class="form-group">
-                    <label class="form-label">Address Line 2 </label>
-                    <input asp-for="@Model.TenancyTenants[i].Tenant.AddressLine2" class="form-control" />
-                    </div>
+                            </div>
+                        </div>
 
-                    <div class="form-group">
-                    <label class="form-label">Street Area </label>
-                    <input asp-for="@Model.TenancyTenants[i].Tenant.StreetArea" class="form-control" />
-                    </div>
+                        <div class="popup_footer_fixed border-top d-flex justify-content-between bg-white">
+                            <div class="shadow-box ms-auto">
+                                <a  class="custom__btn2 step_nextbtn">
+                                    Next, Contract Rent
+                                    <img src="~/assets/img/right_white_aroow_Icon.svg" alt="right__arrow">
+                                </a>
+                            </div>
+                        </div>
+                    </fieldset>
 
-                    <div class="form-group">
-                    <label class="form-label">Landmark </label>
-                    <input asp-for="@Model.TenancyTenants[i].Tenant.Landmark" class="form-control" />
-                    </div>
+                    <fieldset>
+                        <div class="step_body_content ps-3 pe-2 me-2">
+                            <div class="border p-3 bg-white mb-3">
+                                <h5 class="text-cpitlize mb-3">Contract Rent</h5>
+                                <div class="d-flex gap-3 pb-2">
+                                    <div class="input__field w-100">
+                                        <label for="Rent Amount" class="form-label">Rent Amount</label>
+                                        <div class="position-relative">
+                                            <input type="number" class="form-control fqft"
+                                                   placeholder="Enter Value" asp-for="RentAmount">
+                                            <span class="sqft_text pagagraph">£</span>
+                                        </div>
+                                    </div>
+                                    <div class="input__field w-100">
+                                        <label for="Rent Frequency" class="form-label">
+                                            Rent
+                                            Frequency
+                                        </label>
+                                        <select id="rent-frequency" class="form-select select_font_14" asp-for="RentFrequencyId" asp-items="rentFrequency">
+                                        </select>
+                                    </div>
+                                    <div class="input__field w-100">
+                                        <label for="Payment Method" class="form-label">
+                                            Payment
+                                            Method
+                                        </label>
+                                        <select id="payment-method" class="form-select select_font_14" asp-for="PaymentMethodId" asp-items="paymentMethods">
+                                        </select>
+                                    </div>
+                                    <div class="input__field w-100">
+                                        <label for="Security Deposit Amount" class="form-label">
+                                            Security
+                                            Deposit Amount
+                                        </label>
+                                        <div class="position-relative">
+                                            <input type="number" class="form-control fqft" asp-for="SecurityDeposit"
+                                                   placeholder="Enter Value" id="Security Deposit Amount">
+                                            <span class="sqft_text pagagraph">£</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="">
+                                    <div class="form-check form-check-inline">
+                                        @Html.CheckBoxFor(m => m.SplitBetweenTenants, new { @class = "form-check-input"})
+                                        <label class="form-check-label" for="Split between tenants">
+                                            Split
+                                            between tenants
+                                        </label>
+                                    </div>
+                                </div>
+                                <label for="Schedule Rent Statement" class="form-label pt-4 color35 fw500">
+                                    Schedule Rent
+                                    Statement
+                                </label>
+                                <div class="py-1">
+                                    <div class="form-check d-flex align-items-center w-100 gap-3">
+                                        @Html.CheckBoxFor(m => m.ScheduleRentStatement, new { @class = "form-check-input"})
+                                        <label class="form-check-label pagagraph" for="Statement">
+                                            Create Statement at
+                                            the first of every month, <span>due in</span>
+                                        </label>
+                                        <span class="pagagraph">due in</span>
+                                        <input type="number" class="form-control h_40 w_50 text-center pagagraph" asp-for="StatementDueDay" placeholder="7"
+                                               id="days_num" aria-describedby="days_num">
+                                        <span class="form-check-label pagagraph" for="days">days.</span>
 
-                    <div class="form-group">
-                    <label class="form-label">City </label>
-                    <input asp-for="@Model.TenancyTenants[i].Tenant.AddressLine2" class="form-control" />
-                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="border p-3 bg-white mb-3">
+                                <h5 class="text-cpitlize mb-3">Bank Details</h5>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="Bank Name" class="form-label">Bank Name</label>
+                                            <input type="text" class="form-control" asp-for="BankName"
+                                                   placeholder="Enter Bank Name" id="Bank Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="Account Number" class="form-label">Account Number</label>
+                                            <input type="text" class="form-control" asp-for="AccountNumber"
+                                                   placeholder="Enter Account Number" id="acc-no">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="Branch Code" class="form-label">Branch Code</label>
+                                            <input type="text" class="form-control" asp-for="BankCode"
+                                                   placeholder="Enter Bank Branch Code" id="branch-code">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="form-group">
-                    <label class="form-label">County </label>
-                    <input asp-for="@Model.TenancyTenants[i].Tenant.County" class="form-control" />
-                    </div>
+                        <div class="popup_footer_fixed border-top d-flex justify-content-between bg-white">
+                            <div class="shadow-box">
+                                <a  class="custom__btn stepbackbtn">
+                                    <img src="~/assets/img/back_black-arrow.svg" alt="back-arrow">
+                                    back, Tenancies
+                                </a>
+                            </div>
+                            <div class="shadow-box ms-auto">
+                                <a  class="custom__btn2 step_nextbtn">
+                                    Next, Tenant Details
+                                    <img src="~/assets/img/right_white_aroow_Icon.svg" alt="right__arrow">
+                                </a>
+                            </div>
+                        </div>
+                    </fieldset>
 
-                    <div class="form-group">
-                    <label class="form-label">Postal code </label>
-                    <input asp-for="@Model.TenancyTenants[i].Tenant.PostCode" class="form-control" />
-                    </div>
+                    <fieldset>
+                        <div class="step_body_content ps-3 pe-2 me-2">
+                            <div class="shadow-box me-auto">
+                                <a class="custom__btn2" onclick="AddRow()">Add New/ Existing Tenant</a>
+                            </div>
 
-                    <div class="form-group">
-                    <label class="form-label"> Country </label>
-                    <select asp-for="@Model.TenancyTenants[i].Tenant.CountryId" asp-items="countries" class="form-control"></select>
-                    </div>
-                    } *@
-                </div>
-                <div class="form-group">
-                    <input class="custom__btn2" type="submit" value="Add Tenancy" />
-                </div>
-            </form>
+                            <div id="tenantAdder">
+                            </div>
+                        </div>
+                        <div class="popup_footer_fixed border-top d-flex justify-content-between bg-white">
+                            <div class="shadow-box">
+                                <a  class="custom__btn stepbackbtn">
+                                    <img src="~/assets/img/back_black-arrow.svg" alt="back-arrow">
+                                    Back, Contract Rent
+                                </a>
+                            </div>
+                            <div class="shadow-box ms-auto">
+                                <a  class="custom__btn2 step_nextbtn">
+                                    Next, Charges
+                                    <img src="~/assets/img/right_white_aroow_Icon.svg" alt="right__arrow">
+                                </a>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <div class="step_body_content ps-3 pe-1 me-2">
+                            <div class="border p-3 bg-white h-100">
+                                <h5 class="text-cpitlize mb-3">Move in Transactions</h5>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="exampleFormControlInput1"
+                                                   class="form-label">Transaction Type</label>
+                                            <select id="transaction-types" class="form-select select_font_14" asp-for="TransactionTypeId" asp-items="transactionTypes">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="Move In Date" class="form-label">Move In Date</label>
+                                            <input type="date" class="form-control" asp-for="MoveInDate"
+                                                   placeholder="DD/MM/YYYY">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="exampleFormControlInput1"
+                                                   class="form-label">Paid By</label>
+                                            <input id="paid-by" class="form-control" disabled asp-for="PaidBy" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="Fee" class="form-label">Contract Fee Applicable*</label>
+                                            <div class="d-flex gap-4 mt-2">
+                                                <div class="form-check">
+                                                    @Html.RadioButtonFor(m => m.ContactFeeApplicable, new {@name="flexRadioDefault", @class = "form-check-input", @id="true"})
+                                                    <label class="form-check-label pagagraph" for="yes">
+                                                        Yes
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    @Html.RadioButtonFor(m => m.ContactFeeApplicable, new {@name="flexRadioDefault", @class = "form-check-input", @id="false"})
+                                                    <label class="form-check-label pagagraph" for="no">
+                                                        No
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="Contract Fee" class="form-label">Contract Fee</label>
+                                            <input type="number" class="form-control" asp-for="ContractFee"
+                                                   id="price">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <textarea class="form-control" asp-for="TransactionDescription" rows="4" cols="50"
+                                                  placeholder="Enter description of transaction"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="popup_footer_fixed border-top d-flex justify-content-between bg-white">
+                            <div class="shadow-box">
+                                <a  class="custom__btn stepbackbtn">
+                                    <img src="~/assets/img/back_black-arrow.svg" alt="back-arrow">
+                                    Back, Tenant Details
+                                </a>
+                            </div>
+                            <div class="shadow-box ms-auto">
+                                <a onclick="submitForm()" class="custom__btn2 step_nextbtn">
+                                    <img src="~/assets/img/save-role.svg" alt="right__arrow">
+                                    Save Tenancy
+                                </a>
+                                
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <input type="submit" hidden id="addTenancyBtn" value="Add Tenancy" />
+                </form>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
+    // Multi steps form
+    $(document).ready(function () {
+
+        var currentIndex = 0;
+
+        $('.step_nextbtn').click(function () {
+            // Remove the active class from the current item
+            $('.step__f .step').eq(currentIndex).removeClass('active');
+            $('.form___info form fieldset').eq(currentIndex).removeClass('active');
+
+            // Increment the index or reset to 0 if it exceeds the number of items
+            currentIndex = (currentIndex + 1) % $('.step__f .step').length;
+            // currentIndex = (currentIndex + 1) % $('.form___info form fieldset').length;
+
+            // Add the active class to the next item
+            $('.step__f .step').eq(currentIndex).addClass('active');
+            $('.step__f .step').eq(currentIndex).addClass('pass');
+            $('.form___info form fieldset').eq(currentIndex).addClass('active');
+        });
+
+        $('.stepbackbtn').click(function () {
+            // Remove the active class from the current item
+            $('.step__f .step').eq(currentIndex).removeClass('active');
+            $('.form___info form fieldset').eq(currentIndex).removeClass('active');
+
+            // Decrement the index or set to the last item if it goes below 0
+            currentIndex = (currentIndex - 1 + $('.step__f .step').length) % $('.step__f .step').length;
+
+            // Add the active class to the previous item
+            $('.step__f .step').eq(currentIndex).addClass('active');
+            $('.form___info form fieldset').eq(currentIndex).addClass('active');
+        });
+
+        // Set the first items as active initially
+        $('.step__f .step:first-child').addClass('active');
+        $('.step__f .step:first-child').addClass('pass');
+        // $('.step__f .step:last-child').removeClass('pass');
+        $('.form___info form fieldset:first-child').addClass('active');
+
+        // For Select2 Functionality
+        $('.select_font_14').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: true,
+            dropdownCssClass: "select_font_14",
+        });
+
+    });
+
     var counter = 0;
     var salutationOptions = '@salutationOptionString';
     var countryOptions = '@countryOptionString';
@@ -295,115 +501,128 @@
         salutationOptions = salutationOptions.replaceAll("&lt;", "<");
         salutationOptions = salutationOptions.replaceAll("&gt;", ">"); countryOptions = countryOptions.replaceAll("&lt;", "<");
         countryOptions = countryOptions.replaceAll("&gt;", ">"); tenantOptions = tenantOptions.replaceAll("&lt;", "<");
-        tenantOptions = tenantOptions.replaceAll("&gt;", ">"); $("#tenantAdder").append(` <div id="Tenant-Section-${counter}">
+        tenantOptions = tenantOptions.replaceAll("&gt;", ">"); $("#tenantAdder").append(`
+            <div id="Tenant-Section-${counter}" class="mt-3">
+            <div class="accordion" id="accordionExample-${counter}">
+                <div class="accordion-item">
+                    <div class="accordion-header text-cpitlize" id="headingOne">
+                        <div class="mb-0 p-3 h_50 d-flex justify-content-between align-items-center border-bottom" type="button" >
+                            <div class="form-check form-check-inline">
+                                <input id="newTenantCheckbox-${counter}" class="form-check-input" type="checkbox">
+                                <label class="form-check-label">Add New Tenant or Existing Tenant</label>
+                            </div>
+                            <a class="custom__btn" style="scale: 0.7; transform-origin: right;" onclick="RemoveRow(${counter})">Remove</a>
+                        </div>
+                    </div>
+                    <div id="collapseOne" class="accordion-collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
 
-      <div class="border p-3 border-bottom-0 bg-white">
-        <div class="form-check form-check-inline ps-5 ms-5">
-          <input id="newTenantCheckbox-${counter}" class="form-check-input" type="checkbox">
-          <label class="form-check-label">Add New Tenant or Existing Tenant</label>
-        </div>
-      </div>
+                            <div id="newTenantSection-${counter}" style="display:none">
+                                <div class="d-flex gap-3 mb-4">
+                                    <div class="input__field d-flex align-items-center gap-1 w-100 align-items-lg-end align-items-end">
+                                        <div class="mr_text">
+                                            <label for="Name" class="form-label">Name</label>
+                                                <select class="form-select select_font_14" data-val="true" data-val-required="The SalutationId field is required."
+                                                    id="TenancyTenants_${counter}__Tenant_SalutationId" name="TenancyTenants[${counter}].Tenant.SalutationId">
+                                                ${salutationOptions}
+                                            </select>
+                                        </div>
+                                        <div class="UName">
+                                            <input class="form-control" type="text" data-val="true"
+                                                   data-val-maxlength="The field FullName must be a string or array type with a maximum length of '100'."
+                                                   data-val-maxlength-max="100" data-val-required="The FullName field is required."
+                                                   id="TenancyTenants_${counter}__Tenant_FullName" maxlength="100"
+                                                   name="TenancyTenants[${counter}].Tenant.FullName" value="">
+                                        </div>
+                                    </div>
 
-      <div id="newTenantSection-${counter}" style="display:none">
+                                    <div class="input__field w-100">
+                                        <label for="Phone Number" class="form-label">
+                                            Phone Number
+                                        </label>
+                                        <input class="form-control" type="text" data-val="true"
+                                               data-val-maxlength="The field Phone must be a string or array type with a maximum length of '20'."
+                                               data-val-maxlength-max="20" data-val-required="The Phone field is required."
+                                               id="TenancyTenants_${counter}__Tenant_Phone" maxlength="20" name="TenancyTenants[${counter}].Tenant.Phone"
+                                               value="">
+                                    </div>
+                                    <div class="input__field w-100">
+                                        <label for="Email" class="form-label">
+                                            Email
+                                        </label>
+                                        <input class="form-control" type="text" data-val="true" data-val-required="The Email field is required."
+                                               id="TenancyTenants_${counter}__Tenant_Email" name="TenancyTenants[${counter}].Tenant.Email" value="">
+                                    </div>
+                                </div>
+                                <h5 class="text-cpitlize mb-3">Tenant Address</h5>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label for="AddressLine1" class="form-label">Address Line 1</label>
+                                            <input class="form-control" type="text" data-val="true"
+                                                   data-val-maxlength="The field AddressLine1 must be a string or array type with a maximum length of '100'."
+                                                   data-val-maxlength-max="100" id="TenancyTenants_${counter}__Tenant_AddressLine1" maxlength="100"
+                                                   name="TenancyTenants[${counter}].Tenant.AddressLine1" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="Street/Area" class="form-label">Street/Area</label>
+                                            <input class="form-control" type="text" data-val="true"
+                                                   data-val-maxlength="The field StreetArea must be a string or array type with a maximum length of '100'."
+                                                   data-val-maxlength-max="100" id="TenancyTenants_${counter}__Tenant_StreetArea" maxlength="100"
+                                                   name="TenancyTenants[${counter}].Tenant.StreetArea" value="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="Landmark" class="form-label">Landmark</label>
+                                            <input class="form-control" type="text" data-val="true"
+                                                   data-val-maxlength="The field Landmark must be a string or array type with a maximum length of '100'."
+                                                   data-val-maxlength-max="100" id="TenancyTenants_${counter}__Tenant_Landmark" maxlength="100"
+                                                   name="TenancyTenants[${counter}].Tenant.Landmark" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="">
+                                            <label for="City" class="form-label">City</label>
+                                            <input class="form-control" type="text" id="TenancyTenants_${counter}__Tenant_City" maxlength="100"
+                                                   name="TenancyTenants[${counter}].Tenant.City" value="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="">
+                                            <label for="Country" class="form-label">Country</label>
+                                                <select class="form-select select_font_14" id="TenancyTenants_${counter}__Tenant_CountryId"
+                                                    name="TenancyTenants[${counter}].Tenant.CountryId">
+                                                <option value="null" selected>None</option>
+                                                ${countryOptions}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-        <div class="form-group">
-          <label class="form-label"> Salutation </label>
-          <select class="form-control" data-val="true" data-val-required="The SalutationId field is required."
-            id="TenancyTenants_${counter}__Tenant_SalutationId" name="TenancyTenants[${counter}].Tenant.SalutationId">
-            ${salutationOptions}
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label"> Tenant Name </label>
-          <input class="form-control" type="text" data-val="true"
-            data-val-maxlength="The field FullName must be a string or array type with a maximum length of '100'."
-            data-val-maxlength-max="100" data-val-required="The FullName field is required."
-            id="TenancyTenants_${counter}__Tenant_FullName" maxlength="100"
-            name="TenancyTenants[${counter}].Tenant.FullName" value="">
-        </div>
-        <div class="form-group">
-          <label class="form-label"> Phone </label>
-          <input class="form-control" type="text" data-val="true"
-            data-val-maxlength="The field Phone must be a string or array type with a maximum length of '20'."
-            data-val-maxlength-max="20" data-val-required="The Phone field is required."
-            id="TenancyTenants_${counter}__Tenant_Phone" maxlength="20" name="TenancyTenants[${counter}].Tenant.Phone"
-            value="">
-        </div>
-        <div class="form-group">
-          <label class="form-label"> Email </label>
-          <input class="form-control" type="text" data-val="true" data-val-required="The Email field is required."
-            id="TenancyTenants_${counter}__Tenant_Email" name="TenancyTenants[${counter}].Tenant.Email" value="">
-        </div>
-        <p>Tenant Address</p>
-        <div class="form-group">
-          <label class="form-label">Address Line 1 </label>
-          <input class="form-control" type="text" data-val="true"
-            data-val-maxlength="The field AddressLine1 must be a string or array type with a maximum length of '100'."
-            data-val-maxlength-max="100" id="TenancyTenants_${counter}__Tenant_AddressLine1" maxlength="100"
-            name="TenancyTenants[${counter}].Tenant.AddressLine1" value="">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Address Line 2 </label>
-          <input class="form-control" type="text" data-val="true"
-            data-val-maxlength="The field AddressLine2 must be a string or array type with a maximum length of '100'."
-            data-val-maxlength-max="100" id="TenancyTenants_${counter}__Tenant_AddressLine2" maxlength="100"
-            name="TenancyTenants[${counter}].Tenant.AddressLine2" value="">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Street Area </label>
-          <input class="form-control" type="text" data-val="true"
-            data-val-maxlength="The field StreetArea must be a string or array type with a maximum length of '100'."
-            data-val-maxlength-max="100" id="TenancyTenants_${counter}__Tenant_StreetArea" maxlength="100"
-            name="TenancyTenants[${counter}].Tenant.StreetArea" value="">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Landmark </label>
-          <input class="form-control" type="text" data-val="true"
-            data-val-maxlength="The field Landmark must be a string or array type with a maximum length of '100'."
-            data-val-maxlength-max="100" id="TenancyTenants_${counter}__Tenant_Landmark" maxlength="100"
-            name="TenancyTenants[${counter}].Tenant.Landmark" value="">
-        </div>
-        <div class="form-group">
-          <label class="form-label">City </label>
-          <input class="form-control" type="text" id="TenancyTenants_${counter}__Tenant_City" maxlength="100"
-            name="TenancyTenants[${counter}].Tenant.City" value="">
-        </div>
-        <div class="form-group">
-          <label class="form-label">County </label>
-          <input class="form-control" type="text" data-val="true"
-            data-val-maxlength="The field County must be a string or array type with a maximum length of '100'."
-            data-val-maxlength-max="100" id="TenancyTenants_${counter}__Tenant_County" maxlength="100"
-            name="TenancyTenants[${counter}].Tenant.County" value="">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Postal code </label>
-          <input class="form-control" type="text" data-val="true"
-            data-val-maxlength="The field PostCode must be a string or array type with a maximum length of '10'."
-            data-val-maxlength-max="10" id="TenancyTenants_${counter}__Tenant_PostCode" maxlength="10"
-            name="TenancyTenants[${counter}].Tenant.PostCode" value="">
-        </div>
-        <div class="form-group">
-          <label class="form-label"> Country </label>
-          <select class="form-control" id="TenancyTenants_${counter}__Tenant_CountryId"
-            name="TenancyTenants[${counter}].Tenant.CountryId">
-            <option value="null" selected>None</option>
-            ${countryOptions}
-          </select>
-        </div>
-      </div>
+                            <div id="existingTenantSection-${counter}">
+                                <div class="form-group">
+                                    <label class="form-label"> Tenant </label>
+                                        <select class="form-select select_font_14" id="TenancyTenants_${counter}__TenantId" name="TenancyTenants[${counter}].Tenant.Id">
+                                        <option value="00000000-0000-0000-0000-000000000000" selected>None</option>
+                                        ${tenantOptions}
+                                    </select>
+                                </div>
+                            </div>
 
-      <div id="existingTenantSection-${counter}">
-        <div class="form-group">
-          <label class="form-label"> Tenant </label>
-          <select class="form-control" id="TenancyTenants_${counter}__TenantId" name="TenancyTenants[${counter}].Tenant.Id">
-            <option value="00000000-0000-0000-0000-000000000000" selected>None</option>
-            ${tenantOptions}
-          </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <button onclick="RemoveRow(${counter})" type="button">Remove Tenant</button>
-      </div>
-      `);
+              `);
 
         $(`#newTenantCheckbox-${counter}`).change(function (e) {
             const checked = $(this).is(':checked');
@@ -419,10 +638,22 @@
             }
         });
         counter++;
+
+        $('.select_font_14').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: true,
+            dropdownCssClass: "select_font_14",
+        });
     }
 
     function RemoveRow(position) {
         $(`#Tenant-Section-${position}`).remove();
     }
-    
+
+    function submitForm() {
+        $("#addTenancyBtn").click()
+    }
+
 </script>

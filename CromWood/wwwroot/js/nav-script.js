@@ -1,5 +1,8 @@
 var navigations = [
     {
+        url: '/PropertyAssesment', id: 'nav-property-assessment'
+    },
+    {
         url: '/dashboard', id: 'nav-dashboard'
     },
     {
@@ -18,7 +21,10 @@ var navigations = [
         url: '/Tenant', id: 'nav-tenant-management'
     },
     {
-        url: '/NoticeClaims', id:'nav-notice-claims'
+        url: '/NoticeClaims', id: 'nav-notice-claims'
+    },
+    {
+        url: '/Complaint', id: 'nav-complaints'
     },
     {
         url: '/User', id: 'nav-settings'
@@ -34,10 +40,15 @@ var navigations = [
 let activeNavId = '';
 if (window.location.pathname == '/') {
     activeNavId = 'nav-dashboard';
-
 }
+
+else if (window.location.pathname.includes('/PropertyAssesment')) {
+    activeNavId = 'nav-property-assessment';
+}
+
 else {
     activeNavId = navigations.find(x => window.location.pathname.includes(x.url)).id;
 }
+
 if (activeNavId!='')
     document.getElementById(activeNavId).classList.add('active');

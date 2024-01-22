@@ -21,5 +21,7 @@ namespace CromWood.Business.Services.Interface
         public Task<AppResponse<TenancyDocumentModel>> GetTenancyDocument(Guid id);
         public Task<AppResponse<int>> AddModifyDocument(TenancyDocumentModel document);
         public Task<AppResponse<int>> DeleteDocument(Guid id);
+        public Task<AppResponse<ICollection<NoticeViewModel>>> GetNoticesForTenancyTenants(Guid tenancyId);
+        public Task<AppResponse<ICollection<ComplaintViewModel>>> GetComplaintsForTenancyTenants(Guid tenancyId);
     }
 }

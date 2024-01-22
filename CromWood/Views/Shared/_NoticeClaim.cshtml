@@ -1,14 +1,35 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string emptyGuid = "'" + Guid.Empty.ToString() + "'";
+
 }
 
-<ol class="breadcrumb align-items-end mb-3 mt-3">
+<ol class="breadcrumb align-items-end mb-10 mt-3">
     <li class="breadcrumb-item">
         <a asp-action="Index" asp-controller="Test"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
     </li>
     <li class="breadcrumb-item active">Notices & Claims</li>
 </ol>
-<h1 class="mt-2 mb-3 custom_h">Notice & Claims</h1>
+<div class="row">
+    <div class="col-xl-9 d-flex">
+        <h1 class="mb-3 custom_h">
+            &nbsp; Notices & Claims
+        </h1>
+    </div>
+    <div class="col-xl-3">
+        <div class="shadow-box ms-auto">
+            <span class="custom__btn2">
+                <a id="noticeAddButton" hidden onclick="AddModifyNotice(@emptyGuid)">
+                    <img src="~/assets/img/add_new_icon.svg" alt="">Create Notice
+                </a>
+
+                <a id="claimAddButton" hidden onclick="AddModifyClaim(@emptyGuid)">
+                    <img src="~/assets/img/add_new_icon.svg" alt="">Create Claim
+                </a>
+            </span>
+        </div>
+    </div>
+</div>
 
 <!-- ----- Tab box start here ------->
 <nav class="user___tabs">
@@ -25,6 +46,13 @@
     </div>
 </nav>
 
+<div class="modal fade" id="noticeClaimDialog">
+    <div class="modal-dialog modal-dialog-centered cm2_size rp_popup add_edit_popup" id="noticeClaimDialogBody">
+    </div>
+</div>
+
+
+
 
 <div class="tab-content user_l_m" id="nav-tabContent">
     @RenderBody()
@@ -35,11 +63,42 @@
 <script>
     if (window.location.pathname == "/NoticeClaims/Notice") {
         document.getElementById("nav-eviction-notices").classList.add('active');
+        // Load Add Notice button
+        $("#noticeAddButton").attr('hidden', false);
     }
     if (window.location.pathname == "/NoticeClaims/Claim") {
         document.getElementById("nav-possession-claims").classList.add('active');
+        // Load Add Claims button
+        $("#claimAddButton").attr('hidden', false);
     }
     if (window.location.pathname == "/NoticeClaims/Archive") {
         document.getElementById("nav-notice-archive").classList.add('active');
     }
+
+    function AddModifyNotice(noticeId) {
+        var url = `/NoticeClaims/AddModifyNotice?id=${noticeId}`;
+        $("#noticeClaimDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#noticeClaimDialogBody").css("width", "100%");
+            $("#noticeClaimDialog").modal("show");
+        });
+    }
+
+    function AddModifyClaim(claimId) {
+        var url = `/NoticeClaims/AddModifyClaim?id=${claimId}`;
+        $("#noticeClaimDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#noticeClaimDialogBody").css("width", "100%");
+            $("#noticeClaimDialog").modal("show");
+        });
+    }
+
 </script>

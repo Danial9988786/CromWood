@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CromWood.Data.Entities;
+using Microsoft.AspNetCore.Http;
 
 namespace CromWood.Business.Models
 {
-    public class TenancyNoteModel
+    public class TenancyNoteModel : DBTable
     {
         public Guid Id { get; set; }
         public string Note { get; set; }

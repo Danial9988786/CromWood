@@ -13,6 +13,8 @@
 
     // Find out if the edit is for details or bank details
     var forBank = ViewBag.ForBank;
+    var detailClass = forBank?"display:none;":"display:block;";
+    var bankDetailClass = forBank ? "display:block;" : "display:none;";
 }
 
 <div class="modal-content rounded-0">
@@ -26,7 +28,7 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 @Html.HiddenFor(m=>m.Id)
                 
-                    <div style="display:@forBank?'none':'block'">
+                    <div style="@detailClass">
                     <div class="form-group">
                         <label class="form-label"> Salutation </label>
                         <select class="form-control" asp-for="SalutationId" asp-items="salutations">
@@ -49,7 +51,7 @@
                         <input class="form-control" asp-for="NIN">
                     </div>
                     </div>
-                <div style="display:@forBank?'block':'none'">
+                <div style="@bankDetailClass">
                     <div class="form-group">
                         <label class="form-label">Account Name </label>
                         <input class="form-control" asp-for="AccountName">

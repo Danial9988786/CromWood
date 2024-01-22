@@ -18,7 +18,7 @@ namespace CromWood.Data.Repository.Implementation
 
         public async Task<Tenancy> GetTenancyOverView(Guid tenancyId)
         {
-            return await _context.Tenancies.Include(x => x.Property).ThenInclude(x => x.Asset).Include(x => x.Property).ThenInclude(x => x.PropertyType).Include(x => x.RentFrequency).Include(x => x.TenancyType).FirstOrDefaultAsync(x => x.Id == tenancyId);
+            return await _context.Tenancies.Include(x=>x.TenancyTenants).ThenInclude(x=>x.Tenant).Include(x => x.Property).ThenInclude(x => x.Asset).Include(x => x.Property).ThenInclude(x => x.PropertyType).Include(x => x.RentFrequency).Include(x => x.TenancyType).FirstOrDefaultAsync(x => x.Id == tenancyId);
         }
 
         public async Task<Tenancy> GetTenancyViewDetail(Guid tenancyId)
@@ -179,6 +179,16 @@ namespace CromWood.Data.Repository.Implementation
             {
                 throw;
             }
+        }
+
+        public async Task<ICollection<Notice>> GetNoticesForTenancyTenants(Guid tenenacyId)
+        {
+            return await _context.Notices.Include(x => x.Concern).Include(x => x.Section).Include(x => x.Tenant).Where(x=>x.Tenant.TenancyTenants.Any(x=>x.TenancyId == tenenacyId)).ToListAsync();
+        }
+
+        public async Task<ICollection<Complaint>> GetComplaintsForTenancyTenants(Guid tenenacyId)
+        {
+            return await _context.Complaints.Include(x => x.ComplaintCategory).Include(x => x.ComplaintNature).Include(x => x.Tenant).Where(x => x.Tenant.TenancyTenants.Any(x => x.TenancyId == tenenacyId)).ToListAsync();
         }
     }
 }

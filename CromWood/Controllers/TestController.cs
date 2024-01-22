@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CromWood.Controllers
 {
+    [Authorize]
     public class TestController : Controller
     {
         private readonly ITestService testService;

@@ -7,86 +7,66 @@
     string id = "'" + Model.Id.ToString() + "'";
 }
 
-<div>
-    <a onclick="ModifyTenant(@id)">Edit Bank</a>
-    <dl class="row">
-        
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AccountName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AccountName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AccountNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AccountNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SortCode)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SortCode)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BankName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BankName)
-        </dd>
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AddressLine1)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AddressLine1)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AddressLine2)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AddressLine2)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.StreetArea)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.StreetArea)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Landmark)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Landmark)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.City)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.County)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.County)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PostCode)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PostCode)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CountryId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CountryId)
-        </dd>
-    </dl>
+<div class="tab-pane fade show border border-top-0 active bg-white" id="bank_details" role="tabpanel"
+     aria-labelledby="nav-roles-per-tab">
+    <div class="card-header border-bottom-0 pb-0 bg-white">
+        <div class="row align-items-center pb-3">
+            <div class="col-6">
+                <h4 class="heading-style2 mb-0">Bank Details</h4>
+            </div>
+            <div class="col-6">
+                <div class="shadow-box ms-auto mt-2">
+                    <a class="custom__btn" onclick="ModifyTenant(@id)">
+                        <img src="~/assets/img/edit_icon.svg" alt="user__iocn">
+                        Edit details
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mx-3">
+        <table class="table">
+            <tbody class="asset_table">
+                <tr>
+                    <th class="r_heading" scope="row">Account Name</th>
+                    <td>@Model.AccountName</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Account Number</th>
+                    <td colspan="2">@Model.AccountNumber</td>
+                </tr>
+                <tr>
+                    <th class="r_heading" scope="row">Sort Code</th>
+                    <td colspan="2">@Model.SortCode</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Bank Name</th>
+                    <td colspan="2">@Model.BankName</td>
+                </tr>
+                <tr>
+                    <th class="r_heading" scope="row">Address 1</th>
+                    <td colspan="2">@Model.AddressLine1</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Address 2</th>
+                    <td colspan="2">@Model.AddressLine2</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Town/ CIty</th>
+                    <td colspan="2">@Model.City</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Country</th>
+                    <td colspan="2">@Model.Country.Name</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Post Code</th>
+                    <td colspan="2">@Model.PostCode</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-
 
 <div class="modal fade" id="tenantDialog">
     <div class="modal-dialog modal-dialog-centered" id="tenantDialogBody">

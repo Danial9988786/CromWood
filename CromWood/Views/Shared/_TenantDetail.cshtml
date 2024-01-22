@@ -6,26 +6,47 @@
 @{
     var rawId = ViewContext.RouteData.Values["id"] as string;
     var id = Guid.Parse(rawId ?? Guid.Empty.ToString());
-    var tenancy = await _tenantService.GetTenantViewModel(id);
+    var tenant = await _tenantService.GetTenantViewModel(id);
 }
 
 
-<ol class="breadcrumb mb-3 mt-3">
+<ol class="breadcrumb align-items-end mb-10 mt-3">
     <li class="breadcrumb-item">
-        <a href="index.html"><img src="~/assets/img/Home_icon.svg" alt="home_icon"></a>
+        <a asp-controller="Test" asp-action="Index"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
     </li>
-    <li class="breadcrumb-item active">Tenant Management</li>
+    <li class="breadcrumb-item active"><span class="a_m">Tenants</span></li>
+    <li class="breadcrumb-item active">@tenant.Data.FullName</li>
 </ol>
-<h1 class="mt-2 mb-3 custom_h">@tenancy.Data.FullName</h1>
+<div class="d-flex mb-3 pb-1">
+    <h1 class="custom_h mb-0">
+        <a asp-action="Index" class="text-decoration-none">
+            <img src="~/assets/img/left_Icon.svg" alt="" class="pe-1">
+        </a>
+        @tenant.Data.FullName
+    </h1>
+    <div class="d-md-inline-block ms-2">
+        <h6 class="cre mb-0">
+            Created on: <sapn>@tenant.Data.CreatedDate?.ToString("yyyy-MM-dd")</sapn>
+        </h6>
+        <h6 class="cre mb-0">
+            Last Modified: <sapn>@tenant.Data.UpdatedDate?.ToString("yyyy-MM-dd")</sapn> <a class="v_c">
+                View
+                Changelog
+            </a>
+        </h6>
+    </div>
+</div>
+
+
 <nav class="user___tabs">
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <a class="nav-link text-capitalize" id="nav-tenant-detail-tab" asp-route-id="@tenancy.Data.Id" asp-action="Detail">
+        <a class="nav-link text-capitalize" id="nav-tenant-detail-tab" asp-route-id="@tenant.Data.Id" asp-action="Detail">
             Individual Details
         </a>
-        <a class="nav-link text-capitalize" id="nav-tenant-tenancies-tab" asp-route-id="@tenancy.Data.Id" asp-action="Tenancies">
+        <a class="nav-link text-capitalize" id="nav-tenant-tenancies-tab" asp-route-id="@tenant.Data.Id" asp-action="Tenancies">
             Tenancies
         </a>
-        <a class="nav-link text-capitalize" id="nav-tenant-bank-tab" asp-route-id="@tenancy.Data.Id" asp-action="BankDetail">
+        <a class="nav-link text-capitalize" id="nav-tenant-bank-tab" asp-route-id="@tenant.Data.Id" asp-action="BankDetail">
             Bank Details
         </a>
     </div>

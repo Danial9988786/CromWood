@@ -9,51 +9,78 @@
 
 }
 
-<h1>Tenants</h1>
-
-<p>
-    <a onclick="AddNewExistingTenant(@tenancyId,'true')">Add New</a>
-    <a onclick="AddNewExistingTenant(@tenancyId,'false')">Add Existing</a>
-</p>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FullName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+<div class="tab-pane fade show border border-top-0 active bg-white" id="tenants">
+    <div class="card-header border-bottom-0 pt-3 pb-0 bg-white">
+        <div class="row align-items-center">
+            <div class="col-6">
+                <h4 class="heading-style2 mb-0">Tenants</h4>
+            </div>
+            <div class="col-6">
+                <div class="d-flex justify-content-end gap-3">
+                    <div class="shadow-box">
+                        <a class="custom__btn" onclick="AddNewExistingTenant(@tenancyId,'false')">
+                            Add Existing Person
+                        </a>
+                    </div>
+                    <div class="shadow-box">
+                        <a class="custom__btn" onclick="AddNewExistingTenant(@tenancyId,'true')">
+                            Add New Person
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        @foreach(var tenant in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Phone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-            </tr>
+            <div class="col-sm-4">
+                <div class="tenant_t">
+                    <div class="allison_p pb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="t_name">@tenant.FullName</span>
+                                <span class="t_wigdes mx-2">Tenant</span>
+                            </div>
+                            <div class="dropdown">
+                                <a href="#" class="action_dropwown" id="dropdownImage"
+                                   data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="~/assets/img/dots_Icon.svg" alt="Dropdown Trigger" />
+                                </a>
+
+                                <ul class="dropdown-menu shadow dropdown-menu-end border-0 rounded-0 p-0"
+                                    aria-labelledby="acp-action">
+                                    @{
+                                        string tenancyTenantId = "'" + tenant +"'";
+                                    }
+                                    <li><a class="dropdown-item" onclick="DeleteTenancyTenant(@tenancyTenantId)">Unlink</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="property_table">
+                        <tbody class="key_table">
+                            <tr>
+                                <th class="key_heading" scope="row">Mobile</th>
+                                <td class="k_data">@tenant.Phone</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <th class="key_heading" scope="row">Email</th>
+                                <td class="k_data" colspan="2">@tenant.Email</td>
+                            </tr>
+                            <tr>
+                                <th class="key_heading" scope="row">Guarantor</th>
+                                <td class="k_data" colspan="2">--</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+</div>
+
 
 <div class="modal fade" id="tenantDialog">
     <div class="modal-dialog modal-dialog-centered" id="tenantDialogBody">

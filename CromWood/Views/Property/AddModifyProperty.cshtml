@@ -1,0 +1,419 @@
+﻿@using CromWood.Business.Services.Interface;
+@using CromWood.Data.Entities.Default;
+@using CromWood.Data.Entities;
+@model CromWood.Business.Models.PropertyModel
+@inject ILookupService<PropertyType> _propertyTypeService;
+@inject IAssetService _assetService;
+
+@{
+    var asyncPropertyTypes = await _propertyTypeService.GetAllItems();
+    var propertyTypes = new SelectList(asyncPropertyTypes.Data, "Id", "Name");
+
+    var asyncAssets = await _assetService.GetAssetsForList();
+    var assets = new SelectList(asyncAssets.Data, "Id", "StreetAddress");
+
+    var groupByAmenties = Model.PropertyAmenities.GroupBy(x => x.Amenity.GroupName);
+}
+
+<div class="modal-content rounded-0">
+    <div class="modal-header modal_header_fixed py-2 w-100 bg-white">
+        <h5 class="modal-title" id="staticBackdropLabel">Add New Property</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body p-0 h-100">
+        <div class="mutli_steps_f">
+            <div class="border pt-3 rounded mx-3 mt-3 bg-white">
+                <div class="row justify-content-center">
+                    <div class="col-9">
+                        <div class="step__f d-flex">
+                            <div class="step">
+                                <div class="bullet ">
+                                    <span>
+                                        <span class="s_n">1</span>
+                                        <span class="s_tick">
+                                            <img src="~/assets/img/tick-icon.svg" alt="tick-">
+                                        </span>
+                                    </span>
+                                </div>
+                                <p>
+                                    Basic Details
+                                </p>
+                            </div>
+                            <div class="step">
+                                <div class="bullet">
+                                    <span>
+                                        <span class="s_n">2</span>
+                                        <span class="s_tick">
+                                            <img src="~/assets/img/tick-icon.svg" alt="tick-">
+                                        </span>
+                                    </span>
+                                </div>
+                                <p>
+                                    Structural Details
+                                </p>
+                            </div>
+                            <div class="step">
+                                <div class="bullet">
+                                    <span>
+                                        <span class="s_n">3</span>
+                                        <span class="s_tick">
+                                            <img src="~/assets/img/tick-icon.svg" alt="tick-">
+                                        </span>
+                                    </span>
+                                </div>
+                                <p>
+                                    Tenancy Details
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form___info mt-3">
+                <form asp-action="AddModifyProperty">
+
+                    <fieldset>
+                        <div class="step_body_content ps-3 pe-2 me-2">
+                            <div class="border p-3 bg-white">
+                                <h5 class="text-cpitlize mb-4">Basic Details</h5>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @Html.HiddenFor(m=>m.Id)
+                                        @Html.HiddenFor(m=>m.PropertyCode)
+                                        <div class="mb-3">
+                                            <label for="Select Asset" class="form-label">
+                                                Select
+                                                Asset
+                                            </label>
+                                            <select asp-for="AssetId" id="asset-select" asp-items="assets" class="form-select select_font_14 pagagraph"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div class="mb-3">
+                                            <label for="pro-code" class="form-label">
+                                                Property Code <span class="label_sm-text">
+                                                    (Auto
+                                                    Generated)
+                                                </span>
+                                            </label>
+
+                                            <input asp-for="PropertyCode" disabled class="form-control text-black" id="pro-code" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="basic_f_content">
+                                    <div class="row py-1">
+                                        <div class="col-md-3">
+                                            <label for="" class="form-label">Asset Type</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <span class="f_value" id="asset-type">N/A</span>
+                                        </div>
+                                    </div>
+                                    <div class="row py-1">
+                                        <div class="col-md-3">
+                                            <label for="" class="form-label">House No. & Street</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <span class="f_value" id="house-street">N/A</span>
+                                        </div>
+                                    </div>
+                                    <div class="row py-1">
+                                        <div class="col-md-3">
+                                            <label for="" class="form-label">Locality</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <span class="f_value" id="locality">N/A</span>
+                                        </div>
+                                    </div>
+                                    <div class="row py-1">
+                                        <div class="col-md-3">
+                                            <label for="" class="form-label">Borough</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <span class="f_value" id="borough">N/A</span>
+                                        </div>
+                                    </div>
+                                    <div class="row py-1">
+                                        <div class="col-md-3">
+                                            <label for="" class="form-label">Post Code</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <span class="f_value" id="post-code">N/A</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="popup_footer_fixed border-top d-flex justify-content-end bg-white">
+                            <div class="shadow-box ms-auto">
+                                <a href="#" class="custom__btn2 step_nextbtn">
+                                    Next, Structural details
+                                    <img src="~/assets/img/right_white_aroow_Icon.svg" alt="right__arrow">
+                                </a>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <div class="step_body_content ps-3 pe-3">
+                            <div class="border p-3 bg-white">
+                                <h5 class="text-cpitlize mb-3">Structural Details</h5>
+                                <div class="d-flex gap-3 pb-2">
+                                    <div class="input__field w-25">
+                                        <label for="" class="form-label">Type</label>
+                                        <select id="propertyType" class="form-select select_font_14 pagagraph" asp-for="PropertyTypeId" asp-items="propertyTypes" aria-label="Default select example">
+                                        </select>
+                                    </div>
+                                    <div class="input__field">
+                                        <label for="fqft" class="form-label">Square Footage</label>
+                                        <div class="position-relative">
+                                            <input type="number" class="form-control fqft" asp-for="SquareFootage"
+                                                   placeholder="Enter Value">
+                                            <span class="sqft_text pagagraph">sq ft</span>
+                                        </div>
+                                    </div>
+                                    <div class="input__field">
+                                        <label for="Floor Number" class="form-label">Floor Number</label>
+                                        <input type="number" class="form-control" asp-for="FloorNumber"
+                                               placeholder="Enter floor number">
+                                    </div>
+                                    <div class="input__field">
+                                        <label for="Bedroom" class="form-label">Bedroom(s)</label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text py-1 px-2" id="basic-addon1">
+                                                <img src="~/assets/img/minus_input.svg" alt="minus_icon">
+                                            </span>
+                                            <input type="number" class="form-control text-center"
+                                                   placeholder="1" asp-for="NoOfBedroom">
+                                            <span class="input-group-text py-1 px-2" id="basic-addon1">
+                                                <img src="~/assets/img/plus_input.svg" alt="minus_icon">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="input__field">
+                                        <label for="Bedroom" class="form-label">Bathroom(s)</label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text py-1 px-2" id="basic-addon1">
+                                                <img src="~/assets/img/minus_input.svg" alt="minus_icon">
+                                            </span>
+                                            <input type="number" class="form-control text-center"
+                                                   placeholder="1" asp-for="NoOfBathroom">
+                                            <span class="input-group-text py-1 px-2" id="basic-addon1">
+                                                <img src="~/assets/img/plus_input.svg" alt="minus_icon">
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h5 class="text-cpitlize pb-3">Amenities</h5>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    @foreach (var group in groupByAmenties)
+                                    {
+                                        <div class="col-md-3">
+                                            <label for="Bedroom" class="form-label mb-3">
+                                                @group.Key
+                                            </label>
+                                            <div class="check__boxList">
+
+                                                @foreach (var amenty in group.ToList())
+                                                {
+                                                    int index = Model.PropertyAmenities.FindIndex(x => x.Amenity == amenty.Amenity);
+                                                    <div class="form-check">
+                                                        @Html.CheckBoxFor(m => m.PropertyAmenities[index].Included, new { @class = "form-check-input ip"})
+                                                        <label class="form-check-label pagagraph"
+                                                               for="Internet">@Model.PropertyAmenities[index].Amenity.Key</label>
+                                                    </div>
+                                                    @Html.HiddenFor(m=>m.PropertyAmenities[index].Amenity.Id)
+                                                    @Html.HiddenFor(m=>m.PropertyAmenities[index].PropertyId)
+                                                    @Html.HiddenFor(m=>m.PropertyAmenities[index].Id)
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="Bills Included" class="form-label mb-3">
+                                            Add New
+                                            Amenity
+                                        </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder="Enter Name"
+                                                   aria-label="" aria-describedby="1">
+                                            <span class="pair_btn">
+                                                <div class="shadow-box ms-auto">
+                                                    <span class="custom__btn2">
+                                                        <a href="#" data-bs-toggle="modal"
+                                                           data-bs-target="#ana">
+                                                            Add
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <a class="Upd_btn p-2 px-3" href="#">
+                                            Add New Amenity
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="popup_footer_fixed border-top d-flex justify-content-between bg-white">
+                            <div class="shadow-box">
+                                <a href="#" class="custom__btn stepbackbtn">
+                                    <img src="~/assets/img/back_black-arrow.svg" alt="back-arrow">
+                                    back, Address details
+                                </a>
+                            </div>
+                            <div class="shadow-box ms-auto">
+                                <a href="#" class="custom__btn2 step_nextbtn">
+                                    Next, Tenancy Details
+                                    <img src="~/assets/img/right_white_aroow_Icon.svg" alt="right__arrow">
+                                </a>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <div class="step_body_content ps-3 pe-1 me-2">
+                            <div class="border p-3 bg-white h-100 align-content-center d-flex flex-column justify-content-around">
+                                <div class="row justify-content-center text-center">
+                                    <div class="col-md-10">
+                                        <img src="~/assets/img/Agreement.svg" alt="Agreement_img">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="shadow-box mx-auto px-0">
+                                        <a href="#" class="custom__btn2" data-bs-toggle="modal"
+                                           data-bs-target="#AddNewTenancy">
+                                            <img src="~/assets/img/white_plus.svg" alt="plus">
+                                            Add Tenancy agreement
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="popup_footer_fixed border-top d-flex justify-content-between bg-white">
+                            <div class="shadow-box">
+                                <a href="#" class="custom__btn stepbackbtn">
+                                    <img src="~/assets/img/back_black-arrow.svg" alt="back-arrow">
+                                    back, Structural details
+                                </a>
+
+                            </div>
+                            <div class="shadow-box ms-auto">
+                                <a onclick="submitClick()" class="custom__btn2">
+                                    <img src="~/assets/img/save-role.svg" alt="right__arrow">
+                                    save property
+                                </a>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <input id="submitBtnProperty" hidden type="submit" value="Add Property" />
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var assetId = '';
+    $(document).ready(function () {
+
+        var currentIndex = 0;
+
+        $('.step_nextbtn').click(function () {
+            // Remove the active class from the current item
+            $('.step__f .step').eq(currentIndex).removeClass('active');
+            $('.form___info form fieldset').eq(currentIndex).removeClass('active');
+
+            // Increment the index or reset to 0 if it exceeds the number of items
+            currentIndex = (currentIndex + 1) % $('.step__f .step').length;
+            // currentIndex = (currentIndex + 1) % $('.form___info form fieldset').length;
+
+            // Add the active class to the next item
+            $('.step__f .step').eq(currentIndex).addClass('active');
+            $('.step__f .step').eq(currentIndex).addClass('pass');
+            $('.form___info form fieldset').eq(currentIndex).addClass('active');
+        });
+
+        $('.stepbackbtn').click(function () {
+            // Remove the active class from the current item
+            $('.step__f .step').eq(currentIndex).removeClass('active');
+            $('.form___info form fieldset').eq(currentIndex).removeClass('active');
+
+            // Decrement the index or set to the last item if it goes below 0
+            currentIndex = (currentIndex - 1 + $('.step__f .step').length) % $('.step__f .step').length;
+
+            // Add the active class to the previous item
+            $('.step__f .step').eq(currentIndex).addClass('active');
+            $('.form___info form fieldset').eq(currentIndex).addClass('active');
+        });
+
+        // Set the first items as active initially
+        $('.step__f .step:first-child').addClass('active');
+        $('.step__f .step:first-child').addClass('pass');
+        // $('.step__f .step:last-child').removeClass('pass');
+        $('.form___info form fieldset:first-child').addClass('active');
+
+        assetId = $("#asset-select").val();
+        if (assetId != '') { fetchAsset(); }
+
+        // For Select2 Functionality
+        $('.select_font_14').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: true,
+            dropdownCssClass: "select_font_14",
+        });
+    });
+
+    function submitClick() {
+        $("#submitBtnProperty").click();
+    }
+
+    $("#asset-select").change(function (event) {
+        assetId = event.target.value;
+        if (assetId != '') { fetchAsset(); }
+    })
+
+    function fetchAsset() {
+        $.ajax({
+            type: "GET",
+            url: `/Asset/Detail?id=${assetId}`,
+            success: function (result) {
+                const assetType = result.AssetType.Name;
+                const houseStreet = result.HouseNoStreet;
+                const locality = result.Locality;
+                const borough = result.Borough;
+                const postCode = result.PostCode;
+                $("#asset-type").html(assetType ?? 'N/A');
+                $("#house-street").html(houseStreet ?? 'N/A');
+                $("#locality").html(locality ?? 'N/A');
+                $("#borough").html(borough ?? 'N/A');
+                $("#post-code").html(postCode ?? 'N/A');
+            },
+            error: function () {
+            }
+        })
+    }
+
+</script>

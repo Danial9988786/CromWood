@@ -9,70 +9,80 @@
     string emptyGuid = "'" + Guid.Empty.ToString() + "'";
 }
 
-<h1>Keys</h1>
-
-<p>
-    <a onclick="AddModifyKey(@propertyId,@emptyGuid)">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AdditionalInformation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SharedWithTenant)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="tab-pane fade show active border border-top-0 bg-white" role="tabpanel"
+     aria-labelledby="nav-roles-per-tab">
+    <div class="card-header border-bottom-0 pt-3 pb-0 bg-white">
+        <div class="row align-items-start">
+            <div class="col-6">
+                <h4 class="heading-style2 mb-0">Keys</h4>
+            </div>
+            <div class="col-6 text-end d-flex justify-content-end">
+                <div class="shadow-box">
+                    <a onclick="AddModifyKey(@propertyId,@emptyGuid)" class="custom__btn">
+                        <img class="pe-2" src="~/assets/img/plus.svg" alt="user__iocn">
+                        Add key
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display: flex;flex-wrap: wrap;">
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Quantity)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AdditionalInformation)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SharedWithTenant)
-                </td>
-                <td>
-                    <img height="50" src="@item.ImageUrl">
-                </td>
-                <td>
-                    @{
-                        string url = "'" + item.Id.ToString() + "'";
-                    }
-                    <a onclick="AddModifyKey(@propertyId,@url)">Edit</a>
-                    <a onclick="DeleteKey(@url)">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+            <div class="key_main">
+                <div class="d-flex">
+                    <div class="col-xl-7">
+                        <div class="key_t">
+                            <h6>@item.Name</h6>
+                            <p class="p_key">@item.PropertyKeyType.Name</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-5">
+                        <div class="dropdown text-end">
+                            <a href="#" class="action_dropwown" id="dropdownImage"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="~/assets/img/dots_Icon.svg" alt="Dropdown Trigger" />
+                            </a>
+                            <ul class="dropdown-menu shadow dropdown-menu-end border-0 rounded-0 p-0"
+                                aria-labelledby="acp-action">
+                                @{
+                                    string url = "'" + item.Id.ToString() + "'";
+                                }
+                                <li><a class="dropdown-item" onclick="AddModifyKey(@propertyId,@url)">Edit</a></li>
+                                <li><a class="dropdown-item" onclick="DeleteKey(@url)">Delete</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
 
-<div class="modal fade" id="keyDialog">
-    <div class="modal-dialog modal-dialog-centered" id="keyDialogBody">
+                <table class="property_table">
+                    <tbody class="key_table">
+                        <tr>
+                            <th class="key_heading" scope="row">Description</th>
+                            <td class="k_data">@item.AdditionalInformation</td>
+                        </tr>
+                        <tr class="bg-white">
+                            <th class="key_heading" scope="row">Quantity</th>
+                            <td class="k_data" colspan="2">@item.Quantity</td>
+                        </tr>
+                        <tr>
+                            <th class="key_heading" scope="row">Shared with</th>
+                            <td class="k_data" colspan="2">@(item.SharedWithTenant == true ? "Tenant Name" : "N/A")</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
     </div>
 </div>
 
+<div class="modal fade" id="keyDialog">
+    <div class="modal-dialog modal-dialog-centered cm2_size add_edit_popup" id="keyDialogBody">
+    </div>
+</div>
 
 <script>
+
     function AddModifyKey(propertyId, keyId) {
         var url = `/Property/AddModifyKey?propertyId=${propertyId}&keyId=${keyId}`;
         $("#keyDialogBody").load(url, function () {
@@ -81,7 +91,6 @@
                 $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
                 });
             });
-            $("#keyDialogBody").css("width", "100%");
             $("#keyDialog").modal("show");
         });
     }

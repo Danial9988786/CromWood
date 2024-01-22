@@ -7,48 +7,46 @@
     string id = "'" + Model.Id.ToString() + "'";
 }
 
+<div class="tab-pane fade show border border-top-0 active bg-white" id="individual_details"
+     role="tabpanel" aria-labelledby="nav-user-list-tab">
+    <div class="card-header border-bottom-0 pb-0 bg-white">
+        <div class="row align-items-center pb-3">
+            <div class="col-6">
+                <h4 class="heading-style2 mb-0">Individual Details</h4>
+            </div>
+            <div class="col-6">
+                <div class="shadow-box ms-auto mt-2">
+                    <a class="custom__btn" onclick="ModifyTenant(@id)">
+                        <img src="~/assets/img/edit_icon.svg" alt="user__iocn">
+                        Edit details
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mx-3">
+        <table class="table">
+            <tbody class="asset_table">
+                <tr>
+                    <th class="r_heading" scope="row">Name</th>
+                    <td>@Model.FullName</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Phone Number</th>
+                    <td colspan="2">@Model.Phone</td>
+                </tr>
+                <tr>
+                    <th class="r_heading" scope="row">Email Address</th>
+                    <td colspan="2">@Model.Email</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">National Insurance Number</th>
+                    <td colspan="2">@Model.NIN</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-<div>
-    <hr />
-    <a onclick="ModifyTenant(@id)">Modify Tenant</a>
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.SalutationId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.SalutationId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FullName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FullName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Phone)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.NIN)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.NIN)
-        </dd>
-    </dl>
 </div>
 
 <div class="modal fade" id="tenantDialog">

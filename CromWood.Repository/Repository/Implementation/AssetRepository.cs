@@ -13,7 +13,7 @@ namespace CromWood.Data.Repository.Implementation
 
         public async Task<IEnumerable<Asset>> GetAssetsForList()
         {
-            return await _context.Assets.Include(x=>x.AssetType).Include(x=>x.Properties).ToListAsync();
+            return await _context.Assets.Include(x=>x.AssetType).Include(x=>x.Properties).OrderByDescending(x=>x.CreatedDate).ToListAsync();
         }
 
         public async Task<Asset> GetAssetsOverView(Guid assetId)

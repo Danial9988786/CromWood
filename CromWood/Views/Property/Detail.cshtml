@@ -3,57 +3,109 @@
 @{
     ViewData["Title"] = "Detail";
     Layout = "~/Views/Shared/_PropertyDetail.cshtml";
+    string propertyId = "'" + Model.Id.ToString() + "'";
 }
 
-<div class="m-3">
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PropertyCode)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PropertyCode)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Asset)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Asset.AssetId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ExpectedMonthlyRate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ExpectedMonthlyRate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PropertyType)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PropertyType.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SquareFootage)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SquareFootage)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FloorNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FloorNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NoOfBedroom)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NoOfBedroom)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NoOfBathroom)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NoOfBathroom)
-        </dd>
-    </dl>
+<div class="tab-pane fade show active border border-top-0 bg-white" id="nav-user-list"
+     role="tabpanel" aria-labelledby="nav-user-list-tab">
+    <div class="card-header border-bottom-0 pt-3 pb-0 bg-white">
+        <div class="row align-items-start">
+            <div class="col-6">
+                <h4 class="heading-style2 mb-0">Property Details</h4>
+            </div>
+            <div class="col-6 text-end d-flex justify-content-end">
+                <div class="shadow-box">
+                    <a onclick="EditProperty(@propertyId)" disabed class="custom__btn" data-bs-toggle="edit_detail">
+                        <img class="pe-2" src="~/assets/img/edit_icon.svg" alt="edit_icon">
+                        Edit details
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mx-3">
+        <table class="table">
+            <h6 class="table_upcaseheading pt-4">Address Details</h6>
+            <hr>
+            <tbody class="asset_table">
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Property Code</th>
+                    <td>@Model.PropertyCode</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">House No. & Street</th>
+                    <td colspan="2">@Model.Asset.HouseNoStreet</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Locality</th>
+                    <td colspan="2">@Model.Asset.Locality</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Borough</th>
+                    <td colspan="2">@Model.Asset.Borough</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Post Code</th>
+                    <td colspan="2">@Model.Asset.PostCode</td>
+                </tr>
+
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Expected Earnings per Month</th>
+                    <td class="earn_p_month" colspan="2">@Model.ExpectedMonthlyRate</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="mx-3">
+        <table class="table">
+            <h6 class="table_upcaseheading pt-4">Structural Details</h6>
+            <hr>
+            <tbody class="asset_table">
+                <tr>
+                    <th class="r_heading" scope="row">Type</th>
+                    <td>@Model.PropertyType.Name</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Square Footage</th>
+                    <td colspan="2">@Model.SquareFootage ft²</td>
+                </tr>
+                <tr>
+                    <th class="r_heading" scope="row">Self Contained</th>
+                    <td colspan="2">Yes</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Garage</th>
+                    <td colspan="2">Yes</td>
+                </tr>
+                <tr>
+                    <th class="r_heading" scope="row">Car Parking</th>
+                    <td colspan="2">Yes</td>
+                </tr>
+                <tr class="bg-white">
+                    <th class="r_heading" scope="row">Bedroom(s)</th>
+                    <td colspan="2">@Model.NoOfBedroom</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+
+
+<div class="modal fade" id="propertyDialog">
+    <div class="modal-dialog modal-dialog-centered cm2_size" id="propertyDialogBody">
+    </div>
+</div>
+
+<script>
+    function EditProperty(propertyId) {
+        var url = "/Property/AddModifyProperty/" + propertyId;
+        $("#propertyDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#propertyDialog").modal("show");
+        });
+    }
+</script>

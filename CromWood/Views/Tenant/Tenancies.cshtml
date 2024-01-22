@@ -1,48 +1,102 @@
-﻿@model IEnumerable<CromWood.Business.Models.ViewModel.TenancyViewModel>
+﻿@using System.Globalization;
+@model IEnumerable<CromWood.Business.Models.ViewModel.TenancyViewModel>
 
 @{
     ViewData["Title"] = "Tenancies";
     Layout = "~/Views/Shared/_TenantDetail.cshtml";
 }
 
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TenancyId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RentAmount)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+<div class="tab-pane show_sort_1 no_top_search fade show border border-top-0 active bg-white" id="tenancies" role="tabpanel"
+     aria-labelledby="nav-roles-per-tab">
+    <div class="card-header pt-3 border-bottom-0 pb-0 bg-white">
+        <div class="row align-items-center pb-3">
+            <div class="col-6">
+                <h4 class="heading-style2 mb-0">Tenancies</h4>
+            </div>
+            <div class="col-6">
+                &nbsp;
+            </div>
+        </div>
+    </div>
+    <div class="">
+        <table id="datatablesSimple" class="border-bottom-0">
+            <thead>
+                <tr>
+                    <th class="maintable_head" style="padding-left:13px !important;">Tenancy ID</th>
+                    <th class="maintable_head">Description</th>
+                    <th class="maintable_head">Start Date</th>
+                    <th class="maintable_head">End Date</th>
+                    <th class="maintable_head">Status</th>
+                    <th class="maintable_head">Rent</th>
+                </tr>
+            </thead>
+            <tbody>
+                 @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    <a asp-action="Detail" asp-controller="Tenancy" asp-route-id="@item.Id">
-                        @Html.DisplayFor(modelItem => item.TenancyId)
-                    </a>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RentAmount)
-                </td>
-            </tr>
+                <tr>
+                        <td class="maintext_size align-top" style="padding-left:22px !important;">
+                        <a class="main-text t_num" asp-action="Detail" asp-controller="Tenancy" asp-route-id="@item.Id">
+                            112384
+                        </a>
+                    </td>
+                    <td class="maintext_size description">
+                            <a class="main-text">
+                                @item.Property.PropertyType.Name No. @item.Property.FloorNumber <br> <img src="~/assets/img/Location.svg" alt=""> @item.Property.Asset.StreetAddress <br><span class="owner_clr">Owner</span>
+                                <br>@item.Property.Asset.Ownership
+                            </a>
+                    </td>
+                    <td class="maintext_size enancies_dates align-top">
+                            <span class="d-inline-block">
+                                @if (item.StartDate == default(DateTime))
+                                {
+                                    <span>N/A</span>
+                                }
+                                else
+                                {
+                                    <span>@item.StartDate.ToString("dd MMM, yyyy")</span>
+                                }
+                            </span>
+                    </td>
+                    <td class="maintext_size enancies_dates align-top">
+                            <span class="d-inline-block">
+                                @if (item.EndDate == default(DateTime))
+                                {
+                                    <span>N/A</span>
+                                }
+                                else
+                                {
+                                    <span>@item.EndDate.ToString("dd MMM, yyyy")</span>
+                                }
+                            </span>
+                    </td>
+                    <td class="maintext_size align-top">
+                        <div class="ongoing_btn">
+                            <img class="pe-1" src="~/assets/img/check-file.svg" alt="">
+                            Ongoing
+                        </div>
+                    </td>
+                    <td class="maintext_size align-top">
+                            <span class="pm_date">@item.RentAmount.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ") @item.RentFrequency.Name</span>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Code for datatable manipulation
+        var rowCount = $('.datatable-table tbody tr').length;
+        var threshold = 10;
+        if (rowCount < threshold) {
+            $('.datatable-bottom').hide();
+        } else {
+            $('.datatable-bottom').show();
         }
-    </tbody>
-</table>
+
+    });
+
+</script>

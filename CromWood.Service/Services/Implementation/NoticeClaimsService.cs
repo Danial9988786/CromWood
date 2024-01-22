@@ -48,6 +48,21 @@ namespace CromWood.Business.Services.Implementation
             }
         }
 
+        public async Task<AppResponse<NoticeViewModel>> GetNoticeViewById(Guid id)
+        {
+            try
+            {
+                var result = await _noticeClaimRepository.GetNoticeById(id);
+                var mappedResult = _mapper.Map<NoticeViewModel>(result);
+                return ResponseCreater<NoticeViewModel>.CreateSuccessResponse(mappedResult, "Notice view loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<NoticeViewModel>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
         public async Task<AppResponse<int>> AddModifyNotice(NoticeModel request)
         {
             try
@@ -103,6 +118,20 @@ namespace CromWood.Business.Services.Implementation
             catch (Exception ex)
             {
                 return ResponseCreater<IEnumerable<ClaimViewModel>>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+        public async Task<AppResponse<ClaimViewModel>> GetClaimViewById(Guid id)
+        {
+            try
+            {
+                var result = await _noticeClaimRepository.GetClaimById(id);
+                var mappedResult = _mapper.Map<ClaimViewModel>(result);
+                return ResponseCreater<ClaimViewModel>.CreateSuccessResponse(mappedResult, "Claim view loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<ClaimViewModel>.CreateErrorResponse(null, ex.ToString());
             }
         }
 

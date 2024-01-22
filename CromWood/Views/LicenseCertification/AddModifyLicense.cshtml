@@ -12,43 +12,101 @@
     var licenseTypes = new SelectList(asynLicenseTypes.Data, "Id", "Name");
 }
 
-<div class="modal-content rounded-0">
+<div class="modal-content rounded-0" style="min-height:500px">
     <div class="modal-header py-2">
-        <h5 class="modal-title" id="staticBackdropLabel">Add License & certification</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">Add License/ Certificate</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
-    <div class="modal-body">
+    <div class="modal-body p-0">
         <form asp-action="AddModifyLicense" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @Html.HiddenFor(x=>x.Id)
-            <div class="form-group">
-                <label asp-for="PropertyId" class="control-label"></label>
-                <select asp-for="PropertyId" asp-items="properties" class="form-control"></select>
-                <span asp-validation-for="PropertyId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LicenseCertificateTypeId" class="control-label"></label>
-                <select asp-for="LicenseCertificateTypeId" asp-items="licenseTypes" class="form-control"></select>
-                <span asp-validation-for="LicenseCertificateTypeId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ExpiryDate" class="control-label"></label>
-                <input asp-for="ExpiryDate" type="date" class="form-control" />
-                <span asp-validation-for="ExpiryDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input asp-for="DocFile" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="Note" class="control-label"></label>
-                <textarea asp-for="Note" class="form-control"></textarea>
-                <span asp-validation-for="Note" class="text-danger"></span>
+            <div class="mb-3 px-3 pt-3">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 class="lc_label d-inline-block pt-2">Property</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="mb-3">
+                            <select id="propertyType" class="form-select select_font_14" asp-for="PropertyId" asp-items="properties">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 class="lc_label d-inline-block pt-2">License Type</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="mb-3">
+                            <select id="licenseType" class="form-select select_font_14" asp-for="LicenseCertificateTypeId" asp-items="licenseTypes">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 class="lc_label d-inline-block pt-2">Expiry Date</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="mb-3">
+                            <div class="input-container">
+                                <input type="date" asp-for="ExpiryDate">
+                                <div class="calendar-icon">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 class="lc_label d-inline-block pt-2">File (up to 128 mb)</h4>
+                    </div>
+                    <div class="col-md-8 mt-1">
+                        <div class="mb-3">
+                            <a for="formFileLg" class="form-label cf_btn custom__filetype" onclick="fileBtn.click()">
+                                <img class="pe-1" src="~/assets/img/green__plus_icon.svg"
+                                     alt="user__iocn">
+                                CHOOSE FILE
+                            </a>
+                        </div>
+                        <input asp-for="DocFile" id="fileBtn" hidden class="form-control" />
+                    </div>
+                </div>
+                <div class="w-100">
+                    <textarea class="w-100" rows="4" cols="50" asp-for="Note"
+                              placeholder="Start typing a note here..."></textarea>
+                </div>
             </div>
             @Html.HiddenFor(x=>x.Archieved)
             @Html.HiddenFor(x=>x.DocUrl)
-            <div class="custom__btn2 text-end border-top pt-3 mt-5">
-                <input type="submit" value="Add License & Certificate" />
+            <div class="popup_footer_fixed text-end border-top d-flex justify-content-between" data-bs-dismiss="modal">
+                <div class="shadow-box">
+                    <a class="custom__btn">
+                        Cancel
+                    </a>
+                </div>
+                <div class="shadow-box ms-auto">
+                    <a class="custom__btn2" onclick="submitButton.click()">
+                        <img src="~/assets/img/save-role.svg" alt="user__iocn"> Save
+                        license/certificate
+                    </a>
+                    <input type="submit" id="submitButton" hidden value="Add License & Certificate" />
+                </div>
             </div>
         </form>
     </div>
 </div>
+
+
+<script>
+    $(document).ready(function () {
+        $('.select_font_14').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: true,
+            dropdownCssClass: "select_font_14",
+        });
+    });
+</script>

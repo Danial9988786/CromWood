@@ -1,0 +1,176 @@
+﻿@model IEnumerable<CromWood.Business.Models.ViewModel.PropertyInspectionItemViewModel>
+
+@{
+    ViewData["Title"] = "BuildingItems";
+    Layout = "~/Views/Shared/_PropertyAssesmentDetail.cshtml";
+    var poor = Model.Where(x => x.ConditionRating == 0).Count();
+    var fair = Model.Where(x => x.ConditionRating == 1).Count();
+    var good = Model.Where(x => x.ConditionRating == 2).Count();
+
+    var groupedBySection = Model.GroupBy(x => x.SurverySection);
+}
+
+<div class="tab-pane bg-white fade border border-top-0 show active" id="nav-building-items" role="tabpanel"
+     aria-labelledby="nav-building-items-tab">
+    <div class="p-3 bg-white rounded">
+        <div class="row align-items-center">
+            <div class="col-md-5">
+                <h1 class="custom_h mb-0">Building Inspection Reports</h1>
+            </div>
+            <div class="col-md-7">
+                <div class="d-flex align-items-center justify-content-end">
+                    <ul class="d-flex list-unstyled gap-3 mb-0 pe-4">
+                        <li class="poor_bg">
+                            <span>Poor</span>
+                            <span class="ps-3">@poor</span>
+                        </li>
+                        <li class="fair_bg">
+                            <span>Fair</span>
+                            <span class="ps-3">@fair</span>
+                        </li>
+                        <li class="good_bg">
+                            <span>Good</span>
+                            <span class="ps-3">@good</span>
+                        </li>
+                    </ul>
+                    <div class="shadow-box">
+                        <div class="pair_btn">
+                            <span class="custom__btn2">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#ana">
+                                    <img src="~/assets/img/plus_white.svg" alt="">
+                                    Add item
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white px-3">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                @foreach (var group in groupedBySection)
+                {
+                    bool showActive = groupedBySection.ToList()?[0].Key == group.Key;
+                    string activeClass = showActive ? "active" : "";
+                        <a class="nav-link @activeClass" id="nav-@group.Key.Id-tab" data-bs-toggle="tab"
+                           data-bs-target="#nav-@group.Key.Id" role="tab"
+                           aria-controls="nav-@group.Key.Id" aria-selected="true">@group.Key.Name</a>
+                }
+            </div>
+        </nav>
+
+        <div class="tab-content" id="nav-tabContent">
+            @{
+                int counter = 0;
+            }
+            @foreach (var group in groupedBySection)
+            {
+                bool showActive = groupedBySection.ToList()?[0].Key == group.Key;
+                string activeClass = showActive ? "active" : "";
+                    <div class="tab-pane @activeClass fade show no_top_search show_sort_1_3" id="nav-@group.Key.Id"
+                         role="tabpanel" aria-labelledby="nav-@group.Key.Id-tab">
+                        <table id="hhsrs-@counter" class="table hhsrs">
+                        @{
+                            counter += 1;
+                        }
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Item</th>
+                                    <th>Location Details</th>
+                                    <th>Description</th>
+                                    <th>Condition Rating</th>
+                                    <th>Defects</th>
+                                    <th>Stock UoM</th>
+                                    <th>Stock Unit Cost</th>
+                                    <th>Stock Quantity</th>
+                                    <th>Remaining Qty</th>
+                                    <th>Replace Year</th>
+                                    <th>Year Brand</th>
+                                    <th>Life Cycle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var item in group.ToList())
+                            {
+                                        <tr>
+                                            <td>
+                                        @if (item.PropertyInspectionItemImages.Count > 0 && !string.IsNullOrEmpty(item.PropertyInspectionItemImages.ToList()[0].Url))
+                                        {
+                                                        <img style="width:50px !important;height:40px !important;object-fit:cover" src="@item.PropertyInspectionItemImages.ToList()[0].Url" alt="img">
+                                        }
+                                        else
+                                        {
+                                                        <img src="~/assets/img/Building_Inspection_Reports_img.png" alt="img">
+                                        }
+                                            </td>
+                                            <td class="mdblacktext">@item.DetailItem.Name</td>
+                                            <td class="main-text">
+                                                <a class="main-text u_n">@item.Location1</a>
+                                                <br />
+                                                <a class="main-text u_n">@item.Location2</a>
+                                            </td>
+                                            <td class="mdblacktext">
+                                        @item.Description
+                                            </td>
+                                            <td class="mdblacktext p__text">@item.ConditionRating</td>
+                                            <td class="mdblacktext">@item.Defects</td>
+                                            <td class="mdblacktext">@item.UnitOfMeasurement?.Name</td>
+                                            <td class="mdblacktext">@item.StockUnitCost</td>
+                                            <td class="mdblacktext">@item.StockQuantity</td>
+                                            <td class="mdblacktext">@item.StockRemainingQuantity</td>
+                                            <td class="mdblacktext">@item.StockReplaceYear</td>
+                                            <td class="mdblacktext">@item.StockYearBand</td>
+                                            <td class="mdblacktext">@item.StockLifecycle</td>
+                                        </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    window.addEventListener('DOMContentLoaded', event => {
+        const hhsrs = document.getElementsByClassName('table');
+        if (hhsrs) {
+            for(item of hhsrs) {
+                new simpleDatatables.DataTable(item);
+            }
+        }
+
+        $(".datatable-table thead tr th button.datatable-sorter").append("<span class='c__icon'></span>");
+
+        // Code for datatable manipulation
+        var rowCount = $('.datatable-table tbody tr').length;
+        var threshold = 10;
+        if (rowCount < threshold) {
+            $('.datatable-bottom').hide();
+        } else {
+            $('.datatable-bottom').show();
+        }
+
+        var filter = $(".filter_btn");
+        $(".datatable-top").append(filter);
+
+    });
+    function AddModifyPropertyAssesmentItem(assesmentId) {
+        var url = `/PropertyAssesment/AddModifyPropertyAssesmentItem?assesmentId=${assesmentId}`;
+        $("#propertyAssesmentItemDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#propertyAssesmentItemDialog").modal("show");
+        });
+    }
+</script>
+

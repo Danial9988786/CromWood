@@ -21,5 +21,7 @@ namespace CromWood.Data.Repository.Interface
         public Task<int> AddDocument(TenancyDocument document);
         public Task<int> ModifyDocument(TenancyDocument document);
         public Task<string> DeleteDocument(Guid id);
+        public Task<ICollection<Notice>> GetNoticesForTenancyTenants(Guid tenenacyId);
+        public Task<ICollection<Complaint>> GetComplaintsForTenancyTenants(Guid tenenacyId);
     }
 }

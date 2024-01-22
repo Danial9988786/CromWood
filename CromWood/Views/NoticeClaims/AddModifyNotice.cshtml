@@ -14,71 +14,110 @@
 
     var asyncTenants = await _tenantService.GetTenantForList();
     var tenants = new SelectList(asyncTenants.Data, "Id", "FullName");
-}
 
-<div class="modal-content rounded-0">
-    <div class="modal-header py-2">
-        <h5 class="modal-title" id="staticBackdropLabel">Add/Edit Notice</h5>
+    var popupTitle = Model == null || Model.Id == Guid.Empty ? "Create Notice" : "Edit Notice Details";
+}
+<div class="modal-content rounded-0 model-custom-bg">
+    <div class="modal-header py-2 bg-white">
+        <h5 class="modal-title" id="staticBackdropLabel">Create Notice</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
-    <div class="modal-body">
-        <form asp-action="AddModifyNotice">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @Html.HiddenFor(x=>x.Id)
-            <div class="form-group">
-                <label asp-for="TrackingNumber" class="control-label"></label>
-                <input asp-for="TrackingNumber" class="form-control" />
-                <span asp-validation-for="TrackingNumber" class="text-danger"></span>
+    <form asp-action="AddModifyNotice" class="modal-body">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @Html.HiddenFor(x=>x.Id)
+        @Html.HiddenFor(x=>x.Archived)
+        <div class="step_body_content3 mb-3 pe-2">
+        <div class="mb-3 border p-3 bg-white">
+            <div class="d-flex gap-3">
+                <div class="input__field w-100">
+                    <label for="Rent Frequency" class="form-label">Concern</label>
+                    <select id="concern-id" class="form-select select_font_14" asp-for="ConcernId" asp-items="concerns">
+                    </select>
+                </div>
+                <div class="input__field w-100">
+                    <label for="Rent Frequency" class="form-label">Tenant Name</label>
+                    <select id="tenants" class="form-select select_font_14" asp-for="TenantId" asp-items="tenants"
+                           placeholder="Tenant Name"></select>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="ConcernId" class="control-label"></label>
-                <select asp-for="ConcernId" asp-items="concerns" class="form-control"></select>
-                <span asp-validation-for="ConcernId" class="text-danger"></span>
+            <div class="d-flex gap-3 mt-3">
+                <div class="input__field w-100">
+                    <label for="Rent Frequency" class="form-label">AST/License</label>
+                    <select id="ast-license" class="form-select select_font_14" asp-for="ASTLicense">
+                        <option value="AST" selected>AST</option>
+                        <option value="License">License</option>
+                    </select>
+                </div>
+                <div class="input__field w-100">
+                    <label for="Rent Frequency" class="form-label">Section</label>
+                    <select id="section-id" class="form-select select_font_14" asp-for="SectionId" asp-items="sections">
+                    </select>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="TenantId" class="control-label"></label>
-                <select asp-for="TenantId" asp-items="tenants" class="form-control"></select>
-                <span asp-validation-for="TenantId" class="text-danger"></span>
+            <div class="d-flex gap-3 mt-3">
+                <div class="input__field w-100">
+                    <label for="Rent Frequency" class="form-label">Drafted?</label>
+                    <select id="is-drafted" class="form-select select_font_14" asp-for="IsDrafted">
+                        <option selected value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                <div class="input__field w-100">
+                    <label for="Rent Frequency" class="form-label">Tracking Number</label>
+                    <input type="text" class="form-control pagagraph" asp-for="TrackingNumber">
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="ASTLicense" class="control-label"></label>
-                <input asp-for="ASTLicense" class="form-control" />
-                <span asp-validation-for="ASTLicense" class="text-danger"></span>
+            <div class="d-flex mt-3 gap-3">
+                <div class="input__field w-100">
+                    <div class="mb-3">
+                        <label for="Start-Date" class="form-label">Emailed</label>
+                        <input type="date" class="form-control"  placeholder="01 /06 / 2023" asp-for="EmailedOn">
+                    </div>
+                </div>
+                <div class="input__field w-100">
+                    <div class="mb-3">
+                        <label for="Start-Date" class="form-label">Served & Pictured</label>
+                        <input type="date" class="form-control" placeholder="01 /06 / 2023" asp-for="ServedAndPictured">
+                    </div>
+                </div>
+                <div class="input__field w-100">
+                    <div class="mb-3">
+                        <label for="Start-Date" class="form-label">Expiring Date</label>
+                        <input type="date" class="form-control"  placeholder="01 /06 / 2023" asp-for="ExpiryDate">
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="SectionId" class="control-label"></label>
-                <select asp-for="SectionId" asp-items="sections" class="form-control"></select>
-                <span asp-validation-for="SectionId" class="text-danger"></span>
+            <label for="Payment Method" class="form-label">Comment</label>
+            <div class="w-100 h-50 d-inline-block">
+                <textarea class="w-100" asp-for="Comment" rows="4" cols="50"
+                          placeholder="Add Comment"></textarea>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsDrafted" /> @Html.DisplayNameFor(model => model.IsDrafted)
-                </label>
+        </div>
+        </div>
+        <div class="popup_footer_fixed border-top d-flex justify-content-between bg-white">
+            <div class="shadow-box">
+                <a class="custom__btn" href="#" data-bs-toggle="modal">
+                    Cancel
+                </a>
             </div>
-            @Html.HiddenFor(x=>x.Archived)
-            <div class="form-group">
-                <label asp-for="EmailedOn" class="control-label"></label>
-                <input asp-for="EmailedOn" class="form-control" />
-                <span asp-validation-for="EmailedOn" class="text-danger"></span>
+            <div class="shadow-box ms-auto">
+                <a onclick="submitButton.click()" class="custom__btn2">
+                    Create Notice
+                </a>
+                <input type="submit" id="submitButton" hidden value="Create" class="btn btn-primary" />
             </div>
-            <div class="form-group">
-                <label asp-for="ServedAndPictured" class="control-label"></label>
-                <input asp-for="ServedAndPictured" class="form-control" />
-                <span asp-validation-for="ServedAndPictured" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ExpiryDate" class="control-label"></label>
-                <input asp-for="ExpiryDate" class="form-control" />
-                <span asp-validation-for="ExpiryDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Comment" class="control-label"></label>
-                <input asp-for="Comment" class="form-control" />
-                <span asp-validation-for="Comment" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('.select_font_14').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: true,
+            dropdownCssClass: "select_font_14",
+        });
+    });
+</script>

@@ -46,7 +46,7 @@ namespace CromWood.Data.Repository.Implementation
 
         public async Task<IEnumerable<User>> GetAllUsers()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users.OrderByDescending(x=>x.CreatedDate).ToListAsync();
         }
 
         public async Task<int> InviteUser(User user)

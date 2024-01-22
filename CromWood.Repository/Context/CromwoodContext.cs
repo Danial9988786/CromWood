@@ -69,8 +69,20 @@ namespace CromWood.Data.Context
         public DbSet<Tenant> Tenants { get; set; }
         public DbSet<Claim> Claims { get; set; }
         public DbSet<Complaint> Complaints { get; set; }
+        public DbSet<ComplaintComment> ComplaintComments { get; set; }
         public DbSet<LicenseCertificate> LicenseCertificates { get; set; }
         public DbSet<Notice> Notices { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<MessageRecipient> MessageRecipients { get; set; }
+
+        // Related to Property Assesment.
+        public DbSet<DetailItem> DetailItems { get; set; }
+        public DbSet<SurverySection> SurverySections { get; set; }
+        public DbSet<UnitOfMeasurement> UnitOfMeasurements { get; set; }
+        public DbSet<PropertyAssesment> PropertyAssesments { get; set; }
+        public DbSet<PropertyInspectionItem> PropertyInspectionItems { get; set; }
+        public DbSet<PropertyInspectionItemImage> PropertyInspectionItemImage { get; set; }
+
 
         public override int SaveChanges()
         {

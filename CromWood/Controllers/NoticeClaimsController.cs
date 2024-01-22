@@ -20,6 +20,12 @@ namespace CromWood.Controllers
             return View(result.Data ?? new List<NoticeViewModel>());
         }
 
+        public async Task<IActionResult> ViewNotice(Guid id)
+        {
+            var result = await _noticeClaimService.GetNoticeViewById(id);
+            return PartialView(result.Data);
+        }
+
         public async Task<IActionResult> AddModifyNotice(Guid id)
         {
             if (id != Guid.Empty)
@@ -58,6 +64,12 @@ namespace CromWood.Controllers
         {
             var result = await _noticeClaimService.GetClaims();
             return View(result.Data ?? new List<ClaimViewModel>());
+        }
+
+        public async Task<IActionResult> ViewClaim(Guid id)
+        {
+            var result = await _noticeClaimService.GetClaimViewById(id);
+            return PartialView(result.Data);
         }
 
         public async Task<IActionResult> AddModifyClaim(Guid id)

@@ -1,0 +1,74 @@
+.login-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    height: 100vh;
+    width: 100vw;
+    background-color: #F9FBFC;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-card {
+    width: 400px;
+    height: 455px;
+    padding: 40px;
+    border-radius: 8px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+}
+
+.login-label {
+    font-size: 24px;
+    font-family: Sora;
+    line-height: 140%;
+    margin-bottom: 0px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.login-input-box {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.login-input-label {
+    font-weight: 500;
+    color: #5F6D81;
+    font-size: 14px;
+}
+
+.login-action-section {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.login-forgot-pwd-label {
+    font-size: 14px;
+    color: #2F2E35;
+    margin-bottom: 0px;
+}
+
+.login-bottom {
+    margin-top: -4px;
+}
+
+.login-bottom-info {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 140%;
+    margin-bottom: 0px;
+    color: #5F6D81;
+    text-align: center;
+}

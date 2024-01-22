@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CromWood.Business.Models
 {
-    public class PropertyModel
+    public class PropertyModel:DBTable
     {
         public Guid Id { get; set; }
         [Required, MaxLength(100)]
         public string PropertyCode { get; set; }
         public Guid AssetId { get; set; }
-        public Asset Asset { get; set; }
+        public AssetModel Asset { get; set; }
         public float ExpectedMonthlyRate { get; set; }
         public Guid PropertyTypeId { get; set; }
         public PropertyType PropertyType { get; set; }

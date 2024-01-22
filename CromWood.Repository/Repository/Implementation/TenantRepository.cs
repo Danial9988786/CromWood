@@ -22,14 +22,14 @@ namespace CromWood.Data.Repository.Implementation
 
         public async Task<IEnumerable<Tenancy>> GetTenanciesForTenant(Guid tenancyId)
         {
-            var tenancyTenants = _context.Tenants.Where(x=>x.Id==tenancyId).SelectMany(x => x.TenancyTenants.Select(y=>y.Tenancy)).Distinct();
+            var tenancyTenants = _context.Tenants.Include(x=>x.TenancyTenants).ThenInclude(x=>x.Tenancy.Property.Asset).Include(x=>x.TenancyTenants).ThenInclude(x=>x.Tenancy.Property.PropertyType).Include(x=>x.TenancyTenants).ThenInclude(x=>x.Tenancy.RentFrequency).Where(x=>x.Id==tenancyId).SelectMany(x => x.TenancyTenants.Select(y=>y.Tenancy)).Distinct();
             return await tenancyTenants.ToListAsync();
         }
 
 
         public async Task<Tenant> GetTenantOverView(Guid tenancyId)
         {
-            return await _context.Tenants.FirstOrDefaultAsync(x => x.Id == tenancyId);
+            return await _context.Tenants.Include(x=>x.Country).FirstOrDefaultAsync(x => x.Id == tenancyId);
         }
 
         public async Task<int> AddModifyTenant(Tenant tenant)

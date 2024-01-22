@@ -31,8 +31,8 @@ namespace CromWood.Business.Models
         public Guid PaymentMethodId { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
         public float? SecurityDeposit { get; set; }
-        public bool? SplitBetweenTenants { get; set; }
-        public bool? ScheduleRentStatement { get; set; }
+        public bool SplitBetweenTenants { get; set; }
+        public bool ScheduleRentStatement { get; set; }
         public int? StatementDueDay { get; set; }
 
         // Bank details

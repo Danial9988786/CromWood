@@ -1,0 +1,174 @@
+﻿@using CromWood.Business.Services.Interface;
+@model IEnumerable<CromWood.Business.Models.ViewModel.ComplaintViewModel>
+@inject IUserService _userService;
+
+@{
+    ViewData["Title"] = "Complaints";
+    Layout = "~/Views/Shared/_TenancyDetail.cshtml";
+}
+
+<div class="tab-pane fade border border-top-0 bg-white show active" id="complaints" role="tabpanel"
+     aria-labelledby="nav-roles-per-tab">
+    <div class="px-3">
+        <div class="row">
+            <div class="col-xl-6">
+                <h1 class="mt-4 mb-3 custom_h"> All Complaints</h1>
+            </div>
+            <div class="col-xl-6 mt-3">
+                <div class="shadow-box ms-auto">
+                    <a class="custom__btn" onclick="AddModifyComplaint()">
+                        <img src="~/assets/img/plus.svg" alt="plus_icon"> Add Complaint
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ser_lpading sm48__row_table pt-0 pm_page_top_m table_bottom_border hide_sort_all">
+        <table id="Complaints_Tab">
+            <thead>
+                <tr>
+                    <th class="maintable_head">Complaint ID</th>
+                    <th class="maintable_head">Date</th>
+                    <th class="maintable_head">Description</th>
+                    <th class="maintable_head">Requested By</th>
+                    <th class="maintable_head">Added By</th>
+                    <th class="maintable_head">Status</th>
+                    <th class="maintable_head">&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="align-top">
+                            <a class="green_12 u_n">
+                                @item.Id.ToString().Substring(0,5).ToUpper()
+                            </a>
+                        </td>
+                        <td>
+                            <span class="black_12 d-inline-block mb-2">
+                                @item.CreatedDate
+                            </span> <br>
+                            <span class="gray_12">Due Date</span> <span class="black_12">
+                                @item.ExpectedResolveDate
+                            </span>
+                        </td>
+                        <td>
+                            <span class="black_12  d-inline-block mb-2">
+                                @item.ComplaintNature.Name
+                            </span>
+                            <br><span class="gray_12">@item.ComplaintCategory.Name</span>
+                        </td>
+                        <td class=" align-top">
+                            <span class="black_12 d-inline-block">Tenant</span><br>
+                            <span class="black_12 d-inline-block mb-1">
+                                @item.Tenant.FullName
+                            </span>
+                        </td>
+                        <td>
+                            <span class="black_12 d-inline-block mb-1">
+                                @{
+                                    var user = await _userService.GetUserById(item.CreatedBy ?? Guid.Empty);
+                                }
+                                @user.Data.Name
+                            </span>
+                        </td>
+                        <td class=" px-4">
+                            <div class="new">
+                                New
+                            </div>
+                        </td>
+                        @{
+                            string id = "'" + item.Id.ToString() + "'";
+                        }
+                        <td class="text-end">
+                            <a class="text-decoration-none action_dropwown" onclick="ViewComplaint(@id)">
+                                <img src="~/assets/img/eye.svg" />
+                            </a>
+                            <a class="text-decoration-none action_dropwown" href="#" role="button"
+                               id="acp-action" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="~/assets/img/down_arrow.svg" class="ms-2" />
+                            </a>
+                            <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
+                                aria-labelledby="acp-action">
+                                <li><a class="dropdown-item" onclick="AddModifyComplaint(@id)">Edit Complaint</a></li>
+                                <li><a class="dropdown-item" onclick="DeleteComplaint(@id)">Delete</a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="complaintDialog">
+    <div class="modal-dialog modal-dialog-centered cm2_size rp_popup add_edit_popup" id="complaintDialogBody">
+    </div>
+</div>
+
+
+<script>
+    window.addEventListener('DOMContentLoaded', event => {
+        const Complaints_Tab = document.getElementById('Complaints_Tab');
+        if (Complaints_Tab) {
+            new simpleDatatables.DataTable(Complaints_Tab);
+        }
+
+        // Code for datatable manipulation
+        var rowCount = $('.datatable-table tbody tr').length;
+        var threshold = 10;
+        if (rowCount < threshold) {
+            $('.datatable-bottom').hide();
+        } else {
+            $('.datatable-bottom').show();
+        }
+
+        var filter = $(".filter_btn");
+        $(".datatable-top").append(filter);
+    });
+
+
+    function AddModifyComplaint(complaintId) {
+        var url = `/Complaint/AddModifyComplaint?id=${complaintId}`;
+        $("#complaintDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#complaintDialogBody").css("width", "100%");
+            $("#complaintDialog").modal("show");
+        });
+    }
+
+    function ViewComplaint(complaintId) {
+        var url = `/Complaint/ViewComplaint?id=${complaintId}`;
+        $("#complaintDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#complaintDialogBody").css("width", "100%");
+            $("#complaintDialogBody").css("max-width", "950px");
+            $("#complaintDialog").modal("show");
+        });
+    }
+
+    function DeleteComplaint(complaintId) {
+        $.ajax({
+            type: "POST",
+            url: `/Complaint/DeleteComplaint?id=${complaintId}`,
+            success: function (result) {
+                window.location.reload();
+            },
+            error: function () {
+            }
+        })
+    }
+
+</script>

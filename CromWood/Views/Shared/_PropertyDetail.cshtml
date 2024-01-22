@@ -10,14 +10,41 @@
 }
 
 
-<ol class="breadcrumb mb-3 mt-3">
+<ol class="breadcrumb align-items-end mb-3 mt-3">
     <li class="breadcrumb-item">
-        <a href="index.html"><img src="~/assets/img/Home_icon.svg" alt="home_icon"></a>
+        <a asp-controller="Test" asp-action="Index"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
     </li>
-    <li class="breadcrumb-item active">Property Management</li>
+    <li class="breadcrumb-item active"><a asp-action="Index" class="text-decoration-none"><span class="a_m">Property Management</span></a></li>
+    <li class="breadcrumb-item active">@property.Data.PropertyCode</li>
+
 </ol>
-<h1 class="mt-2 mb-3 custom_h">Property: @property.Data.PropertyCode</h1>
-<nav class="user___tabs">
+<div class="Property__t-bar d-flex align-items-center">
+    <h1 class="mt-3 custom_h">
+        <a asp-action="Index" class="text-decoration-none pe-1">
+            <img src="~/assets/img/left_Icon.svg" alt="">
+        </a>
+        @property.Data.PropertyCode
+    </h1>
+    <!-- bage show hide for proparty tab -->
+    <div class="property_tab_bage ps-3 pe-2">
+        <div class="avail_bage">
+            <span>
+                <img class="pe-1" src="~/assets/img/gree_circle.svg" alt="circle_">
+                Available To Let
+            </span>
+        </div>
+    </div>
+    <!-- bage show hide for proparty tab End -->
+    <div class="d-flex ms-1 all_tab_tb align-items-end">
+        <div class="cre ms-3">
+            <p class="mb-0">Created on: @property.Data.CreatedDate?.ToString("yyyy-MM-dd")</p>
+            <p class="mb-0"> Last Modified: @property.Data.UpdatedDate?.ToString("yyyy-MM-dd")</p>
+        </div>
+        <a class="ms-2 v_c" href="#">View Changelog</a>
+    </div>
+</div>
+
+<nav class="mt-3 pt-1">
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
         <a class="nav-link text-capitalize" id="nav-property-overview-tab" asp-route-id="@property.Data.Id" asp-action="Overview">
             property overview
@@ -46,6 +73,9 @@
     @RenderBody()
 </div>
 
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+@await RenderSectionAsync("Scripts", required: false)
+
 <script>
     if (window.location.pathname.includes('/Property/Overview')) {
         document.getElementById("nav-property-overview-tab").classList.add('active');
@@ -58,6 +88,9 @@
     }
     if (window.location.pathname.includes('/Property/Keys')) {
         document.getElementById("nav-key-tab").classList.add('active');
+    }
+    if (window.location.pathname.includes('/Property/Tenancy')) {
+        document.getElementById("nav-tenancy-tab").classList.add('active');
     }
     if (window.location.pathname.includes('/Property/Licensing')) {
         document.getElementById("nav-licensing-tab").classList.add('active');

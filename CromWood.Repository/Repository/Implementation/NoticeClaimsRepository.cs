@@ -12,15 +12,15 @@ namespace CromWood.Data.Repository.Implementation
         public async Task<IEnumerable<Notice>> GetNotices(bool archived = false)
         {
             if(archived==false) {
-                return await _context.Notices.Where(x => x.Archived== false || x.Archived == null).ToListAsync();
+                return await _context.Notices.Include(x=>x.Concern).Include(x=>x.Section).Include(x=>x.Tenant).Where(x => x.Archived== false || x.Archived == null).ToListAsync();
             }
-            return await _context.Notices.Where(x => x.Archived==true).ToListAsync();
+            return await _context.Notices.Include(x => x.Concern).Include(x => x.Section).Include(x => x.Tenant).Where(x => x.Archived==true).ToListAsync();
 
         }
 
         public async Task<Notice> GetNoticeById(Guid id)
         {
-            return await _context.Notices.FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Notices.Include(x=>x.Tenant).Include(x=>x.Concern).Include(x=>x.Section).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<int> AddModifyNotice(Notice notice)
@@ -78,12 +78,12 @@ namespace CromWood.Data.Repository.Implementation
 
         public async Task<IEnumerable<Claim>> GetClaims()
         {
-            return await _context.Claims.ToListAsync();
+            return await _context.Claims.Include(x=>x.Tenant).Include(x=>x.ClaimType).Include(x=>x.Court).ToListAsync();
         }
 
         public async Task<Claim> GetClaimById(Guid id)
         {
-            return await _context.Claims.FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Claims.Include(x=>x.Tenant).Include(x => x.ClaimType).Include(x=>x.Court).FirstOrDefaultAsync(x => x.Id == id);
 
         }
         public async Task<int> AddModifyClaim(Claim claim)

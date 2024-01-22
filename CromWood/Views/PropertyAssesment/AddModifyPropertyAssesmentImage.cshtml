@@ -1,0 +1,30 @@
+﻿@model CromWood.Business.Models.PropertyInspectionItemImageModel
+
+<div class="modal-content rounded-0 model-custom-bg">
+    <div class="modal-header py-2 bg-white">
+        <h5 class="modal-title" id="staticBackdropLabel">Add Property Assesment</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <form asp-action="AddModifyPropertyAssesmentImage" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @Html.HiddenFor(m=>m.Id)
+        @Html.HiddenFor(m=>m.Url)
+        @Html.HiddenFor(m=>m.PropertyAssesmentId)
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <a onclick="imageUploader.click()">Upload</a>
+            <input id="imageUploader" type="file" asp-for="Image" class="form-control" />
+        </div>
+
+
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+

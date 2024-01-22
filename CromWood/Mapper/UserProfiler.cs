@@ -43,7 +43,10 @@ namespace CromWood.Mapper
             CreateMap<TenancyTenant, TenancyTenantModel>().ReverseMap();
             CreateMap<Tenancy, TenancyModel>().ReverseMap();
             CreateMap<Tenant, TenantModel>().ReverseMap();
-            CreateMap<Tenant, TenantViewModel>().ReverseMap();
+
+            CreateMap<TenantViewModel, Tenant>().ReverseMap()
+                .ForMember(dest => dest.Address, opt => opt.MapFrom(src => $"{src.AddressLine1}, {src.County} ,{src.City}, {src.PostCode}"));
+
             CreateMap<TenancyNote, TenancyNoteModel>().ReverseMap();
             CreateMap<TenancyDocument, TenancyDocumentModel>().ReverseMap();
 
@@ -52,6 +55,26 @@ namespace CromWood.Mapper
 
             CreateMap<Claim, ClaimModel>().ReverseMap();
             CreateMap<Claim, ClaimViewModel>().ReverseMap();
+
+            CreateMap<Complaint, ComplaintModel>().ReverseMap();
+            CreateMap<Complaint, ComplaintViewModel>().ReverseMap();
+
+            CreateMap<ComplaintComment, ComplaintCommentViewModel>().ReverseMap();
+            CreateMap<ComplaintComment, ComplaintCommentModel>().ReverseMap();
+
+            CreateMap<Message, MessageViewModel>().ReverseMap();
+            CreateMap<Message, MessageModel>().ReverseMap();
+
+            CreateMap<MessageRecipient, MessageRecipientModel>().ReverseMap();
+            CreateMap<MessageRecipient, MessageRecipientViewModel>().ReverseMap();
+
+            CreateMap<PropertyAssesment, PropertyAssesmentModel>().ReverseMap();
+            CreateMap<PropertyAssesment, PropertyAssesmentViewModel>().ReverseMap();
+            
+            CreateMap<PropertyInspectionItem, PropertyInspectionItemModel>().ReverseMap();
+            CreateMap<PropertyInspectionItem, PropertyInspectionItemViewModel>().ReverseMap();
+            CreateMap<PropertyInspectionItemImage, PropertyInspectionItemImageViewModel>().ReverseMap();
+            CreateMap<PropertyInspectionItemImage, PropertyInspectionItemImageModel>().ReverseMap();
         }
 
         private string GetFirstName(string name)

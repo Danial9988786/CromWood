@@ -1,41 +1,82 @@
-﻿@model CromWood.Business.Models.TenancyModel
+﻿@using System.Globalization;
+@model CromWood.Business.Models.TenancyModel
 
 @{
     ViewData["Title"] = "Detail";
     Layout = "~/Views/Shared/_TenancyDetail.cshtml";
 }
 
+<div class="tab-pane fade show border border-top-0 active bg-white"
+     role="tabpanel" aria-labelledby="nav-user-list-tab">
+    <div class="card-header border-bottom-0 pt-3 pb-0 bg-white">
+        <div class="row align-items-start">
+            <div class="col-6">
+                <h4 class="heading-style2 mb-0">Tenancy Details</h4>
+            </div>
+            <div class="col-6 text-end d-flex justify-content-end">
+                <div class="shadow-box">
+                    <a class="custom__btn" href="#" data-bs-toggle="edit_detail"
+                       data-bs-target="#ivites__user">
+                        <img class="pe-1" src="~/assets/img/edit_icon.svg" alt="user__iocn">
+                        Edit details
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<table class="table mt-3">
-
-    <tbody class="asset_table">
-        <tr>
-            <th class="r_heading" scope="row">Property Code</th>
-            <td>@Model.Property.PropertyCode</td>
-        </tr>
-        <tr class="bg-white">
-            <th class="r_heading" scope="row">Property Owner</th>
-            <td colspan="2">@Model.Property.Asset.Ownership</td>
-        </tr>
-        <tr>
-            <th class="r_heading" scope="row">Contract Rent</th>
-            <td colspan="2">@Model.ContractFee</td>
-        </tr>
-        <tr class="bg-white">
-            <th class="r_heading" scope="row">Recurring charge</th>
-            <td colspan="2">@Model.RentAmount</td>
-        </tr>
-        <tr>
-            <th class="r_heading" scope="row">Tenancy Type</th>
-            <td colspan="2">@Model.TenancyType.Name</td>
-        </tr>
-        <tr class="bg-white">
-            <th class="r_heading" scope="row">Start Date</th>
-            <td colspan="2">@Model.StartDate</td>
-        </tr>
-        <tr class="bg-white">
-            <th class="r_heading" scope="row">End Date</th>
-            <td colspan="2">@Model.EndDate</td>
-        </tr>
-    </tbody>
-</table>
+    <div class="mx-3">
+        <div class="mt-3">
+            <table class="table">
+                <tbody class="asset_table">
+                    <tr>
+                        <th class="r_heading" scope="row">Property Code</th>
+                        <td><span class="t_d_g">@Model.Property.PropertyCode</span></td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading" scope="row">Property Owner</th>
+                        <td colspan="2"><span class="t_d_g">@Model.Property.Asset.Ownership</span></td>
+                    </tr>
+                    <tr>
+                        <th class="r_heading" scope="row">Contract Rent</th>
+                        <td colspan="2">@Model.RentAmount.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ") monthly</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading" scope="row">Recurring Charges</th>
+                        <td colspan="2">--</td>
+                    </tr>
+                    <tr>
+                        <th class="r_heading" scope="row">Tenancy Type</th>
+                        <td colspan="2">@Model.TenancyType.Name</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading" scope="row">Start Date</th>
+                        <td colspan="2">
+                            @if (Model.StartDate == default(DateTime))
+                            {
+                                <span>N/A</span>
+                            }
+                            else
+                            {
+                                <span>@Model.StartDate.ToString("dd MMMM, yyyy")</span>
+                            }
+                        </td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading" scope="row">End Date</th>
+                        <td class="earn_p_month" colspan="2">
+                            @if (Model.EndDate == default(DateTime))
+                            {
+                                <span>N/A</span>
+                            }
+                            else
+                            {
+                                <span>@Model.EndDate.ToString("dd MMMM, yyyy")</span>
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

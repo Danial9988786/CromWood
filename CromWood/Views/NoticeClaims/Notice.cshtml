@@ -5,66 +5,150 @@
     Layout = "~/Views/Shared/_NoticeClaim.cshtml";
     string emptyGuid = "'" + Guid.Empty.ToString() + "'";
 }
-<h1>Notice</h1>
 
-<a onclick="AddModifyNotice(@emptyGuid)">Create New</a>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TrackingNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TenantId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ASTLicense)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Comment)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TrackingNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TenantId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ASTLicense)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Comment)
-                </td>
-                <td>
-                    @{
-                        string id = "'" + item.Id.ToString() + "'";
+<style>
+    .tab-pane ::-webkit-scrollbar {
+    display: none;
+}
+</style>
+
+<div class="tab-pane fade border-top-0 bg-white show active border-end border-start border-bottom"
+     id="eviction_notices" role="tabpanel" aria-labelledby="nav-roles-per-tab">
+    <div class="ser_lpading sm48__row_table pt-4 pm_page_top_m table_bottom_border show_sort_1_3 tableLast_colFixed">
+        <div class="table-responsive mb-3">
+            <table id="datatablesSimple" class="mb-2 border-top rounded border-bottom-0">
+                <thead>
+                    <tr>
+                        <th>Date Added</th>
+                        <th>Concern</th>
+                        <th>Tenant Details</th>
+                        <th>AST/LICENSE</th>
+                        <th>S.21 / S.8 / NOTICE</th>
+                        <th>Drafted</th>
+                        <th>Tracking Number</th>
+                        <th>Emailed</th>
+                        <th>Served & Pictures</th>
+                        <th>Expiry Dates</th>
+                        <th>Comments</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="black_14 align-top">
+                                @item.CreatedDate
+                            </td>
+                            <td class="black_14 align-top">
+                                @item.Concern.Name
+                            </td>
+                            <td class="maintext_size">
+                                <a class="main-text" href="#">
+                                    <span class="owner_clr">Tenant Name</span>
+                                    <br>@item.Tenant.FullName
+                                    <br> <img src="~/assets/img/Location.svg" alt=""> @item.Tenant.Address
+                                </a>
+                            </td>
+                            <td class="black_14 align-top">
+                                @item.ASTLicense
+                            </td>
+                            <td class="black_14 align-top">
+                                @item.Section.Name
+                            </td>
+                            <td class="black_14 align-top">
+                                @item.IsDrafted
+                            </td>
+                            <td class="black_14 align-top">
+                                @item.TrackingNumber
+                            </td>
+                            <td class="black_14 align-top">
+                                @item.EmailedOn
+                            </td>
+                            <td class="black_14 align-top">
+                                @item.ServedAndPictured
+                            </td>
+                            <td class="black_14 align-top">
+                                @item.ExpiryDate
+                            </td>
+                            <td class="black_14 align-top">
+                                @item.Comment
+                            </td>
+                            @{
+                                string id = "'" + item.Id.ToString() + "'";
+                            }
+                            <td class="maintext_size text-end">
+                                <div class="d-inline-flex ">
+                                    <a onclick="ViewNotice(@id)">
+                                        <img src="~/assets/img/eye.svg">
+                                    </a>
+                                    <div class="dropdown">
+                                        <a class="text-decoration-none action_dropwown" href="#"
+                                           role="button" data-bs-toggle="dropdown"
+                                           aria-expanded="false">
+                                            <img src="~/assets/img/down_arrow.svg" class="ms-2">
+                                        </a>
+
+                                        <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
+                                            aria-labelledby="acp-action">
+                                            <li><a class="dropdown-item" onclick="AddModifyNotice(@id)">Edit</a></li>
+                                            <li><a class="dropdown-item" onclick="ArchiveNotice(@id)">Archive</a></li>
+                                            <li><a class="dropdown-item" onclick="DeleteNotice(@id)">Delete</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
                     }
-                    <a onclick="AddModifyNotice(@id)">Edit</a>
-                    <a onclick="ArchiveNotice(@id)">Archive</a>
-                    <a onclick="DeleteNotice(@id)">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="noticeDialog">
-    <div class="modal-dialog modal-dialog-centered" id="noticeDialogBody">
+    <div class="modal-dialog modal-dialog-centered cm2_size add_edit_popup" id="noticeDialogBody">
     </div>
 </div>
 
 
 <script>
+    window.addEventListener('DOMContentLoaded', event => {
+        const hhsrs = document.getElementById('datatablesSimple');
+        if (hhsrs) {
+            new simpleDatatables.DataTable(hhsrs);
+        }
+
+        $(".datatable-table thead tr th button.datatable-sorter").append("<span class='c__icon'></span>");
+
+        // Code for datatable manipulation
+        var rowCount = $('.datatable-table tbody tr').length;
+        var threshold = 10;
+        if (rowCount < threshold) {
+            $('.datatable-bottom').hide();
+        } else {
+            $('.datatable-bottom').show();
+        }
+
+        var filter = $(".filter_btn");
+        $(".datatable-top").append(filter);
+
+    });
+
+    function ViewNotice(noticeId) {
+        var url = `/NoticeClaims/ViewNotice?id=${noticeId}`;
+        $("#noticeDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#noticeDialogBody").css("width", "100%");
+            $("#noticeDialog").modal("show");
+        });
+    }
+
     function AddModifyNotice(noticeId) {
         var url = `/NoticeClaims/AddModifyNotice?id=${noticeId}`;
         $("#noticeDialogBody").load(url, function () {

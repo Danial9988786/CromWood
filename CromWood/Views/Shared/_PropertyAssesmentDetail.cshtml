@@ -1,0 +1,110 @@
+﻿@using CromWood.Business.Services.Interface;
+@inject IPropertyAssesmentService _assesmentService;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var rawId = ViewContext.RouteData.Values["id"] as string;
+    var id = Guid.Parse(rawId);
+    var assesment = await _assesmentService.GetPropertyAssesment(id);
+
+    var stringId = "'" + id + "'";
+}
+
+<ol class="breadcrumb align-items-end mb-10 mt-3">
+    <li class="breadcrumb-item">
+        <a asp-controller="Test" asp-action="Index"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
+    </li>
+    <li class="breadcrumb-item active"><a asp-action="Index" class="text-decoration-none"><span class="a_m">Property Condition Assessment</span></a></li>
+    <li class="breadcrumb-item active">@assesment.Data.InspectionID</li>
+</ol>
+<div class="row">
+    <div class="col-xl-4 d-flex">
+        <h1 class="mb-3 custom_h">
+            <a asp-action="Index"><img src="~/assets/img/left_Icon.svg"></a>&nbsp @assesment.Data.InspectionID
+        </h1>
+
+        <div class="paid_btn payment p_comp ms-3">
+            Completed
+        </div>
+    </div>
+    <div class="col-xl-2">
+        <span class="owner_clr"> </span>
+        <h2 class="etm"></h2>
+    </div>
+    <div class="col-xl-1">
+        &nbsp;
+    </div>
+    <div class="col-xl-2">
+        <span class="owner_clr"></span>
+        <h2 class="expd"></h2>
+    </div>
+    <div class="col-xl-3">
+        <div class="shadow-box ms-auto">
+                <div class="shadow-box ms-auto">
+                    <span class="custom__btn2">
+                    <a onclick="AddModifyPropertyAssesmentItem(@stringId)">
+                            <img src="~/assets/img/add_new_icon.svg" alt="img_icon">
+                            Add Item
+                    </a>
+                    </span>
+                </div>
+        </div>
+    </div>
+</div>
+
+<nav class="pt-1">
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-link" id="nav-building-details" asp-route-id="@assesment.Data.Id" asp-action="BuildingDetail">Building Details</a>
+        <a class="nav-link" id="nav-inspection-details" asp-route-id="@assesment.Data.Id" asp-action="InspectionDetail">
+            Inspection Details
+        </a>
+        <a class="nav-link" id="nav-building-items" asp-route-id="@assesment.Data.Id" asp-action="BuildingItems">Building Items</a>
+        <a class="nav-link" id="nav-building-images" asp-route-id="@assesment.Data.Id" asp-action="BuildingImages">Building Images</a>
+        <a class="nav-link" id="nav-capital-forecast-tab">
+            Capital Cost
+            Forecast Details
+        </a>
+    </div>
+</nav>
+
+<div class="tab-content" id="nav-tabContent">
+    @RenderBody()
+</div>
+
+<div class="modal fade" id="propertyAssesmentItemDialog">
+    <div class="modal-dialog modal-dialog-centered cm2_size add_edit_popup" id="propertyAssesmentItemDialogBody">
+    </div>
+</div>
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+@await RenderSectionAsync("Scripts", required: false)
+
+<script>
+    console.log(window.location.pathname)
+    if (window.location.pathname.includes('/PropertyAssesment/BuildingDetail')) {
+        document.getElementById("nav-building-details").classList.add('active');
+    }
+    if (window.location.pathname.includes('/PropertyAssesment/BuildingItems')) {
+        document.getElementById("nav-building-items").classList.add('active');
+    }
+    if (window.location.pathname.includes('/PropertyAssesment/BuildingImages')) {
+        document.getElementById("nav-building-images").classList.add('active');
+    }
+    if (window.location.pathname.includes('/PropertyAssesment/InspectionDetail')) {
+        document.getElementById("nav-inspection-details").classList.add('active');
+    }
+
+    function AddModifyPropertyAssesmentItem(assesmentId) {
+        var url = `/PropertyAssesment/AddModifyPropertyAssesmentItem?assesmentId=${assesmentId}`;
+        $("#propertyAssesmentItemDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#propertyAssesmentItemDialog").modal("show");
+        });
+    }
+</script>

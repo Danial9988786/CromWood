@@ -8,58 +8,54 @@
     string tenancyId = "'" + Guid.Parse(rawId).ToString() + "'";
     string emptyGuid = "'" + Guid.Empty.ToString() + "'";
 }
-
-<h1>Documents</h1>
-
-<p>
-    <a onclick="AddModifyDocuments(@tenancyId,@emptyGuid)">Add Documents</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DocumentName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DocUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TenancyId)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<div class="tab-pane fade show border border-top-0 active bg-white">
+    <div class="card-header border-bottom-0 pt-3 pb-0 bg-white">
+        <div class="row align-items-center mb-1">
+            <div class="col-6">
+                <h4 class="heading-style2 mb-0">Documents</h4>
+            </div>
+            <div class="col-6 ">
+                <div class="shadow-box ms-auto">
+                    <a class="custom__btn" onclick="AddModifyDocuments(@tenancyId,@emptyGuid)">
+                        <img src="~/assets/img/upload_icon.svg" alt="dots_icon"> UPLOAD FILE
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="px-3 pt-2">
+        <div class="row">
+            @foreach (var item in Model)
+            {
             string id = "'" + item.Id.ToString() + "'";
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DocumentName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DocUrl)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TenancyId)
-                </td>
-                <td>
-                    <a onclick="AddModifyDocuments(@tenancyId,@id)">Edit</a>
-                    <a onclick="DeleteDocument(@id)">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+            <div class="col-md-3">
+                <div class="doc_img">
+                    <embed src="@item.DocUrl" class="img-fluid w-100 h-100" style="height:150px !important;object-fit:cover;" alt="pdf_files">
+                    <div class="pdf_footer px-3 py-3 d-flex justify-content-between align-items-center">
+                        <p class="pagagraph mb-0">@item.DocumentName</p>
+                        <div class="dropdown">
+                            <a class="action_dropwown" id="dropdownImage"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="~/assets/img/dots_Icon.svg" alt="Dropdown Trigger" />
+                            </a>
+
+                            <ul class="dropdown-menu shadow dropdown-menu-end border-0 rounded-0 p-0"
+                                aria-labelledby="acp-action">
+                                    <li><a class="dropdown-item" onclick="AddModifyDocuments(@tenancyId,@id)">Edit</a></li>
+                                    <li><a class="dropdown-item" onclick="DeleteDocument(@id)">Delete</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+
 
 <div class="modal fade" id="documentsDialog">
-    <div class="modal-dialog modal-dialog-centered" id="documentsDialogBody">
+    <div class="modal-dialog modal-dialog-centered cm1_size" id="documentsDialogBody">
     </div>
 </div>
 

@@ -22,8 +22,9 @@
             <div class="col-6">
                 <h4 class="heading-style2 mb-0">Users List</h4>
             </div>
-            <div class="col-6 d-flex justify-content-end">
-                <div class="shadow-box">
+
+            <div class="col-6">
+                <div class="shadow-box ms-auto">
                     <a onclick="InviteUser()" class="custom__btn">
                         <img class="pe-2" src="~/assets/img/user_plus_icon.svg"
                              alt="user_icon">
@@ -131,7 +132,7 @@
                             }
                         </td>
                         <td>
-                            <select id="roleDropdown" class="form-select sm_select_text" onchange="changeRole(@url)" asp-for="@item.RoleId" asp-items="roles">
+                            <select id="roleDropdown-@item.Id" class="form-select select_font_12" onchange="changeRole(@url)" asp-for="@item.RoleId" asp-items="roles">
                             </select>
                         </td>
                         <td class="text-end  pe-4">
@@ -165,17 +166,18 @@
 
 @* Dynamic popups for all other contents *@
 <div class="modal fade" id="userDialog">
-    <div class="modal-dialog modal-dialog-centered cm1_size" id="userDialogBody">
+    <div class="modal-dialog modal-dialog-centered cm380_size" id="userDialogBody">
     </div>
 </div>
 
 @* User Invited Popup *@
 @if (actionDone == "invited")
 {
-    <div class="modal fade" id="iss">
-        <div class="modal-dialog modal-dialog-centered cm1_size">
-            <div class="modal-content i_n_m rounded-0">
-                <div class="modal-header py-10">
+    <div class="modal fade" id="iss" aria-hidden="true" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="remove_userLabel">
+        <div class="modal-dialog modal-dialog-centered cm380_size">
+            <div class="modal-content rounded-0">
+                <div class="modal-header py-2">
                     <h5 class="modal-title" id="staticBackdropLabel">Invitation Sent Successfully</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -185,12 +187,13 @@
                             <img src="~/assets/img/large_invelop.svg" alt="">
                         </div>
                     </div>
-                    <hr class="c_border mb-0" />
-                    <div class="text-end d-flex justify-content-end px-3 py-10 pb-3" data-bs-dismiss="modal">
-                        <div class="shadow-box">
-                        <a class="custom__btn2" href="#" data-bs-toggle="modal" data-bs-target="#iss">
-                            Close
-                        </a>
+                    <div class="popup_footer_fixed border-top ">
+                        <div data-bs-dismiss="modal">
+                            <div class="shadow-box ms-auto">
+                                <a class="custom__btn2" href="#" data-bs-toggle="modal" data-bs-target="#iss">
+                                    Close
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -202,10 +205,11 @@
 @* User Deleted Popup *@
 @if (actionDone == "deleted")
 {
-    <div class="modal fade" id="urs">
-        <div class="modal-dialog modal-dialog-centered cm1_size">
-            <div class="modal-content i_n_m rounded-0">
-                <div class="modal-header py-10">
+    <div class="modal fade" id="urs" aria-hidden="true" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="remove_userLabel">
+        <div class="modal-dialog modal-dialog-centered cm380_size">
+            <div class="modal-content rounded-0">
+                <div class="modal-header py-2">
                     <h5 class="modal-title" id="staticBackdropLabel">User Removed Successfully</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -215,15 +219,15 @@
                             <img src="~/assets/img/Remove_user_imig.svg" alt="remove_user">
                             <p class="r_m_s"><b>@userName</b> has been removed from your team.</p>
                         </div>
-
                     </div>
 
-                    <hr class="c_border mb-0" />
-                    <div class="text-end d-flex justify-content-end px-3 py-10 pb-3" data-bs-dismiss="modal">
-                        <div class="shadow-box">
-                            <a class="custom__btn2" href="#" data-bs-toggle="modal" data-bs-target="#urs">
-                                Close
-                            </a>
+                    <div class="popup_footer_fixed border-top ">
+                        <div class="shadow-box ms-auto">
+                            <div class="custom__btn2" data-bs-dismiss="modal">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#urs">
+                                    Close
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -235,6 +239,16 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
+            
+            // For select 2 functionality
+            $('.select_font_12').select2({
+                theme: "bootstrap-5",
+                width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+                placeholder: $(this).data('placeholder'),
+                closeOnSelect: false,
+                dropdownCssClass: "select_font_12",
+            });
+
             // Code for datatable manipulation
             var rowCount = $('.datatable-table tbody tr').length;
             var threshold = 10;
@@ -315,7 +329,8 @@
                 });
                 return;
             }
-            var roleId = $("#roleDropdown").val();
+            var roleId = $(`#roleDropdown-${userId}`).val();
+            console.log(roleId)
             $.ajax({
                 type: "POST",
                 url: `/User/ChangeRole?userId=${userId}&roleId=${roleId}`,

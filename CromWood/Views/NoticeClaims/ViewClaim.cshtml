@@ -1,0 +1,71 @@
+﻿@model CromWood.Business.Models.ViewModel.ClaimViewModel
+
+<div class="modal-content rounded-0 model-custom-bg">
+    <div class="modal-header h_60 py-2 bg-white">
+        <h5 class="modal-title" id="staticBackdropLabel">Claim Details</h5>
+        <div class="d-flex align-items-center gap-2">
+            <div>
+                <a class="text-decoration-none custom__btn action_dropwown" href="#" role="button" id=""
+                   data-bs-toggle="modal" data-bs-target="#edit_claim_details">
+                    <img src="~/assets/img/edit_icon2.svg" alt="edit_icon">
+                    Edit details
+                </a>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="step_body_content4 mb-3 pe-2">
+            <div class="bg-white h-100 border">
+                <div class="mx-3">
+                    <table class="w-100">
+                        <tbody class="asset_table">
+                            <tr class="bg-white">
+                                <th class="r_heading pt-3 pb-2">Tenant Name</th>
+                                <td class="main-text pt-2 pb-2">
+                                    <span>@Model.Tenant.FullName</span>
+                                </td>
+                            </tr>
+                            <tr class="bg-white">
+                                <th class="r_heading pt-2 pb-2">Tenant Address</th>
+                                <td class="pt-2 pb-2">@Model.Tenant.Address</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <th class="r_heading pt-2 pb-2">Claim Reference</th>
+                                <td class="pt-2 pb-2">@Model.ClaimReference</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <th class="r_heading pt-2 pb-2">Claim </th>
+                                <td class="pt-2 pb-2">@Model.ClaimType.Name</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <th class="r_heading pt-2 pb-2">Claim No.</th>
+                                <td class="pt-2 pb-2">@Model.ClaimNo</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <th class="r_heading pt-2 pb-2">Issue Date</th>
+                                <td class="pt-2 pb-2">@Model.CreatedDate</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <th class="r_heading pt-2 pb-2">Fee</th>
+                                <td class="pt-2 pb-2">@Model.Fee</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <th class="r_heading pt-2 pb-2">Court</th>
+                                <td class="pt-2 pb-2">@Model.Court.Name</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <th class="r_heading pt-2 pb-2">Comments</th>
+                                <td class="pt-2 pb-2">@Model.Comment</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <th class="r_heading pt-2 pb-2">Action</th>
+                                <td class="pt-2 pb-2">@Model.Action</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

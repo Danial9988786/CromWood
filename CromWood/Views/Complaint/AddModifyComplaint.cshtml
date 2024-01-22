@@ -1,0 +1,116 @@
+﻿@using CromWood.Business.Services.Interface;
+@using CromWood.Data.Entities.Default;
+@model CromWood.Business.Models.ComplaintModel
+@inject ILookupService<ComplaintType> _typeLookup;
+@inject ILookupService<ComplaintCategory> _categoryLookup;
+@inject ILookupService<ComplaintNature> _natureLookup;
+@inject IPropertyService _propertyService;
+@inject ITenantService _tenantService;
+@{
+    var asyncTypes = await _typeLookup.GetAllItems();
+    var types = new SelectList(asyncTypes.Data, "Id", "Name");
+
+    var asyncCategories = await _categoryLookup.GetAllItems();
+    var categories = new SelectList(asyncCategories.Data, "Id", "Name");
+
+    var asyncNatures = await _natureLookup.GetAllItems();
+    var natures = new SelectList(asyncNatures.Data, "Id", "Name");
+
+    var asyncTenants = await _tenantService.GetTenantForList();
+    var tenants = new SelectList(asyncTenants.Data, "Id", "FullName");
+
+    var asyncProperties = await _propertyService.GetPropertyForList();
+    var properties = new SelectList(asyncProperties.Data, "Id", "Asset.StreetAddress");
+}
+
+<div class="modal-content rounded-0 model-custom-bg">
+    <div class="modal-header py-2 bg-white">
+        <h5 class="modal-title" id="staticBackdropLabel">New Complaint</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form asp-action="AddModifyComplaint" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m=>m.Id)
+            @Html.HiddenFor(m=>m.FileUrl)
+            @Html.HiddenFor(m=>m.StatusUpdateFileUrl)
+            <div class="mb-3 border p-3 bg-white h-100">
+                <div class="d-flex">
+                    <div class="input__field w-100">
+                        <label class="form-label">Property</label>
+                        <select id="property-id" class="form-select select_font_14 select__search" asp-for="PropertyId" asp-items="properties">
+                        </select>
+                    </div>
+                </div>
+                <div class="d-flex mt-3 gap-3">
+                    <div class="input__field w-100">
+                        <label class="form-label">Complainant Type</label>
+                        <select id="complaint-type" class="form-select select_font_14" asp-for="ComplaintTypeId" asp-items="types">
+                        </select>
+                    </div>
+                    <div class="input__field w-100">
+                        <label class="form-label">Tenant</label>
+                        <select id="tenant-id" class="form-select select_font_14" asp-for="TenantId" asp-items="tenants">
+                        </select>
+                    </div>
+                    <div class="input__field w-100">
+                        <div class="mb-3">
+                            <label for="Start-Date" class="form-label">Expected Resolve Date</label>
+                            <input type="date" class="form-control" placeholder="01 /06 / 2023" asp-for="ExpectedResolveDate">
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex gap-3">
+                    <div class="input__field w-100">
+                        <label for="Rent Frequency" class="form-label">Complaint Category</label>
+                        <select id="complaint-category" class="form-select select_font_14" asp-for="ComplaintCategoryId" asp-items="categories">
+                        </select>
+                    </div>
+                    <div class="input__field w-100">
+                        <label for="Rent Frequency" class="form-label">Complaint Nature</label>
+                        <select id="complaint-nature" class="form-select select_font_14" asp-for="ComplaintNatureId" asp-items="natures">
+                        </select>
+                    </div>
+                </div>
+                <label for="Payment Method" class="form-label mt-3">Complaint Description</label>
+                <div class="w-100 h-75 d-inline-block">
+                    <textarea class="w-100" id="#" name="#" rows="4" cols="50"
+                              placeholder="Type a short description for the complaint here..." asp-for="Description"></textarea>
+                </div>
+                <div class="mt-3">
+                    <label for="Atachments" class="form-label me-3">Attachments</label>
+                    <label for="formFileLg" class="c_file form-label custom__filetype">
+                        <img class="pe-1"
+                             src="~/assets/img/chosefile.svg" alt="chosefile">
+                        CHOOSE FILE
+                        <input asp-for="File" class="form-control" id="formFileLg" type="file">
+                    </label>
+                </div>
+            </div>
+            <div class="popup_footer_fixed border-top d-flex justify-content-between bg-white">
+                <div class="shadow-box ms-auto">
+                    <a onclick="submitButton.click()" class="custom__btn2" data-bs-toggle="modal">
+                        <img src="~/assets/img/save-role.svg" alt="right__arrow">
+                        Save Complaint
+                    </a>
+                    <input type="submit" hidden id="submitButton" value="Create" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        // For Select2 Functionality
+        $('.select_font_14').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: true,
+            dropdownCssClass: "select_font_14",
+        });
+
+    });
+</script>

@@ -132,18 +132,39 @@ INSERT INTO dbo.TransactionTypes values
 ('914d1a66-0ee7-45f6-ab77-19c928c5a426','TT4'),
 ('01289643-bba0-48d0-b34c-c69b466be7ec','TT5')
 
-INSERT INTO dbo.Amenities  values 
+INSERT INTO dbo.Amenities (Id, GroupName, [Key], Name)  values 
 ('a8228559-11be-4d9a-9544-8241f2ec59c1','Bills Included','Internet', 'internet'),
 ('c6f007f8-2d30-49a0-a248-add219f4748d','Bills Included','Phone', 'phone'),
 ('64432c8e-8cc3-4365-a8f5-e4dc925c42fd','General','Fireplace', 'fireplace'),
 ('914d1a66-0ee7-45f6-ab77-19c928c5a426','General','Gym', 'gym'),
 ('01289643-bba0-48d0-b34c-c69b466be7ec','Appliances','Washing Machine', 'washing_machine')
 
+INSERT INTO dbo.DetailItems values 
+('a8228559-11be-4d9a-9544-8241f2ec59c1','Kitchen'),
+('c6f007f8-2d30-49a0-a248-add219f4748d','Wasroom'),
+('64432c8e-8cc3-4365-a8f5-e4dc925c42fd','Cieling'),
+('914d1a66-0ee7-45f6-ab77-19c928c5a426','Toilet'),
+('01289643-bba0-48d0-b34c-c69b466be7ec','Balcony')
+
+INSERT INTO dbo.SurverySections values 
+('a8228559-11be-4d9a-9544-8241f2ec59c1','SS1'),
+('c6f007f8-2d30-49a0-a248-add219f4748d','SS2'),
+('64432c8e-8cc3-4365-a8f5-e4dc925c42fd','SS3'),
+('914d1a66-0ee7-45f6-ab77-19c928c5a426','SS4'),
+('01289643-bba0-48d0-b34c-c69b466be7ec','SS5')
+
+INSERT INTO dbo.UnitOfMeasurements values 
+('a8228559-11be-4d9a-9544-8241f2ec59c1','Kg'),
+('c6f007f8-2d30-49a0-a248-add219f4748d','Pack'),
+('64432c8e-8cc3-4365-a8f5-e4dc925c42fd','Bucket'),
+('914d1a66-0ee7-45f6-ab77-19c928c5a426','Ounce'),
+('01289643-bba0-48d0-b34c-c69b466be7ec','Pieces')
+
 
 -- Default Roles, Permission, User : At first --
 
 INSERT INTO dbo.Permissions (Id, PermissionKey, PermissionDisplayName) values 
-('64bc5bcc-05a1-46bf-b76e-fec0e6afbd77','tenant_management', 'Tenant Management'),
+('3fd56c6f-4a84-4981-bc72-bf41c1fc0209','message_management', 'Message Management'),
 ('80341c60-c482-4249-979d-0d10a1e41d9b','dashboard_management', 'Dashboard Management'),
 ('0c0c5a45-741d-4ae9-8e3c-a976a1d9c3bd','user_management', 'User Management'),
 ('84533fc1-d782-4d9d-98c8-d558397909b1','role_management', 'Role Management'),
@@ -152,13 +173,16 @@ INSERT INTO dbo.Permissions (Id, PermissionKey, PermissionDisplayName) values
 ('3d6a1f89-ed7f-46d2-8ea8-87cc279dcf32','tenancy_management', 'Tenancy Management'),
 ('64bc5bcc-05a1-46bf-b76e-fec0e6afbd77','tenant_management', 'Tenant Management'),
 ('b4b9dfa1-b26a-4c16-98f7-c706fc29a568','finance_management', 'Finance Management'),
-('ded2522b-487a-46f1-b452-010c15fd0fce','license_management', 'License/Certification Management');
+('ded2522b-487a-46f1-b452-010c15fd0fce','license_management', 'License/Certification Management'),
+('f6095e87-ba99-49ac-9124-d7ce2c7e2c83','notice_claim_management', 'Notice/Claim Management'),
+('1b8af2ee-bcd8-448c-9c43-c0325cdb060c','complaint_management', 'Complaint Management');
 
 
 INSERT INTO dbo.Roles (Id, Name) values
 ('01289643-bba0-48d0-b34c-c69b466be7ec', 'Administrator')
 
 INSERT INTO dbo.RolePermissions(Id, RoleId, PermissionId, CanRead, CanWrite, CanDelete, CanViewAll) values
+('84533fc1-d782-4d9d-98c8-d558397909b1' , '01289643-bba0-48d0-b34c-c69b466be7ec', '84533fc1-d782-4d9d-98c8-d558397909b1',1,1,1,1),
 ('01289643-bba0-48d0-b34c-c69b466be7ec', '01289643-bba0-48d0-b34c-c69b466be7ec', '80341c60-c482-4249-979d-0d10a1e41d9b', 1, 1, 1, 1),
 ('92b759ee-7da6-49ba-838e-56144187042d', '01289643-bba0-48d0-b34c-c69b466be7ec', '0c0c5a45-741d-4ae9-8e3c-a976a1d9c3bd', 1, 1, 1, 1),
 ('3d6a1f89-ed7f-46d2-8ea8-87cc279dcf32', '01289643-bba0-48d0-b34c-c69b466be7ec', 'b4b9dfa1-b26a-4c16-98f7-c706fc29a568', 1, 1, 1, 1),

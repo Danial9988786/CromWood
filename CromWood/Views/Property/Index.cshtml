@@ -9,7 +9,7 @@
     var havePermission = await _authService.CheckPermission(PermissionKeyConstant.AssetManagement, PermissionConstant.CanWrite);
 }
 
-<ol class="breadcrumb align-items-end mb-3 mt-3">
+<ol class="breadcrumb align-items-end mb-10 mt-3">
     <li class="breadcrumb-item">
         <a asp-action="Index" asp-controller="Test"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
     </li>
@@ -19,24 +19,29 @@
     <div class="col-xl-6">
         <h1 class="mt-2 mb-3 custom_h">Property Management</h1>
     </div>
-    <div class="col-xl-6 text-end">
-        <div class="d-flex justify-content-end">
-            <div class="pare__btn shadow-box">
-                <form asp-action="Export" method="post">
-                    <a onclick="submitBtn.click()" class="custom__btn">
-                        <img src="~/assets/img/explor_icon.svg" class="pe-2" alt="">
-                        Export XLS
-                        <img src="~/assets/img/down_arrow.svg" class="ps-2" alt="">
+
+    <div class="col-xl-6">
+        <div class="pair_btn">
+            <div class="shadow-box ms-auto">
+                <span class="custom__btn">
+                    <form asp-action="Export" method="post">
+                        <a onclick="submitBtn.click()" >
+                            <img src="~/assets/img/explor_icon.svg" class="pe-2" alt="">
+                            Export XLS
+                        </a>
+                        <input id="submitBtn" type="submit" hidden />
+                    </form>
+                </span>
+                <span class="custom__btn2">
+                    <a onclick="CreateProperty()">
+                        <img class="pe-2" src="~/assets/img/add_new_icon.svg" alt="">
+                        add new Property
                     </a>
-                    <input id="submitBtn" type="submit" hidden />
-                </form>
-                <a class="custom__btn2" onclick="CreateProperty()">
-                    <img src="~/assets/img/add_new_icon.svg" alt="">
-                    add new Property
-                </a>
+                </span>
             </div>
         </div>
     </div>
+
 </div>
 
 <!-------filter start here --- -->
@@ -95,7 +100,7 @@
 <!------ filter end here  --------->
 <!-- ----- Property Management table start here ------->
 <div class="user__list as__menag  sm48__row_table hide_sort_all pt-0 pm_page_top_m table_bottom_border mt-1">
-    <table id="datatablesSimple" class="border rounded-top">
+    <table id="datatablesSimple" class="border rounded-top border-bottom-0">
         <thead>
             <tr>
                 <th class="maintable_head">Property ID</th>
@@ -145,7 +150,7 @@
 
 
 <div class="modal fade" id="propertyDialog">
-    <div class="modal-dialog modal-dialog-centered" id="propertyDialogBody">
+    <div class="modal-dialog modal-dialog-centered cm2_size step_model" id="propertyDialogBody">
     </div>
 </div>
 
@@ -176,7 +181,7 @@
                 });
                 return;
             }
-            var url = "/Property/AddProperty";
+            var url = "/Property/AddModifyProperty";
             $("#propertyDialogBody").load(url, function () {
                 // This is done to add validation to partial view, as they don't support validationscript partial.
                 $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {

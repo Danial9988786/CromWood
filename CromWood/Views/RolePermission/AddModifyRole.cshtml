@@ -4,34 +4,33 @@
     string title = Model.Id == Guid.Empty ? "Add New Role" : "Edit Role";
     string buttonName = Model.Id == Guid.Empty ? "Save Role" : "Save Changes";
 }
-<div class="modal-content i_n_m rounded-0 model-custom-bg">
+<div class="modal-content rounded-0 model-custom-bg">
     <div class="modal-header py-10 bg-white">
         <h5 class="modal-title" id="staticBackdropLabel">@title</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <form asp-action="AddModifyRole" method="post">
     <div class="modal-body">
-        
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @Html.HiddenFor(m=>m.Id)
             <div class="row">
                 <div class="col-12">
                     <div class="mb-3 border p-3 bg-white">
                         <label asp-for="Name" class="form-label mb-1">Role Name</label>
-                        <input asp-for=Name type="text" class="form-control h-40"
+                        <input asp-for=Name type="text" class="form-control h-40 pagagraph"
                                placeholder="Enter Role Name">
-                        <span asp-validation-for="Name" id="es" class="text-danger sm_select_text"></span>
+                        <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="">
+            <div class="step_body_content mb-5" style="margin-bottom:60px !important">
+                <div class="row">
                     <div class="col-12">
-                        <div class="border p-3 border-bottom-0 bg-white d-flex align-items-center">
-                            <span>Permissions</span>
-                            <div class="form-check form-check-inline ps-5 ms-5">
+                        <div class="border p-3 border-bottom-0 bg-white">
+                            <span class="permission">Permissions</span>
+                            <div class="form-check form-check-inline ps-1 ms-5 mb-0">
                                 <input id="allPermissionCheckbox"  class="form-check-input" type="checkbox">
-                                <p class="select-all-label">Select All</p>
+                                <label class="form-check-label pagagraph" for="inlineCheckbox1">Select All</label>
                             </div>
                         </div>
                     </div>
@@ -82,15 +81,15 @@
                 </div>
             </div>
     </div>
-        <div class="text-end d-flex justify-content-end border-top py-10 pb-3 pe-3 bg-white">
-            <div class="shadow-box">
+
+        <div class="popup_footer_fixed border-top bg-white">
+            <div class="shadow-box ms-auto">
                 <a onclick="submitBtn.click()" class="custom__btn2">
                     <img class="pe-1" src="~/assets/img/save-role.svg" alt="save role icon">
                     @buttonName
                 </a>
                 <input id="submitBtn" type="submit" hidden />
             </div>
-            
         </div>
     </form>
 

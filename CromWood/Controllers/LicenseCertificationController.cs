@@ -7,10 +7,12 @@ namespace CromWood.Controllers
     public class LicenseCertificationController : Controller
     {
         private readonly ILicenseCertificateService _licenseCertificateService;
+
         public LicenseCertificationController(ILicenseCertificateService licenseCertificateService)
         {
             _licenseCertificateService = licenseCertificateService;
         }
+
         public async Task<IActionResult> Index()
         {
             var result = await _licenseCertificateService.GetAllLicenseCertificates();
@@ -32,7 +34,7 @@ namespace CromWood.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddModifyLicense([FromForm]LicenseCertificateModel license, Guid propertyId)
+        public async Task<IActionResult> AddModifyLicense([FromForm] LicenseCertificateModel license, Guid propertyId)
         {
             await _licenseCertificateService.AddModifyLicense(license);
             if (propertyId != Guid.Empty)

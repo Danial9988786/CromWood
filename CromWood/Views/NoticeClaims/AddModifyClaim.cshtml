@@ -14,66 +14,101 @@
 
     var asyncTenants = await _tenantService.GetTenantForList();
     var tenants = new SelectList(asyncTenants.Data, "Id", "FullName");
+
+    var popupTitle = Model == null || Model.Id == Guid.Empty ? "Create Claim" : "Edit Claim Details";
 }
 
-<div class="modal-content rounded-0">
-    <div class="modal-header py-2">
-        <h5 class="modal-title" id="staticBackdropLabel">Add/Edit Claim</h5>
+
+<div class="modal-content rounded-0 model-custom-bg">
+    <div class="modal-header py-2 bg-white">
+        <h5 class="modal-title" id="staticBackdropLabel">@popupTitle</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body">
-        <form asp-action="AddModifyClaim">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @Html.HiddenFor(m=>m.Id)
-            <div class="form-group">
-                <label asp-for="TenantId" class="control-label"></label>
-                <select asp-for="TenantId" class="form-control" asp-items="tenants"></select>
-                <span asp-validation-for="TenantId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ClaimReference" class="control-label"></label>
-                <input asp-for="ClaimReference" class="form-control" />
-                <span asp-validation-for="ClaimReference" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ClaimTypeId" class="control-label"></label>
-                <select asp-for="ClaimTypeId" class="form-control" asp-items="claimTypes"></select>
-                <span asp-validation-for="ClaimTypeId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ClaimNo" class="control-label"></label>
-                <input asp-for="ClaimNo" class="form-control" />
-                <span asp-validation-for="ClaimNo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Fee" class="control-label"></label>
-                <input asp-for="Fee" type="number" class="form-control" />
-                <span asp-validation-for="Fee" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="HearingDate" class="control-label"></label>
-                <input asp-for="HearingDate" class="form-control" />
-                <span asp-validation-for="HearingDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CourtId" class="control-label"></label>
-                <select asp-for="CourtId" class="form-control" asp-items="courts"></select>
-                <span asp-validation-for="CourtId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Comment" class="control-label"></label>
-                <input asp-for="Comment" class="form-control" />
-                <span asp-validation-for="Comment" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Action" class="control-label"></label>
-                <input asp-for="Action" class="form-control" />
-                <span asp-validation-for="Action" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        <div class="step_body_content3 mb-3 pe-2">
+            <form asp-action="AddModifyClaim">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @Html.HiddenFor(m=>m.Id)
+                <div class="mb-3 border p-3 bg-white h-100">
+                    <label for="Rent Frequency" class="form-label">Tenant Name</label>
+                    <select id="tenant-id" class="form-select select_font_14" asp-for="TenantId" asp-items="tenants"></select>
+                    <div class="d-flex gap-3 mt-3">
+                        <div class="input__field w-100">
+                            <label for="Rent Frequency" class="form-label">Claim Reference</label>
+                            <input type="text" class="form-control" asp-for="ClaimReference" placeholder="Claim Reference">
+                        </div>
+                        <div class="input__field w-100">
+                            <label for="Rent Frequency" class="form-label">Claim</label>
+                            <select id="claim-types" class="form-select select_font_14" asp-for="ClaimTypeId" asp-items="claimTypes">
+                            </select>
+                        </div>
+                        <div class="input__field w-100">
+                            <label for="Rent Frequency" class="form-label">Claim No.</label>
+                            <input type="text" class="form-control" asp-for="ClaimNo" placeholder="Enter Claim No.">
+                        </div>
+                    </div>
+                    <div class="d-flex gap-3 mt-3">
+                        <div class="input__field w-100">
+                            <label for="Rent Frequency" class="form-label">Fee</label>
+                            <input type="text" class="form-control" asp-for="Fee" placeholder="Enter Fee" />
+                        </div>
+                        <div class="input__field w-100">
+                            <div class="mb-3">
+                                <label for="Start-Date" class="form-label">Hearing Date</label>
+                                <input type="date" class="form-control" asp-for="HearingDate" placeholder="01 /06 / 2023">
+                            </div>
+                        </div>
+                        <div class="input__field w-100">
+                            <label for="Rent Frequency" class="form-label">Court</label>
+                            <select id="court-id" class="form-select select_font_14" asp-for="CourtId" asp-items="courts">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-3">
+                        <div class="input__field w-100">
+                            <label for="Payment Method" class="form-label">Comment</label>
+                            <div class="w-100 d-inline-block">
+                                <textarea class="w-100 h-auto" asp-for="Comment" rows="4" cols="50"
+                                          placeholder="Add Comment"></textarea>
+                            </div>
+                        </div>
+                        <div class="input__field w-100">
+                            <label for="Payment Method" class="form-label">Action</label>
+                            <div class="w-100  d-inline-block">
+                                <textarea class="w-100 h-auto" asp-for="Action" rows="4" cols="50"
+                                          placeholder="Add Action"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="popup_footer_fixed border-top d-flex justify-content-between bg-white">
+                    <div class="shadow-box">
+                        <a class="custom__btn" data-bs-toggle="modal">
+                            Cancel
+                        </a>
+                    </div>
+                    <div class="shadow-box ms-auto">
+                        <a onclick="submitButton.click()" class="custom__btn2">
+                            Save Changes
+                        </a>
+                        <input type="submit" id="submitButton" hidden value="Create" class="btn btn-primary" />
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
+
+<script>
+    $(document).ready(function () {
+        $('.select_font_14').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: true,
+            dropdownCssClass: "select_font_14",
+        });
+    });
+</script>

@@ -10,13 +10,51 @@
 }
 
 
-<ol class="breadcrumb mb-3 mt-3">
+<ol class="breadcrumb align-items-end mb-3 mt-3">
     <li class="breadcrumb-item">
-        <a href="index.html"><img src="~/assets/img/Home_icon.svg" alt="home_icon"></a>
+        <a asp-action="Index" asp-controller="Test"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
     </li>
-    <li class="breadcrumb-item active">Tenancy Management</li>
+    <li class="breadcrumb-item active"><a asp-action="Index"></a>Tenancy Management</li>
+    <li class="breadcrumb-item active">@tenancy.Data.TenancyId</li>
 </ol>
-<h1 class="mt-2 mb-3 custom_h">@tenancy.Data.TenancyId</h1>
+<div class="row mb-2">
+    <div class="col-xl-4 d-flex align-items-center">
+        <h1 class="mt-2 mb-3 custom_h">
+            <a asp-action="Index"><img src="~/assets/img/left_Icon.svg"></a>&nbsp @tenancy.Data.TenancyId
+        </h1>
+
+        <div class="alert_btn_tm mx-4 mb-2">
+            <img class="pe-1" src="./assets/img/alert-triangle.svg" alt="">
+            Rent Arrear
+        </div>
+    </div>
+    <div class="col-xl-1">
+        <span class="owner_clr"> </span>
+        <h2 class="etm"></h2>
+    </div>
+    <div class="col-xl-2">
+        <span class="owner_clr mx-3">Balance</span>
+        <h2 class="expd">
+            - £ 2,500 <img class="info_circle mb-1" src="~/assets/img/info-circle.svg" >
+        </h2>
+    </div>
+    <div class="col-xl-2">
+        <span class="owner_clr"></span>
+        <h2 class="expd"></h2>
+    </div>
+  
+    <div class="col-xl-3">
+        <div class="shadow-box ms-auto">
+            <span class="custom__btn2">
+                <a>
+                    UPDATE STATUS
+                </a>
+            </span>
+        </div>
+    </div>
+</div>
+
+
 <nav class="user___tabs">
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
         <a class="nav-link text-capitalize" id="nav-tenancy-overview-tab" asp-route-id="@tenancy.Data.Id" asp-action="Detail">
@@ -70,5 +108,11 @@
     }
     if (window.location.pathname.includes('/Tenancy/Statement')) {
         document.getElementById("nav-tenancy-statement").classList.add('active');
+    }
+    if (window.location.pathname.includes('/Tenancy/Complaints')) {
+        document.getElementById("nav-tenancy-complaints").classList.add('active');
+    }
+    if (window.location.pathname.includes('/Tenancy/Notices')) {
+        document.getElementById("nav-tenancy-notices").classList.add('active');
     }
 </script>

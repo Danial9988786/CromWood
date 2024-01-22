@@ -6,84 +6,149 @@
     string emptyGuid = "'" + Guid.Empty.ToString() + "'";
 }
 
-<h1>Claim</h1>
+<style>
+    .tab-pane ::-webkit-scrollbar {
+        display: none;
+    }
+</style>
 
-<a onclick="AddModifyClaim(@emptyGuid)">Create New</a>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TenantId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClaimReference)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClaimNo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Fee)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HearingDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Comment)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Action)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TenantId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ClaimReference)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ClaimNo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Fee)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HearingDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Comment)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Action)
-                </td>
-                <td>
-                    @{
-                        string id = "'" + item.Id.ToString() + "'";
-                    }
-                    <a onclick="AddModifyClaim(@id)">Edit</a>
-                    <a onclick="DeleteClaim(@id)">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
+<div class="tab-pane fade show active border-top-0 bg-white border-end border-start border-bottom" 
+     id="possession_claims" role="tabpanel" aria-labelledby="nav-roles-per-tab">
+    <div class="sm48__row_table pt-4 pm_page_top_m ser_lpading table_bottom_border show_sort_2 tableLast_colFixed">
+        <div class="table-responsive mb-3">
+            <table id="Possession_Claims" class="mb-2 border-top rounded border-bottom-0">
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Tenant Details</th>
+                    <th>Claim Reference</th>
+                    <th>Claim</th>
+                    <th>Claim No.</th>
+                    <th>Issue Date</th>
+                    <th>Fee</th>
+                    <th>Hearing Date</th>
+                    <th>Court</th>
+                    <th>Comments</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int counter = 1;
+                }
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td class="black_14 align-top">
+                        @counter
+                        @{counter++;}
+                    </td>
+                    <td class="maintext_size">
+                        <a class="main-text">
+                            <span class="owner_clr">Tenant Name</span>
+                            <br>@item.Tenant.FullName
+                            <br> <img src="~/assets/img/Location.svg" alt=""> @item.Tenant.Address
+                        </a>
+                    </td>
+                    <td class="black_14 align-top">
+                        @item.ClaimReference
+                    </td>
+                    <td class="black_14 align-top">
+                        @item.ClaimType.Name
+                    </td>
+                    <td class="black_14 align-top">
+                        @item.ClaimNo
+                    </td>
+                    <td class="black_14 align-top">
+                        @item.CreatedDate
+                    </td>
+                    <td class="black_14 align-top">
+                        @item.Fee
+                    </td>
+                    <td class="black_14 align-top">
+                        @item.HearingDate
+                    </td>
+                    <td class="black_14 align-top">
+                        @item.Court.Name
+                    </td>
+                    <td class="black_14 align-top">
+                        @item.Comment
+                    </td>
+                            @{
+                                string id = "'" + item.Id.ToString() + "'";
+                            }
+                    <td class="maintext_size text-end">
+                        <div class="d-inline-flex ">
+                                    <a onclick="ViewClaim(@id)">
+                                <img src="~/assets/img/eye.svg">
+                            </a>
+                            <div class="dropdown">
+                                <a class="text-decoration-none action_dropwown" href="#"
+                                   role="button" data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    <img src="~/assets/img/down_arrow.svg" class="ms-2">
+                                </a>
+                                <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
+                                    aria-labelledby="acp-action">
+                                            <li><a class="dropdown-item" onclick="AddModifyClaim(@id)">Edit</a></li>
+                                    <li><a class="dropdown-item" href="#">Download</a></li>
+                                            <li><a class="dropdown-item" onclick="DeleteClaim(@id)">Delete</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    </div>
+</div>
 
 <div class="modal fade" id="claimDialog">
-    <div class="modal-dialog modal-dialog-centered" id="claimDialogBody">
+    <div class="modal-dialog modal-dialog-centered cm2_size add_edit_popup" id="claimDialogBody">
     </div>
 </div>
 
 
 <script>
+    window.addEventListener('DOMContentLoaded', event => {
+        const hhsrs = document.getElementById('Possession_Claims');
+        if (hhsrs) {
+            new simpleDatatables.DataTable(hhsrs);
+        }
+
+        $(".datatable-table thead tr th button.datatable-sorter").append("<span class='c__icon'></span>");
+
+        // Code for datatable manipulation
+        var rowCount = $('.datatable-table tbody tr').length;
+        var threshold = 10;
+        if (rowCount < threshold) {
+            $('.datatable-bottom').hide();
+        } else {
+            $('.datatable-bottom').show();
+        }
+
+        var filter = $(".filter_btn");
+        $(".datatable-top").append(filter);
+
+    });
+
     function AddModifyClaim(claimId) {
         var url = `/NoticeClaims/AddModifyClaim?id=${claimId}`;
+        $("#claimDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#claimDialogBody").css("width", "100%");
+            $("#claimDialog").modal("show");
+        });
+    }
+
+    function ViewClaim(claimId) {
+        var url = `/NoticeClaims/ViewClaim?id=${claimId}`;
         $("#claimDialogBody").load(url, function () {
             // This is done to add validation to partial view, as they don't support validationscript partial.
             $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {

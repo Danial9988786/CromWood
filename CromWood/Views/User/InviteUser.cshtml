@@ -19,7 +19,7 @@
                     <div class="col-xl-6">
                         <div class="mb-3">
                         <label asp-for="Name" class="form-label">User's Name</label>
-                        <input type="text" class="form-control h-40" asp-for="Name"
+                        <input type="text" class="form-control h-40 pagagraph" asp-for="Name"
                                    placeholder="Enter Name Here">
                         <span asp-validation-for="Name" class="text-danger sm_select_text"></span>
                         </div>
@@ -27,7 +27,7 @@
                     <div class="col-xl-6">
                         <div class="mb-3">
                         <label asp-for="Email" class="form-label">Email Address</label>
-                        <input type="email" class="form-control h-40" asp-for="Email"
+                        <input type="email" class="form-control h-40 pagagraph" asp-for="Email"
                                    placeholder="Enter Email Address Here">
                         <span asp-validation-for="Email" class="text-danger sm_select_text"></span>
                         </div>
@@ -35,7 +35,7 @@
                     <div class="col-xl-6">
                         <div class="mb-3">
                         <label asp-for="Password" class="form-label">Default Password</label>
-                        <input type="password" class="form-control h-40" asp-for="Password"
+                        <input type="password" class="form-control h-40 pagagraph" asp-for="Password"
                                    placeholder="Enter Default Password">
                         <span asp-validation-for="Password" class="text-danger sm_select_text"></span>
                         </div>
@@ -43,20 +43,34 @@
                     <div class="col-xl-6">
                         <div class="mb-3">
                         <label asp-for="RoleId" class="form-label">Role</label>
-                        <select class="form-select h-40" aria-label="Default select example" asp-for=RoleId asp-items="roles">
-                                <option selected>Select Role</option>
-                            </select>
+                        <select class="form-select select_font_14 pagagraph" asp-for=RoleId asp-items="roles">
+                        </select>
                         <span asp-validation-for="RoleId" class="text-danger sm_select_text"></span>
                         </div>
                     </div>
                 </div>
-            <hr class="mt-5 mb-0" style="height:0px;" />
-            <hr class="c_border mt-5 mb-0" />
-            <div class="d-flex justify-content-end px-3 py-10 pb-3">
-                <div class="shadow-box">
-                <input class="custom__btn2" type="submit" value="Invite" />
+            <div class="popup_footer_fixed border-top">
+                <div>
+                    <div class="shadow-box ms-auto">
+                        <a onclick="confirmBtn.click()" class="custom__btn2">Invite</a>
+                        <input id="confirmBtn" hidden type="submit" value="Invite" />
+                    </div>
                 </div>
-                </div>
+            </div>
             </form>
         </div>
     </div>
+
+<script>
+
+    $(document).ready(function () {
+        $('.select_font_14').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: true,
+            dropdownCssClass: "select_font_14",
+        });
+    })
+
+</script>

@@ -89,7 +89,7 @@ namespace CromWood.Controllers
             {
                 return RedirectToAction("NotAuthorized", "Auth");
             }
-            var tenancy = new TenancyModel() { TenancyId = "TNT-" + RandomAlphaNumbericGenerator.Random(6) };
+            var tenancy = new TenancyModel() { TenancyId = "TNT-" + RandomAlphaNumbericGenerator.Random(6), StartDate = DateTime.Now , EndDate = DateTime.Now.AddYears(1) };
             return PartialView(tenancy);
         }
 
@@ -124,6 +124,24 @@ namespace CromWood.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        /// <summary>
+        /// TODOTODOTODOTODO
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> DeleteTenancyTenant(Guid noteId)
+        {
+            var havePermission = await _authService.CheckPermission(PermissionKeyConstant.PropertyManagement, PermissionConstant.CanDelete);
+            if (!havePermission)
+            {
+                return RedirectToAction("NotAuthorized", "Auth");
+            }
+            var result = await _tenancyService.DeleteNote(noteId);
+            return StatusCode(result.StatusCode, result.Data);
+        }
+
 
         /// <summary>
         /// This is to show Tenancy Detail tab , inside single tenancy detail from ID
@@ -293,6 +311,30 @@ namespace CromWood.Controllers
             var result = await _tenancyService.DeleteDocument(documentId);
             return StatusCode(result.StatusCode, result.Data);
         }
+
+        // Notice / Complains related to Tenants who are linked in this tenenacy are:
+        public async Task<IActionResult> Notices(Guid id)
+        {
+            var havePermission = await _authService.CheckPermission(PermissionKeyConstant.TenancyManagement, PermissionConstant.CanRead);
+            if (!havePermission)
+            {
+                return RedirectToAction("NotAuthorized", "Auth");
+            }
+            var result = await _tenancyService.GetNoticesForTenancyTenants(id);
+            return View(result.Data);
+        }
+
+        public async Task<IActionResult> Complaints(Guid id)
+        {
+            var havePermission = await _authService.CheckPermission(PermissionKeyConstant.TenancyManagement, PermissionConstant.CanRead);
+            if (!havePermission)
+            {
+                return RedirectToAction("NotAuthorized", "Auth");
+            }
+            var result = await _tenancyService.GetComplaintsForTenancyTenants(id);
+            return View(result.Data);
+        }
+
 
     }
 }

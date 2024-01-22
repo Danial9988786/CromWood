@@ -1,6 +1,6 @@
 ﻿namespace CromWood.Data.Entities
 {
-    public class PropertyInsurance
+    public class PropertyInsurance: DBTable
     {
         public Guid Id { get; set; }
         public string Insurer { get; set; }

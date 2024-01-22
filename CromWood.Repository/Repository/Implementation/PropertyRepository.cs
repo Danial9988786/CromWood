@@ -14,7 +14,7 @@ namespace CromWood.Data.Repository.Implementation
 
         public async Task<IEnumerable<Property>> GetPropertyForList()
         {
-            return await _context.Properties.Include(x => x.Asset).Include(x => x.PropertyType).ToListAsync();
+            return await _context.Properties.Include(x => x.Asset).Include(x => x.PropertyType).OrderByDescending(x=>x.CreatedDate).ToListAsync();
         }
 
         public async Task<Property> GetPropertyOverView(Guid PropertyId)
@@ -27,12 +27,19 @@ namespace CromWood.Data.Repository.Implementation
             return await _context.PropertyInsurances.FirstOrDefaultAsync(x => x.PropertyId == PropertyId);
         }
 
-        public async Task<int> AddProperty(Property Property)
+        public async Task<int> AddModifyProperty(Property Property)
         {
             try
             {
-                Property.Id = Guid.NewGuid();
-                await _context.Properties.AddAsync(Property);
+                if (Property.Id == Guid.Empty)
+                {
+                    Property.Id = Guid.NewGuid();
+                    await _context.Properties.AddAsync(Property);
+                }
+                else
+                {
+                    _context.Update(Property);
+                }
                 await _context.SaveChangesAsync();
                 return 1;
             }
@@ -73,7 +80,7 @@ namespace CromWood.Data.Repository.Implementation
 
         public async Task<IEnumerable<PropertyKey>> GetPropertyKeys(Guid propertyId)
         {
-            return await _context.PropertyKeys.Where(x => x.PropertyId == propertyId).ToListAsync();
+            return await _context.PropertyKeys.Where(x => x.PropertyId == propertyId).Include(x=>x.PropertyKeyType).ToListAsync();
         }
 
         public async Task<PropertyKey> GetPropertyKey(Guid id)
@@ -123,6 +130,11 @@ namespace CromWood.Data.Repository.Implementation
             {
                 throw;
             }
+        }
+
+        public async Task<IEnumerable<Tenancy>> GetPropertyTenancy(Guid id)
+        {
+            return await _context.Tenancies.Where(x=>x.PropertyId==id).Include(x=>x.TenancyTenants).ThenInclude(y=>y.Tenant).ToListAsync();
         }
     }
 }

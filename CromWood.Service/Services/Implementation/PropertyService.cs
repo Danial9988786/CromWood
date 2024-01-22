@@ -52,14 +52,14 @@ namespace CromWood.Business.Services.Implementation
             }
         }
 
-        public async Task<AppResponse<int>> AddProperty(PropertyModel property)
+        public async Task<AppResponse<int>> AddModifyProperty(PropertyModel property)
         {
             try
             {
                 var mappedProperty = _mapper.Map<Property>(property);
                 mappedProperty.PropertyAmenities.ToList().ForEach(x => x.AmenityId = x.Amenity.Id);
                 mappedProperty.PropertyAmenities.ToList().ForEach(x => x.Amenity = null);
-                var result = await _properyRepository.AddProperty(mappedProperty);
+                var result = await _properyRepository.AddModifyProperty(mappedProperty);
                 return ResponseCreater<int>.CreateSuccessResponse(result, "Property added successfully");
             }
 
@@ -181,5 +181,21 @@ namespace CromWood.Business.Services.Implementation
                 return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
             }
         }
+
+        public async Task<AppResponse<IEnumerable<TenancyViewModel>>> GetPropertyTenancy(Guid id)
+        {
+            try
+            {
+                var result = await _properyRepository.GetPropertyTenancy(id);
+                var mappedResult = _mapper.Map<IEnumerable<TenancyViewModel>>(result);
+                return ResponseCreater<IEnumerable<TenancyViewModel>>.CreateSuccessResponse(mappedResult, "Tenancies loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<IEnumerable<TenancyViewModel>>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
     }
 }

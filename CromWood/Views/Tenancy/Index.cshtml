@@ -1,39 +1,99 @@
 ﻿@using CromWood.Business.Models.ViewModel;
+@using System.Globalization;
 @model IEnumerable<TenancyViewModel>
 
-<ol class="breadcrumb mb-3 mt-3">
+<ol class="breadcrumb align-items-end mb-10 mt-3">
     <li class="breadcrumb-item">
-        <a href="index.html"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
+        <a asp-action="Index" asp-controller="Test" ><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
     </li>
     <li class="breadcrumb-item active">Tenancy Management</li>
 </ol>
 
 <div class="row">
     <div class="col-xl-6">
-        <h1 class="mt-2 mb-3 custom_h">Tenancy Management</h1>
+        <h1 class="mt-2 mb-3 custom_h">All Tenancies</h1>
     </div>
-    <div class="col-xl-6 text-end">
-        <div class="pare__btn">
-            <form asp-action="Export" method="post">
-                <a onclick="submitBtn.click()" class="custom__btn">
-                    <img src="~/assets/img/explor_icon.svg" alt="">
-                    Export XLS
-                    <img src="~/assets/img/down_arrow.svg" alt="">
+    <div class="col-xl-6">
+        <span class="pair_btn">
+            <div class="shadow-box ms-auto">
+                <span class="custom__btn">
+                    <form asp-action="Export" method="post">
+                        <a onclick="submitBtn.click()" >
+                            <img src="~/assets/img/explor_icon.svg" class="pe-2" alt="">
+                            Export XLS
+                        </a>
+                        <input id="submitBtn" type="submit" hidden />
+                    </form>
+                </span>
+                <span class="custom__btn2">
+                    <a onclick="AddTenancy()">
+                        <img src="~/assets/img/add_new_icon.svg" class="pe-2" alt="">
+                        add Tenancy
+                    </a>
+                </span>
+            </div>
+        </span>
+    </div>
+    
+</div>
+
+
+<!-- ----filter start here --- -->
+<div class="filter_btn ms-auto">
+    <a class="" href="#" role="button" id="fil_ter" data-bs-toggle="dropdown" aria-expanded="false">
+        <img class="pe-1" src="~/assets/img/filter-lines.svg" alt="user__iocn">
+        Filter
+        <img class="ps-2" src="~/assets/img/filter_down_arrow.svg">
+    </a>
+
+    <div class="filter___c dropdown-menu dropdown-menu-end shadow border rounded-0 p-3"
+         aria-labelledby="fil_ter">
+        <div class="input-group mb-3">
+            <span class="input-group-text bg-transparent" id="srf">
+                <img src="~/assets/img/search-gray.svg" alt="search_iocn">
+            </span>
+            <input type="text" class="form-control border-start-0 ps-0"
+                   placeholder="Search for filters" aria-label="Username" aria-describedby="srf">
+        </div>
+        <ul class="list-unstyled ft__list">
+            <li>
+                <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded"
+                   href="#">
+                    <span>My Filter 1</span>
+                    <span class="i__gro">
+                        <span class="ed pe-2">
+                            <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
+                        </span>
+                        <span class="de">
+                            <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
+                        </span>
+                    </span>
                 </a>
-                <input id="submitBtn" type="submit" hidden />
-            </form>
-            
-            <a class="custom__btn2" onclick="AddTenancy()">
-                <img src="~/assets/img/add_new_icon.svg" class="pe-1" alt="">
-                add Tenancy
-            </a>
+            </li>
+            <li>
+                <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded"
+                   href="#">
+                    <span>My Filter 2</span>
+                    <span class="i__gro">
+                        <span class="ed pe-2">
+                            <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
+                        </span>
+                        <span class="de">
+                            <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
+                        </span>
+                    </span>
+                </a>
+            </li>
+        </ul>
+        <div class="mark__btn text-center">
+            <img class="me-1" src="~/assets/img/green__plus_icon.svg" />
+            <a href="#" class="text-uppercase">add new Filter</a>
         </div>
     </div>
 </div>
-
 <!-- ----- Tenancy Management table start here ------->
-<div class="user__list as__menag sm48__row_table pt-0 hide_sort_all">
-    <table id="datatablesSimple" class="border rounded-top">
+<div class="user__list show_sort_1 as__menag  sm48__row_table pt-0 pm_page_top_m table_bottom_border">
+    <table id="datatablesSimple" class="border rounded-top border-bottom-0">
         <thead>
             <tr>
                 <th class="maintable_head">Tenancy ID</th>
@@ -59,10 +119,33 @@
                             <br>@item.Property.Asset.Ownership
                         </a>
                     </td>
-                    <td class="maintext_size align-top">@item.StartDate</td>
-                    <td class="maintext_size align-top">@item.EndDate</td>
-                    <td class="maintext_size align-top">Status</td>
-                    <td class="maintext_size align-top">@item.RentAmount @item.RentFrequency.Name</td>
+                    <td class="maintext_size align-top">
+                        @if (item.StartDate == default(DateTime))
+                        {
+                            <span>N/A</span>
+                        }
+                        else
+                        {
+                            <span>@item.StartDate.ToString("dd MMM, yyyy")</span>
+                        }
+                    </td>
+                    <td class="maintext_size align-top">
+                        @if (item.EndDate == default(DateTime))
+                        {
+                            <span>N/A</span>
+                        }
+                        else
+                        {
+                            <span>@item.EndDate.ToString("dd MMM, yyyy")</span>
+                        }
+                    </td>
+                    <td class="maintext_size align-top">
+                        <div class="ongoing_btn">
+                            <img class="pe-1" src="~/assets/img/file-check.svg" alt="">
+                            Ongoing
+                        </div>
+                    </td>
+                    <td class="maintext_size align-top">@item.RentAmount.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ") @item.RentFrequency.Name</td>
                 </tr>
             }
         </tbody>
@@ -71,19 +154,24 @@
 <!-- ----- Tenancy Management table end here ------->
 
 <div class="modal fade" id="tenancyDialog">
-    <div class="modal-dialog modal-dialog-centered" id="tenancyDialogBody">
+    <div class="modal-dialog modal-dialog-centered cm2_size step_model" id="tenancyDialogBody">
     </div>
 </div>
 
-
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
-        $('#datatablesSimple').DataTable({
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
-            ]
-        });
+        // Code for datatable manipulation
+        var rowCount = $('.datatable-table tbody tr').length;
+        var threshold = 10;
+        if (rowCount < threshold) {
+            $('.datatable-bottom').hide();
+        } else {
+            $('.datatable-bottom').show();
+        }
+        $(".datatable-table thead tr th button.datatable-sorter").append("<span class='c__icon'></span>");
+        var filter = $(".filter_btn");
+        $(".datatable-top").append(filter);
     });
 
     function AddTenancy() {

@@ -7,8 +7,8 @@ namespace CromWood.Data.Repository.Interface
     {
         public Task<IEnumerable<Property>> GetPropertyForList();
         public Task<Property> GetPropertyOverView(Guid propertyId);
+        public Task<int> AddModifyProperty(Property property);
         public Task<PropertyInsurance> GetPropertyInsurance(Guid propertyId);
-        public Task<int> AddProperty(Property property);
         public Task<int> AddInsurance(PropertyInsurance insurance);
         public Task<int> ModifyInsurance(PropertyInsurance insurance);
         public Task<IEnumerable<PropertyKey>> GetPropertyKeys(Guid propertyId);
@@ -16,6 +16,7 @@ namespace CromWood.Data.Repository.Interface
         public Task<int> AddKey(PropertyKey key);
         public Task<int> ModifyKey(PropertyKey key);
         public Task<string> DeleteKey(Guid id);
+        public Task<IEnumerable<Tenancy>> GetPropertyTenancy(Guid id);
 
     }
 }

@@ -22,7 +22,8 @@
             </div>
             <form asp-action="DeleteRole" asp-route-Id="@Model">
                 <div class="shadow-box">
-                    <input class="custom__btn3" type="submit" value="Confirm" />
+                    <a onclick="confirmBtn.click()" class="custom__btn3">Confirm</a>
+                    <input id="confirmBtn" hidden class="custom__btn3" type="submit" value="Confirm" />
                 </div>
             </form>
         </div>

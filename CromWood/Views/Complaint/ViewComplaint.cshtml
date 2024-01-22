@@ -1,0 +1,252 @@
+﻿@using CromWood.Business.Models.ViewModel;
+@model ComplaintViewModel;
+
+                            <input value="@Model.Id" hidden id="complaintId" />
+
+ <div class="modal-content rounded-0 model-custom-bg">
+                <div class="modal-header py-2 bg-white">
+                    <h5 class="modal-title" id="staticBackdropLabel">Complaint @Model.Id.ToString().Substring(0,5).ToUpper()</h5>
+                    <span class="pagagraph ms-2">@Model.CreatedDate</span>
+                    <span class="pagagraph new open ms-3">@Model.Status</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="step_body_content4 mb-3 pe-2">
+                    <div class="d-flex gap-2">
+                        <div class="l_box" style="width: 50% !important">
+                            <div class="mb-3 border p-3 bg-white h-100">
+                                <div class="d-flex justify-content-between">
+                                    <p class="modal-title" id="staticBackdropLabel">Complaint Details</p>
+                                    <img src="~/assets/img/pen.svg" class="ms-2" alt="pen">
+                                </div>
+                                <span class="gray_12 d-inline-block mt-3">Requested By</span><br>
+                                <p class="main-text d-inline">@Model.Tenant.FullName</p>
+                                <span class="pagagraph">(Tenant)</span><br>
+                                <span class="gray_12 d-inline-block mt-3">Complaint Nature</span><br>
+                                <span class="pagagraph">@Model.ComplaintNature.Name</span<br><br>
+                                    <span class="gray_12 d-inline-block mt-3">Complaint Category</span><br>
+                                    <span class="pagagraph">@Model.ComplaintCategory.Name</span<br><br>
+                                        <span class="gray_12">Property</span><br>
+                                        <a href="#" class="main-text u_n d-block">
+                                            25 Meadowford Close, London,<br> Greenwich
+                                        </a>
+                                        <span class="gray_12 d-inline-block mt-3">Expected Resolve Date</span><br>
+                                        <span class="pagagraph">@Model.ExpectedResolveDate</span<br><br>
+                                            <span class="gray_12 d-inline-block mt-2 pt-1">Descriptions</span><br>
+                                            <p class="pagagraph m-0 pb-3">
+                                                @Model.Description
+                                            </p>
+                                            <img src="~/assets/img/gallery.svg" alt="gallery_img">
+                                            <img src="~/assets/img/pdf_c.svg" class="ms-3" alt="pdf_c">
+
+                                            <div class="shadow-box mt-5">
+                                                <span class="custom__btn2">
+                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#change_status">
+                                                        <img src="~/assets/img/rught_c.svg" alt="right_c">
+                                                        update status
+                                                    </a>
+                                                </span>
+                                            </div>
+                            </div>
+                        </div>
+                        <div class="r_box">
+                            <div class="mb-3 border p-3 bg-white">
+                                <p class="modal-title" id="staticBackdropLabel">Recent Comments</p>
+                                <div id="commentsTableBody">
+                                 @* Comments will go here *@
+                            </div>
+                            <form id="addCommentForm" class="border h-25 p-3 mt-3 bg-white">
+                                <input type="text" class="form-control pagagraph" id="commentDescription"
+                                    placeholder="Type a short description for the complaint here...">
+                                <div class="d-flex justify-content-between mt-3">
+                                    <div>
+                                        <a for="formFileLg" class="c_file form-label custom__filetype" onclick="commentFile.click()"><img
+                                                class="pe-1" src="~/assets/img/chosefile.svg" alt="chosefile">
+                                            CHOOSE FILE
+                                            <input class="form-control" id="commentFile" type="file">
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <div class="d_btn">
+                                            <a  onclick="addComment()">
+                                                Add Comment
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <!-- Form for adding comments -->
+@* <form id="addCommentForm">
+    <label for="commentDescription">Description:</label>
+    <input type="text" id="commentDescription" required>
+    <label for="commentFile">File:</label>
+    <input type="file" id="commentFile">
+    <button type="button" onclick="addComment()">Add Comment</button>
+</form> *@
+
+<!-- Form for editing comments -->
+@* <form id="editCommentForm" style="display: none;">
+    <input type="text" id="editCommentId" readonly hidden>
+    <label for="editCommentDescription">New Description:</label>
+    <input type="text" id="editCommentDescription" required>
+    <label for="editCommentFile">New File:</label>
+    <input type="file" id="editCommentFile">
+    <button type="button" onclick="updateComment()">Update Comment</button>
+    <button type="button" onclick="cancelEdit()">Cancel</button>
+</form>
+ *@
+
+ </div>
+<script>
+    // Function to fetch and display comments
+    function fetchComments() {
+        const id = $("#complaintId").val();
+        console.log(id)
+        $.ajax({
+            url: `/Complaint/Comments?complaintId=${id}`,
+            method: 'GET',
+            dataType: 'json',
+            success: function (comments) {
+                const tableBody = $('#commentsTableBody');
+                tableBody.empty();
+
+                $.each(comments, function (index, comment) {
+                    const row = 
+
+                    `<div class="shadow-sm p-3 mt-3">
+                                    <p class="pagagraph">
+                                       ${comment.Description}
+                                    </p>
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <img src="/assets/img/gallery.svg" alt="gallery_img">
+                                            <img src="/assets/img/pdf_c.svg" class="ms-2" alt="pdf_c">
+                                        </div>
+                                        <div>
+                                            <span class="gray_12">2023-08-24</span>
+                                            <a onclick="editComment('${comment.Id}', '${comment.Description}')"><img src="/assets/img/pen.svg"  class="ms-2" alt="pen" /></a>
+                                            <a onclick="deleteComment('${comment.Id}')" ><img src="/assets/img/dlt.svg" class="ms-2" alt="dlt" /></a>
+                                        </div>
+                                    </div>
+                                </div>`
+                    tableBody.append(row);
+                });
+            },
+            error: function () {
+                console.error('Failed to fetch comments');
+            }
+        });
+    }
+
+    // Function to add a new comment
+    function addComment() {
+        const id = $("#complaintId").val();
+        const commentDescription = $('#commentDescription').val();
+        const commentFile = $('#commentFile')[0].files[0];
+
+        const formData = new FormData();
+        formData.append('ComplaintId', id);
+        formData.append('Description', commentDescription);
+        formData.append('File', commentFile);
+
+        $.ajax({
+            url: '/Complaint/AddModifyComplaintComment',
+            method: 'POST',
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function () {
+                // Comment added successfully, fetch and display updated comments
+                fetchComments();
+                // Clear the input fields
+                $('#commentDescription').val('');
+                $('#commentFile').val('');
+            },
+            error: function () {
+                console.error('Failed to add comment');
+            }
+        });
+    }
+
+    // Function to edit a comment
+    function editComment(commentId, commentDescription) {
+        const id = $("#complaintId").val();
+        // Populate the edit form with the current comment details
+        $('#editCommentId').val(commentId);
+        $('#editCommentDescription').val(commentDescription);
+
+        // Hide the add form, show the edit form
+        $('#addCommentForm').hide();
+        $('#editCommentForm').show();
+    }
+
+    // Function to update a comment
+    function updateComment() {
+        const commentId = $('#editCommentId').val();
+        const commentDescription = $('#editCommentDescription').val();
+        const commentFile = $('#editCommentFile')[0].files[0];
+
+        const formData = new FormData();
+        formData.append('Id', commentId);
+        formData.append('Description', commentDescription);
+        formData.append('File', commentFile);
+        formData.append('ComplaintId', id);
+
+        $.ajax({
+            url: `/Complaint/AddModifyComplaintComment`,
+            method: 'POST',
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function () {
+                // Comment updated successfully, fetch and display updated comments
+                fetchComments();
+                // Clear the edit form
+                $('#editCommentId').val('');
+                $('#editCommentDescription').val('');
+                $('#editCommentFile').val('');
+                // Show the add form, hide the edit form
+                $('#addCommentForm').show();
+                $('#editCommentForm').hide();
+            },
+            error: function () {
+                console.error('Failed to update comment');
+            }
+        });
+    }
+
+    // Function to delete a comment
+    function deleteComment(commentId) {
+        $.ajax({
+            url: `/Complaint/DeleteComplaintComment/${commentId}`,
+            method: 'DELETE',
+            success: function () {
+                // Comment deleted successfully, fetch and display updated comments
+                fetchComments();
+            },
+            error: function () {
+                console.error('Failed to delete comment');
+            }
+        });
+    }
+
+    // Function to cancel editing
+    function cancelEdit() {
+        // Clear the edit form
+        $('#editCommentId').val('');
+        $('#editCommentDescription').val('');
+        $('#editCommentFile').val('');
+        // Show the add form, hide the edit form
+        $('#addCommentForm').show();
+        $('#editCommentForm').hide();
+    }
+
+    // Fetch and display comments on page load
+    fetchComments();
+</script>

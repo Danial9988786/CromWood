@@ -1,6 +1,7 @@
 ﻿using CromWood.Business.Services.Interface;
 using CromWood.Business.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol.Plugins;
 
 namespace CromWood.Controllers
 {
@@ -48,14 +49,14 @@ namespace CromWood.Controllers
                 {
                     return Redirect(login.ReturnUrl);
                 }
-                return RedirectToAction("Auth", "Test");
+                return RedirectToAction("Index", "Test");
             }
         }
 
         public async Task<IActionResult> LogOut()
         {
             await authService.Logout();
-            return RedirectToAction("Auth", "Test");
+            return RedirectToAction("Index", "Test");
         }
     }
 }

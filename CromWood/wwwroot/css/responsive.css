@@ -8,9 +8,42 @@
         max-width: 560px;
         width: 100%;
     }
+    .cm1_size .modal-content{
+        min-height: 450px;
+    }
     /* -------- Custom mode size 1 end here  ----- */
 
+       /* -------- Custom mode size 2 ----- */
+    .cm380_size{
+        max-width: 560px;
+        width: 100%;
+    }
+    .cm380_size .modal-content{
+        min-height: 380px;
+    }
+    /* -------- Custom mode size 2 end here  ----- */
 
+    /* -------- Custom mode size 2 ----- */
+    .cm430_size{
+        max-width: 560px;
+        width: 100%;
+    }
+    .cm430_size .modal-content{
+        min-height: 380px;
+    }
+    /* -------- Custom mode size 2 end here  ----- */
+
+    /* -------- Custom mode height 1 ----- */
+    .model_height .modal-content{
+        min-height: 650px!important;
+        height: 650px;
+        overflow-y: auto;
+    }
+    .model_height .modal-content::-webkit-scrollbar {
+        display: none;
+    }
+    /* -------- Custom mode height 1 end here  ----- */
+    
    /* -------- Custom mode size 2 ----- */
     .cm2_size{
         max-width: 950px;

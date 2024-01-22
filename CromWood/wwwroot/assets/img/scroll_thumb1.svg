@@ -1,0 +1,13 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 43" width="12" height="43">
+	<title>scroll_thumb-svg</title>
+	<style>
+		.s0 { fill: #ffffff } 
+		.s1 { fill: #d9d9d9 } 
+	</style>
+	<g id="Layer">
+		<path id="Layer" class="s0" d="m0 8c0-3.3 2.7-6 6-6 3.3 0 6 2.7 6 6v28c0 3.3-2.7 6-6 6-3.3 0-6-2.7-6-6z"/>
+		<path id="Layer" class="s1" d="m3 18h6v1h-6z"/>
+		<path id="Layer" class="s1" d="m3 21h6v1h-6z"/>
+		<path id="Layer" class="s1" d="m3 24h6v1h-6z"/>
+	</g>
+</svg>

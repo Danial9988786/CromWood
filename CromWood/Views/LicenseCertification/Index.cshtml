@@ -11,101 +11,143 @@
     int totalLicense = Model.Count();
     int expiringLicense = Model.Count(x => x.ExpiryDate.Year == today.Year && x.ExpiryDate.Month == today.Month && x.ExpiryDate > today);
     int expiredLicense = Model.Count(x => x.ExpiryDate < today);
+
+    var propId = ViewContext.RouteData.Values["id"] as string;
+    string tableClass = propId == null ? "border rounded-top border-bottom-0" : "";
+
 }
 
-<ol class="breadcrumb align-items-end mb-3 mt-3">
-    <li class="breadcrumb-item">
-        <a asp-action="Index" asp-controller="Test"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
-    </li>
-    <li class="breadcrumb-item active">License & Certifications</li>
-</ol>
 
-<div class="row">
-    <div class="col-xl-3">
-        <h1 class="mt-2 mb-3 custom_h">License & Certifications</h1>
-    </div>
+@if (propId==null)
+{
+    <ol class="breadcrumb align-items-end mb-10 mt-3">
+        <li class="breadcrumb-item">
+            <a asp-action="Index" asp-controller="Test"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
+        </li>
+        <li class="breadcrumb-item active">License & Certifications</li>
+    </ol>
 
-    <div class="col-xl-2">
-        <span class="owner_clr">Total</span>
-        <h2 class="t_t">@totalLicense</h2>
-    </div>
-    <div class="col-xl-2">
-        <span class="owner_clr">Expiring this month</span>
-        <h2 class="etm">@expiringLicense</h2>
-    </div>
-    <div class="col-xl-2">
-        <span class="owner_clr">Expired</span>
-        <h2 class="expd">@expiredLicense</h2>
-    </div>
-
-    <div class="d-flex justify-content-end h-25 col-xl-3">
-        <div class="shadow-box">
-            <a class="custom__btn2" onclick="AddModifyLicense(@emptyGuid)">
-                <img src="~/assets/img/add_new_icon.svg" class="pe-2" alt="">
-                add License/ Certification
-            </a>
+    <div class="row">
+        <div class="col-xl-3">
+            <h1 class="mt-2 mb-3 custom_h">License & Certifications</h1>
         </div>
-    </div>
 
-</div>
-
-<!------- filter start here ------>
-<div class="filter_btn ms-auto">
-    <a class="" href="#" role="button" id="fil_ter" data-bs-toggle="dropdown" aria-expanded="false">
-        <img class="pe-1" src="~/assets/img/filter-lines.svg" alt="user__iocn">
-        Filter
-        <img class="ps-2" src="~/assets/img/filter_down_arrow.svg">
-    </a>
-
-    <div class="filter___c dropdown-menu dropdown-menu-end shadow border rounded-0 p-3"
-         aria-labelledby="fil_ter">
-        <div class="input-group mb-3">
-            <span class="input-group-text bg-transparent" id="srf">
-                <img src="~/assets/img/search-gray.svg" alt="search_iocn">
-            </span>
-            <input type="text" class="form-control border-start-0 ps-0"
-                   placeholder="Search for filters" aria-label="Username" aria-describedby="srf">
+        <div class="col-xl-2">
+            <span class="owner_clr">Total</span>
+            <h2 class="t_t">@totalLicense</h2>
         </div>
-        <ul class="list-unstyled ft__list">
-            <li>
-                <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded"
-                   href="#">
-                    <span>My Filter 1</span>
-                    <span class="i__gro">
-                        <span class="ed pe-2">
-                            <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
-                        </span>
-                        <span class="de">
-                            <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
-                        </span>
-                    </span>
+        <div class="col-xl-2">
+            <span class="owner_clr">Expiring this month</span>
+            <h2 class="etm">@expiringLicense</h2>
+        </div>
+        <div class="col-xl-1" style="margin-top:-17px">
+            <span class="owner_clr">Expired</span>
+            <h2 class="expd">@expiredLicense</h2>
+        </div>
+
+        <div class="d-flex justify-content-end h-25 col-xl-4">
+            <div class="shadow-box">
+                <a class="custom__btn2" onclick="AddModifyLicense(@emptyGuid)">
+                    <img src="~/assets/img/add_new_icon.svg" class="pe-2" alt="">
+                    add License/ Certification
                 </a>
-            </li>
-            <li>
-                <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded"
-                   href="#">
-                    <span>My Filter 2</span>
-                    <span class="i__gro">
-                        <span class="ed pe-2">
-                            <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
+            </div>
+        </div>
+
+    </div>
+
+    <!------- filter start here ------>
+    <div class="filter_btn ms-auto">
+        <a class="" href="#" role="button" id="fil_ter" data-bs-toggle="dropdown" aria-expanded="false">
+            <img class="pe-1" src="~/assets/img/filter-lines.svg" alt="user__iocn">
+            Filter
+            <img class="ps-2" src="~/assets/img/filter_down_arrow.svg">
+        </a>
+
+        <div class="filter___c dropdown-menu dropdown-menu-end shadow border rounded-0 p-3"
+             aria-labelledby="fil_ter">
+            <div class="input-group mb-3">
+                <span class="input-group-text bg-transparent" id="srf">
+                    <img src="~/assets/img/search-gray.svg" alt="search_iocn">
+                </span>
+                <input type="text" class="form-control border-start-0 ps-0"
+                       placeholder="Search for filters" aria-label="Username" aria-describedby="srf">
+            </div>
+            <ul class="list-unstyled ft__list">
+                <li>
+                    <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded"
+                       href="#">
+                        <span>My Filter 1</span>
+                        <span class="i__gro">
+                            <span class="ed pe-2">
+                                <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
+                            </span>
+                            <span class="de">
+                                <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
+                            </span>
                         </span>
-                        <span class="de">
-                            <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded"
+                       href="#">
+                        <span>My Filter 2</span>
+                        <span class="i__gro">
+                            <span class="ed pe-2">
+                                <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
+                            </span>
+                            <span class="de">
+                                <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
+                            </span>
                         </span>
-                    </span>
-                </a>
-            </li>
-        </ul>
-        <div class="mark__btn text-center">
-            <img class="me-1" src="~/assets/img/green__plus_icon.svg" />
-            <a href="#" class="text-uppercase">add new Filter</a>
+                    </a>
+                </li>
+            </ul>
+            <div class="mark__btn text-center">
+                <img class="me-1" src="~/assets/img/green__plus_icon.svg" />
+                <a href="#" class="text-uppercase">add new Filter</a>
+            </div>
         </div>
     </div>
-</div>
-<!----- filter end here  ---------->
-<!------- License/Certification table start here ------->
+    <!----- filter end here  ---------->
+}
+else
+{
+    <div class="card-header pb-2 border-bottom-0 pt-3 pb-0 bg-white">
+        <div class="row align-items-start">
+            <div class="col-4">
+                <h4 class="heading-style2 mb-0">License and Certifications</h4>
+            </div>
+            <div class="col-1">
+                <span class="owner_clr">Total <span class="t_t">@totalLicense</span></span>
+                
+            </div>
+            <div class="col-2">
+                <span class="owner_clr">Expiring this month 
+                    <span class="etm">@expiringLicense</span>
+                </span>
+            </div>
+            <div class="col-1">
+                <span class="owner_clr">Expired
+                    <span class="expd">@expiredLicense</span>
+                </span>
+            </div>
+            <div class="d-flex justify-content-end h-25 col-4">
+                <div class="shadow-box">
+                <a class="custom__btn" onclick="AddModifyLicense(@emptyGuid)" data-bs-toggle="modal" data-bs-target="#cnt">
+                    <img class="pe-2" src="~/assets/img/plus.svg" alt="user__iocn">
+                    Add Certificate/ License
+                </a>
+            </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
 <div class="user__list as__menag mt-1 sm48__row_table pt-0 hide_sort_all pm_page_top_m table_bottom_border">
-    <table id="datatablesSimple" class="border rounded-top">
+    <table id="datatablesSimple" class="@tableClass">
         <thead>
             <tr>
                 <th class="maintable_head">Description</th>
@@ -128,11 +170,11 @@
                             @if (!string.IsNullOrEmpty(item.DocUrl))
                             {
                                 <form asp-controller="LicenseCertification" asp-action="Download" asp-route-url="@item.DocUrl" method="POST">
-                                    <a onclick="submitBtn.click()" class="d-inline-block pt-2">
+                                    <a onclick="downloadBtn.click()" class="d-inline-block pt-2">
                                     <img src="~/assets/img/downloadfile.svg"
                                     class="pe-2" alt="">Download File
                                 </a>
-                                    <input id="submitBtn" type="submit" hidden />
+                                    <input id="downloadBtn" type="submit" hidden />
                                 </form>
                             }
                         </div>
@@ -149,33 +191,49 @@
                             @user.Data.Name
                             </span>
                     </td>
-
-                    <td class="maintext_size">
+                    <td class="maintext_size text-end align-items-center">
                         @{
                             string url = "'" + item.Id.ToString() + "'";
                         }
-                        <a onclick="ViewLicense(@url)">V</a> |
-                        <a onclick="AddModifyLicense(@url)">E</a> |
-                        <a onclick="DeleteLicense(@url)">D</a>
+                        <div class="d-inline-flex" href="#">
+                            <a onclick="ViewLicense(@url)">
+                                <img src="~/assets/img/eye.svg">
+                            </a>
+                            <div class="dropdown">
+                                <a class="text-decoration-none action_dropwown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="~/assets/img/down_arrow.svg" class="ms-2">
+                                </a>
+                                <ul class="dropdown-menu shadow dropdown-menu-end border-0 rounded-0 p-0" aria-labelledby="acp-action" style="">
+                                    <li><a class="dropdown-item" onclick="AddModifyLicense(@url)">Edit Certificate</a></li>
+                                    <li><a class="dropdown-item" onclick="DeleteLicense(@url)">Delete</a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
-<!-------- License/ Certification table end here ---- -->
 
 <div class="modal fade" id="licenseCertificationDialog">
-    <div class="modal-dialog modal-dialog-centered" id="licenseCertificationDialogBody">
+    <div class="modal-dialog modal-dialog-centered cm1_size" id="licenseCertificationDialogBody">
+    </div>
+</div>
+
+
+<div class="modal fade" id="licenseCertificationViewDialog">
+    <div class="modal-dialog modal-dialog-centered modal-xl model_height" id="licenseCertificationViewDialogBody">
     </div>
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
-
     $(document).ready(function () {
         // Code for datatable manipulation
         var rowCount = $('.datatable-table tbody tr').length;
+
+        console.log(rowCount)
         var threshold = 10;
         if (rowCount < threshold) {
             $('.datatable-bottom').hide();
@@ -189,14 +247,10 @@
 
     function ViewLicense(id) {
         var url = "/LicenseCertification/ViewLicense?id=" + id;
-        $("#licenseCertificationDialogBody").load(url, function () {
-            // This is done to add validation to partial view, as they don't support validationscript partial.
-            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
-                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
-                });
-            });
-            $("#licenseCertificationDialogBody").css("width", "100%");
-            $("#licenseCertificationDialog").modal("show");
+        $("#licenseCertificationViewDialogBody").load(url, function () {
+            
+            $("#licenseCertificationViewDialogBody").css("width", "100%");
+            $("#licenseCertificationViewDialog").modal("show");
         });
     }
 
@@ -238,5 +292,6 @@
             }
         })
     }
+
 
 </script>

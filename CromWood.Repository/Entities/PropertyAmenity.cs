@@ -2,7 +2,7 @@
 
 namespace CromWood.Data.Entities
 {
-    public class PropertyAmenity
+    public class PropertyAmenity:DBTable
     {
         public Guid Id { get; set; }
         public Guid PropertyId { get; set; }

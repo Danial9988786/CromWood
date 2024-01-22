@@ -268,5 +268,34 @@ namespace CromWood.Business.Services.Implementation
             }
         }
 
+        public async Task<AppResponse<ICollection<NoticeViewModel>>> GetNoticesForTenancyTenants(Guid tenancyId)
+        {
+            try
+            {
+                var result = await _tenancyRepository.GetNoticesForTenancyTenants(tenancyId);
+                var mappedResult = _mapper.Map<ICollection<NoticeViewModel>>(result);
+                return ResponseCreater<ICollection<NoticeViewModel>>.CreateSuccessResponse(mappedResult, "Tenancy Notices loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<ICollection<NoticeViewModel>>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+        public async Task<AppResponse<ICollection<ComplaintViewModel>>> GetComplaintsForTenancyTenants(Guid tenancyId)
+        {
+            try
+            {
+                var result = await _tenancyRepository.GetComplaintsForTenancyTenants(tenancyId);
+                var mappedResult = _mapper.Map<ICollection<ComplaintViewModel>>(result);
+                return ResponseCreater<ICollection<ComplaintViewModel>>.CreateSuccessResponse(mappedResult, "Tenancy Complaints loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<ICollection<ComplaintViewModel>>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
     }
 }

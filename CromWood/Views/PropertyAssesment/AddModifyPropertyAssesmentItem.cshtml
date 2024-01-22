@@ -1,0 +1,114 @@
+﻿@using CromWood.Business.Services.Interface;
+@using CromWood.Data.Entities.Default;
+@model CromWood.Business.Models.PropertyInspectionItemModel
+
+@inject ILookupService<SurverySection> _lookupSurvey;
+@inject ILookupService<DetailItem> _lookupItem;
+@inject ILookupService<UnitOfMeasurement> _lookupUOM;
+@{
+    var asyncSurvey = await _lookupSurvey.GetAllItems();
+    var surveyList = new SelectList(asyncSurvey.Data, "Id", "Name");
+
+    var asyncItems = await _lookupItem.GetAllItems();
+    var items = new SelectList(asyncItems.Data, "Id", "Name");
+
+    var asyncUOMS = await _lookupUOM.GetAllItems();
+    var uoms = new SelectList(asyncUOMS.Data, "Id", "Name");
+}
+
+<div class="modal-content rounded-0 model-custom-bg">
+    <div class="modal-header py-2 bg-white">
+        <h5 class="modal-title" id="staticBackdropLabel">Add Property Assesment Item</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <form asp-action="AddModifyPropertyAssesmentItem" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @Html.HiddenFor(m=>m.Id)
+        <div class="form-group">
+            <label asp-for="Location1" class="control-label"></label>
+            <input asp-for="Location1" class="form-control" />
+            <span asp-validation-for="Location1" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Location2" class="control-label"></label>
+            <input asp-for="Location2" class="form-control" />
+            <span asp-validation-for="Location2" class="text-danger"></span>
+            <div class="form-group">        </div>
+
+            <label asp-for="SurverySectionId" class="control-label"></label>
+            <select id="surveySection" class="form-select select_font_14 pagagraph" asp-for="@Model.SurverySectionId" asp-items="surveyList">
+            </select>
+            <span asp-validation-for="SurverySectionId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="DetailItemId" class="control-label"></label>
+            <select id="detailItem" class="form-select select_font_14 pagagraph" asp-for="@Model.DetailItemId" asp-items="items">
+            </select>
+            <span asp-validation-for="DetailItemId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="control-label"></label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ConditionRating" class="control-label"></label>
+            <select id="conditionRating" class="form-select select_font_14 pagagraph" asp-for="@Model.ConditionRating">
+                <option value="0">POOR</option>
+                <option value="1">FAIR</option>
+                <option value="2">GOOD</option>
+            </select>
+            <span asp-validation-for="ConditionRating" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Defects" class="control-label"></label>
+            <input asp-for="Defects" class="form-control" />
+            <span asp-validation-for="Defects" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="UnitOfMeesurementId" class="control-label"></label>
+            <select id="uom" class="form-select select_font_14 pagagraph" asp-for="@Model.UnitOfMeesurementId" asp-items="uoms">
+            </select>
+            <span asp-validation-for="UnitOfMeesurementId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="StockUnitCost" class="control-label"></label>
+            <input asp-for="StockUnitCost" class="form-control" />
+            <span asp-validation-for="StockUnitCost" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="StockQuantity" class="control-label"></label>
+            <input asp-for="StockQuantity" class="form-control" />
+            <span asp-validation-for="StockQuantity" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="StockRemainingQuantity" class="control-label"></label>
+            <input asp-for="StockRemainingQuantity" class="form-control" />
+            <span asp-validation-for="StockRemainingQuantity" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="StockReplaceYear" class="control-label"></label>
+            <input asp-for="StockReplaceYear" class="form-control" />
+            <span asp-validation-for="StockReplaceYear" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="StockYearBand" class="control-label"></label>
+            <input asp-for="StockYearBand" class="form-control" />
+            <span asp-validation-for="StockYearBand" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="StockLifecycle" class="control-label"></label>
+            <input asp-for="StockLifecycle" class="form-control" />
+            <span asp-validation-for="StockLifecycle" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <a onclick="imageUploader.click()">Upload</a>
+            <input id="imageUploader" type="file" asp-for="Images" multiple="true" class="form-control" />
+        </div>
+
+        @Html.HiddenFor(m=>m.PropertyAssesmentId)
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </form>
+</div>

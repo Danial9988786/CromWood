@@ -1,0 +1,56 @@
+﻿@using CromWood.Business.Services.Interface;
+@model CromWood.Business.Models.PropertyAssesmentModel
+@inject IPropertyService _propertyService;
+
+@{
+    var asyncProperties = await _propertyService.GetPropertyForList();
+    var properties = new SelectList(asyncProperties.Data, "Id", "Asset.StreetAddress");
+}
+
+<div class="modal-content rounded-0 model-custom-bg">
+    <div class="modal-header py-2 bg-white">
+        <h5 class="modal-title" id="staticBackdropLabel">Add Property Assesment</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+        <form asp-action="AddModifyPropertyAssesment">
+            @Html.HiddenFor(x=>x.Id)
+            <div class="form-group">
+
+                <label asp-for="InspectionID" class="control-label"></label>
+                <input asp-for="InspectionID" class="form-control" />
+                <span asp-validation-for="InspectionID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+            <select id="property" class="form-select select_font_14" asp-for="PropertyId" asp-items="properties">
+            </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateTime" class="control-label"></label>
+                <input asp-for="DateTime" class="form-control" />
+                <span asp-validation-for="DateTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InspectorName" class="control-label"></label>
+                <input asp-for="InspectorName" class="form-control" />
+                <span asp-validation-for="InspectorName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InspectionNote" class="control-label"></label>
+                <input asp-for="InspectionNote" class="form-control" />
+                <span asp-validation-for="InspectionNote" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BuildingDate" class="control-label"></label>
+                <input asp-for="BuildingDate" class="form-control" />
+                <span asp-validation-for="BuildingDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BuildingNote" class="control-label"></label>
+                <input asp-for="BuildingNote" class="form-control" />
+                <span asp-validation-for="BuildingNote" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>

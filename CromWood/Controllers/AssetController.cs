@@ -129,5 +129,11 @@ namespace CromWood.Controllers
             var result = await _assetService.GetAssetsOverView(id);
             return View(result.Data);
         }
+
+        public async Task<IActionResult> Detail(Guid id)
+        {
+            var result = await _assetService.GetAssetsOverView(id);
+            return StatusCode(result.StatusCode, result.Data);
+        }
     }
 }

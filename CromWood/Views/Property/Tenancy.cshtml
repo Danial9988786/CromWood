@@ -1,0 +1,119 @@
+﻿@model IEnumerable<CromWood.Business.Models.ViewModel.TenancyViewModel>
+
+@{
+    ViewData["Title"] = "Tenancy";
+    Layout = "~/Views/Shared/_PropertyDetail.cshtml";
+}
+
+<div class="tab-pane fade show active border border-top-0 bg-white"
+     role="tabpanel" aria-labelledby="nav-roles-per-tab">
+    <div class="card-header pb-3 border-bottom-0 pt-3 pb-0 bg-white">
+        <div class="row align-items-start">
+            <div class="col-6">
+                <h4 class="heading-style2 mb-0">Tenancy Details</h4>
+            </div>
+            <div class="col-6">
+                <div class="shadow-box ms-auto">
+                    <a class="custom__btn">
+                        <img src="~/assets/img/plus.svg" alt="user__iocn">
+                        Create New Tenancy
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="no_top_search sm48__row_table hide_sort_all pt-0 ">
+        <table id="datatablesSimple" class="tenancy_details_table rounded-top border-bottom-0">
+            <thead>
+                <tr>
+                    <th class="maintable_head">S. No.</th>
+                    <th class="maintable_head">Tenancy ID</th>
+                    <th class="maintable_head">Lessee</th>
+                    <th class="maintable_head">Start Date</th>
+                    <th class="maintable_head">Tenancy Length</th>
+                    <th class="maintable_head">End Date</th>
+                    <th class="maintable_head">Status</th>
+                    <th class="maintable_head"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int counter = 1;
+                }
+                @foreach (var item in Model)
+                {
+                    <tr class="bg-white">
+                        <td class="maintext_size">@counter.</td>
+                        <td class="maintext_size">
+                            <a class="u_n main-text" asp-action="Detail" asp-controller="Tenancy" asp-route-id="@item.Id">
+                                @item.TenancyId
+                            </a>
+                        </td>
+                        <td class="maintext_size">@item.TenancyTenants[0]?.Tenant.FullName</td>
+                        <td class="maintext_size">
+                            @if (item.StartDate == default(DateTime))
+                            {
+                                <span>N/A</span>
+                            }
+                            else
+                            {
+                                <span>@item.StartDate.ToString("dd MMM, yyyy")</span>
+                            }
+                        </td>
+                        <td class="maintext_size">
+                            @if (item.StartDate == default(DateTime) || item.EndDate == default(DateTime))
+                            {
+                                <span>N/A</span>
+                            }
+                            else
+                            {
+                                <span>@(Convert.ToInt32(item.EndDate.Subtract(item.StartDate).Days / (365.25 / 12))) Months</span>
+                            }
+                        </td>
+                        <td class="maintext_size">
+                            @if (item.EndDate == default(DateTime))
+                            {
+                                <span>N/A</span>
+                            }
+                            else
+                            {
+                                <span>@item.EndDate.ToString("dd MMM, yyyy")</span>
+                            }
+                            @{
+                                counter++;
+                            }
+                        </td>
+
+                        <td class="maintext_size text-center">
+                            <div class="active_btn">
+                                Active
+                            </div>
+                        </td>
+                        <td>
+                            <a class="Upd_btn" href="#">
+                                Update
+                            </a>
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".datatable-table thead tr th button.datatable-sorter").append("<span class='c__icon'></span>");
+
+        // Code for datatable manipulation
+        var rowCount = $('.datatable-table tbody tr').length;
+        var threshold = 10;
+        if (rowCount < threshold) {
+            $('.datatable-bottom').hide();
+        } else {
+            $('.datatable-bottom').show();
+        }
+    });
+</script>

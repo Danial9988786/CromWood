@@ -1,0 +1,77 @@
+﻿@model CromWood.Business.Models.ViewModel.NoticeViewModel
+
+<div class="modal-content rounded-0 model-custom-bg">
+    <div class="modal-header h_60 py-2 bg-white">
+        <h5 class="modal-title" id="staticBackdropLabel">Notice Details</h5>
+        <div class="d-flex align-items-center gap-2">
+            <div>
+                <a class="text-decoration-none custom__btn action_dropwown" href="#" role="button" id=""
+                   data-bs-toggle="modal" data-bs-target="#edit_notice_details">
+                    <img src="~/assets/img/edit_icon2.svg" alt="edit_icon">
+                    Edit details
+                </a>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="step_body_content4 mb-3 pe-2">
+            <div class="bg-white h-100 border">
+                <div class="mx-3">
+                    <table class="w-100">
+                        <tbody class="asset_table">
+                            <tr class="bg-white">
+                                <th class="r_heading pt-3 pb-2">Concern</th>
+                                <td class="main-text pt-2 pb-2">
+                                    <span>@Model.Concern.Name</span>
+                                </td>
+                            </tr>
+                            <tr class="bg-white">
+                                <th class="r_heading pt-2 pb-2">Tenant Name</th>
+                                <td class="main-text pt-2 pb-2">
+                                    <span>@Model.Tenant.FullName</span>
+                                </td>
+                            </tr>
+                            <tr class="bg-white">
+                                <th class="r_heading pt-2 pb-2">Tenant Address</th>
+                                <td class="pt-2 pb-2">@Model.Tenant.Address</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <th class="r_heading pt-2 pb-2">AST/LICENSE</th>
+                                <td class="pt-2 pb-2">@Model.ASTLicense</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <th class="r_heading pt-2 pb-2">Section</th>
+                                <td class="pt-2 pb-2">@Model.Section.Name</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <th class="r_heading pt-2 pb-2">Drafted?</th>
+                                <td class="pt-2 pb-2">@Model.IsDrafted</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <th class="r_heading pt-2 pb-2">Tracking Number</th>
+                                <td class="pt-2 pb-2">@Model.TrackingNumber</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <th class="r_heading pt-2 pb-2">Emailed</th>
+                                <td class="pt-2 pb-2">@Model.EmailedOn</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <th class="r_heading pt-2 pb-2">Served & Pictured</th>
+                                <td class="pt-2 pb-2">@Model.ServedAndPictured</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <th class="r_heading pt-2 pb-2">Expiry Dates</th>
+                                <td class="pt-2 pb-2">@Model.ExpiryDate</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <th class="r_heading pt-2 pb-2">Comment</th>
+                                <td class="pt-2 pb-2">@Model.Comment</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

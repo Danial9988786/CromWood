@@ -4,13 +4,14 @@
 
   /* ----- Global setting -------- */
   --main-font: 'Inter', sans-serif;
-  --main-color: #4D6D00;
+  --main-color: hsl(78, 100%, 21%);
   --secondary-color: #6D9000;
   --light-green: #8DB300;
   --red-color: #FF0031;
   --red-dark-color: #AC0223;
   --g-text-color: #2F2E35;
   --gray-text: #5F6D81;
+  --light-gray:#9CA6AF;
   --darkgray: #48586F;
   --bran-color: #1B2600;
   --black-text: #000;
@@ -19,6 +20,14 @@
   --element-bg: #F1F7F6;
   --nav-tab-border: #D1D5DB;
   --sora-font: 'Sora', sans-serif;
+  --sort-font: 400 14px/140% 'Inter', sans-serif;
+  --sort-font-500: 500 14px/140% 'Inter', sans-serif;
+  --sort-font-600: 600 14px/140% 'Inter', sans-serif;
+  --sort-font-700: 700 14px/140% 'Inter', sans-serif;
+  /* ----Sora font ----- */
+  --sora-sort-font: 400 14px/140% 'Sora', sans-serif;
+  --sora-sort-font-500: 500 14px/140% 'Sora', sans-serif;
+  --sora-sort-font-600: 600 14px/140% 'Sora', sans-serif;
 
   /* ------------- */
   --bs-blue: #0d6efd;
@@ -104,22 +113,89 @@
 }
 
 .main-text {
-  color: var(--main-color);
-  font-weight: 500;
-  text-decoration: none;
+  color: var(--main-color)!important;
+  font-weight: 500!important;
   font-size: 14px!important;
+  text-decoration: none;
 }
-
+.font14_inter{
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%;
+}
+.green_12 {
+  color: var(--main-color)!important;
+  font-weight: 500!important;
+  font-size: 12px!important;
+  text-decoration: none;
+}
+.gray_12{
+  color: #768293;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%;
+}
+.black_light12{
+  color: #2F2E35;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; 
+}
+.black_12{
+  color: #000;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%;
+}
+.gray_14{
+  color: #768293;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%;
+}
+.black_14{
+  color: #000;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%;
+}
+.sora_16{
+  color:#2F2E35;
+  font-family: Sora;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; 
+  text-transform: capitalize;
+}
 .main-bg {
   background-color: var(--main-color);
 }
-
+.lh_160 {
+  line-height: 160% !important;
+}
 .g-text-color {
   color: var(--g-text-color);
 }
 
 .gray-text {
   color: var(--gray-text);
+}
+
+.light_gray{
+  color:var(--light-gray);
 }
 
 .secondayr-color {
@@ -164,15 +240,12 @@
 }
 
 .mdblacktext {
-  font-family: var(--main-font);
   color: var(--black-text);
-  font-size: 14px;
+  font: var(--sort-font);
 }
 
 .maintext_size {
-  font-size: 14px;
-  font-family: var(--main-font);
-  font-weight: 500;
+  font:var(--sort-font-500);
 }
 
 .model-custom-bg {
@@ -184,7 +257,11 @@
 }
 
 /*---------------- Custom class End here -----------------------*/
-
+.collapsing {
+  -webkit-transition: none;
+  transition: none;
+  display: none;
+}
 main{
   padding-left: 4px;
   padding-right: 4px;
@@ -201,6 +278,14 @@ body {
   background-color: var(--bs-body-bg);
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
 }
 
 hr {
@@ -378,7 +463,6 @@ sub {
 sup {
   top: -0.5em;
 }
-
 
 a:not([href]):not([class]),
 a:not([href]):not([class]):hover {
@@ -2782,7 +2866,7 @@ textarea.form-control-lg {
 }
 
 .form-check-input:focus {
-  border-color: #86b7fe;
+  border-color: none;
   outline: 0;
   box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
@@ -6622,6 +6706,7 @@ fieldset:disabled .btn {
 }
 
 .modal-header {
+  height: 45px;
   display: flex;
   flex-shrink: 0;
   align-items: center;
@@ -12603,7 +12688,7 @@ body {
 .sb-nav-fixed #layoutSidenav #layoutSidenav_nav .sb-sidenav .sb-sidenav-menu {
   overflow-y: auto;
   scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
 }
 .sb-nav-fixed #layoutSidenav #layoutSidenav_nav .sb-sidenav .sb-sidenav-menu::-webkit-scrollbar{
   display: none;  /* Safari and Chrome */
@@ -12683,7 +12768,7 @@ body {
 .sb-sidenav .sb-sidenav-menu .nav .nav-link {
   display: flex;
   align-items: center;
-  position: relative;
+  /* position: relative; */
 }
 
 .sb-sidenav .sb-sidenav-menu .nav .nav-link .sb-nav-link-icon {
@@ -12716,14 +12801,16 @@ a.nav-link.myc:not(.collapsed) {
   font-weight: 500;
   margin-bottom: 0;
 }
-a.nav-link.myc:not(.collapsed) + div.collapse {
+a.nav-link.myc:not(.collapsed) + div.collapse,
+.dropdown_tooltip + div.collapse{
   background-color: var(--element-bg)!important;
-  transition: 0s!important;
   border-bottom-right-radius: 5px!important;
   border-bottom-left-radius: 5px!important;
-  margin-right: 5px;
+  margin-right: 7px;
   margin-bottom: 8px;
 }
+
+
 .sb-sidenav-menu-nested.nav .nav-link{
   color: #333333!important;
   font-weight: 400!important;
@@ -12780,7 +12867,7 @@ a.nav-link.myc:not(.collapsed) .sb-sidenav-collapse-arrow svg path{
 
 .sb-sidenav-dark .sb-sidenav-menu .nav-link:not(.active):hover {
   font-weight: 500;
-  transition: .3s ease-in-out;
+  /* transition: .3s ease-in-out; */
   background-color: var(--element-bg) !important;
   border-radius: 5px;
 }

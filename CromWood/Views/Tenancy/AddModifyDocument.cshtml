@@ -2,26 +2,50 @@
 
 <div class="modal-content rounded-0">
     <div class="modal-header py-2">
-        <h5 class="modal-title" id="staticBackdropLabel">Add Document</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">Upload File</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
-    <div class="modal-body">
+
+    <div class="modal-body p-0">
         <form asp-action="AddModifyDocument" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @Html.HiddenFor(m=>m.Id)
-            <div class="form-group">
-                <label asp-for="DocumentName" class="control-label"></label>
-                <input asp-for="DocumentName" class="form-control" />
-                <span asp-validation-for="DocumentName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input asp-for="File" class="form-control" />
-            </div>
 
-            @Html.HiddenFor(m=>m.TenancyId)
-            @Html.HiddenFor(m=>m.DocUrl)
-            <div  class="text-end border-top pt-3 mt-5">
-                <input class="custom__btn2" type="submit" value="Add Document" />
+            <div class="px-3 pt-3">
+                <div class="w-100 d-inline-block">
+                    <input class="w-100 form-control" asp-for="DocumentName" placeholder="Enter Document Name" />
+                </div>
+                <div class="row mb-2 mt-3 align-items-center">
+                    <div class="col-md-4">
+                        <h4 class="lc_label d-inline-block ">File (up to 128 mb)</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="">
+                            <a class="cf_btn custom__filetype" onclick="fileBtn.click()">
+                                <img class="pe-1"
+                                     src="~/assets/img/green__plus_icon.svg" alt="user__iocn">
+                                CHOOSE FILE
+                            </a>
+                            <input asp-for="File" id="fileBtn" hidden class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="popup_footer_fixed text-end border-top d-flex justify-content-between">
+                <div class="shadow-box">
+                    <a class="custom__btn" data-bs-dismiss="modal">
+                        Cancel
+                    </a>
+                </div>
+                @Html.HiddenFor(m=>m.TenancyId)
+                @Html.HiddenFor(m=>m.DocUrl)
+                <div class="shadow-box ms-auto">
+                    <a class="custom__btn2" onclick="submitButton.click()">
+                        <img src="~/assets/img/save-role.svg" alt="user__iocn"> Upload
+                    </a>
+                    <input id="submitButton" hidden class="custom__btn2" type="submit" value="Add Document" />
+
+                </div>
             </div>
         </form>
     </div>

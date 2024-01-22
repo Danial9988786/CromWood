@@ -1,11 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CromWood.Data.Entities.Default;
+using System.ComponentModel.DataAnnotations;
 
 namespace CromWood.Data.Entities
 {
-    public class PropertyKey
+    public class PropertyKey : DBTable
     {
         public Guid Id { get; set; }
-        public Guid PropertyKeyType { get; set; }
+        public Guid PropertyKeyTypeId { get; set; }
+        public PropertyKeyType PropertyKeyType { get; set; }
         [MaxLength(50)]
         public string Name { get; set; }
         public int Quantity { get; set; }

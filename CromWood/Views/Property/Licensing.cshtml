@@ -9,4 +9,8 @@
     string propertyId = Guid.Parse(rawId ?? Guid.Empty.ToString()).ToString();
 }
 
+<div class="tab-pane fade show active border border-top-0 bg-white no_searchontable"
+     id="lincensing_cer_tab" role="tabpanel" aria-labelledby="nav-roles-per-tab">
 @await Html.PartialAsync("~/Views/LicenseCertification/Index.cshtml", Model,new ViewDataDictionary(this.ViewData) { { "PropId", propertyId } })
+
+</div>

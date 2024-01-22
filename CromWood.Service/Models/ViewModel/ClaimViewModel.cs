@@ -1,8 +1,9 @@
-﻿using CromWood.Data.Entities.Default;
+﻿using CromWood.Data.Entities;
+using CromWood.Data.Entities.Default;
 
 namespace CromWood.Business.Models.ViewModel
 {
-    public class ClaimViewModel
+    public class ClaimViewModel: DBTable
     {
         public Guid Id { get; set; }
         public Guid TenantId { get; set; }

@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddLogging();
 builder.Services.AddMemoryCache();
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = null); ;
 builder.Services.AddHttpContextAccessor();
 
 // Connection to database using connection string.
@@ -31,6 +31,9 @@ builder.Services.AddScoped<ILicenseCertificateRepository, LicenseCertificateRepo
 builder.Services.AddScoped<ITenancyRepository, TenancyRepository>();
 builder.Services.AddScoped<ITenantRepository, TenantRepository>();
 builder.Services.AddScoped<INoticeClaimsRepository, NoticeClaimsRepository>();
+builder.Services.AddScoped<IComplaintRepository, ComplaintRepository>();
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+builder.Services.AddScoped<IPropertyAssesmentRepository, PropertyAssesmentRepository>();
 builder.Services.AddScoped(typeof(ILookupRepository<>), typeof(LookupRepository<>));
 
 builder.Services.AddScoped<ITestService, TestService>();
@@ -44,6 +47,9 @@ builder.Services.AddScoped<ILicenseCertificateService, LicenseCertificateService
 builder.Services.AddScoped<ITenancyService, TenancyService>();
 builder.Services.AddScoped<ITenantService, TenantService>();
 builder.Services.AddScoped<INoticeClaimsService, NoticeClaimsService>();
+builder.Services.AddScoped<IComplaintService, ComplaintService>();
+builder.Services.AddScoped<IMessageService, MessageService>();
+builder.Services.AddScoped<IPropertyAssesmentService, PropertyAssesmentService>();
 builder.Services.AddScoped(typeof(ILookupService<>), typeof(LookupService<>));
 
 

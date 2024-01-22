@@ -3,46 +3,134 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int counter = 1;
 }
 
-<h1>Index</h1>
+<ol class="breadcrumb align-items-end mb-10 mt-3">
+    <li class="breadcrumb-item">
+        <a href="index.html"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
+    </li>
+    <li class="breadcrumb-item active">Tenants</li>
+</ol>
+<div class="row">
+    <div class="col-xl-6">
+        <h1 class="mt-2 mb-3 custom_h">All Tenants</h1>
+    </div>
+    <div class="col-xl-6">
+        <span class="">
+            <div class="shadow-box ms-auto">
+                <span class="custom__btn">
+                    <a >
+                        <img src="~/assets/img/explor_icon.svg" alt="">
+                        Export XLS
+                    </a>
+                </span>
+            </div>
+        </span>
+    </div>
+</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FullName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NIN)
-            </th>
-            
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                <a asp-action= "Detail" asp-route-id="@item.Id">
-                    @Html.DisplayFor(modelItem => item.FullName)
-                </a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NIN)
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="NeedaFillter sm48__row_table hide_sort_all pt-0 table_bottom_border">
+
+    <div class="filter_btn ms-auto">
+        <a class="" href="#" role="button" id="fil_ter" data-bs-toggle="dropdown"
+           aria-expanded="false">
+            <img class="pe-1" src="~/assets/img/filter-lines.svg" alt="user__iocn">
+            Filter
+            <img class="ps-2" src="~/assets/img/filter_down_arrow.svg">
+        </a>
+
+        <div class="filter___c dropdown-menu dropdown-menu-end shadow border rounded-0 p-3"
+             aria-labelledby="fil_ter">
+            <div class="input-group mb-3">
+                <span class="input-group-text bg-transparent" id="srf">
+                    <img src="~/assets/img/search-gray.svg" alt="search_iocn">
+                </span>
+                <input type="text" class="form-control border-start-0 ps-0"
+                       placeholder="Search for filters" aria-label="Username" aria-describedby="srf">
+            </div>
+            <ul class="list-unstyled ft__list">
+                <li>
+                    <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded"
+                       href="#">
+                        <span>My Filter 1</span>
+                        <span class="i__gro">
+                            <span class="ed pe-2">
+                                <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
+                            </span>
+                            <span class="de">
+                                <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
+                            </span>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded"
+                       href="#">
+                        <span>My Filter 2</span>
+                        <span class="i__gro">
+                            <span class="ed pe-2">
+                                <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
+                            </span>
+                            <span class="de">
+                                <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
+                            </span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+            <div class="mark__btn text-center">
+                <img class="me-1" src="~/assets/img/green__plus_icon.svg" />
+                <a href="#" class="text-uppercase">add new Filter</a>
+            </div>
+        </div>
+    </div>
+
+    <table id="datatablesSimple" class="border rounded-top border-bottom-0">
+        <thead>
+            <tr>
+                <th class="maintable_head">S. No.</th>
+                <th class="maintable_head">Name</th>
+                <th class="maintable_head">Phone Number</th>
+                <th class="maintable_head">Email Address</th>
+                <th class="maintable_head">National Insurance Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) {
+            <tr>
+                <td class="maintext_size">@counter.</td>
+                <td class="maintext_size">
+                        <a class="u_n main-text" asp-action="Detail" asp-route-id="@item.Id">
+                        @item.FullName
+                    </a>
+                </td>
+                <td class="maintext_size">@item.Phone</td>
+                <td class="maintext_size">@item.Email</td>
+                <td class="maintext_size">@item.NIN</td>
+                </tr>
+                counter = counter + 1;
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Code for datatable manipulation
+        var rowCount = $('.datatable-table tbody tr').length;
+        var threshold = 10;
+        if (rowCount < threshold) {
+            $('.datatable-bottom').hide();
+        } else {
+            $('.datatable-bottom').show();
+        }
+
+        var filter = $(".filter_btn");
+        $(".datatable-top").append(filter);
+    });
+    </script>

@@ -13,12 +13,12 @@ namespace CromWood.Data.Repository.Implementation
 
         public async Task<IEnumerable<Permission>> GetPermission()
         {
-            return await _context.Permissions.ToListAsync();
+            return await _context.Permissions.OrderBy(x=>x.PermissionDisplayName).ToListAsync();
         }
 
         public async Task<IEnumerable<Role>> GetRoles()
         {
-            return await _context.Roles.Include(x => x.Users).ToListAsync();
+            return await _context.Roles.Include(x => x.Users).OrderBy(x=>x.Name).ToListAsync();
         }
 
         public async Task<Role> GetRoleByIdAsync(Guid Id)

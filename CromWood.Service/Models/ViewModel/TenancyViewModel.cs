@@ -11,5 +11,7 @@ namespace CromWood.Business.Models.ViewModel
         public float RentAmount { get; set; }
         public RentFrequency RentFrequency { get; set; }
         public PropertyViewModel Property { get; set; }
+
+        public List<TenancyTenantModel> TenancyTenants { get; set; }
     }
 }

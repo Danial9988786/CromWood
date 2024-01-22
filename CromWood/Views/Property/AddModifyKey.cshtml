@@ -5,54 +5,117 @@
 
 @{
     var asyncKeyType = await _lookupService.GetAllItems();
-    var KeyTypes = new SelectList(asyncKeyType.Data, "Id", "Name");
+    var KeyTypes = asyncKeyType.Data;
+
+    var selectKeys = new SelectList(asyncKeyType.Data, "Id", "Name");
 }
 
-<div class="modal-content rounded-0">
-    <div class="modal-header py-2">
-        <h5 class="modal-title" id="staticBackdropLabel">Add Key</h5>
+
+<div class="modal-content rounded-0 model-custom-bg">
+    <div class="modal-header py-2 bg-white">
+        <h5 class="modal-title" id="staticBackdropLabel">Add New Key</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
-    <div class="modal-body">
-        <form asp-action="AddModifyKey" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @Html.HiddenFor(m=>m.Id)
-            <div class="form-group">
-                <label asp-for="PropertyKeyType" class="control-label"></label>
-                <select asp-for="PropertyKeyType" asp-items="KeyTypes" class="form-control"></select>
-                <span asp-validation-for="PropertyKeyType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Quantity" class="control-label"></label>
-                <input asp-for="Quantity" type="number" class="form-control" />
-                <span asp-validation-for="Quantity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AdditionalInformation" class="control-label"></label>
-                <input asp-for="AdditionalInformation" class="form-control" />
-                <span asp-validation-for="AdditionalInformation" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="SharedWithTenant" /> @Html.DisplayNameFor(model => model.SharedWithTenant)
-                    </label>
+    <form asp-action="AddModifyKey" enctype="multipart/form-data">
+        @Html.HiddenFor(m=>m.Id)
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3 border p-3 bg-white">
+                        <h5 class="modal-title" id="staticBackdropLabel">Key Type</h5>
+                        <div class="row">
+                            <select id="key-select" asp-items="selectKeys" hidden asp-for="PropertyKeyTypeId"></select>
+                            @foreach (var keyType in KeyTypes)
+                            {
+                                string url = "'" + keyType.Id + "'";
+                                <div class="col-md-2 k_t" id="key-@keyType.Id" onclick="changeKeyFromUI(@url)">
+                                    <img src="~/assets/img/@keyType.Icon" alt="frame-image">
+                                    <span class="pagagraph">@keyType.Name</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
                 </div>
-                <span asp-validation-for="SharedWithTenant" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input asp-for="ImageFile" class="form-control" />
+
+            <div class="mb-3 border p-3 bg-white">
+                <h5 class="modal-title" id="staticBackdropLabel">Additional Info</h5>
+                <div class="row">
+                    <div class="col-md-9 i_n_m mb-4">
+                        <label for="exampleFormControlInput1" class="pagagraph mb-1">Key Name</label>
+                        <input type="text" class="form-control" asp-for="Name"
+                               placeholder="Enter Key Name">
+
+                    </div>
+                    <div class="col-md-3">
+                        <div class="i_n_m pt-1">
+                            <label for="exampleFormControlInput1" class="pagagraph">Quantity</label>
+                            <input type="number" class="form-control customselect_input" asp-for="Quantity"
+                                   placeholder="Quantity">
+                        </div>
+                    </div>
+                    <div class="a_n_key">
+                        <textarea id="w3review" rows="4" cols="50"
+                                  placeholder="Enter additional information" asp-for="AdditionalInformation"></textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-5">
+                        <label for="exampleFormControlInput1" class="form-label mt-2">Add Image</label><br>
+                        <a class="cf_btn" onclick="imageFileUpload.click()">
+                            <img src="~/assets/img/green__plus_icon.svg" alt="user__iocn">&nbsp;
+                            CHOOSE FILE
+                        </a>
+                        <input asp-for="ImageFile" id="imageFileUpload" hidden class="form-control" />
+                    </div>
+
+                    <div class="col-sm-7 mt-3">
+                        <div class="form-group">
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    @Html.CheckBoxFor(m => m.SharedWithTenant, new { @class = "form-check-input"})
+                                    <label class="form-check-label pagagraph"
+                                           for="Sharing">Shared with Tenant</label>
+                                </label>
+                            </div>
+                            <span asp-validation-for="SharedWithTenant" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            @Html.HiddenFor(m=>m.PropertyId)
-            @Html.HiddenFor(m=>m.ImageUrl)
-            <div class="custom__btn2 text-end border-top pt-3 mt-5">
-                <input type="submit" value="Add Key" />
+        </div>
+        <div class="popup_footer_fixed border-top bg-white">
+            <div class="shadow-box ms-auto">
+                <a class="custom__btn2" onclick="addKeyBtn.click()">
+                    <img class="pe-1" src="~/assets/img/save-role.svg" alt="save role icon">
+                    Save Key
+
+                </a>
             </div>
-        </form>
-    </div>
+        </div>
+        @Html.HiddenFor(m=>m.PropertyId)
+        @Html.HiddenFor(m=>m.ImageUrl)
+        <input type="submit" id="addKeyBtn" hidden value="Add Key" />
+
+    </form>
 </div>
+
+
+<script>
+    // Starting Key Id
+    keyId = $("#key-select").val();
+    $(`#key-${keyId}`).addClass('phy_key');
+
+    $("#key-select").change(function (event) {
+        keyId = event.target.value;
+    })
+
+    function changeKeyFromUI(kId) {
+        // Set Active class
+        $(`.phy_key`).removeClass('phy_key');
+        $(`#key-${kId}`).addClass('phy_key');
+        $("#key-select").val(kId);
+    }
+
+</script>

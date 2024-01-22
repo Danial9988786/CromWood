@@ -11,7 +11,7 @@
     var havePermission = await _authService.CheckPermission(PermissionKeyConstant.AssetManagement, PermissionConstant.CanWrite);
 }
 
-<ol class="breadcrumb align-items-end mb-3 mt-3">
+<ol class="breadcrumb align-items-end mb-10 mt-3">
     <li class="breadcrumb-item">
         <a asp-action="Index" asp-controller="Test"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
     </li>
@@ -21,28 +21,33 @@
     <div class="col-xl-6">
         <h1 class="mt-2 mb-3 custom_h">Asset Management</h1>
     </div>
-    <div class="col-xl-6 text-end">
-        <div class="d-flex justify-content-end">
-            <div class="pare__btn shadow-box">
-                <form asp-action="Export" method="post">
-                    <a onclick="submitBtn.click()" class="custom__btn">
-                        <img src="~/assets/img/explor_icon.svg" class="pe-2" alt="">
-                        Export XLS
-                        <img src="~/assets/img/down_arrow.svg" class="ps-2" alt="">
+
+    <div class="col-xl-6">
+        <div class="pair_btn">
+            <div class="shadow-box ms-auto">
+                <span class="custom__btn">
+                    <form asp-action="Export" method="post">
+                        <a onclick="submitBtn.click()">
+                            <img src="~/assets/img/explor_icon.svg" class="pe-2" alt="">
+                            Export XLS
+                        </a>
+                        <input id="submitBtn" type="submit" hidden />
+                    </form>
+                </span>
+                <span class="custom__btn2">
+                    <a onclick="CreateAsset()">
+                        <img src="~/assets/img/add_new_icon.svg" class="pe-2" alt="">
+                        add new Asset
                     </a>
-                    <input id="submitBtn" type="submit" hidden />
-                </form>
-                <a class="custom__btn2" onclick="CreateAsset()">
-                    <img src="~/assets/img/add_new_icon.svg" class="pe-2" alt="">
-                    add new Asset
-                </a>
+                </span>
             </div>
         </div>
-        
     </div>
+
+
 </div>
 
-<!-- ----filter start here --- -->
+<!-------filter start here ------>
 <div class="filter_btn ms-auto">
     <a class="" href="#" role="button" id="fil_ter" data-bs-toggle="dropdown" aria-expanded="false">
         <img class="pe-1" src="~/assets/img/filter-lines.svg" alt="user__iocn">
@@ -95,7 +100,7 @@
         </div>
     </div>
 </div>
-<!----------- filter end here  -------------->
+<!----------- filter end here  --------->
 
 
 <div class="user__list as__menag mt-1 sm48__row_table hide_sort_all pt-0 table_bottom_border">
@@ -117,7 +122,7 @@
             {
                 <tr>
                     <td class="maintext_size">
-                        @(index + 1)
+                        @(index + 1).
                         @{
                             index = index + 1;
                         }
@@ -143,43 +148,43 @@
 </div>
 
 @section Scripts {
-<script>
-    $(document).ready(function () {
-        $(".datatable-table thead tr th button.datatable-sorter").append("<span class='c__icon'></span>");
+    <script>
+        $(document).ready(function () {
+            $(".datatable-table thead tr th button.datatable-sorter").append("<span class='c__icon'></span>");
 
-        // Code for datatable manipulation
-        var rowCount = $('.datatable-table tbody tr').length;
-        var threshold = 10;
-        if (rowCount < threshold) {
-            $('.datatable-bottom').hide();
-        } else {
-            $('.datatable-bottom').show();
-        }
+            // Code for datatable manipulation
+            var rowCount = $('.datatable-table tbody tr').length;
+            var threshold = 10;
+            if (rowCount < threshold) {
+                $('.datatable-bottom').hide();
+            } else {
+                $('.datatable-bottom').show();
+            }
 
-        var filter = $(".filter_btn");
-        $(".datatable-top").append(filter);
-    });
-
-    function CreateAsset() {
-        var havePermission = '@havePermission.ToString()';
-        if (havePermission == 'False') {
-            $.get('/Auth/NotAuthorizedJSON', function (result) {
-                window.location.pathname="/Auth/NotAuthorized"
-            });
-            return;
-        }
-        var url = "/Asset/AddAsset";
-        $("#assetDialogBody").load(url, function () {
-            // This is done to add validation to partial view, as they don't support validationscript partial.
-            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
-                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
-                });
-            });
-            $("#assetDialogBody").css("max-width", "950px");
-            $("#assetDialogBody").css("width", "100%");
-            $("#assetDialog").modal("show");
+            var filter = $(".filter_btn");
+            $(".datatable-top").append(filter);
         });
-    }
-</script>
+
+        function CreateAsset() {
+            var havePermission = '@havePermission.ToString()';
+            if (havePermission == 'False') {
+                $.get('/Auth/NotAuthorizedJSON', function (result) {
+                    window.location.pathname = "/Auth/NotAuthorized"
+                });
+                return;
+            }
+            var url = "/Asset/AddAsset";
+            $("#assetDialogBody").load(url, function () {
+                // This is done to add validation to partial view, as they don't support validationscript partial.
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                    $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                    });
+                });
+                $("#assetDialogBody").css("max-width", "950px");
+                $("#assetDialogBody").css("width", "100%");
+                $("#assetDialog").modal("show");
+            });
+        }
+    </script>
 
             }

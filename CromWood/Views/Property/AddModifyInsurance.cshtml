@@ -2,6 +2,103 @@
 
 <div class="modal-content rounded-0">
     <div class="modal-header py-2">
+        <h5 class="modal-title" id="staticBackdropLabel">Insurance Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+
+    <div class="modal-body p-0 pt-3 pb-3">
+        <form asp-action="AddModifyInsurance" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(x=>x.Id)
+            <div class="px-3">
+                <div class="row">
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h4 class="lc_label d-inline-block pt-2">Insurer</h4>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="mb-3">
+                                    <select class="form-select select_font_14 pagagraph"
+                                            asp-for="Insurer">
+                                        <option selected>Select Insurer</option>
+                                        <option value="Owner">Owner</option>
+                                        <option value="Freeholder">Freeholder</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h4 class="lc_label d-inline-block pt-2">Start Date</h4>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="mb-3">
+                                    <div class="input-container">
+                                        <input type="date" asp-for="StartDate">
+                                        <div class="calendar-icon">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h4 class="lc_label d-inline-block pt-2">End Date</h4>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="mb-3">
+                                    <div class="input-container">
+                                        <input type="date" asp-for="EndDate">
+                                        <div class="calendar-icon">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h4 class="lc_label d-inline-block pt-2">File (up to 128 mb)</h4>
+                            </div>
+                            <div class="col-md-8 mt-1">
+                                <div class="mb-3">
+                                    <a class="cf_btn" onclick="fileUpload.click()" role="button" data-bs-toggle="dropdown"
+                                       aria-expanded="false">
+                                        <img src="~/assets/img/green__plus_icon.svg" alt="user__iocn">
+                                        CHOOSE FILE
+                                    </a>
+                                    <input asp-for="File" id="fileUpload" hidden class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @Html.HiddenFor(m=>m.PropertyId)
+            @Html.HiddenFor(m=>m.FileUrl)
+            <div class="popup_footer_fixed text-end border-top d-flex justify-content-between"
+                 data-bs-dismiss="modal">
+                <div class="shadow-box">
+                    <a class="custom__btn" href="#">
+                        Cancel
+                    </a>
+                </div>
+                <div class="shadow-box ms-auto">
+                    <a class="custom__btn2" onclick="submitBtn.click()" data-bs-toggle="modal" data-bs-target="#iss">
+                        <img src="~/assets/img/save-role.svg" alt="user__iocn">
+                        Save
+                    </a>
+                    <input type="submit" id="submitBtn" hidden value="Add Insurance" />
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+@* <div class="modal-content rounded-0">
+    <div class="modal-header py-2">
         <h5 class="modal-title" id="staticBackdropLabel">Add Insurance</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
@@ -35,3 +132,15 @@
         </form>
     </div>
 </div>
+ *@
+
+   <script>
+    // For Select2 Functionality
+    $('.select_font_14').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: true,
+        dropdownCssClass: "select_font_14",
+    });
+</script>
