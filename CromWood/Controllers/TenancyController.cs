@@ -335,6 +335,122 @@ namespace CromWood.Controllers
             return View(result.Data);
         }
 
+        // Messages
 
+        public async Task<IActionResult> Messages(Guid id)
+        {
+            var result = await _tenancyService.GetTenancyMessages(id);
+            return View(result.Data);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddModifyMessage(Guid tenancyId, Guid messageId)
+        {
+            if (messageId != Guid.Empty)
+            {
+                var result = await _tenancyService.GetTenancyMessage(messageId);
+                return PartialView(result.Data);
+            }
+            else
+            {
+                return PartialView(new TenancyMessageModel() { TenancyId = tenancyId });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddModifyMessage([FromForm] TenancyMessageModel messageReq)
+        {
+            var result = await _tenancyService.AddModifyMessage(messageReq);
+            return RedirectToAction("Messages", new { id = messageReq.TenancyId });
+        }
+
+        public async Task<IActionResult> ViewMessage(Guid messageId)
+        {
+            var result = await _tenancyService.GetTenancyMessage(messageId);
+            return PartialView(result.Data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteMessage(Guid messageId)
+        {
+            var result = await _tenancyService.DeleteMessage(messageId);
+            return StatusCode(result.StatusCode, result.Data);
+        }
+
+        // Unit Utilities
+        public async Task<IActionResult> UnitUtilities(Guid id)
+        {
+            var result = await _tenancyService.GetUnitUtilities(id);
+            return View(result.Data);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddModifyUnitUtility(Guid tenancyId, Guid id)
+        {
+            if (id != Guid.Empty)
+            {
+                var result = await _tenancyService.GetUnitUtility(id);
+                return PartialView(result.Data);
+            }
+            else
+            {
+                return PartialView(new TenancyMessageModel() { TenancyId = tenancyId });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddModifyUnitUtility(TenancyMessageModel messageReq)
+        {
+            var result = await _tenancyService.AddModifyUnitUtility(messageReq);
+            return RedirectToAction("Messages", new { id = messageReq.TenancyId });
+        }
+
+        public async Task<IActionResult> ViewUnitUtility(Guid id)
+        {
+            var result = await _tenancyService.GetTenancyMessage(id);
+            return PartialView(result.Data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteUnitUtility(Guid id)
+        {
+            var result = await _tenancyService.DeleteUnitUtility(messageId);
+            return StatusCode(result.StatusCode, result.Data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddModifyUnitUtilityReading(TenancyMessageModel messageReq)
+        {
+            var result = await _tenancyService.AddModifyUnitUtilityReading(messageReq);
+            return RedirectToAction("Messages", new { id = messageReq.TenancyId });
+        }
+
+        // Unit Utilities related methods
+        // 1. All
+        // 2. Add Utilities
+        // 3. Add Reading/ Edit Reading
+        // 4. View Utilities
+        // 5. Delete
+
+        // Statement related methods
+        // 1. All
+        // 2. Add Statment
+        // 3. Add Transaction
+        // 4. View Statement
+        // 5. Delete
+
+        // Recurring charges related methods
+        // 1. All
+        // 2. Add RC
+        // 3. Add Transaction to RC
+        // 4. View RC
+        // 5. Delete
+
+        // Payment Plans related methods
+        // 1. All
+        // 2. Add PP
+        // 3. Add Transaction to PP
+        // 4. View PP
+        // 5. Delete
     }
 }

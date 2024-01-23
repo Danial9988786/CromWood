@@ -297,5 +297,74 @@ namespace CromWood.Business.Services.Implementation
             }
         }
 
+        public async Task<AppResponse<ICollection<TenancyMessageViewModel>>> GetTenancyMessages(Guid id)
+        {
+            try
+            {
+                var result = await _tenancyRepository.GetTenancyMessages(id);
+                var mappedResult = _mapper.Map<ICollection<TenancyMessageViewModel>>(result);
+                return ResponseCreater<ICollection<TenancyMessageViewModel>>.CreateSuccessResponse(mappedResult, "Tenancies messages loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<ICollection<TenancyMessageViewModel>>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<TenancyMessageModel>> GetTenancyMessage(Guid messageId)
+        {
+            try
+            {
+                var result = await _tenancyRepository.GetTenancyMessage(messageId);
+                var mappedResult = _mapper.Map<TenancyMessageModel>(result);
+                return ResponseCreater<TenancyMessageModel>.CreateSuccessResponse(mappedResult, "Message loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<TenancyMessageModel>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+        public async Task<AppResponse<int>> AddModifyMessage(TenancyMessageModel message)
+        {
+            try
+            {
+                var mappedMessage = _mapper.Map<TenancyMessage>(message);
+                var result = 0;
+                if (message.Attachment != null)
+                {
+                    // In case of Edit, delete prev file & add new one
+                    if (mappedMessage.Id != Guid.Empty)
+                    {
+                        await _fileUploader.Delete(mappedMessage.AttachmentUrl, "tenancymessage");
+                    }
+                    mappedMessage.AttachmentUrl = await _fileUploader.Upload(message.Attachment, "tenancymessage");
+                }
+
+                result = await _tenancyRepository.AddModifyMessage(mappedMessage);
+                return ResponseCreater<int>.CreateSuccessResponse(result, "Note add/update successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
+        }
+        public async Task<AppResponse<int>> DeleteMessage(Guid messageId)
+        {
+            try
+            {
+                var attachmentUrl = await _tenancyRepository.DeleteMessage(messageId);
+                if (attachmentUrl != null) await _fileUploader.Delete(attachmentUrl, "tenancymessage");
+                return ResponseCreater<int>.CreateSuccessResponse(1, "Message deleted successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
+        }
+
     }
 }

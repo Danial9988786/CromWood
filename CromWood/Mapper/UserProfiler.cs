@@ -50,6 +50,9 @@ namespace CromWood.Mapper
             CreateMap<TenancyNote, TenancyNoteModel>().ReverseMap();
             CreateMap<TenancyDocument, TenancyDocumentModel>().ReverseMap();
 
+            CreateMap<TenancyMessage, TenancyMessageViewModel>().ReverseMap();
+            CreateMap<TenancyMessage, TenancyMessageModel>().ReverseMap();
+
             CreateMap<Notice, NoticeModel>().ReverseMap();
             CreateMap<Notice, NoticeViewModel>().ReverseMap();
 

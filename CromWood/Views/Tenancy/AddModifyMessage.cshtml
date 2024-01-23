@@ -1,0 +1,176 @@
+﻿@using CromWood.Business.Services.Interface;
+@model CromWood.Business.Models.TenancyMessageModel
+@inject ITenancyService _tenancyService;
+@{
+    var tenantsAsync = await _tenancyService.GetTenancyTenants(Model.TenancyId);
+    var tenants = tenantsAsync.Data;
+}
+
+<div class="modal-content rounded-0 model-custom-bg">
+    <div class="modal-header py-2 bg-white">
+        <h5 class="modal-title" id="staticBackdropLabel">New Message</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <div class="step_body_content3 mb-3 pe-2">
+            <div class="mb-3 border p-3 bg-white h-100">
+                <form asp-action="AddModifyMessage">
+                    @Html.HiddenFor(m=>m.Id)
+                    @Html.HiddenFor(m=>m.TenancyId)
+                    @Html.HiddenFor(m=>m.AttachmentUrl)
+                    <div class="row mb-2 pb-1">
+                        <div class="col-md-2">
+                            <label for="" class="form-label mb-0">Tenants</label>
+                        </div>
+                        <div class="col-md-10">
+                            @foreach (var tenant in tenants)
+                            {
+                                <p class="pagagraph mb-0">@tenant.FullName (@tenant.Email)</p>
+                            }
+                        </div>
+                    </div>
+                    <div class="row mb-2 pb-1 align-items-center">
+                        <div class="col-md-2">
+                            <label for="" class="form-label mb-0">Send Via</label>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="email_whatapp">
+                                <span class="email__box">
+                                    <input type="radio" id="Email" name="Email" asp-for="Medium" value="Email" checked>
+                                    <label for="Email">
+                                        <span class="w__1">
+                                            <span class="text-white font14_inter text-capitalize">Email</span>
+                                            <img src="~/assets/img/envelop_w_icon.svg" alt="email_icon">
+                                        </span>
+                                        <span class="b__2">
+                                            <span class="text-black font14_inter text-capitalize">Email</span>
+                                            <img src="~/assets/img/envelop_b_icon.svg" alt="email_icon">
+                                        </span>
+                                    </label>
+                                </span>
+                                <span class="whatapp__box">
+                                    <input type="radio" id="Whatsapp" name="Whatsapp" asp-for="Medium" value="Whatsapp">
+                                    <label for="Whatsapp">
+                                        <span class="w__1">
+                                            <span class="text-white font14_inter text-capitalize">whatapp</span>
+                                            <img src="~/assets/img/whatapp_white_icon.svg" alt="whatapp_icon">
+                                        </span>
+                                        <span class="b__2">
+                                            <span class="text-black font14_inter text-capitalize">whatapp</span>
+                                            <img src="~/assets/img/whatapp_icon.svg" alt="email_icon">
+                                        </span>
+                                    </label>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input__field w-100">
+                        <input type="text" class="form-control" asp-for="Subject" placeholder="Enter Subject Here">
+                    </div>
+                    <div class="mt-2 pt-1">
+                        <!-- texteditor -->
+                        <textarea id="editor" asp-for="Message">
+                        </textarea>
+                    </div>
+                    <div class="mt-3">
+                        <label for="Attachments" class="form-label me-3">Attachments</label>
+                        <a for="formFileLg" class="c_file form-label custom__filetype" onclick="formFileLg.click()">
+                            <img class="pe-1"
+                                 src="~/assets/img/chosefile.svg" alt="chosefile">
+                            CHOOSE FILE
+                        </a>
+                        <input class="form-control" id="formFileLg" type="file" hidden>
+                    </div>
+                    <input type="submit" id="submitButton" hidden />
+                </form>
+
+            </div>
+        </div>
+        <div class="popup_footer_fixed border-top d-flex justify-content-between bg-white">
+            <div class="pair_btn ms-auto">
+                <div class="shadow-box ms-auto">
+                    <span class="custom__btn">
+                        <a onclick="submitButton.click()">
+                            Save as Draft
+                        </a>
+                    </span>
+                    <span class="custom__btn2">
+                        <a onclick="submitButton.click()">
+                            Send
+                            <img src="~/assets/img/send__icon.svg" alt="send_icon">
+                        </a>
+                       
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*
+<h4>TenancyMessageModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddModifyMessage">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TenancyId" class="control-label"></label>
+                <input asp-for="TenancyId" class="form-control" />
+                <span asp-validation-for="TenancyId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Medium" class="control-label"></label>
+                <input asp-for="Medium" class="form-control" />
+                <span asp-validation-for="Medium" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Subject" class="control-label"></label>
+                <input asp-for="Subject" class="form-control" />
+                <span asp-validation-for="Subject" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Message" class="control-label"></label>
+                <input asp-for="Message" class="form-control" />
+                <span asp-validation-for="Message" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AttachmentUrl" class="control-label"></label>
+                <input asp-for="AttachmentUrl" class="form-control" />
+                <span asp-validation-for="AttachmentUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsDraft" class="control-label"></label>
+                <input asp-for="IsDraft" class="form-control" />
+                <span asp-validation-for="IsDraft" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+ *@
+ <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
+ <script>
+     $(document).ready(function () {
+         // Edtor library start here
+         ClassicEditor
+             .create(document.querySelector('#editor'))
+             .then(editor => {
+                console.log(editor)
+             })
+             .catch(error => {
+                 console.error(error);
+             });
+     });
+ </script>

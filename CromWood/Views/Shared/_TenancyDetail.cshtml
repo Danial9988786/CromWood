@@ -79,6 +79,9 @@
         <a class="nav-link text-capitalize" id="nav-tenancy-notices" asp-route-id="@tenancy.Data.Id" asp-action="Notices">
             notices
         </a>
+        <a class="nav-link text-capitalize" id="nav-tenancy-utilities" asp-route-id="@tenancy.Data.Id" asp-action="UnitUtility">
+            unit utitlities
+        </a>
     </div>
 </nav>
 <div class="tab-content" id="nav-tabContent">
@@ -106,5 +109,8 @@
     }
     if (window.location.pathname.includes('/Tenancy/Notices')) {
         document.getElementById("nav-tenancy-notices").classList.add('active');
+    }
+    if (window.location.pathname.includes('/Tenancy/Messages')) {
+        document.getElementById("nav-tenancy-messages").classList.add('active');
     }
 </script>

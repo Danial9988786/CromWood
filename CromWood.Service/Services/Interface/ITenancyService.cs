@@ -23,5 +23,10 @@ namespace CromWood.Business.Services.Interface
         public Task<AppResponse<int>> DeleteDocument(Guid id);
         public Task<AppResponse<ICollection<NoticeViewModel>>> GetNoticesForTenancyTenants(Guid tenancyId);
         public Task<AppResponse<ICollection<ComplaintViewModel>>> GetComplaintsForTenancyTenants(Guid tenancyId);
+        public Task<AppResponse<ICollection<TenancyMessageViewModel>>> GetTenancyMessages(Guid id);
+        public Task<AppResponse<TenancyMessageModel>> GetTenancyMessage(Guid messageId);
+        public Task<AppResponse<int>> AddModifyMessage(TenancyMessageModel message);
+        public Task<AppResponse<int>> DeleteMessage(Guid messageId);
+
     }
 }

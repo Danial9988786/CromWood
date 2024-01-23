@@ -2,6 +2,8 @@
 using CromWood.Data.Entities;
 using CromWood.Data.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
+using System.Xml.Linq;
 
 namespace CromWood.Data.Repository.Implementation
 {
@@ -190,5 +192,49 @@ namespace CromWood.Data.Repository.Implementation
         {
             return await _context.Complaints.Include(x => x.ComplaintCategory).Include(x => x.ComplaintNature).Include(x => x.Tenant).Where(x => x.Tenant.TenancyTenants.Any(x => x.TenancyId == tenenacyId)).ToListAsync();
         }
+        public async Task<ICollection<TenancyMessage>> GetTenancyMessages(Guid id)
+        {
+            return await _context.TenancyMessages.Where(x => x.TenancyId == id).ToListAsync();
+
+        }
+        public async Task<TenancyMessage> GetTenancyMessage(Guid messageId)
+        {
+            return await _context.TenancyMessages.FirstOrDefaultAsync(x => x.Id == messageId);
+        }
+        public async Task<int> AddModifyMessage(TenancyMessage message)
+        {
+            try
+            {
+                if(message.Id == Guid.Empty)
+                {
+                    await _context.TenancyMessages.AddAsync(message);
+                }
+                else
+                {
+                    _context.TenancyMessages.Update(message);
+                }
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task<string> DeleteMessage(Guid messageId)
+        {
+            try
+            {
+                var document = await _context.TenancyMessages.AsNoTracking().FirstOrDefaultAsync(x => x.Id == messageId);
+                _context.TenancyMessages.Remove(document);
+                await _context.SaveChangesAsync();
+                return document.AttachmentUrl;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
     }
 }

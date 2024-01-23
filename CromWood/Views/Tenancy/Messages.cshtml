@@ -1,0 +1,158 @@
+﻿@using CromWood.Business.Services.Interface;
+@model IEnumerable<CromWood.Business.Models.ViewModel.TenancyMessageViewModel>
+@inject IUserService _userService;
+
+
+@{
+    ViewData["Title"] = "Messages";
+    Layout = "~/Views/Shared/_TenancyDetail.cshtml";
+
+    var rawId = ViewContext.RouteData.Values["id"] as string;
+    string tenancyId = "'" + Guid.Parse(rawId).ToString() + "'";
+    string emptyGuid = "'" + Guid.Empty.ToString() + "'";
+}
+
+<div class="tab-pane show active fade border border-top-0 bg-white " id="messages" role="tabpanel"
+     aria-labelledby="nav-roles-per-tab">
+    <div class="px-3">
+        <div class="row">
+            <div class="col-xl-6">
+                <h1 class="mt-4 mb-3 custom_h">Messages</h1>
+            </div>
+            <div class="col-xl-6 mt-3">
+                <div class="shadow-box ms-auto">
+                    <a class="custom__btn" onclick="AddModifyMessage(@tenancyId,@emptyGuid)">
+                        Send Message
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ser_lpading  sm48__row_table pt-0 pm_page_top_m table_bottom_border hide_sort_all">
+        <table id="Messages___tab">
+            <thead>
+                <tr>
+                    <th class="maintable_head">Sent By</th>
+                    <th class="maintable_head">Status</th>
+                    <th class="maintable_head">Subject</th>
+                    <th class="maintable_head">Date</th>
+                    <th class="maintable_head">&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var message in Model)
+                {
+                    <tr>
+                        <td>
+                            <span class="black_14 d-inline-block">
+                                @{
+                                    var user = await _userService.GetUserById(message.CreatedBy??Guid.Empty);
+                                }
+                                @user.Data.Name
+                            </span>
+                        </td>
+                        <td>
+                            <div class="new unresolved draft">
+                                <img src="~/assets/img/draft.svg" alt="draft">&nbsp Draft
+                            </div>
+                        </td>
+                        <td>
+                            <span class="black_14  d-inline-block mb-1">
+                                @message.Subject
+                            </span>
+                        </td>
+                        <td>
+                            <span class="black_14 d-inline-block mb-1">
+                                @message.CreatedDate
+                            </span>
+                        </td>
+                        <td class="text-end">
+                            @{
+                                var id = "'" + message.Id + "'";
+                            }
+                            <a class="text-decoration-none" onclick="ViewMessage(@id)">
+                                <img src="~/assets/img/eye.svg" />
+                            </a>
+                            <a class="text-decoration-none action_dropwown" href="#" role="button"
+                               id="acp-action" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="~/assets/img/down_arrow.svg" class="ms-2" />
+                            </a>
+                            <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
+                                aria-labelledby="acp-action">
+                                <li><a class="dropdown-item" onclick="AddModifyMessage(@tenancyId,@id)">Edit Message</a></li>
+                                <li><a class="dropdown-item" onclick="DeleteMessage(@id)">Delete</a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="messageDialog">
+    <div class="modal-dialog modal-dialog-centered cm2_size rp_popup add_edit_popup" id="messageDialogBody">
+    </div>
+</div>
+
+
+<script>
+    window.addEventListener('DOMContentLoaded', event => {
+        const message_tab = document.getElementById('Messages___tab');
+        if (message_tab) {
+            new simpleDatatables.DataTable(message_tab);
+        }
+
+        // Code for datatable manipulation
+        var rowCount = $('.datatable-table tbody tr').length;
+        var threshold = 10;
+        if (rowCount < threshold) {
+            $('.datatable-bottom').hide();
+        } else {
+            $('.datatable-bottom').show();
+        }
+
+        var filter = $(".filter_btn");
+        $(".datatable-top").append(filter);
+    });
+
+
+    function AddModifyMessage(tenancyId,messageId) {
+        var url = `/Tenancy/AddModifyMessage?tenancyId=${tenancyId}&messageId=${messageId}`;
+        $("#messageDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#messageDialogBody").css("width", "100%");
+            $("#messageDialog").modal("show");
+        });
+    }
+
+    function ViewMessage(messageId) {
+        var url = `/Tenancy/ViewMessage?messageId=${messageId}`;
+        $("#messageDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#messageDialogBody").css("width", "100%");
+            $("#messageDialog").modal("show");
+        });
+    }
+
+    function DeleteMessage(messageId) {
+        $.ajax({
+            type: "POST",
+            url: `/Tenancy/DeleteMessage?messageId=${messageId}`,
+            success: function (result) {
+                window.location.reload();
+            },
+            error: function () {
+            }
+        })
+    }
+
+</script>

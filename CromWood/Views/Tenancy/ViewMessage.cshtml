@@ -1,0 +1,44 @@
+﻿@model CromWood.Business.Models.TenancyMessageModel
+<div class="modal-content rounded-0 model-custom-bg">
+    <div class="modal-header py-2 bg-white">
+        <h5 class="modal-title" id="staticBackdropLabel">View Message</h5>
+        <span class="pagagraph ms-2">@Model.CreatedDate</span>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div>
+        <div class="modal-body">
+            <div class="mb-3 border p-3 bg-white h-100">
+                <div class="d-flex justify-content-between border-bottom">
+                    <p class="modal-title" id="staticBackdropLabel">Allison Phillips (allison@gmail.com)</p>
+                    <div>
+                        <a href="" class="c_file form-label d-inline-block">
+                            <img class="pe-1" src="~/assets/img/green_reply.svg" alt="chosefile">
+                            Reply
+                        </a>
+                        <a href="" class="c_file form-label d-inline-block">
+                            <img class="pe-1" src="~/assets/img/green_dlt_icon.svg" alt="chosefile">
+                            Delete
+                        </a>
+                    </div>
+                </div>
+                <div class="mt-3 border-bottom">
+                    <div class="d-flex gap-5">
+                        <div>
+                            <span class="r_heading d-inline-block text-truncate">Subject</span>
+                        </div>
+                        <div>
+                            <p class="pagagraph">
+                               @Model.Subject
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <p class="lh_160 pagagraph border-bottom mt-3 pb-3">
+                    @Model.Message
+                </p>
+
+                <img src="~/assets/img/rent.png" alt="rent">
+            </div>
+        </div>
+    </div>
+</div>
