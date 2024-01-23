@@ -238,12 +238,12 @@ namespace CromWood.Data.Repository.Implementation
 
         public async Task<ICollection<UnitUtility>> GetUnitUtilities(Guid id)
         {
-            return await _context.UnitUtilities.Where(x=>x.TenancyId == id).ToListAsync();
+            return await _context.UnitUtilities.Include(x=>x.UtilityProvider).Include(x=>x.UtilityType).Include(x=>x.UnitUtilityReadings).Where(x=>x.TenancyId == id).ToListAsync();
         }
 
         public async Task<UnitUtility> GetUnitUtilityView(Guid id)
         {
-            return await _context.UnitUtilities.Include(x => x.UnitUtilityReadings).Include(x => x.UnitUtilityDocuments).FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.UnitUtilities.Include(x => x.UtilityProvider).Include(x => x.UtilityType).Include(x => x.UnitUtilityReadings).Include(x => x.UnitUtilityDocuments).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<UnitUtility> GetUnitUtility(Guid id)

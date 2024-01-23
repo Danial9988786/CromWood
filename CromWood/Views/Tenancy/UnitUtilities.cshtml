@@ -1,0 +1,197 @@
+﻿@model IEnumerable<CromWood.Business.Models.ViewModel.UnitUtilityViewModel>
+
+@{
+    ViewData["Title"] = "UnitUtilities";
+    Layout = "~/Views/Shared/_TenancyDetail.cshtml";
+
+    var rawId = ViewContext.RouteData.Values["id"] as string;
+    string tenancyId = "'" + Guid.Parse(rawId).ToString() + "'";
+    string emptyGuid = "'" + Guid.Empty.ToString() + "'";
+
+}
+
+<div class="tab-pane fade border border-top-0 bg-white show active" id="unit" role="tabpanel"
+     aria-labelledby="nav-roles-per-tab">
+    <div class="px-3">
+        <div class="row">
+            <div class="col-xl-6">
+                <h1 class="mt-4 mb-3 custom_h">Unit Utilities</h1>
+            </div>
+            <div class="col-xl-6 mt-3">
+                <div class="shadow-box ms-auto">
+                    <a class="custom__btn" onclick="AddModifyUnitUtility(@tenancyId,@emptyGuid)">
+                        add new utility
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ser_lpading sm48__row_table pt-0 pm_page_top_m table_bottom_border hide_sort_all">
+        <table id="unit-utilities-table">
+            <thead>
+                <tr>
+                    <th class="maintable_head">Utility</th>
+                    <th class="maintable_head">Meter No.</th>
+                    <th class="maintable_head">Property</th>
+                    <th class="maintable_head">Provider</th>
+                    <th class="maintable_head">Last Reading</th>
+                    <th class="maintable_head">Date Taken</th>
+                    <th class="maintable_head">Notes</th>
+                    <th class="maintable_head">&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var utility in Model)
+                {
+                    <tr>
+                        <td class="align-top">
+                            <span class="black_12 d-inline-block">@utility.UtilityType.Name</span>
+                        </td>
+                        <td class="align-top">
+                            <span class="black_12 d-inline-block">@utility.MeterSerialNumber</span>
+                        </td>
+                        <td class="align-top" width="220px">
+                            <img src="~/assets/img/Location.svg">
+                            <a class="green_12 u_n">
+                                25 Meadowford Close, London, Greenwich
+                            </a>
+                        </td>
+                        <td class="align-top">
+                            <span class="black_12 d-inline-block">
+                                @utility.UtilityProvider.Name
+                            </span>
+                        </td>
+                        <td class="align-top">
+                            <span class="d-inline-block black_12">
+                                @if (utility.UnitUtilityReadings?.Count > 0)
+                                {
+                                    @utility.UnitUtilityReadings.ToList().OrderBy(x=>x.DateOfReading).First().DateOfReading;
+                                }
+                            </span>
+                        </td>
+                        <td class="align-top">
+                            <span class="black_12 d-inline-block">@utility.CreatedDate</span>
+                        </td>
+                        <td class="align-top">
+                            <span class="d-inline-block mb-1">@utility.Note</span>
+                        </td>
+                        <td class="text-end">
+                            @{
+                                var id = "'" + utility.Id + "'";
+                            }
+                            <div class="d-flex align-items-center gap-3 justify-content-end">
+                                <div>
+                                    <a class="c_file d-inline-block" onclick="AddModifyUnitUtilityReading(@id)">
+                                        add reading
+                                    </a>
+                                </div>
+                                <div>
+                                    <a class="text-decoration-none" onclick="ViewUnitUtility(@id)">
+                                        <img src="~/assets/img/eye.svg" />
+                                    </a>
+                                    <a class="text-decoration-none action_dropwown" href="#" role="button"
+                                       id="acp-action" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src="~/assets/img/down_arrow.svg" class="ms-2" />
+                                    </a>
+                                    <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
+                                        aria-labelledby="acp-action">
+                                        <li><a class="dropdown-item" onclick="AddModifyUnitUtility(@tenancyId,@id)">Edit Utility</a></li>
+                                        <li><a class="dropdown-item" onclick="ViewUnitUtility(@id)">View All Readings</a></li>
+                                        <li><a class="dropdown-item" onclick="DeleteUnitUtility(@id)">Delete</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="utilityAddEditDialog">
+    <div class="modal-dialog modal-dialog-centered cm430_size" id="utilityAddEditDialogBody">
+    </div>
+</div>
+
+<div class="modal fade" id="utilityViewDialog">
+    <div class="modal-dialog modal-dialog-centered modal-xl model_height" id="utilityViewDialogBody">
+    </div>
+</div>
+
+
+
+
+
+<script>
+
+    window.addEventListener('DOMContentLoaded', event => {
+        const table = document.getElementById('unit-utilities-table');
+        if (table) {
+            new simpleDatatables.DataTable(table);
+        }
+
+        // Code for datatable manipulation
+        var rowCount = $('.datatable-table tbody tr').length;
+        var threshold = 10;
+        if (rowCount < threshold) {
+            $('.datatable-bottom').hide();
+        } else {
+            $('.datatable-bottom').show();
+        }
+
+        var filter = $(".filter_btn");
+        $(".datatable-top").append(filter);
+    });
+
+    function AddModifyUnitUtility(tenancyId, id) {
+        var url = `/Tenancy/AddModifyUnitUtility?tenancyId=${tenancyId}&id=${id}`;
+        $("#utilityAddEditDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#utilityAddEditDialogBody").css("width", "100%");
+            $("#utilityAddEditDialog").modal("show");
+        });
+    }
+
+    function ViewUnitUtility(id) {
+        var url = `/Tenancy/ViewUnitUtility?id=${id}`;
+        $("#utilityViewDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#utilityViewDialogBody").css("width", "100%");
+            $("#utilityViewDialog").modal("show");
+        });
+    }
+
+    function AddModifyUnitUtilityReading(utilityId, id) {
+        var url = `/Tenancy/AddModifyUnitUtilityReading?utilityId=${utilityId}&id=${id}`;
+        $("#utilityAddEditDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#utilityAddEditDialogBody").css("width", "100%");
+            $("#utilityAddEditDialog").modal("show");
+        });
+    }
+
+    function DeleteUnitUtility(id) {
+        $.ajax({
+            type: "POST",
+            url: `/Tenancy/DeleteUnitUtility?id=${id}`,
+            success: function (result) {
+                window.location.reload();
+            },
+            error: function () {
+            }
+        })
+    }
+</script>

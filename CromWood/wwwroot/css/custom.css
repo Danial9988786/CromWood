@@ -1,19 +1,33 @@
 .nav-tabs .nav-link{
     height: 40px;
 }
-.ck.ck-editor__main>.ck-editor__editable:not(.ck-focused){
-    /* border-color: var(--secondary-color)!important; */
-}
 .ck-editor__editable {
     min-height: 220px;
 }
+
 /* table last colfixed style start */
 .tableLast_colFixed{
     position: relative;
 }
 .tableLast_colFixed table > thead > tr > th {
     white-space: nowrap;
+    background: #F5FAFC;
 }
+/* .tableLast_colFixed table > thead > tr th:last-child{
+    background: #F5FAFC;
+} */
+.tableLast_colFixed table > thead > tr th:last-child{
+    background: #F5FAFC;
+    
+}
+.tableLast_colFixed table > tbody > tr:nth-child(odd) > td:last-child {
+    background-color: #fff;
+}
+.tableLast_colFixed table > tbody > tr:nth-child(even) > td:last-child{
+    background: #F5FAFC;
+}
+
+
 .tableLast_colFixed table > tbody > tr > td:last-child,
 .tableLast_colFixed table > thead > tr > th:last-child  {
     text-align: center!important;
@@ -22,6 +36,7 @@
     right: 0;
     border-radius: 0;
     border-left: 1px solid #D1D5DB;
+    z-index: 1;
 }
 /* table colfixed style End */
 
@@ -649,7 +664,7 @@ table tbody tr:nth-child(even) {
 }
 
 .recent__c .rc__box:nth-child(even) {
-    background-color: var(--table-row-bg);
+    background-color: var(--table-row-bg) !important;
 }
 
 table tbody tr:nth-child(odd) {
@@ -784,6 +799,12 @@ table thead tr th .datatable-sorter .c__icon::after {
 /* / hide on all sorting but show on 1 & 2 items / */
 .show_sort_1_2 .datatable-table th:not(:nth-child(1)):not(:nth-child(2)) .datatable-sorter::after,
 .show_sort_1_2 .datatable-table th:not(:nth-child(1)):not(:nth-child(2)) .datatable-sorter .c__icon::after {
+    display: none !important;
+}
+
+/* / hide on all sorting but show on 1 & 2 items / */
+.show_sort_1_2_4 .datatable-table th:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(4)) .datatable-sorter::after,
+.show_sort_1_2_4 .datatable-table th:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(4)) .datatable-sorter .c__icon::after {
     display: none !important;
 }
 
@@ -957,6 +978,19 @@ a.custom__btn3:hover,
 input.custom__btn3:hover {
     box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.25);
     border-bottom: 6px #AC0223 solid;
+}
+
+.diable_btn {
+    background-color: #C7C7C7!important;
+    color: #fff;
+    border-bottom: none!important;
+}
+.btn3 a{
+    border-radius: 0px;
+}
+.diable_btn:hover {
+    box-shadow: none!important;
+    border-bottom: none!important;
 }
 
 .pair_btn .custom__btn a {
@@ -1403,8 +1437,8 @@ span.notic__num {
 .tableLast_colFixed .table-responsive::-webkit-scrollbar-track
  {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    background-color: #f6f7f8;
+    border-radius: 8px;
+    background-color: #E1E1E1;
 }
 
 .step_body_content::-webkit-scrollbar,
@@ -1414,7 +1448,8 @@ span.notic__num {
 .smallbody_content::-webkit-scrollbar,
 .tableLast_colFixed .table-responsive::-webkit-scrollbar {
     width: 10px;
-    background-color: #fff;
+    height: 10px;
+    /* background-color: #fff; */
 }
 
 .step_body_content::-webkit-scrollbar-thumb,
@@ -1422,7 +1457,7 @@ span.notic__num {
 .step_body_content3::-webkit-scrollbar-thumb,
 .step_body_content4::-webkit-scrollbar-thumb,
 .smallbody_content::-webkit-scrollbar-thumb{
-    background-color: transparent;
+    /* background-color: transparent; */
     /* Make the default background color transparent */
     background-image: url('../assets/img/scroll_thumb1.svg');
     /* Specify the path to your image */
@@ -1431,43 +1466,21 @@ span.notic__num {
     display: block;
     width: 12px;
     height: 40px;
+    /* -webkit-box-shadow:inset 0 1px 6px 0 #20212447; */
+   /* box-shadow:inset 0 1px 6px 0 #20212447; */
 }
 
 /* horizontalscroll image bar start*/
 .tableLast_colFixed .table-responsive::-webkit-scrollbar-thumb{
     background-image: url('../assets/img/scroll_thumb_hori.svg');
     background-repeat: no-repeat;
+    display: block;
+    background-position: -1px -1px;
+    /* box-shadow:0 1px 6px 0 #20212447; */
 }
+
 /* horizontalscroll image bar end*/
 
-/* ------ role permission popus scrollbar -------- */
-/* .rolePer_models_body::-webkit-scrollbar-track
-  {
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-  border-radius: 10px;
-  background-color: #F5F5F5;
-  }
-  .rolePer_models_body::-webkit-scrollbar
-  {
-      width: 10px;
-      background-color: #F5F5F5;
-  }
-  .rolePer_models_body::-webkit-scrollbar
-  {
-      width: 10px;
-      background-color: #F5F5F5;
-  }
-  .rolePer_models_body::-webkit-scrollbar-thumb
-{
-  background-color: transparent; 
-  background-image: url('../assets/img/scroll_thumb1.svg'); 
-  background-repeat: no-repeat;
-  background-size:12px 40px;  
-  display: block;
-  width: 12px;
-  height: 40px;
-} */
-/* ------ role permission popus scrollbar -------- */
 
 
 /* ------------  scrollbar style as per figma End here --------------- */
@@ -1943,6 +1956,7 @@ td.k_data {
 .action_dropwown+ul {
     max-width: fit-content;
     width: fit-content;
+    z-index: 1200;
 }
 .action_dropwown+ul li {
     border-bottom: 1px solid #E4E8EE;
@@ -2078,7 +2092,7 @@ td.k_data {
     padding-top: 14px;
 }
 
-#hhsrs {
+.x_scroll_table table {
     display: block;
     scroll-behavior: smooth;
     overflow-x: auto;
@@ -2090,7 +2104,7 @@ td.k_data {
     /* Internet Explorer 10+ */
 }
 
-#hhsrs::-webkit-scrollbar {
+.x_scroll_table table::-webkit-scrollbar {
     display: none;
     /* Safari and Chrome  */
 }
@@ -2629,7 +2643,7 @@ span.t_wigdes_2.mx-2 {
     line-height: 140%;
 }
 
-.new {
+.new_badges {
     color: var(--g-text-color);
     font-family: var(--main-font);
     font-size: 10px;
@@ -2846,3 +2860,74 @@ span.t_wigdes_2.mx-2 {
     width: 16px;
     height: 16px;
 }
+#product_A_form:focus {
+    border-color: var(--secondary-color);
+    outline: 1px solid var(--secondary-color);
+}
+.step2_with{
+    max-width: 480px;
+}
+.tenancy_rec {
+    border: 2px dashed #8db300;
+    border-radius: 8px;
+    background-color: #F6F7F8;
+}
+.font12_head .datatable-table th button {
+    font-size: 12px !important;
+    white-space: nowrap;
+}
+.l__wraper{
+    border-bottom: 1px dotted #E8EAED;
+}
+.level__box {
+    border-radius: 4px;
+    border: 1px solid #D1D5DB;
+    width: fit-content;
+    overflow: hidden;
+}
+.level__box input{
+    height: 0;
+    width: 0;
+    visibility: hidden;
+}
+.level__box label {
+    font-weight: 500!important;
+    cursor: pointer;
+    padding: 5px 12px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.p_text:checked + label{
+    background-color: var(--red-color);
+    color: #fff!important;
+}
+.f_text:checked + label{
+    background-color: var(--fair-color);
+    color: #fff!important;
+}
+.g_text:checked + label{
+    background-color: var(--good-color);
+    color: #fff!important;
+}
+.blue_drft {
+    border-radius: 50px;
+    border: 1px solid #0098FF;
+    background: rgba(0, 152, 255, 0.05);
+}
+/* .datepicker::after {
+    content: url('../assets/img/date__icon.svg');
+    position: relative;
+    top: -30px;
+    left: 85%;
+    height: 20px;
+    width: 20px;
+    z-index: 5;
+}
+.datepicker{
+    padding: 0px!important;
+    margin-top: 4px;
+}
+.datepicker input {
+    width: 100%!important;
+    border-radius: 4px!important;
+} */

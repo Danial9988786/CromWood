@@ -8,6 +8,8 @@
   --secondary-color: #6D9000;
   --light-green: #8DB300;
   --red-color: #FF0031;
+  --fair-color:#FF6D00;
+  --good-color: #41BD00;
   --red-dark-color: #AC0223;
   --g-text-color: #2F2E35;
   --gray-text: #5F6D81;
@@ -124,6 +126,13 @@
     font-style: normal;
     font-weight: 400;
     line-height: 140%;
+}
+.font12_inter{
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 140%;
 }
 .green_12 {
   color: var(--main-color)!important;

@@ -1,0 +1,64 @@
+﻿@model CromWood.Business.Models.UnitUtilityReadingModel
+@{
+
+}
+
+<div class="modal-content rounded-0">
+    <div class="modal-header py-2">
+        <h5 class="modal-title" id="staticBackdropLabel">Add Utility Reading</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body p-0">
+        <div class="smallbody_content me-2">
+            <form asp-action="AddModifyUnitUtilityReading">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @Html.HiddenFor(x=>x.Id)
+                @Html.HiddenFor(x=>x.UnitUtilityId)
+                <div class="py-3 px-3">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 class="lc_label d-inline-block pt-2">Meter Reading</h4>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="mb-3">
+                                <input type="number" class="form-control pagagraph p-2"
+                                       asp-for="MeterReading" placeholder="Enter meter reading">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 class="lc_label d-inline-block pt-2">Date of Reading</h4>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="mb-3">
+                                <input type="date" class="form-control" value="" placeholder="01 /06 / 2023"
+                                       asp-for="DateOfReading">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-100 mb-5 pb-1">
+                        <textarea asp-for="Note" rows="4" cols="50"
+                                  placeholder="Start typing a note for this utility here..."></textarea>
+                    </div>
+                </div>
+                <div class="popup_footer_fixed text-end border-top d-flex justify-content-between">
+                    <div class="shadow-box">
+                        <a class="custom__btn" data-bs-dismiss="modal">
+                            Cancel
+                        </a>
+                    </div>
+                    <div class="shadow-box ms-auto">
+                        <a class="custom__btn2" onclick="submitButton.click()">
+                            <img src="~/assets/img/save-role.svg" alt="user__iocn">
+                            Save Utility
+                        </a>
+                    </div>
+                </div>
+                <input type="submit" value="button" hidden id="submitButton" />
+
+            </form>
+        </div>
+    </div>
+</div>
+

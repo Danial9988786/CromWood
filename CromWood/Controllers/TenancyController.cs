@@ -407,7 +407,7 @@ namespace CromWood.Controllers
 
         public async Task<IActionResult> ViewUnitUtility(Guid id)
         {
-            var result = await _tenancyService.GetUnitUtility(id);
+            var result = await _tenancyService.GetUnitUtilityView(id);
             return PartialView(result.Data);
         }
 

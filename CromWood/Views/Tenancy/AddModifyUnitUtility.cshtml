@@ -1,0 +1,115 @@
+﻿@using CromWood.Business.Services.Interface;
+@using CromWood.Data.Entities.Default;
+@model CromWood.Business.Models.UnitUtilityModel
+@inject ILookupService<UtilityProvider> _lookupProvider;
+@inject ILookupService<UtilityType> _lookupType;
+
+@{
+    var asyncProviders = await _lookupProvider.GetAllItems();
+    var providers = new SelectList(asyncProviders.Data, "Id", "Name");
+
+    var asyncTypes = await _lookupType.GetAllItems();
+    var types = new SelectList(asyncTypes.Data, "Id", "Name");
+}
+
+<div class="modal-content rounded-0">
+    <div class="modal-header py-2">
+        <h5 class="modal-title" id="staticBackdropLabel">Add Utility</h5>
+        <span class="pagagraph ms-2">Tenancy 112384</span>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body p-0">
+        <form asp-action="AddModifyUnitUtility">
+            @Html.HiddenFor(x=>x.Id)
+            @Html.HiddenFor(x=>x.TenancyId)
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="py-3 px-3">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 class="lc_label d-inline-block pt-2">Utility Type</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="mb-3">
+                            <select id="utility-type" class="form-select select_font_14" asp-for="UtilityTypeId" asp-items="types">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 class="lc_label d-inline-block pt-2">Meter Serial No</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="mb-3">
+                            <input type="text" class="form-control pagagraph p-2"
+                                   asp-for="MeterSerialNumber" placeholder="M123456">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 class="lc_label d-inline-block pt-2">Account Number</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="mb-3">
+                            <input type="text" class="form-control pagagraph p-2"
+                                   asp-for="AccountNumber" placeholder="AABBCC12345">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 class="lc_label d-inline-block pt-2">Utility Provider</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="mb-3">
+                            <select class="form-select select_font_14 select__search"
+                                    id="utility-providers" asp-for="UtilityProviderId" asp-items="providers">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-100 mb-5 pb-1">
+                    <textarea asp-for="Note" rows="4" cols="50" placeholder="Start typing a note for this utility here..."></textarea>
+                </div>
+            </div>
+            <div class="popup_footer_fixed text-end border-top d-flex justify-content-between">
+                <div class="shadow-box">
+                    <a class="custom__btn" data-bs-dismiss="modal">
+                        Cancel
+                    </a>
+                </div>
+                <div class="shadow-box ms-auto">
+                    <a class="custom__btn2" onclick="submitButton.click()">
+                        <img src="~/assets/img/save-role.svg" alt="user__iocn">
+                        Save Utility
+                    </a>
+                </div>
+            </div>
+            <input type="submit" value="button" hidden id="submitButton" />
+        </form>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        // ----------- For Font size 14 -----------
+        $('.select_font_14').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: false,
+            dropdownCssClass: "select_font_14",
+        });
+
+        // ----------- With searh bar funcnality -----------
+        $('.select__search').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: false,
+            dropdownCssClass: "select__search",
+        });
+    })
+</script>

@@ -397,12 +397,27 @@ namespace CromWood.Business.Services.Implementation
             }
         }
 
+        public async Task<AppResponse<UnitUtilityViewModel>> GetUnitUtilityView(Guid id)
+        {
+            try
+            {
+                var result = await _tenancyRepository.GetUnitUtilityView(id);
+                var mappedResult = _mapper.Map<UnitUtilityViewModel>(result);
+                return ResponseCreater<UnitUtilityViewModel>.CreateSuccessResponse(mappedResult, "Utility loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<UnitUtilityViewModel>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
         public async Task<AppResponse<int>> AddModifyUnitUtility(UnitUtilityModel req)
         {
             try
             {
-                var mappedMessage = _mapper.Map<UnitUtility>(req);
-                var result = await _tenancyRepository.AddModifyUnitUtility(mappedMessage);
+                var mapped = _mapper.Map<UnitUtility>(req);
+                var result = await _tenancyRepository.AddModifyUnitUtility(mapped);
                 return ResponseCreater<int>.CreateSuccessResponse(result, "Utility add/update successfully");
             }
 
@@ -417,7 +432,7 @@ namespace CromWood.Business.Services.Implementation
             try
             {
                 var result = await _tenancyRepository.DeleteUnitUtility(id);
-                return ResponseCreater<int>.CreateSuccessResponse(result.Data, "Utility deleted successfully");
+                return ResponseCreater<int>.CreateSuccessResponse(1, "Utility deleted successfully");
             }
 
             catch (Exception ex)
@@ -461,7 +476,7 @@ namespace CromWood.Business.Services.Implementation
             try
             {
                 var result = await _tenancyRepository.DeleteUnitUtilityReading(id);
-                return ResponseCreater<int>.CreateSuccessResponse(result.Data, "Utility reading deleted successfully");
+                return ResponseCreater<int>.CreateSuccessResponse(result, "Utility reading deleted successfully");
             }
 
             catch (Exception ex)

@@ -1,8 +1,9 @@
-﻿using CromWood.Data.Entities.Default;
+﻿using CromWood.Data.Entities;
+using CromWood.Data.Entities.Default;
 
 namespace CromWood.Business.Models.ViewModel
 {
-    public class UnitUtilityViewModel
+    public class UnitUtilityViewModel: DBTable
     {
         public Guid Id { get; set; }
         public string MeterSerialNumber { get; set; }

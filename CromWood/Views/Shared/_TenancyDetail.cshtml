@@ -79,7 +79,7 @@
         <a class="nav-link text-capitalize" id="nav-tenancy-notices" asp-route-id="@tenancy.Data.Id" asp-action="Notices">
             notices
         </a>
-        <a class="nav-link text-capitalize" id="nav-tenancy-utilities" asp-route-id="@tenancy.Data.Id" asp-action="UnitUtility">
+        <a class="nav-link text-capitalize" id="nav-tenancy-utilities" asp-route-id="@tenancy.Data.Id" asp-action="UnitUtilities">
             unit utitlities
         </a>
     </div>
@@ -112,5 +112,8 @@
     }
     if (window.location.pathname.includes('/Tenancy/Messages')) {
         document.getElementById("nav-tenancy-messages").classList.add('active');
+    }
+    if (window.location.pathname.includes('/Tenancy/UnitUtilities')) {
+        document.getElementById("nav-tenancy-utilities").classList.add('active');
     }
 </script>
