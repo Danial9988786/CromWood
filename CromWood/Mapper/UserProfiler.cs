@@ -53,6 +53,13 @@ namespace CromWood.Mapper
             CreateMap<TenancyMessage, TenancyMessageViewModel>().ReverseMap();
             CreateMap<TenancyMessage, TenancyMessageModel>().ReverseMap();
 
+            CreateMap<UnitUtility, UnitUtilityModel>().ReverseMap();
+            CreateMap<UnitUtility, UnitUtilityViewModel>().ReverseMap();
+            CreateMap<UnitUtilityReading, UnitUtilityReadingModel>().ReverseMap();
+            CreateMap<UnitUtilityReading, UnitUtilityReadingViewModel>().ReverseMap();
+            CreateMap<UnitUtilityDocument, UnitUtilityDocumentModel>().ReverseMap();
+            CreateMap<UnitUtilityDocument, UnitUtilityDocumentViewModel>().ReverseMap();
+
             CreateMap<Notice, NoticeModel>().ReverseMap();
             CreateMap<Notice, NoticeViewModel>().ReverseMap();
 

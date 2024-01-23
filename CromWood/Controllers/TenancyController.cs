@@ -394,36 +394,87 @@ namespace CromWood.Controllers
             }
             else
             {
-                return PartialView(new TenancyMessageModel() { TenancyId = tenancyId });
+                return PartialView(new UnitUtilityModel() { TenancyId = tenancyId });
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddModifyUnitUtility(TenancyMessageModel messageReq)
+        public async Task<IActionResult> AddModifyUnitUtility(UnitUtilityModel req)
         {
-            var result = await _tenancyService.AddModifyUnitUtility(messageReq);
-            return RedirectToAction("Messages", new { id = messageReq.TenancyId });
+            var result = await _tenancyService.AddModifyUnitUtility(req);
+            return RedirectToAction("UnitUtilities", new { id = req.TenancyId });
         }
 
         public async Task<IActionResult> ViewUnitUtility(Guid id)
         {
-            var result = await _tenancyService.GetTenancyMessage(id);
+            var result = await _tenancyService.GetUnitUtility(id);
             return PartialView(result.Data);
         }
 
         [HttpPost]
         public async Task<IActionResult> DeleteUnitUtility(Guid id)
         {
-            var result = await _tenancyService.DeleteUnitUtility(messageId);
+            var result = await _tenancyService.DeleteUnitUtility(id);
             return StatusCode(result.StatusCode, result.Data);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddModifyUnitUtilityReading(TenancyMessageModel messageReq)
+        [HttpGet]
+        public async Task<IActionResult> AddModifyUnitUtilityReading(Guid utilityId, Guid id)
         {
-            var result = await _tenancyService.AddModifyUnitUtilityReading(messageReq);
-            return RedirectToAction("Messages", new { id = messageReq.TenancyId });
+            if (id != Guid.Empty)
+            {
+                var result = await _tenancyService.GetUnitUtilityReading(id);
+                return PartialView(result.Data);
+            }
+            else
+            {
+                return PartialView(new UnitUtilityReadingModel() { UnitUtilityId= utilityId });
+            }
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddModifyUnitUtilityReading(UnitUtilityReadingModel req, Guid tenancyId)
+        {
+            var result = await _tenancyService.AddModifyUnitUtilityReading(req);
+            return RedirectToAction("UnitUtilities", new { id = tenancyId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteUnitUtilityReading(Guid id)
+        {
+            var result = await _tenancyService.DeleteUnitUtilityReading(id);
+            return StatusCode(result.StatusCode, result.Data);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddModifyUnitUtilityDocument(Guid utilityId, Guid id)
+        {
+            if (id != Guid.Empty)
+            {
+                var result = await _tenancyService.GetUnitUtilityDocument(id);
+                return PartialView(result.Data);
+            }
+            else
+            {
+                return PartialView(new UnitUtilityDocumentModel() { UnitUtilityId = utilityId });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddModifyUnitUtilityDocument(UnitUtilityDocumentModel req, Guid tenancyId)
+        {
+            var result = await _tenancyService.AddModifyUnitUtilityDocument(req);
+            return RedirectToAction("UnitUtilities", new { id = tenancyId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteUnitUtilityDocument(Guid id)
+        {
+            var result = await _tenancyService.DeleteUnitUtilityDocument(id);
+            return StatusCode(result.StatusCode, result.Data);
+        }
+
 
         // Unit Utilities related methods
         // 1. All

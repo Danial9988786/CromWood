@@ -27,5 +27,15 @@ namespace CromWood.Data.Repository.Interface
         public Task<TenancyMessage> GetTenancyMessage(Guid messageId);
         public Task<int> AddModifyMessage(TenancyMessage message);
         public Task<string> DeleteMessage(Guid messageId);
+        public Task<ICollection<UnitUtility>> GetUnitUtilities(Guid id);
+        public Task<UnitUtility> GetUnitUtility(Guid id);
+        public Task<int> AddModifyUnitUtility(UnitUtility req);
+        public Task<int> DeleteUnitUtility(Guid id);
+        public Task<UnitUtilityReading> GetUnitUtilityReading(Guid id);
+        public Task<int> AddModifyUnitUtilityReading(UnitUtilityReading req);
+        public Task<int> DeleteUnitUtilityReading(Guid id);
+        public Task<UnitUtilityDocument> GetUnitUtilityDocument(Guid id);
+        public Task<int> AddModifyUnitUtilityDocument(UnitUtilityDocument req);
+        public Task<string> DeleteUnitUtilityDocument(Guid id);
     }
 }

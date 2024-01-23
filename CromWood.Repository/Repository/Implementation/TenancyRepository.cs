@@ -236,5 +236,140 @@ namespace CromWood.Data.Repository.Implementation
             }
         }
 
+        public async Task<ICollection<UnitUtility>> GetUnitUtilities(Guid id)
+        {
+            return await _context.UnitUtilities.Where(x=>x.TenancyId == id).ToListAsync();
+        }
+
+        public async Task<UnitUtility> GetUnitUtilityView(Guid id)
+        {
+            return await _context.UnitUtilities.Include(x => x.UnitUtilityReadings).Include(x => x.UnitUtilityDocuments).FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<UnitUtility> GetUnitUtility(Guid id)
+        {
+            return await _context.UnitUtilities.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<int> AddModifyUnitUtility(UnitUtility req)
+        {
+            try
+            {
+                if (req.Id == Guid.Empty)
+                {
+                    await _context.UnitUtilities.AddAsync(req);
+                }
+                else
+                {
+                    _context.UnitUtilities.Update(req);
+                }
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<int> DeleteUnitUtility(Guid id)
+        {
+            try
+            {
+                var utility = await _context.UnitUtilities.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+                _context.UnitUtilities.Remove(utility);
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<UnitUtilityReading> GetUnitUtilityReading(Guid id)
+        {
+            return await _context.UnitUtilityReadings.FirstOrDefaultAsync(x => x.Id == id);
+
+        }
+
+        public async Task<int> AddModifyUnitUtilityReading(UnitUtilityReading req)
+        {
+            try
+            {
+                if (req.Id == Guid.Empty)
+                {
+                    await _context.UnitUtilityReadings.AddAsync(req);
+                }
+                else
+                {
+                    _context.UnitUtilityReadings.Update(req);
+                }
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<int> DeleteUnitUtilityReading(Guid id)
+        {
+            try
+            {
+                var utility = await _context.UnitUtilityReadings.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+                _context.UnitUtilityReadings.Remove(utility);
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<UnitUtilityDocument> GetUnitUtilityDocument(Guid id)
+        {
+            return await _context.UnitUtilityDocuments.FirstOrDefaultAsync(x => x.Id == id);
+
+        }
+
+        public async Task<int> AddModifyUnitUtilityDocument(UnitUtilityDocument req)
+        {
+            try
+            {
+                if (req.Id == Guid.Empty)
+                {
+                    await _context.UnitUtilityDocuments.AddAsync(req);
+                }
+                else
+                {
+                    _context.UnitUtilityDocuments.Update(req);
+                }
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<string> DeleteUnitUtilityDocument(Guid id)
+        {
+            try
+            {
+                var utility = await _context.UnitUtilityDocuments.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+                _context.UnitUtilityDocuments.Remove(utility);
+                await _context.SaveChangesAsync();
+                return utility.DocUrl;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
     }
 }

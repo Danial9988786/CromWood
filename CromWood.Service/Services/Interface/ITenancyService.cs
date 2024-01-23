@@ -27,6 +27,15 @@ namespace CromWood.Business.Services.Interface
         public Task<AppResponse<TenancyMessageModel>> GetTenancyMessage(Guid messageId);
         public Task<AppResponse<int>> AddModifyMessage(TenancyMessageModel message);
         public Task<AppResponse<int>> DeleteMessage(Guid messageId);
-
+        public Task<AppResponse<ICollection<UnitUtilityViewModel>>> GetUnitUtilities(Guid id);
+        public Task<AppResponse<UnitUtilityModel>> GetUnitUtility(Guid id);
+        public Task<AppResponse<int>> AddModifyUnitUtility(UnitUtilityModel req);
+        public Task<AppResponse<int>> DeleteUnitUtility(Guid id);
+        public Task<AppResponse<UnitUtilityReadingModel>> GetUnitUtilityReading(Guid id);
+        public Task<AppResponse<int>> AddModifyUnitUtilityReading(UnitUtilityReadingModel req);
+        public Task<AppResponse<int>> DeleteUnitUtilityReading(Guid id);
+        public Task<AppResponse<UnitUtilityDocumentModel>> GetUnitUtilityDocument(Guid id);
+        public Task<AppResponse<int>> AddModifyUnitUtilityDocument(UnitUtilityDocumentModel req);
+        public Task<AppResponse<int>> DeleteUnitUtilityDocument(Guid id);
     }
 }

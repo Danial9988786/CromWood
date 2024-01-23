@@ -351,6 +351,7 @@ namespace CromWood.Business.Services.Implementation
                 return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
             }
         }
+
         public async Task<AppResponse<int>> DeleteMessage(Guid messageId)
         {
             try
@@ -358,6 +359,165 @@ namespace CromWood.Business.Services.Implementation
                 var attachmentUrl = await _tenancyRepository.DeleteMessage(messageId);
                 if (attachmentUrl != null) await _fileUploader.Delete(attachmentUrl, "tenancymessage");
                 return ResponseCreater<int>.CreateSuccessResponse(1, "Message deleted successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<ICollection<UnitUtilityViewModel>>> GetUnitUtilities(Guid id)
+        {
+            try
+            {
+                var result = await _tenancyRepository.GetUnitUtilities(id);
+                var mappedResult = _mapper.Map<ICollection<UnitUtilityViewModel>>(result);
+                return ResponseCreater<ICollection<UnitUtilityViewModel>>.CreateSuccessResponse(mappedResult, "Tenancies utilities loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<ICollection<UnitUtilityViewModel>>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<UnitUtilityModel>> GetUnitUtility(Guid id)
+        {
+            try
+            {
+                var result = await _tenancyRepository.GetUnitUtility(id);
+                var mappedResult = _mapper.Map<UnitUtilityModel>(result);
+                return ResponseCreater<UnitUtilityModel>.CreateSuccessResponse(mappedResult, "Utility loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<UnitUtilityModel>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<int>> AddModifyUnitUtility(UnitUtilityModel req)
+        {
+            try
+            {
+                var mappedMessage = _mapper.Map<UnitUtility>(req);
+                var result = await _tenancyRepository.AddModifyUnitUtility(mappedMessage);
+                return ResponseCreater<int>.CreateSuccessResponse(result, "Utility add/update successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<int>> DeleteUnitUtility(Guid id)
+        {
+            try
+            {
+                var result = await _tenancyRepository.DeleteUnitUtility(id);
+                return ResponseCreater<int>.CreateSuccessResponse(result.Data, "Utility deleted successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<UnitUtilityReadingModel>> GetUnitUtilityReading(Guid id)
+        {
+            try
+            {
+                var result = await _tenancyRepository.GetUnitUtilityReading(id);
+                var mappedResult = _mapper.Map<UnitUtilityReadingModel>(result);
+                return ResponseCreater<UnitUtilityReadingModel>.CreateSuccessResponse(mappedResult, "Utility reading loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<UnitUtilityReadingModel>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<int>> AddModifyUnitUtilityReading(UnitUtilityReadingModel req)
+        {
+            try
+            {
+                var mappedMessage = _mapper.Map<UnitUtilityReading>(req);
+                var result = await _tenancyRepository.AddModifyUnitUtilityReading(mappedMessage);
+                return ResponseCreater<int>.CreateSuccessResponse(result, "Utility reading add/update successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<int>> DeleteUnitUtilityReading(Guid id)
+        {
+            try
+            {
+                var result = await _tenancyRepository.DeleteUnitUtilityReading(id);
+                return ResponseCreater<int>.CreateSuccessResponse(result.Data, "Utility reading deleted successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<UnitUtilityDocumentModel>> GetUnitUtilityDocument(Guid id)
+        {
+            try
+            {
+                var result = await _tenancyRepository.GetUnitUtilityDocument(id);
+                var mappedResult = _mapper.Map<UnitUtilityDocumentModel>(result);
+                return ResponseCreater<UnitUtilityDocumentModel>.CreateSuccessResponse(mappedResult, "Utility document loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<UnitUtilityDocumentModel>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<int>> AddModifyUnitUtilityDocument(UnitUtilityDocumentModel req)
+        {
+            try
+            {
+                var mappedReq = _mapper.Map<UnitUtilityDocument>(req);
+                var result = 0;
+                if (req.Document != null)
+                {
+                    // In case of Edit, delete prev file & add new one
+                    if (mappedReq.Id != Guid.Empty)
+                    {
+                        await _fileUploader.Delete(mappedReq.DocUrl, "tenancyutility");
+                    }
+                    mappedReq.DocUrl = await _fileUploader.Upload(req.Document, "tenancyutility");
+                }
+
+                result = await _tenancyRepository.AddModifyUnitUtilityDocument(mappedReq);
+                return ResponseCreater<int>.CreateSuccessResponse(result, "Utility document add/update successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<int>> DeleteUnitUtilityDocument(Guid id)
+        {
+            try
+            {
+                var docUrl = await _tenancyRepository.DeleteUnitUtilityDocument(id);
+                if (docUrl != null) await _fileUploader.Delete(docUrl, "tenancyutility");
+                return ResponseCreater<int>.CreateSuccessResponse(1, "Utility document deleted successfully");
             }
 
             catch (Exception ex)
