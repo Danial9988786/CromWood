@@ -20,9 +20,7 @@ namespace CromWood.Controllers
             _authService = authService;
         }
 
-        /// <summary>
-        /// This is to return tenancy list in view: In Tenancy Management tab
-        /// </summary>
+        #region TENANCY RELATED CODES
         public async Task<IActionResult> Index()
         {
             var havePermission = await _authService.CheckPermission(PermissionKeyConstant.TenancyManagement, PermissionConstant.ViewAll);
@@ -79,9 +77,6 @@ namespace CromWood.Controllers
             #endregion
         }
 
-        /// <summary>
-        /// GET: This is to add new tenancy from Tenancy Management tab
-        /// </summary>
         public async Task<IActionResult> AddTenancy()
         {
             var havePermission = await _authService.CheckPermission(PermissionKeyConstant.TenancyManagement, PermissionConstant.CanWrite);
@@ -89,13 +84,10 @@ namespace CromWood.Controllers
             {
                 return RedirectToAction("NotAuthorized", "Auth");
             }
-            var tenancy = new TenancyModel() { TenancyId = "TNT-" + RandomAlphaNumbericGenerator.Random(6), StartDate = DateTime.Now , EndDate = DateTime.Now.AddYears(1) };
+            var tenancy = new TenancyModel() { TenancyId = "TNT-" + RandomAlphaNumbericGenerator.Random(6), StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(1) };
             return PartialView(tenancy);
         }
 
-        /// <summary>
-        /// POST: This is to add new tenancy from Tenancy Management tab
-        /// </summary>
         [HttpPost]
         public async Task<IActionResult> AddTenancy(TenancyModel tenancy)
         {
@@ -125,11 +117,6 @@ namespace CromWood.Controllers
             return RedirectToAction("Index");
         }
 
-        /// <summary>
-        /// TODOTODOTODOTODO
-        /// </summary>
-        /// <param name="noteId"></param>
-        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> DeleteTenancyTenant(Guid noteId)
         {
@@ -143,9 +130,6 @@ namespace CromWood.Controllers
         }
 
 
-        /// <summary>
-        /// This is to show Tenancy Detail tab , inside single tenancy detail from ID
-        /// </summary>
         public async Task<IActionResult> Detail(Guid id)
         {
             var havePermission = await _authService.CheckPermission(PermissionKeyConstant.TenancyManagement, PermissionConstant.CanRead);
@@ -157,9 +141,9 @@ namespace CromWood.Controllers
             return View(result.Data);
         }
 
-        /// <summary>
-        /// This is to show Tenancy Tenants tab , inside single tenancy detail from ID
-        /// </summary>
+        #endregion
+
+        #region TENANCY TENANTS RELATED CODE
         public async Task<IActionResult> Tenants(Guid id)
         {
             var havePermission = await _authService.CheckPermission(PermissionKeyConstant.TenancyManagement, PermissionConstant.CanRead);
@@ -198,9 +182,9 @@ namespace CromWood.Controllers
             return RedirectToAction("Tenants", new { id = tenancyTenant.TenancyId });
         }
 
-        /// <summary>
-        /// This is to show Tenancy Notes tab , inside single tenancy detail from ID
-        /// </summary>
+        #endregion
+
+        #region TENANCY NOTES RELATED CODE
         public async Task<IActionResult> Notes(Guid id)
         {
             var havePermission = await _authService.CheckPermission(PermissionKeyConstant.TenancyManagement, PermissionConstant.CanRead);
@@ -254,10 +238,9 @@ namespace CromWood.Controllers
             var result = await _tenancyService.DeleteNote(noteId);
             return StatusCode(result.StatusCode, result.Data);
         }
+        #endregion
 
-        /// <summary>
-        /// This is to show Tenancy Documents tab , inside single tenancy detail from ID
-        /// </summary>
+        #region TENANCY DOCUMENT RELATED CODE
         public async Task<IActionResult> Documents(Guid id)
         {
             var havePermission = await _authService.CheckPermission(PermissionKeyConstant.TenancyManagement, PermissionConstant.CanRead);
@@ -311,8 +294,9 @@ namespace CromWood.Controllers
             var result = await _tenancyService.DeleteDocument(documentId);
             return StatusCode(result.StatusCode, result.Data);
         }
+        #endregion
 
-        // Notice / Complains related to Tenants who are linked in this tenenacy are:
+        #region TENANCY NOTICE & COMPLAINTS CODE
         public async Task<IActionResult> Notices(Guid id)
         {
             var havePermission = await _authService.CheckPermission(PermissionKeyConstant.TenancyManagement, PermissionConstant.CanRead);
@@ -334,9 +318,9 @@ namespace CromWood.Controllers
             var result = await _tenancyService.GetComplaintsForTenancyTenants(id);
             return View(result.Data);
         }
+        #endregion
 
-        // Messages
-
+        #region TENANCY MESSAGES
         public async Task<IActionResult> Messages(Guid id)
         {
             var result = await _tenancyService.GetTenancyMessages(id);
@@ -376,8 +360,9 @@ namespace CromWood.Controllers
             var result = await _tenancyService.DeleteMessage(messageId);
             return StatusCode(result.StatusCode, result.Data);
         }
+        #endregion
 
-        // Unit Utilities
+        #region TENANCY UNIT UTILITIES
         public async Task<IActionResult> UnitUtilities(Guid id)
         {
             var result = await _tenancyService.GetUnitUtilities(id);
@@ -419,8 +404,9 @@ namespace CromWood.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddModifyUnitUtilityReading(Guid utilityId, Guid id)
+        public async Task<IActionResult> AddModifyUnitUtilityReading(Guid utilityId, Guid tenancyId, Guid id)
         {
+            ViewBag.TenancyId = tenancyId;
             if (id != Guid.Empty)
             {
                 var result = await _tenancyService.GetUnitUtilityReading(id);
@@ -428,7 +414,7 @@ namespace CromWood.Controllers
             }
             else
             {
-                return PartialView(new UnitUtilityReadingModel() { UnitUtilityId= utilityId });
+                return PartialView(new UnitUtilityReadingModel() { UnitUtilityId = utilityId });
             }
         }
 
@@ -450,6 +436,7 @@ namespace CromWood.Controllers
         [HttpGet]
         public async Task<IActionResult> AddModifyUnitUtilityDocument(Guid utilityId, Guid id)
         {
+
             if (id != Guid.Empty)
             {
                 var result = await _tenancyService.GetUnitUtilityDocument(id);
@@ -474,14 +461,49 @@ namespace CromWood.Controllers
             var result = await _tenancyService.DeleteUnitUtilityDocument(id);
             return StatusCode(result.StatusCode, result.Data);
         }
+        #endregion
 
+        #region TENANCY RECURRING CHARGES 
+        public async Task<IActionResult> RecurringCharges(Guid id)
+        {
+            var result = await _tenancyService.GetRecurringCharges(id);
+            return View(result.Data);
+        }
 
-        // Unit Utilities related methods
-        // 1. All
-        // 2. Add Utilities
-        // 3. Add Reading/ Edit Reading
-        // 4. View Utilities
-        // 5. Delete
+        [HttpGet]
+        public async Task<IActionResult> AddModifyRecurringCharge(Guid tenancyId, Guid id)
+        {
+            if (id != Guid.Empty)
+            {
+                var result = await _tenancyService.GetRecurringCharge(id);
+                return PartialView(result.Data);
+            }
+            else
+            {
+                return PartialView(new RecurringChargeModel() { TenancyId = tenancyId });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddModifyRecurringCharge(RecurringChargeModel req)
+        {
+            var result = await _tenancyService.AddModifyRecurringCharge(req);
+            return RedirectToAction("RecurringCharges", new { id = req.TenancyId });
+        }
+
+        public async Task<IActionResult> ViewRecurringCharge(Guid id)
+        {
+            var result = await _tenancyService.GetRecurringChargeView(id);
+            return PartialView(result.Data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteRecurringCharge(Guid id)
+        {
+            var result = await _tenancyService.DeleteRecurringCharge(id);
+            return StatusCode(result.StatusCode, result.Data);
+        }
+        #endregion
 
         // Statement related methods
         // 1. All
@@ -490,12 +512,6 @@ namespace CromWood.Controllers
         // 4. View Statement
         // 5. Delete
 
-        // Recurring charges related methods
-        // 1. All
-        // 2. Add RC
-        // 3. Add Transaction to RC
-        // 4. View RC
-        // 5. Delete
 
         // Payment Plans related methods
         // 1. All

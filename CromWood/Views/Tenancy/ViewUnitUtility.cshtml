@@ -1,172 +1,185 @@
-﻿@model CromWood.Business.Models.ViewModel.UnitUtilityViewModel
+﻿@using CromWood.Business.Models;
+@using CromWood.Business.Services.Interface;
+@using CromWood.Data.Entities.Default;
+@model CromWood.Business.Models.ViewModel.UnitUtilityViewModel
+
+@inject ILookupService<UtilityProvider> _lookupProvider;
+@inject ILookupService<UtilityType> _lookupType;
+
+@{
+    string utitlityId = "'" + Model.Id.ToString() + "'";
+    var asyncProviders = await _lookupProvider.GetAllItems();
+    var providers = new SelectList(asyncProviders.Data, "Id", "Name");
+
+    var asyncTypes = await _lookupType.GetAllItems();
+    var types = new SelectList(asyncTypes.Data, "Id", "Name");
+
+    string id = "'" + Model.Id + "'";
+
+}
+
 <div class="modal-content rounded-0 model-custom-bg">
-                <div class="modal-header modal_header_fixed py-2 bg-white">
-                    <h5 class="modal-title" id="staticBackdropLabel">Utility Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body pt-0">
-                    <div class="row">
-                        <div class="top_bar__fixed">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <span class="gray_12">Utility</span>
-                                    <h5 class="modal-title" id="staticBackdropLabel">@Model.UtilityType.Name</h5>
-                                </div>
-                                <div class="dropdown">
-                                    <div class="shadow-box ms-auto">
-                                        <a class="text-decoration-none custom__btn action_dropwown" href="#"
-                                            role="button" id="acp-action" data-bs-toggle="dropdown"
-                                            aria-expanded="false">
-                                            <img src="~/assets/img/settings-02.svg" alt="setting_icon">
-                                            Actions
-                                            <img src="~/assets/img/down_arrow.svg">
-                                        </a>
-                                        <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
-                                            aria-labelledby="acp-action">
-                                            <li><a class="dropdown-item" href="#">Edit Utility</a></li>
-                                            <li><a class="dropdown-item" href="#">Delete</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <nav class="mt-3">
-                                <div class="nav nav-tabs flex-nowrap" id="nav-tab" role="tablist">
-                                    <a class="nav-link active w-100 text-center" id="details-tab" data-bs-toggle="tab"
-                                        data-bs-target="#details_tab" role="tab"
-                                        aria-controls="details_tab" aria-selected="false">Details</a>
-                                    <a class="nav-link w-100 text-center" id="editUtility-tab" data-bs-toggle="tab"
-                                        data-bs-target="#editUtility_tab" role="tab"
-                                        aria-controls="editUtility_tab" aria-selected="false">Edit Utility</a>
-                                    <a class="nav-link w-100 text-center" id="unitReadings__-tab" data-bs-toggle="tab"
-                                        data-bs-target="#unitReadings__" role="tab"
-                                        aria-controls="unitReadings__" aria-selected="false">Unit Readings</a>
-                                    <a class="nav-link w-100 text-center" id="documents__-tab" data-bs-toggle="tab"
-                                        data-bs-target="#documents__" role="tab"
-                                        aria-controls="documents__" aria-selected="false">Documents</a>
-                                </div>
-                            </nav>
+    <div class="modal-header modal_header_fixed py-2 bg-white">
+        <h5 class="modal-title" id="staticBackdropLabel">Utility Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body pt-0">
+        <div class="row">
+            <div class="top_bar__fixed">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <span class="gray_12">Utility</span>
+                        <h5 class="modal-title" id="staticBackdropLabel">@Model.UtilityType.Name</h5>
+                    </div>
+                    <div class="dropdown">
+                        <div class="shadow-box ms-auto">
+                            <a class="text-decoration-none custom__btn action_dropwown" href="#"
+                               role="button" id="acp-action" data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                <img src="~/assets/img/settings-02.svg" alt="setting_icon">
+                                Actions
+                                <img src="~/assets/img/down_arrow.svg">
+                            </a>
+                            <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
+                                aria-labelledby="acp-action">
+                                <li><a class="dropdown-item" href="#">Edit Utility</a></li>
+                                <li><a class="dropdown-item" href="#">Delete</a></li>
+                            </ul>
                         </div>
+                    </div>
+                </div>
+                <nav class="mt-3">
+                    <div class="nav nav-tabs flex-nowrap" id="nav-tab" role="tablist">
+                        <a class="nav-link active w-100 text-center" id="details-tab" data-bs-toggle="tab"
+                           data-bs-target="#details_tab" role="tab"
+                           aria-controls="details_tab" aria-selected="false">Details</a>
+                        <a class="nav-link w-100 text-center" id="editUtility-tab" data-bs-toggle="tab"
+                           data-bs-target="#editUtility_tab" role="tab"
+                           aria-controls="editUtility_tab" aria-selected="false">Edit Utility</a>
+                        <a class="nav-link w-100 text-center" id="unitReadings__-tab" data-bs-toggle="tab"
+                           data-bs-target="#unitReadings__" role="tab"
+                           aria-controls="unitReadings__" aria-selected="false">Unit Readings</a>
+                        <a class="nav-link w-100 text-center" id="documents__-tab" data-bs-toggle="tab"
+                           data-bs-target="#documents__" role="tab"
+                           aria-controls="documents__" aria-selected="false">Documents</a>
+                    </div>
+                </nav>
+            </div>
 
-                        <div class="tab-content" id="nav-tabContent">
-                            <!------- Details Tab Start ------>
-                            <div class="tab-pane fade show active" id="details_tab" role="tabpanel"
-                                aria-labelledby="nav-inspection-details-tab">
-                                <div class="pe-2">
-                                    <div class="l_c border-top-0 px-3">
-                                        <div class="main_insurence pt-3 pb-5">
-                                            <div class="row">
-                                                <div class="col-xl-3">
-                                                    <span class="owner_clr mt-2 pt-2">Utility Type</span>
-                                                    <p class="pagagraph mt-1 mb-3 pb-1">@Model.UtilityType.Name</p>
-                                                    <span class="owner_clr d-inline-block">Added By</span>
-                                                    <p class="pagagraph mt-1 mb-3 pb-1">@Model.CreatedBy</p>
-                                                </div>
-                                                <div class="col-xl-4">
-                                                    <span class="owner_clr mt-2 pt-2">Meter Serial Number</span>
-                                                    <p class="pagagraph mt-1 mb-3 pb-1">@Model.MeterSerialNumber</p>
-                                                </div>
-                                                <div class="col-xl-5">
-                                                    <span class="owner_clr mt-2 pt-2">Provider</span>
-                                                    <p class="pagagraph mt-1 mb-3 pb-1 mb-3 pb-1">@Model.UtilityProvider.Name</p>
-                                                </div>
-                                            </div>
-                                        </div>
+            <div class="tab-content" id="nav-tabContent">
+                <!------- Details Tab Start ------>
+                <div class="tab-pane fade show active" id="details_tab" role="tabpanel"
+                     aria-labelledby="nav-inspection-details-tab">
+                    <div class="pe-2">
+                        <div class="l_c border-top-0 px-3">
+                            <div class="main_insurence pt-3 pb-5">
+                                <div class="row">
+                                    <div class="col-xl-3">
+                                        <span class="owner_clr mt-2 pt-2">Utility Type</span>
+                                        <p class="pagagraph mt-1 mb-3 pb-1">@Model.UtilityType.Name</p>
+                                        <span class="owner_clr d-inline-block">Added By</span>
+                                        <p class="pagagraph mt-1 mb-3 pb-1">@Model.CreatedBy</p>
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <span class="owner_clr mt-2 pt-2">Meter Serial Number</span>
+                                        <p class="pagagraph mt-1 mb-3 pb-1">@Model.MeterSerialNumber</p>
+                                    </div>
+                                    <div class="col-xl-5">
+                                        <span class="owner_clr mt-2 pt-2">Provider</span>
+                                        <p class="pagagraph mt-1 mb-3 pb-1 mb-3 pb-1">@Model.UtilityProvider.Name</p>
                                     </div>
                                 </div>
                             </div>
-                            <!------- Details Tab End  ------>
+                        </div>
+                    </div>
+                </div>
+                <!------- Details Tab End  ------>
+                <!------- Edit Utility Tab Start ------>
+                <div class="tab-pane fade h-100 mb-0 rp_popup" id="editUtility_tab" role="tabpanel"
+                     aria-labelledby="nav-building-details-tab">
+                    <div class="pe-2">
 
-                            <!------- Edit Utility Tab Start ------>
-                            <div class="tab-pane fade h-100 mb-0 rp_popup" id="editUtility_tab" role="tabpanel"
-                                aria-labelledby="nav-building-details-tab">
-                                <div class="pe-2">
-                                    <div class="p-3 bg-white rounded border border-top-0">
-                                        <div class="d-flex gap-3 pb-2">
-                                            <div class="input__field w-100">
-                                                <label for="Utility Type" class="form-label">Utility Type</label>
-                                                <select id="" class="form-select select_font_14"
-                                                    aria-label="Default select example">
-                                                    <option selected="">Seclect Utility</option>
-                                                    <option value="1">Electricity</option>
-                                                    <option value="2">Other</option>
-                                                    <option value="2">Water</option>
-                                                </select>
-                                            </div>
-                                            <div class="input__field w-100">
-                                                <label for="Meter Serial No" class="form-label">Meter Serial No
-                                                    for</label>
-                                                    <div class="position-relative">
-                                                        <input type="number" class="form-control fqft" value="" placeholder="123456" id="Security Deposit Amount" aria-describedby="">
-                                                    </div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex gap-3 pb-2 mt-2">
-                                            <div class="input__field w-100">
-                                                <label for="Account Number" class="form-label">Account Number</label>
-                                                    <div class="position-relative">
-                                                        <input type="number" class="form-control fqft" value="" placeholder="AABBCC12345" id="Security Deposit Amount" aria-describedby="">
-                                                    </div>
-                                            </div>
-                                            <div class="input__field w-100">
-                                                <label for="Utility Provider" class="form-label">Utility Provider</label>
-                                                <select id="" class="form-select select_font_14"
-                                                    aria-label="Default select example">
-                                                    <option selected="">Seclect Utility Provider</option>
-                                                    <option value="1">Torrent Power LTD</option>
-                                                    <option value="2">Millenium Gas Companey</option>
-                                                    <option value="2">Intelli Networks</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="w-100 h-75 mt-3 d-inline-block">
-                                            <textarea class="w-100" id="#" name="#" rows="4" cols="50"
-                                                placeholder="Start typing a note for this utility here..."></textarea>
-                                        </div>
-                                        <div class="d-flex justify-content-between mt-4 bg-white">
-                                            <div class="shadow-box ms-auto me-3">
-                                                <a href="#" class="custom__btn" data-bs-toggle="modal">
-                                                    Cancel
-                                                </a>
-                                            </div>
-                                            <div class="shadow-box">
-                                                <a class="custom__btn2" href="#" data-bs-toggle="modal">
-                                                    <img src="~/assets/img/save-role.svg" alt="right__arrow">
-                                                    Save Changes
-                                                </a>
-                                            </div>
+                        @using (Html.BeginForm("AddModifyUnitUtility", "Tenancy"))
+                        {
+                            @Html.HiddenFor(x=>x.Id)
+                            @Html.HiddenFor(x=>x.TenancyId)
+                            <div class="p-3 bg-white rounded border border-top-0">
+                                <div class="d-flex gap-3 pb-2">
+                                    <div class="input__field w-100">
+                                        <label for="Utility Type" class="form-label">Utility Type</label>
+                                        @Html.DropDownListFor(m=>Model.UtilityTypeId, types , new {@class="form-select select_font_14", @id="type-id"})
+                                    </div>
+                                    <div class="input__field w-100">
+                                        <label for="Meter Serial No" class="form-label">
+                                            Meter Serial No
+                                            for
+                                        </label>
+                                        <div class="position-relative">
+                                            @Html.TextBoxFor(m=>Model.MeterSerialNumber, new {@class="form-control fqft" })
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <!------- Edit Utility Tab End ----->
-
-                            <!-- ----- Unit Readings Tab Start ---- -->
-                            <div class="tab-pane fade border border-top-0 bg-white h-100" id="unitReadings__"
-                                role="tabpanel" aria-labelledby="nav-building-items-tab">
-                                <div class="pe-2">
-                                    <div class="d-flex justify-content-between p-3">
-                                        <h5 class="modal-title" id="staticBackdropLabel">Unit Readings</h5>
-                                        <div class="dropdown">
-                                            <div class="shadow-box ms-auto">
-                                                <a class="text-decoration-none custom__btn action_dropwown" href="#" role="button" id="acp-action" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <img src="~/assets/img/plus.svg" alt="setting_icon">
-                                                    Add Reading
-                                                </a>
-                                            </div>
+                                <div class="d-flex gap-3 pb-2 mt-2">
+                                    <div class="input__field w-100">
+                                        <label for="Account Number" class="form-label">Account Number</label>
+                                        <div class="position-relative">
+                                            @Html.TextBoxFor(m=>Model.AccountNumber, new {@class="form-control fqft" })
                                         </div>
                                     </div>
-                                    <div class="ser_lpading sm48__row_table no_top_search pt-0 pm_page_top_m table_bottom_border hide_sort_all">
-                                    <table id="Unit_reading_tab">
-                                        <thead>
-                                            <tr>
-                                                <th class="maintable_head">Reading Date</th>
-                                                <th class="maintable_head">Meter Reading</th>
-                                                <th class="maintable_head">&nbsp;</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                    @foreach(var reading in Model.UnitUtilityReadings)
+                                    <div class="input__field w-100">
+                                        <label for="Utility Provider" class="form-label">Utility Provider</label>
+                                        @Html.DropDownListFor(m=>Model.UtilityProviderId, providers , new {@class="form-select select_font_14", @id="provider-id"})
+                                    </div>
+                                </div>
+                                <div class="w-100 h-75 mt-3 d-inline-block">
+                                    @Html.TextAreaFor(m=>Model.Note , new {@class="w-100", @rows="4", @cols="50", @placeholder="Start typing a note for this utility here..."})
+                                </div>
+                                <div class="d-flex justify-content-between mt-4 bg-white">
+                                    <div class="shadow-box ms-auto me-3">
+                                        <a class="custom__btn" data-bs-toggle="modal">
+                                            Cancel
+                                        </a>
+                                    </div>
+                                    <div class="shadow-box">
+                                        <a class="custom__btn2" onclick="submitUtilityEditButton.click()">
+                                            <img src="~/assets/img/save-role.svg" alt="right__arrow">
+                                            Save Changes
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="submit" value="button" hidden id="submitUtilityEditButton" />
+                        }
+                    </div>
+                </div>
+
+                <!------- Edit Utility Tab End ----->
+                <!-- ----- Unit Readings Tab Start ---- -->
+                <div class="tab-pane fade border border-top-0 bg-white h-100" id="unitReadings__"
+                     role="tabpanel" aria-labelledby="nav-building-items-tab">
+                    <div class="pe-2">
+                        <div class="d-flex justify-content-between p-3">
+                            <h5 class="modal-title" id="staticBackdropLabel">Unit Readings</h5>
+                            <div class="dropdown">
+                                <div class="shadow-box ms-auto">
+                                    <a class="text-decoration-none custom__btn action_dropwown" data-bs-dismiss="modal" onclick="AddModifyUnitUtilityReading(@id)">
+                                        <img src="~/assets/img/plus.svg" alt="setting_icon">
+                                        Add Reading
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ser_lpading sm48__row_table no_top_search pt-0 pm_page_top_m table_bottom_border hide_sort_all">
+                            <table id="Unit_reading_tab">
+                                <thead>
+                                    <tr>
+                                        <th class="maintable_head">Reading Date</th>
+                                        <th class="maintable_head">Meter Reading</th>
+                                        <th class="maintable_head">&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var reading in Model.UnitUtilityReadings)
                                     {
                                         <tr>
                                             <td class="align-top">
@@ -176,6 +189,9 @@
                                                 <span class="black_12 d-inline-block">@reading.MeterReading</span>
                                             </td>
                                             <td class="text-end">
+                                                @{
+                                                    var readingId = "'" + reading.Id + "'";
+                                                }
                                                 <div class="d-flex align-items-center gap-3 justify-content-end">
                                                     <div>
                                                         <a class="text-decoration-none action_dropwown" href="#"
@@ -185,140 +201,71 @@
                                                         </a>
                                                         <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
                                                             aria-labelledby="acp-action">
-                                                            <li><a class="dropdown-item" href="#">Edit Reading</a></li>
-                                                            <li><a class="dropdown-item" href="#">Delete</a></li>
+                                                            <li><a class="dropdown-item" data-bs-dismiss="modal" onclick="AddModifyUnitUtilityReading(@utitlityId, @readingId)">Edit Reading</a></li>
+                                                            <li><a class="dropdown-item" onclick="DeleteUnitUtilityReading(@readingId)">Delete</a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
                                     }
-                                        </tbody>
-                                    </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <!------- Unit Readings Tab End ------>
-
-                            <!------- Documents Tab Start ------>
-                            <div class="tab-pane fade border border-top-0 bg-white" id="documents__"
-                                role="tabpanel" aria-labelledby="nav-building-items-tab">
-                                <div class="pe-2">
-                                    <div class="p-3 bg-white border-top-0">
-                                        <div class="d-flex gap-3 pb-2">
-                                            <div class="tenancy_rec p-4">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <img src="~/assets/img/uploaadf_f.png" alt="">
-                                                    </div>
-                                                    <div class="col-md-5">
-                                                        <p class="gray_14 mt-3 ">Drag and drop a file or
-                                                            click Upload button to browse a file.
-                                                            Supported file formats are JPG, PNG, PDF</p>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="shadow-box mt-3 ms-auto">
-                                                            <a class="custom__btn" >
-                                                                <img src="~/assets/img/upload_icon.svg" alt="dots_icon">
-                                                                Select from Storage
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <h4 class="modal-title mt-4 mb-3">Utility Documents</h4>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="doc_img">
-                                                    <img src="~/assets/img/rent_rec.png" class="img-fluid w-100"
-                                                        alt="pdf_files">
-                                                    <div
-                                                        class="pdf_footer px-3 py-3 d-flex justify-content-between align-items-center">
-                                                        <p class="pagagraph mb-0">Electric Meter Registration.jpg</p>
-                                                        <div class="dropdown">
-                                                            <a href="#" class="action_dropwown" id="dropdownImage"
-                                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                                <img src="assets/img/dots_Icon.svg"
-                                                                    alt="Dropdown Trigger">
-                                                            </a>
-
-                                                            <ul class="dropdown-menu shadow dropdown-menu-end border-0 rounded-0 p-0"
-                                                                aria-labelledby="acp-action">
-                                                                <li><a class="dropdown-item" href="#">Edit</a></li>
-                                                                <li><a class="dropdown-item" href="#">Delete</a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <!------- Documents Tab End ------>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-            </div>
+                <!------- Unit Readings Tab End ------>
+                <!------- Documents Tab Start ------>
+                <div class="tab-pane fade border border-top-0 bg-white" id="documents__"
+                     role="tabpanel" aria-labelledby="nav-building-items-tab">
+                    <div class="pe-2">
+                        <div class="p-3 bg-white border-top-0">
+                            <div class="d-flex gap-3 pb-2">
+                                <div class="tenancy_rec p-4">
+                                    @await Html.PartialAsync("AddUtilityDocument", new UnitUtilityDocumentModel(){UnitUtilityId = Model.Id})
+                                </div>
+                            </div>
+                            <h4 class="modal-title mt-4 mb-3">Utility Documents</h4>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    @foreach (var doc in Model.UnitUtilityDocuments)
+                                    {
+                                        string docId = "'" + doc.Id + "'";
+                                        <div class="doc_img">
+                                            <img src="@doc.DocUrl" class="img-fluid w-100"
+                                                 alt="pdf_files">
+                                            <div class="pdf_footer px-3 py-3 d-flex justify-content-between align-items-center">
+                                                <p class="pagagraph mb-0">@doc.Name</p>
+                                                <div class="dropdown">
+                                                    <a href="#" class="action_dropwown" id="dropdownImage"
+                                                       data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <img src="~/assets/img/dots_Icon.svg"
+                                                             alt="Dropdown Trigger">
+                                                    </a>
 
-@* <div>
-    <h4>UnitUtilityViewModel</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MeterSerialNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MeterSerialNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AccountNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AccountNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Note)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Note)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TenancyId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TenancyId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UtilityTypeId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UtilityTypeId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UtilityProviderId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UtilityProviderId)
-        </dd>
-    </dl>
+                                                    <ul class="dropdown-menu shadow dropdown-menu-end border-0 rounded-0 p-0"
+                                                        aria-labelledby="acp-action">
+                                                        <li><a class="dropdown-item" onclick="DeleteUnitUtilityDocument(@docId)">Delete</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!------- Documents Tab End ------>
+            </div>
+        </div>
+    </div>
 </div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
-</div>
- *@
 
 <script type="text/javascript">
-        $(document).ready(function () {
+
+    $(document).ready(function () {
         const table = document.getElementById('Unit_reading_tab');
         if (table) {
             new simpleDatatables.DataTable(table);
@@ -332,5 +279,24 @@
         } else {
             $('.datatable-bottom').show();
         }
+
+        // ----------- For Font size 14 -----------
+        $('.select_font_14').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: false,
+            dropdownCssClass: "select_font_14",
+        });
+
+        // ----------- With searh bar funcnality -----------
+        $('.select__search').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: false,
+            dropdownCssClass: "select__search",
+        });
     });
+
 </script>

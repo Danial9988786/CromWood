@@ -1,7 +1,4 @@
-﻿using CromWood.Data.Entities.Default;
-using CromWood.Data.Entities;
-
-namespace CromWood.Business.Models
+﻿namespace CromWood.Business.Models
 {
     public class UnitUtilityModel
     {

@@ -1,6 +1,6 @@
 ﻿@model CromWood.Business.Models.UnitUtilityReadingModel
 @{
-
+    var tenancyId = ViewBag.TenancyId;
 }
 
 <div class="modal-content rounded-0">
@@ -10,7 +10,7 @@
     </div>
     <div class="modal-body p-0">
         <div class="smallbody_content me-2">
-            <form asp-action="AddModifyUnitUtilityReading">
+            <form asp-action="AddModifyUnitUtilityReading" asp-route-tenancyId="@tenancyId">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 @Html.HiddenFor(x=>x.Id)
                 @Html.HiddenFor(x=>x.UnitUtilityId)

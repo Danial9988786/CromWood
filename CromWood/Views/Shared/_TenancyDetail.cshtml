@@ -24,7 +24,7 @@
         </h1>
 
         <div class="alert_btn_tm mx-4 mb-2">
-            <img class="pe-1" src="./assets/img/alert-triangle.svg" alt="">
+            <img class="pe-1" src="~/assets/img/alert-triangle.svg" alt="">
             Rent Arrear
         </div>
     </div>
@@ -64,7 +64,7 @@
         <a class="nav-link text-capitalize" id="nav-tenancy-statement" asp-route-id="@tenancy.Data.Id" asp-action="Statement">
             statement
         </a>
-        <a class="nav-link text-capitalize" id="nav-tenancy-recurring-charges" asp-route-id="@tenancy.Data.Id" asp-action="Recurring">
+        <a class="nav-link text-capitalize" id="nav-tenancy-recurring-charges" asp-route-id="@tenancy.Data.Id" asp-action="RecurringCharges">
             recurring charges
         </a>
         <a class="nav-link text-capitalize" id="nav-tenancy-payment-plans" asp-route-id="@tenancy.Data.Id" asp-action="PaymentPlan">
@@ -115,5 +115,8 @@
     }
     if (window.location.pathname.includes('/Tenancy/UnitUtilities')) {
         document.getElementById("nav-tenancy-utilities").classList.add('active');
+    }
+    if (window.location.pathname.includes('/Tenancy/RecurringCharges')) {
+        document.getElementById("nav-tenancy-recurring-charges").classList.add('active');
     }
 </script>

@@ -38,5 +38,10 @@ namespace CromWood.Business.Services.Interface
         public Task<AppResponse<UnitUtilityDocumentModel>> GetUnitUtilityDocument(Guid id);
         public Task<AppResponse<int>> AddModifyUnitUtilityDocument(UnitUtilityDocumentModel req);
         public Task<AppResponse<int>> DeleteUnitUtilityDocument(Guid id);
+        public Task<AppResponse<ICollection<RecurringChargeViewModel>>> GetRecurringCharges(Guid id);
+        public Task<AppResponse<RecurringChargeModel>> GetRecurringCharge(Guid id);
+        public Task<AppResponse<RecurringChargeViewModel>> GetRecurringChargeView(Guid id);
+        public Task<AppResponse<int>> AddModifyRecurringCharge(RecurringChargeModel req);
+        public Task<AppResponse<int>> DeleteRecurringCharge(Guid id);
     }
 }

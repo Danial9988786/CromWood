@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CromWood.Business.Models.ViewModel.UnitUtilityViewModel>
+﻿@model IEnumerable<CromWood.Business.Models.ViewModel.UnitUtilityViewModel>;
 
 @{
     ViewData["Title"] = "UnitUtilities";
@@ -65,7 +65,7 @@
                             <span class="d-inline-block black_12">
                                 @if (utility.UnitUtilityReadings?.Count > 0)
                                 {
-                                    @utility.UnitUtilityReadings.ToList().OrderBy(x=>x.DateOfReading).First().DateOfReading;
+                                    @utility.UnitUtilityReadings.ToList().OrderByDescending(x=>x.DateOfReading).First().DateOfReading;
                                 }
                             </span>
                         </td>
@@ -81,7 +81,7 @@
                             }
                             <div class="d-flex align-items-center gap-3 justify-content-end">
                                 <div>
-                                    <a class="c_file d-inline-block" onclick="AddModifyUnitUtilityReading(@id)">
+                                    <a class="c_file d-inline-block" onclick="AddModifyUnitUtilityReading(@id, @tenancyId)">
                                         add reading
                                     </a>
                                 </div>
@@ -118,9 +118,6 @@
     <div class="modal-dialog modal-dialog-centered modal-xl model_height" id="utilityViewDialogBody">
     </div>
 </div>
-
-
-
 
 
 <script>
@@ -170,8 +167,8 @@
         });
     }
 
-    function AddModifyUnitUtilityReading(utilityId, id) {
-        var url = `/Tenancy/AddModifyUnitUtilityReading?utilityId=${utilityId}&id=${id}`;
+    function AddModifyUnitUtilityReading(utilityId, tenancyId, id) {
+        var url = `/Tenancy/AddModifyUnitUtilityReading?utilityId=${utilityId}&tenancyId=${tenancyId}&id=${id}`;
         $("#utilityAddEditDialogBody").load(url, function () {
             // This is done to add validation to partial view, as they don't support validationscript partial.
             $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
@@ -194,4 +191,29 @@
             }
         })
     }
+
+    function DeleteUnitUtilityReading(id) {
+        $.ajax({
+            type: "POST",
+            url: `/Tenancy/DeleteUnitUtilityReading?id=${id}`,
+            success: function (result) {
+                window.location.reload();
+            },
+            error: function () {
+            }
+        })
+    }
+
+    function DeleteUnitUtilityDocument(id) {
+        $.ajax({
+            type: "POST",
+            url: `/Tenancy/DeleteUnitUtilityDocument?id=${id}`,
+            success: function (result) {
+                window.location.reload();
+            },
+            error: function () {
+            }
+        })
+    }
+
 </script>

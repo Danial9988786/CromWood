@@ -38,5 +38,10 @@ namespace CromWood.Data.Repository.Interface
         public Task<UnitUtilityDocument> GetUnitUtilityDocument(Guid id);
         public Task<int> AddModifyUnitUtilityDocument(UnitUtilityDocument req);
         public Task<string> DeleteUnitUtilityDocument(Guid id);
+        public Task<ICollection<RecurringCharge>> GetRecurringCharges(Guid id);
+        public Task<RecurringCharge> GetRecurringCharge(Guid id);
+        public Task<RecurringCharge> GetRecurringChargeView(Guid id);
+        public Task<int> AddModifyRecurringCharge(RecurringCharge mapped);
+        public Task<int> DeleteRecurringCharge(Guid id);
     }
 }

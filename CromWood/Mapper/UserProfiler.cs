@@ -60,6 +60,9 @@ namespace CromWood.Mapper
             CreateMap<UnitUtilityDocument, UnitUtilityDocumentModel>().ReverseMap();
             CreateMap<UnitUtilityDocument, UnitUtilityDocumentViewModel>().ReverseMap();
 
+            CreateMap<RecurringCharge, RecurringChargeModel>().ReverseMap();
+            CreateMap<RecurringCharge, RecurringChargeViewModel>().ReverseMap();
+
             CreateMap<Notice, NoticeModel>().ReverseMap();
             CreateMap<Notice, NoticeViewModel>().ReverseMap();
 

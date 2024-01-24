@@ -371,5 +371,51 @@ namespace CromWood.Data.Repository.Implementation
             }
         }
 
+        public async Task<ICollection<RecurringCharge>> GetRecurringCharges(Guid id) { 
+            return await _context.RecurringCharges.Include(x=>x.Tenancy).Include(x=>x.RecurringBasisFor).Include(x=>x.TransactionType).Include(x=>x.RecurringFrequency).Where(x=>x.TenancyId == id).ToListAsync();
+        }
+
+        public async Task<RecurringCharge> GetRecurringCharge(Guid id) { 
+            return await _context.RecurringCharges.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<RecurringCharge> GetRecurringChargeView(Guid id) { 
+            return await _context.RecurringCharges.Include(x => x.Tenancy).Include(x => x.TransactionType).Include(x => x.RecurringFrequency).FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<int> AddModifyRecurringCharge(RecurringCharge req) {
+            try
+            {
+                if (req.Id == Guid.Empty)
+                {
+                    await _context.RecurringCharges.AddAsync(req);
+                }
+                else
+                {
+                    _context.RecurringCharges.Update(req);
+                }
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<int> DeleteRecurringCharge(Guid id) {
+            try
+            {
+                var item = await _context.RecurringCharges.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+                _context.RecurringCharges.Remove(item);
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
     }
 }

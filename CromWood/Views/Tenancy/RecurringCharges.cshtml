@@ -1,0 +1,200 @@
+﻿@model IEnumerable<CromWood.Business.Models.ViewModel.RecurringChargeViewModel>
+
+@{
+    ViewData["Title"] = "RecurringCharges";
+    Layout = "~/Views/Shared/_TenancyDetail.cshtml";
+
+    var rawId = ViewContext.RouteData.Values["id"] as string;
+    string tenancyId = "'" + Guid.Parse(rawId).ToString() + "'";
+    string emptyGuid = "'" + Guid.Empty.ToString() + "'";
+}
+
+<div class="tab-pane fade border border-top-0 bg-white show active" id="recurring_Charges" role="tabpanel"
+     aria-labelledby="nav-roles-per-tab">
+    <div class="px-3">
+        <div class="row">
+            <div class="col-xl-6">
+                <h1 class="mt-4 mb-3 custom_h">Recurring Charges</h1>
+            </div>
+            <div class="col-xl-6 mt-3">
+                <div class="shadow-box ms-auto">
+                    <a class="custom__btn" onclick="AddModifyRecurringCharge(@tenancyId,@emptyGuid)">
+                        Add recurring charge
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ser_lpading  sm48__row_table pt-0 pm_page_top_m table_bottom_border hide_sort_all">
+        <table id="Recurring_Charges_tab">
+            <thead>
+                <tr>
+                    <th class="maintable_head">Description</th>
+                    <th class="maintable_head">Amount Details</th>
+                    <th class="maintable_head">Amount</th>
+                    <th class="maintable_head">Start Date</th>
+                    <th class="maintable_head">Next Collection </th>
+                    <th class="maintable_head">End Date</th>
+                    <th class="maintable_head">Status</th>
+                    <th class="maintable_head">Date Created</th>
+                    <th class="maintable_head">&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model){
+                    <tr>
+                        @{
+                            var itemId = "'" + item.Id + "'";
+                        }
+                    <td class="align-top" width="220px">
+                        <a class="main-text" href="#">
+                            <span class="u_n">Monthly Rent</span>
+                            <br>
+                            <span class="gray_14">@item.TransactionType.Name</span><br>
+                            <div class="pt-2">
+                                <img src="~/assets/img/Location.svg" alt="locaton"> 25
+                                <span class="u_n">
+                                    Meadowford
+                                    Close, London, Greenwich
+                                </span>
+                            </div>
+                        </a>
+                    </td>
+                    <td class="align-top">
+                        <span class="black_14  d-inline-block ">@item.RecurringFrequency.Name</span>
+                        <div class="gray_12 pt-2">Paid to/ by tenant</div>
+                        <span class="black_14  d-inline-block ">
+                            @item.RecurringBasisFor.FullName
+                        </span>
+                    </td>
+                    <td class="align-top">
+                        <span class="black_14  d-inline-block">@item.NetAmount</span>
+                    </td>
+                    <td class="align-top">
+                        <span class="black_14  d-inline-block">
+                            @item.InvoiceRaisedDate
+                        </span>
+                    </td>
+                    <td class="align-top">
+                        <span class="black_14  d-inline-block">
+                                @item.InvoiceRaisedToDate
+                        </span>
+                    </td>
+                    <td class="align-top">
+                            <span>@item.InvoiceRaisedToDate</span>
+                    </td>
+                    <td class="align-top">
+                        <div class="paid_btn mt-1">
+                            Active
+                        </div>
+                    </td>
+                    <td class=" align-top">
+                        <span class="black_14  d-inline-block mb-1">
+                            @item.CreatedDate
+                        </span><br>
+                        <span class="black_14  d-inline-block mb-1">
+                            @item.CreatedBy
+                        </span><br>
+                        <span class="gray_12 d-inline-block pt-2">
+                            Last
+                            Updated
+                        </span><br>
+                        <span class="black_14  d-inline-block mb-1">
+                            @item.UpdatedDate
+                        </span><br>
+                        <span class="black_14  d-inline-block mb-1">
+                            @item.UpdatedBy
+                        </span>
+                    </td>
+                    <td class="text-end">
+                            <a class="text-decoration-none" onclick="ViewRecurringCharge(@itemId)">
+                            <img src="~/assets/img/eye.svg" />
+                        </a>
+                        <a class="text-decoration-none action_dropwown" href="#" role="button"
+                           id="acp-action" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="~/assets/img/down_arrow.svg" class="ms-2" />
+                        </a>
+                        <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
+                            aria-labelledby="acp-action">
+                                <li><a class="dropdown-item" onclick="AddModifyRecurringCharge(@tenancyId,@itemId)">Edit Recuring Charge</a></li>
+                                <li><a class="dropdown-item" onclick="DeleteRecurringCharge(@itemId)">Delete</a></li>
+                        </ul>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="chargeAddEditDialog">
+    <div class="modal-dialog modal-dialog-centered cm2_size rp_popup add_edit_popup" id="chargeAddEditDialogBody">
+    </div>
+</div>
+
+<div class="modal fade" id="chargeViewDialog">
+    <div class="modal-dialog modal-dialog-centered modal-xl model_height" id="chargeViewDialogBody">
+    </div>
+</div>
+
+
+<script>
+
+    window.addEventListener('DOMContentLoaded', event => {
+        const table = document.getElementById('Recurring_Charges_tab');
+        if (table) {
+            new simpleDatatables.DataTable(table);
+        }
+
+        // Code for datatable manipulation
+        var rowCount = $('.datatable-table tbody tr').length;
+        var threshold = 10;
+        if (rowCount < threshold) {
+            $('.datatable-bottom').hide();
+        } else {
+            $('.datatable-bottom').show();
+        }
+
+        var filter = $(".filter_btn");
+        $(".datatable-top").append(filter);
+    });
+
+    function AddModifyRecurringCharge(tenancyId, id) {
+        var url = `/Tenancy/AddModifyRecurringCharge?tenancyId=${tenancyId}&id=${id}`;
+        $("#chargeAddEditDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#chargeAddEditDialogBody").css("width", "100%");
+            $("#chargeAddEditDialog").modal("show");
+        });
+    }
+
+    function ViewRecurringCharge(id) {
+        var url = `/Tenancy/ViewRecurringCharge?id=${id}`;
+        $("#chargeViewDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#chargeViewDialogBody").css("width", "100%");
+            $("#chargeViewDialog").modal("show");
+        });
+    }
+
+    function DeleteRecurringCharge(id) {
+        $.ajax({
+            type: "POST",
+            url: `/Tenancy/DeleteRecurringCharge?id=${id}`,
+            success: function (result) {
+                window.location.reload();
+            },
+            error: function () {
+            }
+        })
+    }
+
+</script>

@@ -21,6 +21,7 @@ namespace CromWood.Business.Services.Implementation
             _fileUploader = fileUploader;
         }
 
+        #region Core Tenancy related services
         public async Task<AppResponse<IEnumerable<TenancyViewModel>>> GetTenancyForList()
         {
             try
@@ -95,7 +96,9 @@ namespace CromWood.Business.Services.Implementation
                 return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
             }
         }
+        #endregion
 
+        #region Tenancy tenant related services
         public async Task<AppResponse<IEnumerable<TenantViewModel>>> GetTenancyTenants(Guid tenancyId)
         {
             try
@@ -125,7 +128,9 @@ namespace CromWood.Business.Services.Implementation
                 return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
             }
         }
+        #endregion
 
+        #region Tenancy notes related services
         public async Task<AppResponse<IEnumerable<TenancyNoteModel>>> GetTenancyNotes(Guid tenancyId)
         {
             try
@@ -196,7 +201,9 @@ namespace CromWood.Business.Services.Implementation
                 return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
             }
         }
+        #endregion
 
+        #region Tenancy documents related services
         public async Task<AppResponse<IEnumerable<TenancyDocumentModel>>> GetTenancyDocuments(Guid tenancyId)
         {
             try
@@ -267,7 +274,9 @@ namespace CromWood.Business.Services.Implementation
                 return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
             }
         }
+        #endregion
 
+        #region Tenancy notice and claims
         public async Task<AppResponse<ICollection<NoticeViewModel>>> GetNoticesForTenancyTenants(Guid tenancyId)
         {
             try
@@ -296,7 +305,9 @@ namespace CromWood.Business.Services.Implementation
                 return ResponseCreater<ICollection<ComplaintViewModel>>.CreateErrorResponse(null, ex.ToString());
             }
         }
+        #endregion
 
+        #region Tenancy message related services
         public async Task<AppResponse<ICollection<TenancyMessageViewModel>>> GetTenancyMessages(Guid id)
         {
             try
@@ -366,7 +377,9 @@ namespace CromWood.Business.Services.Implementation
                 return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
             }
         }
+        #endregion
 
+        #region Tenancy unit utilities related services
         public async Task<AppResponse<ICollection<UnitUtilityViewModel>>> GetUnitUtilities(Guid id)
         {
             try
@@ -540,6 +553,83 @@ namespace CromWood.Business.Services.Implementation
                 return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
             }
         }
+        #endregion
+
+        #region Tenancy Recurring charge service part
+        public async Task<AppResponse<ICollection<RecurringChargeViewModel>>> GetRecurringCharges(Guid id)
+        {
+            try
+            {
+                var result = await _tenancyRepository.GetRecurringCharges(id);
+                var mappedResult = _mapper.Map<ICollection<RecurringChargeViewModel>>(result);
+                return ResponseCreater<ICollection<RecurringChargeViewModel>>.CreateSuccessResponse(mappedResult, "Recurring charges loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<ICollection<RecurringChargeViewModel>>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<RecurringChargeModel>> GetRecurringCharge(Guid id)
+        {
+            try
+            {
+                var result = await _tenancyRepository.GetRecurringCharge(id);
+                var mappedResult = _mapper.Map<RecurringChargeModel>(result);
+                return ResponseCreater<RecurringChargeModel>.CreateSuccessResponse(mappedResult, "Recurring charge loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<RecurringChargeModel>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<RecurringChargeViewModel>> GetRecurringChargeView(Guid id)
+        {
+            try
+            {
+                var result = await _tenancyRepository.GetRecurringChargeView(id);
+                var mappedResult = _mapper.Map<RecurringChargeViewModel>(result);
+                return ResponseCreater<RecurringChargeViewModel>.CreateSuccessResponse(mappedResult, "Recurring charge view loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<RecurringChargeViewModel>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<int>> AddModifyRecurringCharge(RecurringChargeModel req)
+        {
+            try
+            {
+                var mapped = _mapper.Map<RecurringCharge>(req);
+                var result = await _tenancyRepository.AddModifyRecurringCharge(mapped);
+                return ResponseCreater<int>.CreateSuccessResponse(result, "Recurring charge add/update successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<int>> DeleteRecurringCharge(Guid id)
+        {
+            try
+            {
+                var result = await _tenancyRepository.DeleteRecurringCharge(id);
+                return ResponseCreater<int>.CreateSuccessResponse(1, "Recurring charge deleted successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
+        }
+        #endregion
 
     }
 }
