@@ -30,7 +30,7 @@
             Created on: <sapn>@(Model.CreatedDate.HasValue ? Model.CreatedDate.Value.ToString("yyyy-MM-dd") : "N/A")</sapn>
         </h6>
         <h6 class="cre ms-4">
-            Last Modified: <sapn>@(Model.UpdatedDate.HasValue ? Model.UpdatedDate.Value.ToString("yyyy-MM-dd") : "N/A")</sapn> <a class="v_c" href="#">View Changelog</a>
+            Last Modified: <sapn>@(Model.UpdatedDate.HasValue ? Model.UpdatedDate.Value.ToString("yyyy-MM-dd") : "N/A")</sapn> <a class="v_c" asp-action="ChangeLog" asp-route-id="@Model.Id" asp-route-assetId="@Model.AssetId">View Changelog</a>
         </h6>
 
     </div>

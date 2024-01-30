@@ -7,7 +7,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
+    var screenName = PermissionKeyConstant.AssementManagement;
     var havePermission = await _authService.CheckPermission(PermissionKeyConstant.AssetManagement, PermissionConstant.CanWrite);
 }
 
@@ -116,7 +116,7 @@
             $(".datatable-top").append(filter);
 
             // For the Filter
-            $("#filterBox").load("/Filter/Index?keyName=asset_management", function () {
+            $("#filterBox").load("/Filter/Index?keyName=@screenName", function () {
                 $("#filterBox").show();
             });
 

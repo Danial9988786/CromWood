@@ -1,4 +1,5 @@
 ﻿using CromWood.Data.Context;
+using CromWood.Data.Entities;
 using CromWood.Data.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -43,6 +44,30 @@ namespace CromWood.Data.Repository.Implementation
                 condition += ")";
             }
             return condition;
+        }
+
+        public async Task<int> AddChangeLog(ChangeLog log)
+        {
+            try
+            {
+                await _context.ChangeLogs.AddAsync(log);
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<ChangeLog>> GetChangeLogsForScreen(string screenName)
+        {
+            return await _context.ChangeLogs.Where(x => x.ScreenName == screenName).ToListAsync();
+        }
+
+        public async Task<IEnumerable<ChangeLog>> GetChangeLogsForScreenDetail(Guid screenDetailId)
+        {
+            return await _context.ChangeLogs.Where(x => x.ScreenDetailId == screenDetailId).ToListAsync();
         }
 
         public async Task<T> AddAsync(T item)

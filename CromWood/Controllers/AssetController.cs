@@ -12,11 +12,13 @@ namespace CromWood.Controllers
     public class AssetController : Controller
     {
         private readonly IAssetService _assetService;
+        private readonly IChangeLogService _changeLogService;
         private readonly IAuthService _authService;
-        public AssetController(IAssetService assetService, IAuthService authService)
+        public AssetController(IAssetService assetService, IAuthService authService, IChangeLogService changeLogService)
         {
             _assetService = assetService;
             _authService = authService;
+            _changeLogService = changeLogService;
         }
 
         public async Task<IActionResult> Index(Guid filterId)
@@ -38,13 +40,13 @@ namespace CromWood.Controllers
             var source = assets.Data.ToList();
             List<string> headers = new()
             {"Asset Id", "Asset Type", "House No Street",
- "Locality", "Borough", "Post Code", "Title Number", "Ownership",
- "Aquisition Date", "Purchase Price", "Valuation", "Valuation Date",
- "Reinstatement", "Lender", "Chargee", "Date Of Charge",
- "Financial Prgoram", "Grant Provider", "Attributable Grant", "Construction Period",
- "Landlord Responsible", "Freeholder Responsible", "Owner Responsible", "Landlord Name",
- "Managing Agent", "Managing Agent House No Street", "Managing Agent Locality", "Managing Agent Borough",
- "Managing Agent Post Code", "Lease Term", "Lease Expiry" };
+            "Locality", "Borough", "Post Code", "Title Number", "Ownership",
+            "Aquisition Date", "Purchase Price", "Valuation", "Valuation Date",
+            "Reinstatement", "Lender", "Chargee", "Date Of Charge",
+            "Financial Prgoram", "Grant Provider", "Attributable Grant", "Construction Period",
+            "Landlord Responsible", "Freeholder Responsible", "Owner Responsible", "Landlord Name",
+            "Managing Agent", "Managing Agent House No Street", "Managing Agent Locality", "Managing Agent Borough",
+            "Managing Agent Post Code", "Lease Term", "Lease Expiry" };
 
             #region Exporting for Excel
 
@@ -152,7 +154,9 @@ namespace CromWood.Controllers
                 await _assetService.EditAsset(asset);
                 return RedirectToAction("AssetDetail", "Asset", new { id = asset.Id });
             }
-            return RedirectToAction("Index");
+
+            // Redirect to Property Add Page//
+            return RedirectToAction("Index","Property", new { assetId = asset.Id});
         }
 
         public async Task<IActionResult> AssetDetail(Guid id)
@@ -170,6 +174,14 @@ namespace CromWood.Controllers
         {
             var result = await _assetService.GetAssetsOverView(id);
             return StatusCode(result.StatusCode, result.Data);
+        }
+
+        public async Task<IActionResult> ChangeLog(Guid id, [FromQuery] string assetId)
+        {
+            ViewBag.BreadcrumbName = assetId;
+            ViewBag.Id = id;
+            var result = await _changeLogService.GetChangeLogsForScreenDetail(id);
+            return View(result.Data);
         }
     }
 }

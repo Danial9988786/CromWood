@@ -102,6 +102,7 @@ namespace CromWood.Data.Context
         public DbSet<Filter> Filters { get; set; }
         public DbSet<FilterAndCondition> FilterAndConditions { get; set; }
         public DbSet<FilterOrCondition> FilterOrConditions { get; set; }
+        public DbSet<ChangeLog> ChangeLogs { get; set; }
 
         public override int SaveChanges()
         {

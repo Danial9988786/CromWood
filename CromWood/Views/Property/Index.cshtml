@@ -6,6 +6,10 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var assetId = "";
+    if(ViewBag.AssetId!=Guid.Empty){
+        assetId = "'" + ViewBag.AssetId + "'";
+    }
     var havePermission = await _authService.CheckPermission(PermissionKeyConstant.AssetManagement, PermissionConstant.CanWrite);
 }
 
@@ -171,9 +175,15 @@
 
             var filter = $(".filter_btn");
             $(".datatable-top").append(filter);
+
+            var assetId = '@assetId';
+            console.log(assetId)
+            if (assetId != null && assetId != '') {
+                CreateProperty(assetId);
+            }
         });
 
-        function CreateProperty() {
+        function CreateProperty(assetId) {
             var havePermission = '@havePermission.ToString()';
             if (havePermission == 'False') {
                 $.get('/Auth/NotAuthorizedJSON', function (result) {
@@ -181,7 +191,7 @@
                 });
                 return;
             }
-            var url = "/Property/AddModifyProperty";
+            var url = "/Property/AddModifyProperty?assetId=" + assetId;
             $("#propertyDialogBody").load(url, function () {
                 // This is done to add validation to partial view, as they don't support validationscript partial.
                 $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {

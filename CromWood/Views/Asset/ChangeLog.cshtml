@@ -1,0 +1,78 @@
+﻿@using CromWood.Business.Services.Interface;
+@model IEnumerable<CromWood.Data.Entities.ChangeLog>
+@inject IUserService _userService;
+
+@{
+    ViewData["Title"] = "ChangeLog";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var breadCrumbName = ViewBag.BreadcrumbName;
+    var id = ViewBag.Id;
+}
+<ol class="breadcrumb align-items-end mb-10 mt-3">
+    <li class="breadcrumb-item">
+        <a asp-action="Index" asp-controller="Test"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
+    </li>
+    <li class="breadcrumb-item active"><a asp-action="Index" class="text-decoration-none"><span class="a_m">Asset Management</span></a></li>
+    <li class="breadcrumb-item active"><span>@breadCrumbName</span></li>
+
+</ol>
+<div class="d-flex pt-1 align-items-center aseet_m_d">
+    <h1 class="mt-2 mb-3 custom_h">
+        <a asp-action="AssetDetail" asp-route-id="@id"><img src="~/assets/img/left_Icon.svg"></a>&nbsp View Change log
+    </h1>
+</div>
+
+
+<div class="user__list as__menag mt-1 sm48__row_table hide_sort_all pt-0 table_bottom_border">
+    <table id="datatablesSimple" class="border rounded-top border-bottom-0">
+        <thead>
+            <tr>
+                <th class="maintable_head">S. No.</th>
+                <th class="maintable_head">Modification Date</th>
+                <th class="maintable_head">User</th>
+                <th class="maintable_head">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int index = 0;
+            }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="maintext_size">
+                        @(index + 1).
+                        @{
+                            index = index + 1;
+                        }
+                    </td>
+                    <td class="maintext_size">
+                        @item.CreatedDate
+                    </td>
+                    <td class="maintext_size">@item.CreatedBy</td>
+                    <td class="maintext_size">@item.Description</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+<script>
+
+    $('document').ready(function () {
+        $(".datatable-table thead tr th button.datatable-sorter").append("<span class='c__icon'></span>");
+
+        // Code for datatable manipulation
+        var rowCount = $('.datatable-table tbody tr').length;
+        var threshold = 10;
+        if (rowCount < threshold) {
+            $('.datatable-bottom').hide();
+        } else {
+            $('.datatable-bottom').show();
+        }
+
+    });
+</script>
+}

@@ -1,4 +1,5 @@
-﻿using CromWood.Business.Models;
+﻿using CromWood.Business.Constants;
+using CromWood.Business.Models;
 using CromWood.Business.Services.Interface;
 using CromWood.Data;
 using CromWood.Data.Context;
@@ -86,7 +87,7 @@ namespace CromWood.Controllers
         {
             switch (keyName)
             {
-                case "asset_management":
+                case PermissionKeyConstant.AssementManagement:
                     return typeof(AssetModel).GetProperties();
                 case "asset_managemenat":
                     return typeof(AssetModel).GetProperties();

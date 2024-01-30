@@ -25,7 +25,7 @@ namespace CromWood.Controllers
             _authService = authService;
             _fileUploader = fileUploader;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(Guid assetId)
         {
             var havePermission = await _authService.CheckPermission(PermissionKeyConstant.PropertyManagement, PermissionConstant.ViewAll);
             if (!havePermission)
@@ -33,6 +33,8 @@ namespace CromWood.Controllers
                 return RedirectToAction("NotAuthorized", "Auth");
             }
             var result = await _propertyService.GetPropertyForList();
+            // This is provided incase of new addition of Asset to Redirect to Property Addition
+            ViewBag.AssetId = assetId;
             return View(result.Data);
         }
 
@@ -42,7 +44,11 @@ namespace CromWood.Controllers
             // Get assets for exporting
             var assets = await _propertyService.GetPropertyForList();
             var source = assets.Data.ToList();
-            List<string> headers = new() { "Property ID", "Street Address", "Ownership", "Status", "Rent Amount" };
+            List<string> headers = new() {
+             "Property ID", "Asset ID", "Address", "Expected Monthly Rate",
+             "Property Type", "Square Footage", "Floor Number",
+             "No Of Bedroom", "No Of Bathroom"}
+;
 
             #region Exporting for Excel
 
@@ -63,14 +69,21 @@ namespace CromWood.Controllers
             }
 
             // For Data
-            for (int data = 1; data <= source.Count; data++)
+            for (int i = 0; i < source.Count; i++)
             {
-                worksheet.Cell(data + 1, 1).Value = source[data - 1].PropertyCode;
-                worksheet.Cell(data + 1, 2).Value = source[data - 1].Asset.StreetAddress;
-                worksheet.Cell(data + 1, 3).Value = source[data - 1].Asset.Ownership;
-                worksheet.Cell(data + 1, 4).Value = "Available to let";
-                worksheet.Cell(data + 1, 5).Value = source[data - 1].ExpectedMonthlyRate + " monthly";
+                worksheet.Cell(i + 1, 1).Value = source[i].PropertyCode;
+                worksheet.Cell( i + 1, 2).Value = source[i].Asset.AssetId;
+                worksheet.Cell(i + 1, 3).Value = source[i].Asset.StreetAddress;
+                worksheet.Cell(i + 1, 4).Value = source[i].Asset.StreetAddress;
+                worksheet.Cell(i + 1, 5).Value = source[i].ExpectedMonthlyRate + " monthly";
+                worksheet.Cell(i + 1, 6).Value = source[i].PropertyType.Name;
+                worksheet.Cell(i + 1, 7).Value = source[i].SquareFootage;
+                worksheet.Cell(i + 1, 8).Value = source[i].FloorNumber;
+                worksheet.Cell(i + 1, 9).Value = source[i].NoOfBedroom;
+                worksheet.Cell(i + 1, 10).Value = source[i].NoOfBathroom;
+                worksheet.Cell(i + 1, 11).Value = source[i].Tenancies.Count;
             }
+
             using var stream = new MemoryStream();
             workbook.SaveAs(stream);
             var content = stream.ToArray();
@@ -80,7 +93,7 @@ namespace CromWood.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddModifyProperty(Guid id)
+        public async Task<IActionResult> AddModifyProperty(Guid id, Guid assetId)
         {
             var havePermission = await _authService.CheckPermission(PermissionKeyConstant.PropertyManagement, PermissionConstant.CanWrite);
             if (!havePermission)
@@ -104,6 +117,10 @@ namespace CromWood.Controllers
             }
             property.PropertyAmenities = propertyAmenities;
             property.PropertyCode = "PROP-" + RandomAlphaNumbericGenerator.Random(6);
+            if (assetId != Guid.Empty)
+            {
+                property.AssetId = assetId;
+            }
             return PartialView("AddModifyProperty", property);
         }
 

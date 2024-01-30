@@ -4,6 +4,7 @@ using CromWood.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CromWood.Data.Migrations
 {
     [DbContext(typeof(CromwoodContext))]
-    partial class CromwoodContextModelSnapshot : ModelSnapshot
+    [Migration("20240130070143_Added changelog table2")]
+    partial class Addedchangelogtable2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -180,9 +183,6 @@ namespace CromWood.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ScreenName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("UpdatedBy")

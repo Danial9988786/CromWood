@@ -17,5 +17,6 @@ namespace CromWood.Business.Models.ViewModel
         public float NoOfBedroom { get; set; }
         public float NoOfBathroom { get; set; }
         public ICollection<PropertyAmenity> PropertyAmenities { get; set; }
+        public ICollection<TenancyViewModel> Tenancies { get; set; }
     }
 }

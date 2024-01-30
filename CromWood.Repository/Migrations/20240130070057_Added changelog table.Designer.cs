@@ -4,6 +4,7 @@ using CromWood.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CromWood.Data.Migrations
 {
     [DbContext(typeof(CromwoodContext))]
-    partial class CromwoodContextModelSnapshot : ModelSnapshot
+    [Migration("20240130070057_Added changelog table")]
+    partial class Addedchangelogtable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -159,41 +162,6 @@ namespace CromWood.Data.Migrations
                     b.HasIndex("FinancialPrgoramId");
 
                     b.ToTable("Assets");
-                });
-
-            modelBuilder.Entity("CromWood.Data.Entities.ChangeLog", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("ScreenDetailId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ScreenName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ChangeLogs");
                 });
 
             modelBuilder.Entity("CromWood.Data.Entities.Claim", b =>

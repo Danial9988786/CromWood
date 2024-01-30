@@ -13,6 +13,8 @@
     var assets = new SelectList(asyncAssets.Data, "Id", "StreetAddress");
 
     var groupByAmenties = Model.PropertyAmenities.GroupBy(x => x.Amenity.GroupName);
+
+    var disabled = Model.AssetId == Guid.Empty ? false : true;
 }
 
 <div class="modal-content rounded-0">
@@ -81,12 +83,13 @@
                                     <div class="col-md-12">
                                         @Html.HiddenFor(m=>m.Id)
                                         @Html.HiddenFor(m=>m.PropertyCode)
+                                        @Html.HiddenFor(m=>m.AssetId)
                                         <div class="mb-3">
                                             <label for="Select Asset" class="form-label">
                                                 Select
                                                 Asset
                                             </label>
-                                            <select asp-for="AssetId" id="asset-select" asp-items="assets" class="form-select select_font_14 pagagraph"></select>
+                                            <select asp-for="AssetId" disabled="@disabled" id="asset-select" asp-items="assets" class="form-select select_font_14 pagagraph"></select>
                                         </div>
                                     </div>
                                 </div>

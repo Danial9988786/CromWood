@@ -1,102 +1,112 @@
-﻿<h1 class="mt-4 mb-3 custom_h">Dashboard</h1>
-<!-- <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item active">Dashboard</li>
-    </ol> -->
-<div class="row pb-3 top___card">
-    <div class="col-xl-3 col-md-6">
-        <div class="card_box border rounded p-3 bg-white">
-            <div class="row pb-3">
-                <span class="topcard__text">Overview of April 22 - March 23</span>
-            </div>
-            <div class="row">
-                <div class="col-8">
-                    <h3>£ 46,589.00</h3>
-                    <span class="topcard__text" style="color:#41BD00;">
-                        <img class="me-1" src="./assets/img/green__arrow.svg" />
-                        5.8%
+﻿<div class="d-flex justify-content-between align-items-center">
+    <h1 class="mt-4 mb-3 custom_h">Dashboard</h1>
+    <div class="d-flex justify-content-between align-items-center mt-2 gap-2">
+        <div class="input-container w150">
+            <div class="input-group date__box date datepicker">
+                <input type="text" class="form-control pagagraph" placeholder="24/01/2024" id="start_date">
+                <span class="input-group-append">
+                    <span class="date__icon bg-white">
+                        <img src="./assets/img/date__icon.svg" alt="date_icon">
                     </span>
-                </div>
-                <div class="col-4 text-end">
-                    <div class="mb-3">
-                        <img class="me-1" src="./assets/img/green__data_bar.svg" />
-                    </div>
-                    <span class="money__t">Money In</span>
-                </div>
+                </span>
             </div>
         </div>
-    </div>
-    <div class="col-xl-3 col-md-6">
-        <div class="card_box border rounded p-3 bg-white">
-            <div class="row pb-3">
-                <span class="topcard__text">Overview of April 22 - March 23</span>
-            </div>
-            <div class="row">
-                <div class="col-8">
-                    <h3>£ 36,589.00</h3>
-                    <span class="topcard__text" style="color:#FF0031;">
-                        <img class="me-1" src="./assets/img/red__arrow.svg" />
-                        5.8%
+        <span class="pagagraph">to</span>
+        <div class="input-container w150">
+            <div class="input-group date__box date datepicker">
+                <input type="text" class="form-control pagagraph" placeholder="24/01/2024" id="start_date">
+                <span class="input-group-append">
+                    <span class="date__icon bg-white">
+                        <img src="./assets/img/date__icon.svg" alt="date_icon">
                     </span>
-                </div>
-                <div class="col-4 text-end">
-                    <div class="mb-3">
-                        <img src="./assets/img/red__data_bar.svg" />
-                    </div>
-                    <span class="money__t">Money In</span>
-                </div>
+                </span>
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-md-6">
-        <div class="card_box border rounded p-3 bg-white">
-            <div class="row pb-3">
-                <span class="topcard__text">Last 30 Days</span>
+</div>
+
+<div class="top___card d-flex gap-4 mb-3">
+    <div class="card_box border rounded p-3 bg-white w-100">
+        <div class="row pb-3">
+            <span class="topcard__text">Overview of April 22 - March 23</span>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <h3>£ 46,589.00</h3>
+                <span class="topcard__text" style="color:#41BD00;">
+                    <img class="me-1" src="./assets/img/green__arrow.svg" />
+                    5.8%
+                </span>
             </div>
-            <div class="row">
-                <div class="col-7">
-                    <h3>£ 24,840.00</h3>
-                    <span class="topcard__text">Paid Invoices</span>
+            <div class="col-4 text-end">
+                <div class="mb-3">
+                    <img class="me-1" src="./assets/img/green__data_bar.svg" />
                 </div>
-                <div class="col-5 text-end">
-                    <div class="mb-3 p_invoic">
-                        <img src="./assets/img/last_day_erning.svg" />
-                    </div>
-                    <span class="money__t">Inward Payments</span>
-                </div>
+                <span class="money__t">Money In</span>
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-md-6">
-        <div class="card_box border rounded p-3 bg-white">
-            <div class="row pb-3">
-                <span class="topcard__text">Overview of April 22 - March 23</span>
+    <div class="card_box border rounded p-3 bg-white w-100">
+        <div class="row pb-3">
+            <span class="topcard__text">Overview of April 22 - March 23</span>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <h3>£ 36,589.00</h3>
+                <span class="topcard__text" style="color:#FF0031;">
+                    <img class="me-1" src="./assets/img/red__arrow.svg" />
+                    5.8%
+                </span>
             </div>
-            <div class="row">
-                <div class="col-8">
-                    <h3>£ 8,420.00</h3>
-                    <span class="topcard__text">Open Invoices</span>
+            <div class="col-4 text-end">
+                <div class="mb-3">
+                    <img src="./assets/img/red__data_bar.svg" />
                 </div>
-                <div class="col-4 text-end">
-                    <div class="mb-3 p_invoic">
-                        <img src="./assets/img/Cash payment.svg" class="ivn" />
-                    </div>
-                    <span class="money__t">Invoices</span>
+                <span class="money__t">Money In</span>
+            </div>
+        </div>
+    </div>
+    <div class="card_box border rounded p-3 bg-white w-100">
+        <div class="row pb-3">
+            <span class="topcard__text">Last 30 Days</span>
+        </div>
+        <div class="row">
+            <div class="col-7">
+                <h3>£ 24,840.00</h3>
+                <span class="topcard__text">Paid Invoices</span>
+            </div>
+            <div class="col-5 text-end">
+                <div class="mb-3 p_invoic">
+                    <img src="./assets/img/last_day_erning.svg" />
                 </div>
+                <span class="money__t">Inward Payments</span>
+            </div>
+        </div>
+    </div>
+    <div class="card_box border rounded p-3 bg-white w-100">
+        <div class="row pb-3">
+            <span class="topcard__text">Overview of April 22 - March 23</span>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <h3>£ 8,420.00</h3>
+                <span class="topcard__text">Open Invoices</span>
+            </div>
+            <div class="col-4 text-end">
+                <div class="mb-3 p_invoic">
+                    <img src="./assets/img/Cash payment.svg" class="ivn" />
+                </div>
+                <span class="money__t">Invoices</span>
             </div>
         </div>
     </div>
 </div>
 
 <div class="row chart__bar">
-    <div class="col-xl-9">
-        <div class="card mb-4">
-            <div class="card-header border-bottom-0 py-4 bg-white">
-                <!-- <i class="fas fa-chart-bar me-1"></i> -->
-                <h4 class="heading-style">Property Revenue Overview</h4>
-                <span class="topcard__text">Overview of April 22 - March 23</span>
-            </div>
-            <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
-        </div>
+    <div class="col-xl-9 mb-3">
+        <!-- Graph Container -->
+        <div id="chart-container" class="border rounded pt-3 bg-white" style="min-width: 310px; height: 450px; margin: 0 auto"></div>
+        <!-- Graph Container -->
     </div>
     <div class="col-xl-3">
         <div class="card rounder__c mb-4">
@@ -105,7 +115,19 @@
                 <h4 class="heading-style">Properties Overview</h4>
             </div>
             <div class="card-body">
-                <canvas id="myPieChart" width="100%" height="50"></canvas>
+
+                <!-- Donut Graph Container -->
+                <div id="chartContainer1"></div>
+                <div id="chartInfo1"><span>104</span></div>
+                <div class="donut_graph_info">
+                    <div class="donut_info_flex">
+                        <div class="donut_info_flex_child"><img src="assets/img/green_circle.svg" class="donut_graph_circle"> In Progress</div><div class="donut_info_flex_child2">70</div>
+                        <div class="donut_info_flex_child"><img src="assets/img/blue_circle.svg" class="donut_graph_circle">  Vacant</div><div class="donut_info_flex_child2">22</div>
+                        <div class="donut_info_flex_child"><img src="assets/img/orange_circle.svg" class="donut_graph_circle">  Expiring Soon</div><div class="donut_info_flex_child2">12</div>
+                    </div>
+                </div>
+                <!-- Donut Graph Container -->
+
             </div>
         </div>
     </div>
@@ -538,3 +560,141 @@
     </div>
 
 </div>
+
+<!-- Graph Chart Script -->
+<script>
+    // Sample data for income and expenses
+    const data = {
+        categories: ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'],
+        income: [62000, 58000, 55000, 80000, 75000, 60000, 80000, 78000, 57000, 66000, 72000, 66000],
+        expenses: [10000, 12000, 22000, 35000, 10000, 22000, 22000, 22000, 22000, 22000, 22000, 22000]
+    };
+
+    // Create the chart using Highcharts
+    Highcharts.chart('chart-container', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Property Revenue Overview',
+            align: 'left',
+            style: {
+                fontSize: '20px',
+                fontFamily: 'sora',
+                color: '#2F2E35',
+                fontWeight: 400
+            }
+        },
+        subtitle: {
+            text: 'Overview of April 22 - March 23',
+            align: 'left'
+        },
+        xAxis: {
+            categories: data.categories,
+            crosshair: true,
+            labels: {
+                style: {
+                    color: '#5F6D81' // Set month color to #5F6D81
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            max: 100000,
+            tickInterval: 20000,
+            title: {
+                text: '' // Remove the "Amount" label
+            },
+            labels: {
+                formatter: function () {
+                    const valueInK = this.value / 1000;
+                    return valueInK !== 0 ? '£ ' + valueInK + 'K' : '0';
+                },
+                style: {
+                    color: '#5F6D81', // Set color for specific tick labels
+                }
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>£{point.y:.2f}K</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.1, // Adjust the space between columns
+                groupPadding: 0.2, // Adjust the space between groups of columns
+                borderWidth: 0
+            }
+        },
+        legend: {
+            layout: 'horizontal',
+            align: 'right',
+            verticalAlign: 'top',
+            x: 0,
+            y: 25,
+            reversed: true // Reverse the order of legend items
+        },
+        credits: {
+            enabled: false // Remove Highcharts.com credits
+        },
+        series: [{
+            name: 'Expenses',
+            data: data.expenses,
+            color: '#344900'
+        }, {
+            name: 'Income',
+            data: data.income,
+            color: '#6D9000'
+        }]
+    });
+</script>
+<!-- Graph Chart Script -->
+<!-- Donut Graph Script -->
+<script>
+    Highcharts.chart('chartContainer1', {
+        chart: {
+            type: 'pie'
+        },
+        title: {
+            text: ''
+        },
+        plotOptions: {
+            pie: {
+                innerSize: '70%', // Set a smaller percentage for a thinner donut chart
+                dataLabels: {
+                    enabled: false
+                }
+            }
+        },
+        series: [{
+            name: 'Information',
+            data: [{
+                name: 'Vacant',
+                y: 22,
+                color: '#0098FF'
+            }, {
+                name: 'In Progress',
+                y: 70,
+                color: '#41BD00'
+            }, {
+                name: 'Expiring Soon',
+                y: 12,
+                color: '#FF9800'
+            }]
+        }],
+        credits: {
+            enabled: false // Remove Highcharts.com credits
+        },
+        legend: {
+            align: 'center',
+            verticalAlign: 'bottom',
+            layout: 'horizontal'
+        }
+    });
+
+</script>
+<!-- Donut Graph Script -->

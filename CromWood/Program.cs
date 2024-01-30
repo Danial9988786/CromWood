@@ -1,6 +1,7 @@
 using CromWood.Business.Services.Implementation;
 using CromWood.Business.Services.Interface;
 using CromWood.Data.Context;
+using CromWood.Data.Entities;
 using CromWood.Data.Repository.Implementation;
 using CromWood.Data.Repository.Interface;
 using CromWood.Helper;
@@ -22,6 +23,7 @@ builder.Services.AddScoped<IFileUploader, FileUploader>();
 
 // Dependency Injection for Repository and Service layers.
 builder.Services.AddScoped<ITestRepository, TestRepository>();
+builder.Services.AddScoped<IRepository<ChangeLog>, Repository<ChangeLog>>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRolePermissionRepository, RolePermissionRepository>();
 builder.Services.AddScoped<IAssetRepository, AssetRepository>();
@@ -37,6 +39,7 @@ builder.Services.AddScoped<IPropertyAssesmentRepository, PropertyAssesmentReposi
 builder.Services.AddScoped(typeof(ILookupRepository<>), typeof(LookupRepository<>));
 
 builder.Services.AddScoped<ITestService, TestService>();
+builder.Services.AddScoped<IChangeLogService, ChangeLogService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IRolePermissionService, RolePermissionService>();
 builder.Services.AddScoped<IUserService, UserService>();
