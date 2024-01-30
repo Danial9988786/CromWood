@@ -537,23 +537,23 @@
 
         //// FOR EDITING OF ASSET ////
         const section = $("#main-section").data("section-selected")
-        if( section == 'address'){
+        if (section == 'address') {
             $('.step__f .step:first-child').addClass('active');
             $('.step__f .step:first-child').addClass('pass');
             $('.form___info form fieldset:first-child').addClass('active');
-           
+
             // Changing functionailty of button on bottom
             $(".stepbackbtn").hide();
             $(".step_nextbtn").html("Save");
-            $(".step_nextbtn").click(function(){
+            $(".step_nextbtn").click(function () {
                 $("#submitBtnAddAsset").click();
             });
 
         }
-        else if (section == 'ownership' || section =='financial' || section =='landlord'){
+        else if (section == 'ownership' || section == 'financial' || section == 'landlord') {
             $('.step__f .step:first-child').removeClass('active');
             $('.form___info form fieldset:first-child').removeClass('active');
-            
+
             // Changing functionailty of button on bottom
             $(".stepbackbtn").hide();
             $(".step_nextbtn").html("Save");
@@ -578,21 +578,24 @@
         }
 
         //// FOR ADDING NEW ASSET ////
-        else{
+        else {
 
             $('.step_nextbtn').click(function () {
-                // Remove the active class from the current item
-                $('.step__f .step').eq(currentIndex).removeClass('active');
-                $('.form___info form fieldset').eq(currentIndex).removeClass('active');
+                if (currentIndex != 3) {
+                    // Remove the active class from the current item
+                    $('.step__f .step').eq(currentIndex).removeClass('active');
+                    $('.form___info form fieldset').eq(currentIndex).removeClass('active');
 
-                // Increment the index or reset to 0 if it exceeds the number of items
-                currentIndex = (currentIndex + 1) % $('.step__f .step').length;
-                // currentIndex = (currentIndex + 1) % $('.form___info form fieldset').length;
+                    // Increment the index or reset to 0 if it exceeds the number of items
+                    currentIndex = (currentIndex + 1) % $('.step__f .step').length;
 
-                // Add the active class to the next item
-                $('.step__f .step').eq(currentIndex).addClass('active');
-                $('.step__f .step').eq(currentIndex).addClass('pass');
-                $('.form___info form fieldset').eq(currentIndex).addClass('active');
+                    // currentIndex = (currentIndex + 1) % $('.form___info form fieldset').length;
+
+                    // Add the active class to the next item
+                    $('.step__f .step').eq(currentIndex).addClass('active');
+                    $('.step__f .step').eq(currentIndex).addClass('pass');
+                    $('.form___info form fieldset').eq(currentIndex).addClass('active');
+                }
             });
 
             $('.stepbackbtn').click(function () {
@@ -614,22 +617,22 @@
             // $('.step__f .step:last-child').removeClass('pass');
             $('.form___info form fieldset:first-child').addClass('active');
         }
-        
+
     });
 
-    function submitClick (){
+    function submitClick() {
         $("#submitBtnAddAsset").click()
     }
 
     $("#leaseTerm").change(function (e) {
         const leaseTerm = e.target.value;
         const leaseExpiry = $("#leaseExpiry")[0].value;
-        if (leaseTerm && leaseExpiry){
+        if (leaseTerm && leaseExpiry) {
             const termDate = new Date(leaseTerm);
             const expiryDate = new Date(leaseExpiry);
             $("#leaseDifference").html(monthDiff(termDate, expiryDate) + " months");
         }
-        else{
+        else {
             $("#leaseDifference").html("N/A");
         }
     })
@@ -642,10 +645,10 @@
             const expiryDate = new Date(leaseExpiry);
             $("#leaseDifference").html(monthDiff(termDate, expiryDate) + " months");
         }
-        else{
+        else {
             $("#leaseDifference").html("N/A");
         }
     })
 
-    
+
 </script>

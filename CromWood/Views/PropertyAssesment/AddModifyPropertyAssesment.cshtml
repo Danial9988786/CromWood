@@ -7,6 +7,189 @@
     var properties = new SelectList(asyncProperties.Data, "Id", "Asset.StreetAddress");
 }
 
+<div class="modal-content rounded-0">
+    <div class="modal-header modal_header_fixed py-2 w-100 bg-white">
+        <h5 class="modal-title" id="staticBackdropLabel">Add New Property</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body p-0 h-100">
+        <div class="mutli_steps_f">
+            <div class="border pt-3 rounded mx-3 mt-3 bg-white">
+                <div class="row justify-content-center">
+                    <div class="step2_with">
+                        <div class="step__f d-flex">
+                            <div class="step">
+                                <div class="bullet ">
+                                    <span>
+                                        <span class="s_n">1</span>
+                                        <span class="s_tick">
+                                            <img src="~/assets/img/tick-icon.svg" alt="tick-">
+                                        </span>
+                                    </span>
+                                </div>
+                                <p>
+                                    Assessment Details
+                                </p>
+                            </div>
+                            <div class="step">
+                                <div class="bullet">
+                                    <span>
+                                        <span class="s_n">2</span>
+                                        <span class="s_tick">
+                                            <img src="~/assets/img/tick-icon.svg" alt="tick-">
+                                        </span>
+                                    </span>
+                                </div>
+                                <p>
+                                    Inspection Report
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form___info mt-3">
+                <form asp-action="AddModifyPropertyAssesment">
+                        @Html.HiddenFor(x=>x.Id)
+                    <!-- ------  Assessment Details form start here ---------->
+                    <fieldset>
+                        <div class="step_body_content ps-3 pe-2 me-2">
+                            <div class="border p-3 bg-white">
+                                <h5 class="text-cpitlize mb-3 pb-1">Assessment Details</h5>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="Select Asset" class="form-label">Select Property</label>
+                                            <select id="" class="form-select select_font_14" aria-label="Default select example">
+                                                <option selected>
+                                                    25 Meadowford Close, Greenwich, London,
+                                                    SE28 8GD
+                                                </option>
+                                                <option value="1">Asset One </option>
+                                                <option value="2">Asset Two </option>
+                                                <option value="3">Asset Three </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="d-flex gap-3">
+                                            <div class="input__field w-100">
+                                                <div class="mb-3">
+                                                    <label for="start_date" class="form-label">Date and Time</label>
+                                                    <div class="input-container">
+                                                        <div class="input-group date__box date datepicker">
+                                                            <input type="text" class="form-control" placeholder="24/01/2024" id="start_date">
+                                                            <span class="input-group-append">
+                                                                <span class="date__icon bg-white">
+                                                                    <img src="~/assets/img/date__icon.svg" alt="date_icon">
+                                                                </span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="input__field w-100">
+                                                <div class="mb-3">
+                                                    <label for="time_" class="form-label">Expected Resolve Date</label>
+                                                    <input type="time" class="form-control" value="" placeholder="11:00 PM" id="time_" aria-describedby="#">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input__field w-100">
+                                            <label for="Inspector" class="form-label">Inspector</label>
+                                            <input type="text" class="form-control pagagraph" id="Inspector" placeholder="Inspector Name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <label for="Inspection_Notes" class="form-label">Inspection Notes</label>
+                                <div class="">
+                                    <textarea class="w-100" id="Inspection_Notes" name="#" rows="4" cols="40" placeholder="Add inspection notes"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="border p-3 bg-white mt-3">
+                                <h5 class="text-cpitlize mb-3 pb-1">Building Details</h5>
+                                <div class="d-flex gap-3 mt-3">
+                                    <div class="input__field w-25">
+                                        <label for="Select Asset" class="form-label">Select Property</label>
+                                        <select id="" class="form-select select_font_14" aria-label="Default select example">
+                                            <option value="1" selected>Asset One </option>
+                                            <option value="2">Asset Two </option>
+                                            <option value="3">Asset Three </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="input__field ">
+                                        <label for="Build" class="form-label">Building Type</label>
+                                        <input disabled type="text" class="form-control" value="" placeholder="Flat" id="Build" aria-describedby="">
+                                    </div>
+                                    <div class="input__field ">
+                                        <label for="Borough" class="form-label">Borough</label>
+                                        <input disabled type="text" class="form-control" value="" placeholder="Havering" id="Borough" aria-describedby="">
+                                    </div>
+                                    <div class="input__field ">
+                                        <label for="Tenure" class="form-label">Tenure</label>
+                                        <input disabled type="text" class="form-control" value="" placeholder="Leasehold" id="Tenure" aria-describedby="">
+                                    </div>
+                                </div>
+                                <label for="Building_Description" class="form-label mt-3">Building Description</label>
+                                <div class="">
+                                    <textarea class="w-100" id="Inspection_Notes" name="#" rows="4" cols="40" placeholder="Add inspection notes"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="popup_footer_fixed border-top d-flex justify-content-end bg-white">
+                            <div class="shadow-box ms-auto">
+                                <a href="#" class="custom__btn2 step_nextbtn">
+                                    Next, Inspection Report
+                                    <img src="~/assets/img/right_white_aroow_Icon.svg" alt="right__arrow">
+                                </a>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!-- ------  Assessment Details form end here ---------->
+                    <!-- ------   Inspection Report form start here ---------->
+                    <fieldset>
+                        <div class="step_body_content ps-3 pe-2 me-2">
+                            <div class="border p-3 bg-white h-100">
+                                <h5 class="text-cpitlize mb-3 pb-1">Assessment Reports</h5>
+                                <div class="row justify-content-center text-center p-4">
+                                    <div>
+                                        <img src="~/assets/img/Agreement.svg" alt="Agreement_img">
+                                    </div>
+                                    <div class="shadow-box mx-auto px-0 mt-4">
+                                        <a href="#" class="custom__btn2" data-bs-toggle="modal" data-bs-target="#add_item">
+                                            <img src="~/assets/img/white_plus.svg" alt="plus">
+                                            Add Item
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="popup_footer_fixed border-top d-flex justify-content-end bg-white">
+                            <div class="shadow-box ms-auto">
+                                <a href="#" class="custom__btn2 diable_btn" disabled>
+                                    Submit
+                                    <img src="~/assets/img/right_white_aroow_Icon.svg" alt="right__arrow">
+                                </a>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!-- ------   Inspection Report form end here ---------->
+                </form>
+            </div>
+        </div>
+        <!-- ---- multi steps form end here ------ -->
+    </div>
+</div>
+@* 
 <div class="modal-content rounded-0 model-custom-bg">
     <div class="modal-header py-2 bg-white">
         <h5 class="modal-title" id="staticBackdropLabel">Add Property Assesment</h5>
@@ -53,4 +236,48 @@
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
-    </div>
+    </div> *@
+
+                <script>
+
+    // ----------------   Steps form start here  ----------------
+    $(document).ready(function () {
+
+        var currentIndex = 0;
+
+        $('.step_nextbtn').click(function () {
+            // Remove the active class from the current item
+            $('.step__f .step').eq(currentIndex).removeClass('active');
+            $('.form___info form fieldset').eq(currentIndex).removeClass('active');
+
+            // Increment the index or reset to 0 if it exceeds the number of items
+            currentIndex = (currentIndex + 1) % $('.step__f .step').length;
+            // currentIndex = (currentIndex + 1) % $('.form___info form fieldset').length;
+
+            // Add the active class to the next item
+            $('.step__f .step').eq(currentIndex).addClass('active');
+            $('.step__f .step').eq(currentIndex).addClass('pass');
+            $('.form___info form fieldset').eq(currentIndex).addClass('active');
+        });
+
+        $('.stepbackbtn').click(function () {
+            // Remove the active class from the current item
+            $('.step__f .step').eq(currentIndex).removeClass('active');
+            $('.form___info form fieldset').eq(currentIndex).removeClass('active');
+
+            // Decrement the index or set to the last item if it goes below 0
+            currentIndex = (currentIndex - 1 + $('.step__f .step').length) % $('.step__f .step').length;
+
+            // Add the active class to the previous item
+            $('.step__f .step').eq(currentIndex).addClass('active');
+            $('.form___info form fieldset').eq(currentIndex).addClass('active');
+        });
+
+        // Set the first items as active initially
+        $('.step__f .step:first-child').addClass('active');
+        $('.step__f .step:first-child').addClass('pass');
+        // $('.step__f .step:last-child').removeClass('pass');
+        $('.form___info form fieldset:first-child').addClass('active');
+
+    });
+                </script>

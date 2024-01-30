@@ -63,6 +63,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 </head>
 
 <body class="sb-nav-fixed @toogleClass">
@@ -250,14 +252,14 @@
 
 
                         <a class="nav-link" id="nav-property-assessment" asp-action="Index" asp-controller="PropertyAssesment">
-                        <div class="sb-nav-link-icon">
-                        <img class="main_nav_icon" src="~/assets/img/main_property_ass.svg" />
-                        <img class="active_nav_icon" src="~/assets/img/active_property_ass.svg" />
-                        </div>
-                        <span class="nav__text">Property Assessment</span>
-                        <span class="tooltiptext">Property Assessment</span>
+                            <div class="sb-nav-link-icon">
+                                <img class="main_nav_icon" src="~/assets/img/main_property_ass.svg" />
+                                <img class="active_nav_icon" src="~/assets/img/active_property_ass.svg" />
+                            </div>
+                            <span class="nav__text">Property Assessment</span>
+                            <span class="tooltiptext">Property Assessment</span>
                         </a>
-                       
+
                         @if (accessNoticeClaims)
                         {
                             <a class="nav-link" id="nav-notice-claims" asp-action="Notice" asp-controller="NoticeClaims">
@@ -357,23 +359,23 @@
                         @if (accessUserSetting)
                         {
                             <div class="dropdown_tooltip position-relative">
-                            <a class="nav-link collapsed myc" href="#" data-bs-toggle="collapse"
-                               data-bs-target="#collapseSetting" aria-expanded="true" aria-controls="collapseSetting">
-                                <div class="sb-nav-link-icon">
-                                    <img class="main_nav_icon" src="~/assets/img/main-settings.svg" />
-                                    <img class="active_nav_icon" src="~/assets/img/active_settings.svg" />
-                                </div>
-                                <span class="nav__text">Settings</span>
-                                <div class="sb-sidenav-collapse-arrow">
-                                    <div class="sb-sidenav-collapse-arrow">
-                                        <svg width="12" height="8" viewBox="0 0 12 8" fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M1 1.5L6 6.5L11 1.5" stroke="#2F2E35" stroke-width="1.5"
-                                                  stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
+                                <a class="nav-link collapsed myc" href="#" data-bs-toggle="collapse"
+                                   data-bs-target="#collapseSetting" aria-expanded="true" aria-controls="collapseSetting">
+                                    <div class="sb-nav-link-icon">
+                                        <img class="main_nav_icon" src="~/assets/img/main-settings.svg" />
+                                        <img class="active_nav_icon" src="~/assets/img/active_settings.svg" />
                                     </div>
-                                </div>
-                            </a>
+                                    <span class="nav__text">Settings</span>
+                                    <div class="sb-sidenav-collapse-arrow">
+                                        <div class="sb-sidenav-collapse-arrow">
+                                            <svg width="12" height="8" viewBox="0 0 12 8" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M1 1.5L6 6.5L11 1.5" stroke="#2F2E35" stroke-width="1.5"
+                                                      stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </a>
                                 <div class="tooltiptext py-0">
                                     <ul class="list-unstyled mb-0">
                                         <li><a asp-controller="User" asp-action="Index">User Role & Permission</a></li>
@@ -414,11 +416,11 @@
             </main>
         </div>
     </div>
+
     <script src="~/js/nav-script.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <!-- Select2 -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
@@ -427,6 +429,9 @@
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="~/js/datatables-simple-demo.js"></script>
     <script src="~/assets/demo/chart-pie-demo.js"></script>
+    <!-- Date_picker JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
 
     <script>
         $(document).ready(function () {
@@ -441,9 +446,14 @@
             $('.t_search').click(function () {
                 $(this).toggleClass('input_on');
             });
+            $('#overlay').fadeOut();
+
         });
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+<div id="overlay" class="spinner-class">
+    <img src="~/assets/img/spinner.svg" />
+</div>
 </html>

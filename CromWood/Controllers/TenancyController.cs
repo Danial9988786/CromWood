@@ -505,19 +505,109 @@ namespace CromWood.Controllers
         }
         #endregion
 
-        // Statement related methods
-        // 1. All
-        // 2. Add Statment
-        // 3. Add Transaction
-        // 4. View Statement
-        // 5. Delete
+        #region TENANCY STATEMENT AND TRANSACTIONS
+        public async Task<IActionResult> Statements(Guid id)
+        {
+            var result = await _tenancyService.GetStatements(id);
+            return View(result.Data);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddModifyStatement(Guid tenancyId, Guid id)
+        {
+            if (id != Guid.Empty)
+            {
+                var result = await _tenancyService.GetStatement(id);
+                return PartialView(result.Data);
+            }
+            else
+            {
+                return PartialView(new StatementModel() { TenancyId = tenancyId, ReferenceID = RandomAlphaNumbericGenerator.Random(6) });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddModifyStatement(StatementModel req)
+        {
+            var result = await _tenancyService.AddModifyStatement(req);
+            return RedirectToAction("Statements", new { id = req.TenancyId });
+        }
+
+        public async Task<IActionResult> ViewStatement(Guid id)
+        {
+            var result = await _tenancyService.GetStatementView(id);
+            return PartialView(result.Data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteStatement(Guid id)
+        {
+            var result = await _tenancyService.DeleteStatement(id);
+            return StatusCode(result.StatusCode, result.Data);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddModifyStatementTransaction(Guid statementId, Guid tenancyId, Guid id)
+        {
+            ViewBag.TenancyId = tenancyId;
+            if (id != Guid.Empty)
+            {
+                var result = await _tenancyService.GetStatementTransaction(id);
+                return PartialView(result.Data);
+            }
+            else
+            {
+                return PartialView(new StatementTransactionModel() { StatementId = statementId, InvoiceNumber = RandomAlphaNumbericGenerator.Random(6) });
+            }
+        }
 
 
-        // Payment Plans related methods
-        // 1. All
-        // 2. Add PP
-        // 3. Add Transaction to PP
-        // 4. View PP
-        // 5. Delete
+        [HttpPost]
+        public async Task<IActionResult> AddModifyStatementTransaction(StatementTransactionModel req, Guid tenancyId)
+        {
+            if(req.PaidByTenantId == Guid.Empty)
+            {
+                req.PaidByTenantId = null;
+            }
+            var result = await _tenancyService.AddModifyStatementTransaction(req);
+            return RedirectToAction("Statements", new { id = tenancyId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteStatementTransaction(Guid id)
+        {
+            var result = await _tenancyService.DeleteStatementTransaction(id);
+            return StatusCode(result.StatusCode, result.Data);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddModifyStatementDocument(Guid statementId, Guid id)
+        {
+
+            if (id != Guid.Empty)
+            {
+                var result = await _tenancyService.GetStatementDocument(id);
+                return PartialView(result.Data);
+            }
+            else
+            {
+                return PartialView(new StatementDocumentModel() { StatementId = statementId });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddModifyStatementDocument(StatementDocumentModel req, Guid tenancyId)
+        {
+            var result = await _tenancyService.AddModifyStatementDocument(req);
+            return RedirectToAction("Statements", new { id = tenancyId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteStatementDocument(Guid id)
+        {
+            var result = await _tenancyService.DeleteStatementDocument(id);
+            return StatusCode(result.StatusCode, result.Data);
+        }
+        #endregion
     }
 }

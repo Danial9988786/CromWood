@@ -48,60 +48,10 @@
 </div>
 
 <!-------filter start here ------>
-<div class="filter_btn ms-auto">
-    <a class="" href="#" role="button" id="fil_ter" data-bs-toggle="dropdown" aria-expanded="false">
-        <img class="pe-1" src="~/assets/img/filter-lines.svg" alt="user__iocn">
-        Filter
-        <img class="ps-2" src="~/assets/img/filter_down_arrow.svg">
-    </a>
-
-    <div class="filter___c dropdown-menu dropdown-menu-end shadow border rounded-0 p-3"
-         aria-labelledby="fil_ter">
-        <div class="input-group mb-3">
-            <span class="input-group-text bg-transparent" id="srf">
-                <img src="~/assets/img/search-gray.svg" alt="search_iocn">
-            </span>
-            <input type="text" class="form-control border-start-0 ps-0"
-                   placeholder="Search for filters" aria-label="Username" aria-describedby="srf">
-        </div>
-        <ul class="list-unstyled ft__list">
-            <li>
-                <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded"
-                   href="#">
-                    <span>My Filter 1</span>
-                    <span class="i__gro">
-                        <span class="ed pe-2">
-                            <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
-                        </span>
-                        <span class="de">
-                            <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
-                        </span>
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded"
-                   href="#">
-                    <span>My Filter 2</span>
-                    <span class="i__gro">
-                        <span class="ed pe-2">
-                            <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
-                        </span>
-                        <span class="de">
-                            <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
-                        </span>
-                    </span>
-                </a>
-            </li>
-        </ul>
-        <div class="mark__btn text-center">
-            <img class="me-1" src="~/assets/img/green__plus_icon.svg" />
-            <a href="#" class="text-uppercase">add new Filter</a>
-        </div>
-    </div>
+<div class="filter_btn ms-auto" id="filterBox">
+    
 </div>
 <!----------- filter end here  --------->
-
 
 <div class="user__list as__menag mt-1 sm48__row_table hide_sort_all pt-0 table_bottom_border">
     <table id="datatablesSimple" class="border rounded-top border-bottom-0">
@@ -149,7 +99,8 @@
 
 @section Scripts {
     <script>
-        $(document).ready(function () {
+
+        $('document').ready(function () {
             $(".datatable-table thead tr th button.datatable-sorter").append("<span class='c__icon'></span>");
 
             // Code for datatable manipulation
@@ -163,6 +114,12 @@
 
             var filter = $(".filter_btn");
             $(".datatable-top").append(filter);
+
+            // For the Filter
+            $("#filterBox").load("/Filter/Index?keyName=asset_management", function () {
+                $("#filterBox").show();
+            });
+
         });
 
         function CreateAsset() {
@@ -185,6 +142,18 @@
                 $("#assetDialog").modal("show");
             });
         }
-    </script>
 
-            }
+        function DeleteLicense(id) {
+            var url = "/LicenseCertification/DeleteLicense?id=" + id;
+            $.ajax({
+                type: "POST",
+                url: url,
+                success: function (result) {
+                    window.location.reload();
+                },
+                error: function () {
+                }
+            })
+        }
+    </script>
+}

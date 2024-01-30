@@ -27,7 +27,7 @@ namespace CromWood.Mapper
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => GetLastName(src.Name)));
 
             CreateMap<Asset, AssetViewModel>()
-                .ForMember(dest => dest.StreetAddress, opt => opt.MapFrom(src => $"{(src.AssetType != null ? $"{src.AssetType.Name} " : "")}{src.HouseNoStreet} ,{src.Borough}"))
+                .ForMember(dest => dest.StreetAddress, opt => opt.MapFrom(src => $"{(src.AssetType != null ? $"{src.AssetType.Name} " : "")}{(string.IsNullOrEmpty(src.Borough)? src.HouseNoStreet:string.Join(", ",src.HouseNoStreet,src.Borough))}"))
                 .ForMember(dest => dest.TotalUnit, opt => opt.MapFrom(src => src.Properties.Count));
             CreateMap<AssetModel, Asset>().ReverseMap();
 
@@ -59,6 +59,13 @@ namespace CromWood.Mapper
             CreateMap<UnitUtilityReading, UnitUtilityReadingViewModel>().ReverseMap();
             CreateMap<UnitUtilityDocument, UnitUtilityDocumentModel>().ReverseMap();
             CreateMap<UnitUtilityDocument, UnitUtilityDocumentViewModel>().ReverseMap();
+
+            CreateMap<TenancyStatement, StatementModel>().ReverseMap();
+            CreateMap<TenancyStatement, StatementViewModel>().ReverseMap();
+            CreateMap<StatementTransaction, StatementTransactionModel>().ReverseMap();
+            CreateMap<StatementTransaction, StatementTransactionViewModel>().ReverseMap();
+            CreateMap<StatementDocument, StatementDocumentModel>().ReverseMap();
+            CreateMap<StatementDocument, StatementDocumentViewModel>().ReverseMap();
 
             CreateMap<RecurringCharge, RecurringChargeModel>().ReverseMap();
             CreateMap<RecurringCharge, RecurringChargeViewModel>().ReverseMap();

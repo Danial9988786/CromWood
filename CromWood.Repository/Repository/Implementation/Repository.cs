@@ -28,6 +28,23 @@ namespace CromWood.Data.Repository.Implementation
             return await _context.Set<T>().FindAsync(Id);
         }
 
+        public async Task<string> GetFilterConiditon(Guid filterId)
+        {
+            var filter = await _context.Filters.Include(x => x.AndCondition).Include(x => x.OrCondition).FirstOrDefaultAsync(x => x.Id == filterId);
+            var condition = "x=>";
+            condition += string.Join(" && ", filter.AndCondition.Select(c => c.Condition));
+            if (filter.OrCondition.Count > 0)
+            {
+                condition += " && (";
+            }
+            condition += string.Join(" || ", filter.OrCondition.Select(c => c.Condition));
+            if (filter.OrCondition.Count > 0)
+            {
+                condition += ")";
+            }
+            return condition;
+        }
+
         public async Task<T> AddAsync(T item)
         {
             try

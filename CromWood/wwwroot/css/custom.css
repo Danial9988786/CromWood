@@ -1,8 +1,20 @@
 .nav-tabs .nav-link{
     height: 40px;
 }
+/* ck editor css start here  */
 .ck-editor__editable {
     min-height: 220px;
+}
+.ck.ck-editor__editable.ck-focused:not(.ck-editor__nested-editable) {
+    outline: 1px solid #4D6D00 !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+/* ck editor css End here  */
+
+.w144{
+    max-width: 144px;
+    width: 144px;
 }
 
 /* table last colfixed style start */
@@ -13,12 +25,9 @@
     white-space: nowrap;
     background: #F5FAFC;
 }
-/* .tableLast_colFixed table > thead > tr th:last-child{
-    background: #F5FAFC;
-} */
+
 .tableLast_colFixed table > thead > tr th:last-child{
     background: #F5FAFC;
-    
 }
 .tableLast_colFixed table > tbody > tr:nth-child(odd) > td:last-child {
     background-color: #fff;
@@ -26,8 +35,6 @@
 .tableLast_colFixed table > tbody > tr:nth-child(even) > td:last-child{
     background: #F5FAFC;
 }
-
-
 .tableLast_colFixed table > tbody > tr > td:last-child,
 .tableLast_colFixed table > thead > tr > th:last-child  {
     text-align: center!important;
@@ -78,6 +85,9 @@
 /* ---- custom Swith check box End here----- */
 
 /* msg social media style start */
+.email_whatapp span{
+    vertical-align: middle;
+}
 .email_whatapp {
     border-radius: 4px;
     border: 1px solid var(--Greyscale-Grey-4, #D1D5DB);
@@ -96,10 +106,40 @@
 .email_whatapp label{
  cursor: pointer;
 }
-.email_whatapp input:checked + label {
+.email__box, .whatapp__box {
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+}
+.email__box:after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 100%;
+    width: 100%;
+    height: 100%;
     background: var(--secondary-color);
-    box-shadow: 0px 4px 20px 0px #0000001A;
-    border-radius: 2px;
+    border-radius: 3px;
+    transition: 0.3s;
+    z-index: -1;
+}
+.whatapp__box:after{
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 100%;
+    width: 100%;
+    height: 100%;
+    background: var(--secondary-color);
+    border-radius: 3px;
+    transition: 0.3s;
+    z-index: -1;
+} 
+.whatapp__box:has(input:checked):after{
+    right: 0;
+}
+.email__box:has(input:checked):after{
+    left: 0;
 }
 .email_whatapp input[type=radio]:not(:checked) + label .b__2 {
   display: block;
@@ -118,11 +158,10 @@
     max-width: 110px;
     width: 110px;
     text-align: center;
-    padding: 4px;
+    padding: 6px;
     border-radius: 2px;
 }
 /* msg social media style end */ 
-
 
 .custom__filetype input[type=file]::-webkit-file-upload-button {
     display: none;
@@ -650,10 +689,6 @@ table {
     border-top-left-radius: 4px;
 }
 
-table thead tr th {
-    background-color: #F5FAFC;
-}
-
 .tenancies_tt tbody tr {
     min-height: 74px;
     height: 74px;
@@ -857,14 +892,11 @@ input[type=text]:focus,
     align-items: center;
     background-color: #fff;
 }
-
-thead,
-tbody,
 tfoot,
 tr:not(:last-child),
 td,
 th {
-    border-bottom: 1px solid #dee2e6 !important;
+    border-bottom: 1px solid #E8EAED !important;
 }
 
 tbody {
@@ -1407,6 +1439,11 @@ span.notic__num {
     overflow-y: auto;
     overflow-x: hidden;
 }
+.step_body_content1 {
+    height: 820px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
 .step_body_content2 {
     height: 460px;
     overflow-y: auto;
@@ -1430,6 +1467,7 @@ span.notic__num {
 /* ------------  scrollbar style as per figma start here --------------- */
 
 .step_body_content::-webkit-scrollbar-track,
+.step_body_content1::-webkit-scrollbar-track,
 .step_body_content2::-webkit-scrollbar-track,
 .step_body_content3::-webkit-scrollbar-track,
 .step_body_content4::-webkit-scrollbar-track,
@@ -1442,6 +1480,7 @@ span.notic__num {
 }
 
 .step_body_content::-webkit-scrollbar,
+.step_body_content1::-webkit-scrollbar,
 .step_body_content2::-webkit-scrollbar,
 .step_body_content3::-webkit-scrollbar,
 .step_body_content4::-webkit-scrollbar,
@@ -1453,6 +1492,7 @@ span.notic__num {
 }
 
 .step_body_content::-webkit-scrollbar-thumb,
+.step_body_content1::-webkit-scrollbar-thumb,
 .step_body_content2::-webkit-scrollbar-thumb,
 .step_body_content3::-webkit-scrollbar-thumb,
 .step_body_content4::-webkit-scrollbar-thumb,
@@ -2807,7 +2847,7 @@ span.t_wigdes_2.mx-2 {
 
  /* ---------------License/ Certificate Details Popups Css End-------------------  */
  /* / Add Complainet Popops Css Start Here / */
-.c_file {
+ .c_file {
     color: #4D6D00 !important;
     letter-spacing: 1px;
     text-transform: uppercase;
@@ -2816,6 +2856,7 @@ span.t_wigdes_2.mx-2 {
     border-radius: 30px;
     text-decoration: none;
     font-weight: 600 !important;
+    width: fit-content;
 }
 .c_file:hover{
     text-decoration: underline;
@@ -2914,20 +2955,333 @@ span.t_wigdes_2.mx-2 {
     border: 1px solid #0098FF;
     background: rgba(0, 152, 255, 0.05);
 }
-/* .datepicker::after {
-    content: url('../assets/img/date__icon.svg');
-    position: relative;
-    top: -30px;
-    left: 85%;
-    height: 20px;
-    width: 20px;
+
+/* date picker style start here */
+.date__box {
+    padding: 6px 0px!important;
+    cursor: pointer;
+}
+.datepicker input{
+    border-radius: 4px!important;
+}
+.date__icon {
+    position: absolute;
+    top: 10px;
+    right: 12px;
     z-index: 5;
 }
-.datepicker{
-    padding: 0px!important;
-    margin-top: 4px;
+.datepicker.datepicker-dropdown{
+    box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.20);
+    border: none;
+    padding: 8px;
 }
-.datepicker input {
-    width: 100%!important;
-    border-radius: 4px!important;
-} */
+.datepicker .table-condensed td, 
+.datepicker .table-condensed th, 
+.datepicker .table-condensed > thead,
+.datepicker .table-condensed > tbody,
+.datepicker .table-condensed tr{
+    border-bottom: 4px solid transparent!important;
+    background-color: transparent;
+    border-top: 4px solid transparent;
+}
+.datepicker-dropdown:before{
+    border-bottom: none!important;
+}
+.datepicker table tbody tr:nth-child(even){
+    background-color: transparent;
+}
+.datepicker-dropdown.datepicker-orient-top:before {
+    border-top: 7px solid #fff!important;
+}
+.datepicker td {
+    width: 25px!important;
+}
+.datepicker table tr td.active, .datepicker table tr td.active.disabled, 
+.datepicker table tr td.active.disabled:hover, .datepicker table tr td.active:hover{
+    background-color: var(--main-color)!important;
+    background-image: none!important;
+}
+.datepicker tr th.prev,
+.datepicker tr th.next,
+.datepicker-switch{
+    color: var(--main-color)!important;
+}
+.datepicker table tr td span.focused,
+.datepicker table tr td span.focused:hover{
+    background: var(--main-color)!important;
+    color:#fff;
+}
+.datepicker table tr td span.month.active,
+.datepicker table tr td span.month.active:hover{
+    background: var(--secondary-color)!important;
+    color:#fff;
+}
+.datepicker .day:hover,
+.datepicker tr th.prev:hover,
+.datepicker tr th.next:hover,
+.datepicker-switch:hover,
+.datepicker table tr td span:hover{
+    background-color: var(--element-bg) !important;
+}
+.datepicker .dow{
+    font-weight: 600!important;
+}
+/* date picker style end here */
+
+/*------------- Reports Tab Css Start here ------------*/
+
+.t_head_hide thead {
+    display: none ;
+}
+.star__r {
+    visibility:hidden;
+    font-size:30px;
+    cursor:pointer;
+    color:#F2994A;
+}
+.star__r:before {
+   content: "\2605";
+   position: absolute;
+   visibility:visible;
+}
+.star__r:checked:before {
+   content: "\2606";
+   position: absolute;
+   color:#48586F;
+}
+.avtar_l {
+    background-color: #8DB300;
+    padding: 12px;
+    text-decoration: none;
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    object-fit: fill;
+    overflow: hidden;
+    box-sizing: border-box;
+    color: #fff;
+}
+.bg_gray_ {
+    background: #f7f7f7fa;
+    border-radius: 4px;
+}
+.list_field_ li{
+    height: 46px;
+}
+.list_field_ li .form-check-input{
+    margin-top: 0;
+    vertical-align: middle;
+}
+/*--------- Reports Tab Css End Here--------*/
+
+/* ----------- Property Management -> Add New Filter & Edit Filter CSS --------- */
+.add_new_filter_body{
+background-color: #F6F7F8;
+}
+
+/* Button CSS */
+.c_file_2 {
+    color: #4D6D00 !important;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: .3s ease-in-out;
+    padding: 10px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600 !important;
+    width: fit-content;
+}
+.c_file_2:hover{
+    text-decoration: underline;
+    background: #f2f2f2;
+}
+/* Button  */
+
+/* Placeholder Color */
+.placeholder_clr::placeholder{
+color:#000;
+}
+/* Placeholder Color */
+
+/* Form Heading Font Size & Color */
+.filter_h_font_size{
+font-size: 14px;
+color: #000;    
+}
+/* Form Heading Font Size & Color */
+
+/* Creator Info Edit Filter */
+.creator_info
+{
+color: #5F6D81;
+font-size: 12px;
+}
+/* Creator Info Edit Filter */
+
+/* Filter Edit Form BTN */
+.custom__btn_edit a,
+a.custom__btn_edit,
+input.custom__btn_edit {
+    background: #F1F7F6;
+    height: 40px;
+    padding: 10px 20px;
+    /* border-radius: 30px; */
+    font-family: var(--sora-font);
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1px;
+    color: var(--bran-color);
+    display: flex;
+    column-gap: 8px;
+    align-items: center;
+    border-bottom: 4px #D1D5DB solid;
+    transition: .1s ease-in-out;
+    /* line-height: 140%; */
+    /* box-shadow: 0px 4px 0px 0px #D1D5DB; */
+}
+
+.custom__btn_edit a:hover,
+a.custom__btn_edit:hover,
+input.custom__btn_edit:hover {
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.25);
+    border-bottom: 6px #D1D5DB solid;
+}
+/* Filter Edit Form BTN */
+
+
+/* ----------- Property Management -> Add New Filter & Edit Filter CSS --------- */
+
+
+/*-- Dashboard -> Donut Graph CSS Start ----*/
+#chartContainer1
+{
+height: 220px;
+}
+#chartInfo1{
+text-align: center; 
+margin-top: -120px;
+z-index: 999;
+position: relative;
+}
+#chartInfo1 span
+{
+font-family: Sora;
+font-size: 20px;
+font-style: normal;
+font-weight: 400;
+text-transform: capitalize;    
+}
+.donut_graph_info
+{
+width:100%; 
+margin-top: 100px;
+}
+.donut_info_flex
+{
+display: flex;
+justify-content: space-between;
+flex-wrap: wrap;
+}
+.graph_info_flex
+{
+display: flex;
+justify-content: space-between;
+flex-wrap: wrap;
+}
+.donut_info_flex_child
+{
+width: 50%;
+margin-bottom: 10px;
+/* Label-2/400 */
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 140%; /* 19.6px */
+}
+.graph_info_flex_child
+{
+width: 20%;
+/* Label-2/400 */
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 140%; /* 19.6px */
+}
+.donut_info_flex_child2
+{
+width: 50%;
+margin-bottom: 10px;
+text-align: right;
+/* Label-2/400 */
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 140%; /* 19.6px */
+}
+.graph_info_flex_child2
+{
+width: 20%;
+text-align: right;
+/* Label-2/400 */
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 140%; /* 19.6px */
+}
+.graph_info_flex_child3
+{
+width: 60%;
+/* Label-2/400 */
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 140%; /* 19.6px */
+}
+.graph_info_flex_child3 h4
+{
+/* Headings/h4 */
+margin: 0px;
+font-family: Sora;
+font-size: 20px;
+font-style: normal;
+font-weight: 400;
+line-height: 140%; /* 28px */
+text-transform: capitalize;
+}
+.graph_info_flex_child3 span
+{
+/* Label-2/500 */
+color: #5F6D81;
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 140%; /* 19.6px */
+}
+.donut_graph_circle
+{
+margin-right:8px;
+}
+.graph_graph_circle
+{
+margin-right:8px;
+}
+/*-- Dashboard -> Donut Graph CSS End ----*/
+
+/*-- Property Management -> Donut Graph CSS ----*/
+#chartContainer2
+{
+height: 220px;
+margin-top: -30px;
+}
+/*-- Property Management -> Donut Graph CSS ----*/

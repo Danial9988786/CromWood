@@ -2,8 +2,6 @@
 using CromWood.Data.Entities;
 using CromWood.Data.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Metadata;
-using System.Xml.Linq;
 
 namespace CromWood.Data.Repository.Implementation
 {
@@ -20,7 +18,7 @@ namespace CromWood.Data.Repository.Implementation
 
         public async Task<Tenancy> GetTenancyOverView(Guid tenancyId)
         {
-            return await _context.Tenancies.Include(x=>x.TenancyTenants).ThenInclude(x=>x.Tenant).Include(x => x.Property).ThenInclude(x => x.Asset).Include(x => x.Property).ThenInclude(x => x.PropertyType).Include(x => x.RentFrequency).Include(x => x.TenancyType).FirstOrDefaultAsync(x => x.Id == tenancyId);
+            return await _context.Tenancies.Include(x => x.TenancyTenants).ThenInclude(x => x.Tenant).Include(x => x.Property).ThenInclude(x => x.Asset).Include(x => x.Property).ThenInclude(x => x.PropertyType).Include(x => x.RentFrequency).Include(x => x.TenancyType).FirstOrDefaultAsync(x => x.Id == tenancyId);
         }
 
         public async Task<Tenancy> GetTenancyViewDetail(Guid tenancyId)
@@ -185,7 +183,7 @@ namespace CromWood.Data.Repository.Implementation
 
         public async Task<ICollection<Notice>> GetNoticesForTenancyTenants(Guid tenenacyId)
         {
-            return await _context.Notices.Include(x => x.Concern).Include(x => x.Section).Include(x => x.Tenant).Where(x=>x.Tenant.TenancyTenants.Any(x=>x.TenancyId == tenenacyId)).ToListAsync();
+            return await _context.Notices.Include(x => x.Concern).Include(x => x.Section).Include(x => x.Tenant).Where(x => x.Tenant.TenancyTenants.Any(x => x.TenancyId == tenenacyId)).ToListAsync();
         }
 
         public async Task<ICollection<Complaint>> GetComplaintsForTenancyTenants(Guid tenenacyId)
@@ -205,7 +203,7 @@ namespace CromWood.Data.Repository.Implementation
         {
             try
             {
-                if(message.Id == Guid.Empty)
+                if (message.Id == Guid.Empty)
                 {
                     await _context.TenancyMessages.AddAsync(message);
                 }
@@ -238,7 +236,7 @@ namespace CromWood.Data.Repository.Implementation
 
         public async Task<ICollection<UnitUtility>> GetUnitUtilities(Guid id)
         {
-            return await _context.UnitUtilities.Include(x=>x.UtilityProvider).Include(x=>x.UtilityType).Include(x=>x.UnitUtilityReadings).Where(x=>x.TenancyId == id).ToListAsync();
+            return await _context.UnitUtilities.Include(x => x.UtilityProvider).Include(x => x.UtilityType).Include(x => x.UnitUtilityReadings).Where(x => x.TenancyId == id).ToListAsync();
         }
 
         public async Task<UnitUtility> GetUnitUtilityView(Guid id)
@@ -371,19 +369,23 @@ namespace CromWood.Data.Repository.Implementation
             }
         }
 
-        public async Task<ICollection<RecurringCharge>> GetRecurringCharges(Guid id) { 
-            return await _context.RecurringCharges.Include(x=>x.Tenancy).Include(x=>x.RecurringBasisFor).Include(x=>x.TransactionType).Include(x=>x.RecurringFrequency).Where(x=>x.TenancyId == id).ToListAsync();
+        public async Task<ICollection<RecurringCharge>> GetRecurringCharges(Guid id)
+        {
+            return await _context.RecurringCharges.Include(x => x.Tenancy).Include(x => x.RecurringBasisFor).Include(x => x.TransactionType).Include(x => x.RecurringFrequency).Where(x => x.TenancyId == id).ToListAsync();
         }
 
-        public async Task<RecurringCharge> GetRecurringCharge(Guid id) { 
+        public async Task<RecurringCharge> GetRecurringCharge(Guid id)
+        {
             return await _context.RecurringCharges.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<RecurringCharge> GetRecurringChargeView(Guid id) { 
+        public async Task<RecurringCharge> GetRecurringChargeView(Guid id)
+        {
             return await _context.RecurringCharges.Include(x => x.Tenancy).Include(x => x.TransactionType).Include(x => x.RecurringFrequency).FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<int> AddModifyRecurringCharge(RecurringCharge req) {
+        public async Task<int> AddModifyRecurringCharge(RecurringCharge req)
+        {
             try
             {
                 if (req.Id == Guid.Empty)
@@ -403,7 +405,8 @@ namespace CromWood.Data.Repository.Implementation
             }
         }
 
-        public async Task<int> DeleteRecurringCharge(Guid id) {
+        public async Task<int> DeleteRecurringCharge(Guid id)
+        {
             try
             {
                 var item = await _context.RecurringCharges.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
@@ -416,6 +419,141 @@ namespace CromWood.Data.Repository.Implementation
                 throw;
             }
         }
+
+        public async Task<ICollection<TenancyStatement>> GetStatements(Guid id)
+        {
+            return await _context.Statements.Include(x=>x.StatementType).Where(x => x.TenancyId == id).ToListAsync();
+        }
+
+        public async Task<TenancyStatement> GetStatement(Guid id)
+        {
+            return await _context.Statements.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<int> AddModifyStatement(TenancyStatement req)
+        {
+            try
+            {
+                if (req.Id == Guid.Empty)
+                {
+                    await _context.Statements.AddAsync(req);
+                }
+                else
+                {
+                    _context.Statements.Update(req);
+                }
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<TenancyStatement> GetStatementView(Guid id)
+        {
+            return await _context.Statements.Include(x => x.StatementType).Include(x=>x.Transactions).Include(x => x.Documents).FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<int> DeleteStatement(Guid id)
+        {
+            try
+            {
+                var item = await _context.Statements.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+                _context.Statements.Remove(item);
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<StatementTransaction> GetStatementTransaction(Guid id)
+        {
+            return await _context.StatementTransactions.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<int> AddModifyStatementTransaction(StatementTransaction req)
+        {
+            try
+            {
+                if (req.Id == Guid.Empty)
+                {
+                    await _context.StatementTransactions.AddAsync(req);
+                }
+                else
+                {
+                    _context.StatementTransactions.Update(req);
+                }
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<int> DeleteStatementTransaction(Guid id)
+        {
+            try
+            {
+                var item = await _context.StatementTransactions.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+                _context.StatementTransactions.Remove(item);
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<StatementDocument> GetStatementDocument(Guid id)
+        {
+            return await _context.StatementDocuments.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<int> AddModifyStatementDocument(StatementDocument req)
+        {
+
+            try
+            {
+                if (req.Id == Guid.Empty)
+                {
+                    await _context.StatementDocuments.AddAsync(req);
+                }
+                else
+                {
+                    _context.StatementDocuments.Update(req);
+                }
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<string> DeleteStatementDocument(Guid id)
+        {
+            try
+            {
+                var doc = await _context.StatementDocuments.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+                _context.StatementDocuments.Remove(doc);
+                await _context.SaveChangesAsync();
+                return doc.DocUrl;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
 
     }
 }

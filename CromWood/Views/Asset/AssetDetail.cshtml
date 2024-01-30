@@ -27,10 +27,10 @@
     </h1>
     <div class="d-md-inline-block ms-5">
         <h6 class="cre ms-4">
-            Created on: <sapn>@Model.CreatedDate?.ToString("yyyy-MM-dd")</sapn>
+            Created on: <sapn>@(Model.CreatedDate.HasValue ? Model.CreatedDate.Value.ToString("yyyy-MM-dd") : "N/A")</sapn>
         </h6>
         <h6 class="cre ms-4">
-            Last Modified: <sapn>@Model.UpdatedDate?.ToString("yyyy-MM-dd")</sapn> <a class="v_c" href="#">View Changelog</a>
+            Last Modified: <sapn>@(Model.UpdatedDate.HasValue ? Model.UpdatedDate.Value.ToString("yyyy-MM-dd") : "N/A")</sapn> <a class="v_c" href="#">View Changelog</a>
         </h6>
 
     </div>
@@ -81,7 +81,6 @@
         </div>
     </div>
     <!-- Address Details tab end here -->
-
     <!-- Address Details tab start here -->
     <div class="tab-pane fade show border active bg-white" id="nav_address_details"
          role="tabpanel" aria-labelledby="nav-user-list-tab">
@@ -102,38 +101,38 @@
             </div>
         </div>
         <div class="mx-3">
-        <table class="table">
-            <tbody class="asset_table">
-                <tr>
-                    <th class="r_heading" scope="row">Asset Code</th>
-                    <td>@Model.AssetId</td>
-                </tr>
-                <tr class="bg-white">
-                    <th class="r_heading" scope="row">Asset Type</th>
-                    <td colspan="2">@Model.AssetType?.Name</td>
-                </tr>
-                <tr>
-                    <th class="r_heading" scope="row">House No. & Street</th>
-                    <td colspan="2">@Model.HouseNoStreet</td>
-                </tr>
-                <tr class="bg-white">
-                    <th class="r_heading" scope="row">Locality</th>
-                    <td colspan="2">@Model.Locality</td>
-                </tr>
-                <tr>
-                    <th class="r_heading" scope="row">Borough</th>
-                    <td colspan="2">@Model.Borough</td>
-                </tr>
-                <tr class="bg-white">
-                    <th class="r_heading" scope="row">Post Code</th>
-                    <td colspan="2">@Model.PostCode</td>
-                </tr>
-            </tbody>
-        </table>
+            <table class="table">
+                <tbody class="asset_table">
+                    <tr>
+                        <th class="r_heading" scope="row">Asset Code</th>
+                        <td>@(string.IsNullOrEmpty(Model.AssetId) ? "N/A" : Model.AssetId)</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading" scope="row">Asset Type</th>
+                        <td colspan="2">@((Model.AssetType != null && !string.IsNullOrEmpty(Model.AssetType.Name)) ? Model.AssetType.Name : "N/A")</td>
+                    </tr>
+                    <tr>
+                        <th class="r_heading" scope="row">House No. & Street</th>
+                        <td colspan="2">@(Model.HouseNoStreet ?? "--")</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading" scope="row">Locality</th>
+                        <td colspan="2">@(Model.Locality ?? "--")</td>
+                    </tr>
+                    <tr>
+                        <th class="r_heading" scope="row">Borough</th>
+                        <td colspan="2">@(Model.Borough ?? "--")</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading" scope="row">Post Code</th>
+                        <td colspan="2">@(Model.PostCode ?? "--")</td>
+                    </tr>
+                </tbody>
+
+            </table>
         </div>
     </div>
     <!-- Address Details tab end here -->
-
     <!-- Valuation & Ownership tab stat here -->
     <div class="tab-pane fade border bg-white" id="valuation_ownership" role="tabpanel"
          aria-labelledby="nav-roles-per-tab">
@@ -153,47 +152,47 @@
             </div>
         </div>
         <div class="mx-3">
-        <table class="table">
+            <table class="table">
 
-            <tbody class="asset_table">
-                <tr>
-                    <th class="r_heading" scope="row">Title Number</th>
-                    <td>@Model.TitleNumber</td>
-                </tr>
-                <tr class="bg-white">
-                    <th class="r_heading" scope="row">Ownership</th>
-                    <td colspan="2">@Model.Ownership</td>
-                </tr>
-                <tr>
-                    <th class="r_heading" scope="row">Acquisition Date</th>
-                    <td colspan="2">@Model.AquisitionDate?.ToString("dddd, MMM dd, yyyy")</td>
-                </tr>
-                <tr class="bg-white">
-                    <th class="r_heading" scope="row">Purchase Price</th>
-                    <td colspan="2">
-                        @(Model.PurchasePrice != null ? Model.PurchasePrice.Value.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ") : "--")
-                    </td>
-                </tr>
-                <tr>
-                    <th class="r_heading" scope="row">Valuation</th>
-                    <td colspan="2">
-                        @(Model.Valuation != null ? Model.Valuation.Value.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ") : "--")
-                    </td>
-                </tr>
-                <tr class="bg-white">
-                    <th class="r_heading" scope="row">Valuation Date</th>
-                    <td colspan="2">@Model.ValuationDate?.ToString("dddd, MMM dd, yyyy")</td>
-                </tr>
-                <tr class="bg-white">
-                    <th class="r_heading" scope="row">Reinstatement</th>
-                    <td colspan="2">@Model.Reinstatement</td>
-                </tr>
-            </tbody>
-        </table>
+                <tbody class="asset_table">
+                    <tr>
+                        <th class="r_heading" scope="row">Title Number</th>
+                        <td>@(Model.TitleNumber ?? "--")</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading" scope="row">Ownership</th>
+                        <td colspan="2">@(Model.Ownership ?? "--")</td>
+                    </tr>
+                    <tr>
+                        <th class="r_heading" scope="row">Acquisition Date</th>
+                        <td colspan="2">@(Model.AquisitionDate?.ToString("dddd, MMM dd, yyyy") ?? "--")</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading" scope="row">Purchase Price</th>
+                        <td colspan="2">
+                            @(Model.PurchasePrice != null ? Model.PurchasePrice.Value.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ") : "--")
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="r_heading" scope="row">Valuation</th>
+                        <td colspan="2">
+                            @(Model.Valuation != null ? Model.Valuation.Value.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ") : "--")
+                        </td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading" scope="row">Valuation Date</th>
+                        <td colspan="2">@(Model.ValuationDate?.ToString("dddd, MMM dd, yyyy") ?? "--")</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading" scope="row">Reinstatement</th>
+                        <td colspan="2">@(Model.Reinstatement ?? "--")</td>
+                    </tr>
+                </tbody>
+
+            </table>
         </div>
     </div>
     <!-- Valuation & Ownership tab end here -->
-
     <!-- Financial Details start here -->
     <div class="tab-pane fade border bg-white" id="Financial_Details" role="tabpanel"
          aria-labelledby="nav-roles-per-tab">
@@ -213,57 +212,52 @@
             </div>
         </div>
         <div class="mx-3">
-        <table class="table">
+            <table class="table">
 
-            <tbody class="asset_table">
-                <tr>
-                    <th class="r_heading" scope="row">Lender</th>
-                    <td>@Model.Lender</td>
-                </tr>
-                <tr class="bg-white">
-                    <th class="r_heading" scope="row">Chargee</th>
-                    <td colspan="2">
-                        @Model.Chargee
-                    </td>
-                </tr>
-                <tr>
-                    <th class="r_heading" scope="row">Date of Charge</th>
-                    <td colspan="2">@Model.DateOfCharge?.ToString("dddd, MMM dd, yyyy")</td>
-                </tr>
-                <tr class="bg-white">
-                    <th class="r_heading" scope="row">Program</th>
-                    <td colspan="2">@Model.FinancialPrgoram.Name</td>
-                </tr>
-                <tr>
-                    <th class="r_heading" scope="row">Grant Provider</th>
-                    <td colspan="2">@Model.GrantProvider</td>
-                </tr>
-                <tr class="bg-white">
-                    <th class="r_heading" scope="row">Attributable Grant</th>
-                    <td colspan="2">
-                        @(Model.AttributableGrant != null ? Model.AttributableGrant.Value.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ") : "--")
-                    </td>
-                </tr>
-                <tr class="bg-white">
-                    <th class="r_heading" scope="row">Ground Rent</th>
-                    <td colspan="2">
-                        @(Model.AttributableGrant != null ? Model.AttributableGrant.Value.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ") : "--")
-                    </td>
-                </tr>
-                <tr class="bg-white">
-                    <th class="r_heading" scope="row">Estimated Earnings Per Month</th>
-                    <td colspan="2">£ 20,000.00</td>
-                </tr>
-                <tr class="bg-white">
-                    <th class="r_heading" scope="row">Construction Period</th>
-                    <td colspan="2">@Model.ConstructionPeriod</td>
-                </tr>
-            </tbody>
-        </table>
+                <tbody class="asset_table">
+                    <tr>
+                        <th class="r_heading" scope="row">Lender</th>
+                        <td>@(Model.Lender ?? "--")</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading" scope="row">Chargee</th>
+                        <td colspan="2">
+                            @(Model.Chargee ?? "--")
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="r_heading" scope="row">Date of Charge</th>
+                        <td colspan="2">@(Model.DateOfCharge?.ToString("dddd, MMM dd, yyyy") ?? "--")</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading" scope="row">Program</th>
+                        <td colspan="2">@Model.FinancialPrgoram.Name</td>
+                    </tr>
+                    <tr>
+                        <th class="r_heading" scope="row">Grant Provider</th>
+                        <td colspan="2">@(Model.GrantProvider ?? "--")</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading" scope="row">Attributable Grant</th>
+                        <td colspan="2">
+                            @(Model.AttributableGrant != null ? Model.AttributableGrant.Value.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ") : "--")
+                        </td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading" scope="row">Ground Rent</th>
+                        <td colspan="2">
+                            @(Model.AttributableGrant != null ? Model.AttributableGrant.Value.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ") : "--")
+                        </td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading" scope="row">Construction Period</th>
+                        <td colspan="2">@(Model.ConstructionPeriod ?? "--")</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <!-- Financial Details end here -->
-
     <!-- Landlord/ Management Start Here -->
     <div class="tab-pane fade border bg-white" id="landlord_management" role="tabpanel"
          aria-labelledby="nav-roles-per-tab">
@@ -283,46 +277,42 @@
             </div>
         </div>
         <div class="mx-3">
-        <table class="table">
+            <table class="table">
 
-            <tbody class="asset_table">
-                <tr>
-                    <th class="r_heading" scope="row">Landlord</th>
-                    <td>@Model.LandlordName</td>
-                </tr>
-                <tr class="bg-white">
-                    <th class="r_heading" scope="row">Managing Agent</th>
-                    <td colspan="2">
-                        @Model.ManagingAgent
-                    </td>
-                </tr>
-                <tr>
-                    <th class="r_heading" scope="row">Managing Agent Address</th>
-                    <td colspan="2">@Model.ManagingAgentHouseNoStreet, @Model.ManagingAgentLocality</td>
-                </tr>
-                <tr class="bg-white">
-                    <th class="r_heading" scope="row"></th>
-                    <td colspan="2">@Model.ManagingAgentBorough, @Model.ManagingAgentPostCode</td>
-                </tr>
-                <tr>
-                    <th class="r_heading" scope="row">Lease Term</th>
-                    <td colspan="2">@Model.LeaseTerm?.ToString("dddd, MMMM")</td>
-                </tr>
-                <tr class="bg-white">
-                    <th class="r_heading" scope="row">Lease Day</th>
-                    <td colspan="2">@Model.LeaseTerm?.ToString("dddd, MMMM")</td>
-                </tr>
-                <tr class="bg-white">
-                    <th class="r_heading" scope="row">Lease Expiry</th>
-                    <td colspan="2">@Model.LeaseExpiry?.ToString("dddd, MMMM")</td>
-                </tr>
-                <tr class="bg-white">
-                    <th class="r_heading" scope="row">Lease Length</th>
-                    <td>@(Model.LeaseExpiry != null && Model.LeaseTerm != null ? leaseLength : "--")</td>
-                </tr>
+                <tbody class="asset_table">
+                    <tr>
+                        <th class="r_heading" scope="row">Landlord</th>
+                        <td>@(Model.LandlordName ?? "--")</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading" scope="row">Managing Agent</th>
+                        <td colspan="2">
+                            @(Model.ManagingAgent ?? "--")
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="r_heading" scope="row">Managing Agent Address</th>
+                        <td colspan="2">@(Model.ManagingAgentHouseNoStreet ?? "--"), @(Model.ManagingAgentLocality ?? "--")</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading" scope="row"></th>
+                        <td colspan="2">@(Model.ManagingAgentBorough??"--"), @(Model.ManagingAgentPostCode??"--")</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading" scope="row">Lease Day</th>
+                        <td colspan="2">@(Model.LeaseTerm?.ToString("dddd, MMMM") ?? "--")</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading" scope="row">Lease Expiry</th>
+                        <td colspan="2">@(Model.LeaseExpiry?.ToString("dddd, MMMM") ?? "--")</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <th class="r_heading" scope="row">Lease Length</th>
+                        <td>@(Model.LeaseExpiry != null && Model.LeaseTerm != null ? leaseLength : "--")</td>
+                    </tr>
 
-            </tbody>
-        </table>
+                </tbody>
+            </table>
         </div>
     </div>
     <!-- Landlord/ Management end Here -->
@@ -337,7 +327,7 @@
 
 
 <script>
-    
+
     function EditAddressSection() {
         var url = "/Asset/AddAsset/@Id?section=address";
         $("#assetDialogBody").load(url, function () {
@@ -350,8 +340,8 @@
             $("#assetDialogBody").css("width", "100%");
             $("#assetDialog").modal("show");
         });
-    }  
-    
+    }
+
     function EditOwnershipSection() {
         var url = "/Asset/AddAsset/@Id?section=ownership";
         $("#assetDialogBody").load(url, function () {
@@ -378,7 +368,7 @@
             $("#assetDialogBody").css("width", "100%");
             $("#assetDialog").modal("show");
         });
-    }  
+    }
 
     function EditLandlordSection() {
         var url = "/Asset/AddAsset/@Id?section=landlord";

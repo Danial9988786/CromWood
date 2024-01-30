@@ -1385,6 +1385,9 @@ namespace CromWood.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
                     b.Property<string>("ChargerFor")
                         .HasColumnType("nvarchar(max)");
 
@@ -2203,6 +2206,61 @@ namespace CromWood.Data.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("CromWood.Data.Filter", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PageName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Filters");
+                });
+
+            modelBuilder.Entity("CromWood.Data.FilterAndCondition", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Condition")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("FilterId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FilterId");
+
+                    b.ToTable("FilterAndConditions");
+                });
+
+            modelBuilder.Entity("CromWood.Data.FilterOrCondition", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Condition")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("FilterId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FilterId");
+
+                    b.ToTable("FilterOrConditions");
+                });
+
             modelBuilder.Entity("CromWood.Data.Entities.Asset", b =>
                 {
                     b.HasOne("CromWood.Data.Entities.Default.AssetType", "AssetType")
@@ -2539,7 +2597,7 @@ namespace CromWood.Data.Migrations
             modelBuilder.Entity("CromWood.Data.Entities.StatementDocument", b =>
                 {
                     b.HasOne("CromWood.Data.Entities.TenancyStatement", "Statement")
-                        .WithMany()
+                        .WithMany("Documents")
                         .HasForeignKey("StatementId");
 
                     b.Navigation("Statement");
@@ -2552,7 +2610,7 @@ namespace CromWood.Data.Migrations
                         .HasForeignKey("PaidByTenantId");
 
                     b.HasOne("CromWood.Data.Entities.TenancyStatement", "Statement")
-                        .WithMany()
+                        .WithMany("Transactions")
                         .HasForeignKey("StatementId");
 
                     b.HasOne("CromWood.Data.Entities.Default.TransactionMode", "TransactionMode")
@@ -2735,7 +2793,7 @@ namespace CromWood.Data.Migrations
             modelBuilder.Entity("CromWood.Data.Entities.UnitUtilityDocument", b =>
                 {
                     b.HasOne("CromWood.Data.Entities.UnitUtility", "UnitUtility")
-                        .WithMany()
+                        .WithMany("UnitUtilityDocuments")
                         .HasForeignKey("UnitUtilityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2746,7 +2804,7 @@ namespace CromWood.Data.Migrations
             modelBuilder.Entity("CromWood.Data.Entities.UnitUtilityReading", b =>
                 {
                     b.HasOne("CromWood.Data.Entities.UnitUtility", "UnitUtility")
-                        .WithMany()
+                        .WithMany("UnitUtilityReadings")
                         .HasForeignKey("UnitUtilityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2763,6 +2821,28 @@ namespace CromWood.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("CromWood.Data.FilterAndCondition", b =>
+                {
+                    b.HasOne("CromWood.Data.Filter", "Filter")
+                        .WithMany("AndCondition")
+                        .HasForeignKey("FilterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Filter");
+                });
+
+            modelBuilder.Entity("CromWood.Data.FilterOrCondition", b =>
+                {
+                    b.HasOne("CromWood.Data.Filter", "Filter")
+                        .WithMany("OrCondition")
+                        .HasForeignKey("FilterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Filter");
                 });
 
             modelBuilder.Entity("CromWood.Data.Entities.Asset", b =>
@@ -2799,9 +2879,30 @@ namespace CromWood.Data.Migrations
                     b.Navigation("TenancyTenants");
                 });
 
+            modelBuilder.Entity("CromWood.Data.Entities.TenancyStatement", b =>
+                {
+                    b.Navigation("Documents");
+
+                    b.Navigation("Transactions");
+                });
+
             modelBuilder.Entity("CromWood.Data.Entities.Tenant", b =>
                 {
                     b.Navigation("TenancyTenants");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.UnitUtility", b =>
+                {
+                    b.Navigation("UnitUtilityDocuments");
+
+                    b.Navigation("UnitUtilityReadings");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Filter", b =>
+                {
+                    b.Navigation("AndCondition");
+
+                    b.Navigation("OrCondition");
                 });
 #pragma warning restore 612, 618
         }

@@ -56,7 +56,7 @@
     .cm2_size .modal-content{
         min-height: 650px!important;
         height: 650px;
-        overflow-y: auto;
+        /* overflow-y: auto; */
     }
     .cm2_size .modal-content::-webkit-scrollbar {
         display: none;

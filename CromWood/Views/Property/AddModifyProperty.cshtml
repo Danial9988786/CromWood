@@ -9,7 +9,7 @@
     var asyncPropertyTypes = await _propertyTypeService.GetAllItems();
     var propertyTypes = new SelectList(asyncPropertyTypes.Data, "Id", "Name");
 
-    var asyncAssets = await _assetService.GetAssetsForList();
+    var asyncAssets = await _assetService.GetAssetsForList(Guid.Empty);
     var assets = new SelectList(asyncAssets.Data, "Id", "StreetAddress");
 
     var groupByAmenties = Model.PropertyAmenities.GroupBy(x => x.Amenity.GroupName);

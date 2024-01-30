@@ -189,6 +189,38 @@
   line-height: 140%; 
   text-transform: capitalize;
 }
+.light_gray_14_{
+  color: #BBC0C9;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%;
+}
+.font14_inter_{
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%;
+  color: #48586F;
+}
+.black_700{
+  color: #000;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 140%;
+}
+.font16_inter{
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%;
+  color:#48586F;
+}
 .main-bg {
   background-color: var(--main-color);
 }
@@ -8949,7 +8981,9 @@ fieldset:disabled .btn {
 .fw-bolder {
   font-weight: bolder !important;
 }
-
+.fw_600{
+  font-weight: 600!important;
+}
 .lh-1 {
   line-height: 1 !important;
 }

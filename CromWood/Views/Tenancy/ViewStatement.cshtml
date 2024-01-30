@@ -1,0 +1,389 @@
+﻿@using CromWood.Business.Models;
+@model CromWood.Business.Models.ViewModel.StatementViewModel
+@{
+    var totalPaid = 0f;
+    if (Model.Transactions.Count > 0)
+    {
+        totalPaid = Model.Transactions.Sum(x => x.NetAmount);
+    }
+    var outstanding = Model.NetAmount - totalPaid;
+    var statementId = "'" + Model.Id + "'";
+    var tenancyId = "'" + Model.TenancyId + "'";
+}
+<div class="modal-content rounded-0 model-custom-bg">
+    <div class="modal-header modal_header_fixed py-2 bg-white">
+        <h5 class="modal-title" id="staticBackdropLabel">
+            Statement ST3627 <span>2023-08-24</span>
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body pt-0">
+        <div class="row">
+            <div class="top_bar__fixed">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <span class="gray_12">Statement Type</span>
+                        <h5 class="modal-title" id="staticBackdropLabel">@Model.StatementType.Name</h5>
+                    </div>
+                    <div class="ms-auto me-3">
+                        <a class="custom__btn" data-bs-dismiss="modal" onclick="AddModifyStatementTransaction(@statementId, @tenancyId)">
+                            Add transaction
+                        </a>
+                    </div>
+                    <div class="dropdown">
+                        <div class="shadow-box ms-auto">
+                            <a class="text-decoration-none custom__btn action_dropwown" href="#"
+                               role="button" id="acp-action" data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                <img src="~/assets/img/settings-02.svg" alt="setting_icon">
+                                Actions
+                                <img src="~/assets/img/down_arrow.svg">
+                            </a>
+                            <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
+                                aria-labelledby="acp-action">
+                                <li><a class="dropdown-item" href="#">Edit Statement</a></li>
+                                <li><a class="dropdown-item" href="#">Add Transaction</a></li>
+                                <li><a class="dropdown-item" href="#">Void Statement</a></li>
+                                <li><a class="dropdown-item" href="#">Print</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <nav class="mt-3">
+                    <div class="nav nav-tabs flex-nowrap" id="nav-tab" role="tablist">
+                        <a class="nav-link active w-100 text-center" id="Details-tab" data-bs-toggle="tab"
+                           data-bs-target="#Details_tab" role="tab"
+                           aria-controls="Details_tab" aria-selected="false">Statement</a>
+                        <a class="nav-link w-100 text-center" id="EditUtility-tab" data-bs-toggle="tab"
+                           data-bs-target="#EditUtility_tab" role="tab"
+                           aria-controls="EditUtility_tab" aria-selected="false">Documents</a>
+                        <a class="nav-link w-100 text-center" id="UnitReadings-tab" data-bs-toggle="tab"
+                           data-bs-target="#UnitReadings__" role="tab"
+                           aria-controls="UnitReadings__" aria-selected="false">Activity</a>
+                    </div>
+                </nav>
+            </div>
+
+            <div class="tab-content" id="nav-tabContent">
+                <!------- Statement Tab Start ------>
+                <div class="tab-pane fade show active" id="Details_tab" role="tabpanel"
+                     aria-labelledby="nav-inspection-details-tab">
+                    <div class="step_body_content2 pe-2">
+                        <div class="l_c border-top-0">
+                            <div class="main_insurence pt-3 pb-2 px-3">
+                                <div class="row">
+                                    <div class="col-xl-3">
+                                        <span class="owner_clr mt-2 pt-2">Reference ID</span>
+                                        <p class="pagagraph mt-1 mb-3 pb-1">@Model.ReferenceID</p>
+                                        <span class="owner_clr d-inline-block">Statement Type</span>
+                                        <p class="pagagraph mt-1 mb-3 pb-1">@Model.StatementType.Name</p>
+                                        <span class="owner_clr d-inline-block">Description</span>
+                                        <p class="pagagraph mt-1 mb-3 pb-1">@Model.StatementDescription</p>
+                                        <p class="modal-title" id="staticBackdropLabel">Transactions</p>
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <span class="owner_clr
+                                                mt-2 pt-2">Property</span>
+                                        <div>
+                                            <img src="~/assets/img/Location.svg" alt="locaton">
+                                            <span class="u_n main-text">
+                                                25 Meadowford
+                                                Close, London, Greenwich
+                                            </span>
+                                        </div>
+                                        <span class="owner_clr d-inline-block mt-3">Total Paid</span>
+                                        <p class="pagagraph mt-1">@totalPaid</p>
+                                        <span class="owner_clr d-inline-block">Outstanding</span>
+                                        <p class="pagagraph mt-1"> @outstanding</p>
+                                    </div>
+                                    <div class="col-xl-5">
+
+                                        <span class="owner_clr d-inline-block mt-5 pt-3">Tenency</span>
+                                        <p class="main-text mt-1 mb-3 pb-1">112384</p>
+
+                                        <span class="owner_clr d-inline-block">Tenants</span>
+                                        <p class="main-text mt-1 mb-3 pb-1">Allison Phillips</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ser_lpading  sm48__row_table no_searchontable pt-0 pm_page_top_m table_bottom_border hide_sort_all font12_head">
+                                <table id="st_action_table">
+                                    <thead>
+                                        <tr>
+                                            <th>Invoice No</th>
+                                            <th>Date/ Due Date</th>
+                                            <th>Statement Type</th>
+                                            <th>Description</th>
+                                            <th>Paid To/ By</th>
+                                            <th>Amount</th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach(var transaction in Model.Transactions){
+                                        <tr>
+                                            <td class="align-top">
+                                                <a class="green_12 u_n" href="#">
+                                                    @transaction.InvoiceNumber
+                                                </a>
+                                            </td>
+                                            <td class="align-top">
+                                                <span class="black_12 d-inline-block mb-1">
+                                                    @transaction.Date
+                                                </span>
+                                                <br><span class="gray_12">Due Date</span>
+                                                <span class="black_12">
+                                                    30 Aug 2023
+                                                </span>
+                                            </td>
+                                            <td class="align-top">
+                                                <span class="black_12 d-inline-block mb-1">
+                                                    Direct Rent
+                                                </span>
+                                            </td>
+                                            <td class="align-top">
+                                                <span class="black_12 d-inline-block mb-2">
+                                                   @transaction.TransactionDescription
+                                                </span>
+                                                <br><span class="gray_12">Charge Ref:</span>
+                                                <span class="st_dis">@Model.ReferenceID</span>
+                                                <br><span class="gray_12">Tenancy</span>
+                                                <span class="st_dis">112384</span>
+                                                <br><span class="gray_12">Property</span>
+                                                <span class="st_dis">11763287</span>
+                                            </td>
+                                            <td class=" align-top">
+                                                <span class="black_12 d-inline-block">Tenant</span><br>
+                                                <span class="black_12 d-inline-block">
+                                                    (Allison Philips)
+                                                </span>
+                                            </td>
+                                            <td class=" align-top">
+                                                <span class="black_12 d-inline-block">@transaction.NetAmount</span>
+                                            </td>
+                                                @{
+                                                    var tranId = "'" + transaction.Id + "'";
+                                                }
+                                            <td class="text-end">
+                                                <div class="d-flex">
+                                                    <a class="text-decoration-none" href="#"
+                                                       data-bs-toggle="modal"
+                                                       data-bs-target="#statment_ChargeDetails">
+                                                        <img src="~/assets/img/eye.svg" />
+                                                    </a>
+                                                    <div>
+                                                        <a class="text-decoration-none action_dropwown" href="#"
+                                                           role="button" id="acp-action"
+                                                           data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <img src="~/assets/img/down_arrow.svg"
+                                                                 class="ms-2" />
+                                                        </a>
+                                                        <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
+                                                            aria-labelledby="acp-action">
+                                                            <li>
+                                                                    <a class="dropdown-item" onclick="AddModifyStatementTransaction(@statementId, @tenancyId, @tranId)">
+                                                                    Edit
+                                                                    Transaction
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item" href="#">
+                                                                    Void
+                                                                    Transaction
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item" href="#">
+                                                                    Add
+                                                                    Document
+                                                                </a>
+                                                            </li>
+                                                            <li><a class="dropdown-item" href="#">Print</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ----- Statement Tab End  ------>
+                <!------- Documents Tab Start ------>
+                <div class="tab-pane fade h-100 mb-0 rp_popup" id="EditUtility_tab" role="tabpanel"
+                     aria-labelledby="nav-building-details-tab">
+                    <div class="step_body_content2 pe-2">
+                        <div class="step_body_content2 pe-2">
+                            <div class="p-3 bg-white rounded border border-top-0">
+                                <div class="d-flex gap-3 pb-2">
+                                    <div class="tenancy_rec p-4">
+                                        @await Html.PartialAsync("AddModifyStatementDocument", new StatementDocumentModel(){StatementId = Model.Id})
+                                    </div>
+                                </div>
+                                <h4 class="heading-style2 mt-4 mb-3">Statement Documents</h4>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        @foreach (var doc in Model.Documents)
+                                        {
+                                            string docId = "'" + doc.Id + "'";
+                                            <div class="doc_img">
+                                                <img src="@doc.DocUrl" class="img-fluid w-100"
+                                                     alt="pdf_files">
+                                                <div class="pdf_footer px-3 py-3 d-flex justify-content-between align-items-center">
+                                                    <p class="pagagraph mb-0">@doc.Name</p>
+                                                    <div class="dropdown">
+                                                        <a href="#" class="action_dropwown" id="dropdownImage"
+                                                           data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <img src="~/assets/img/dots_Icon.svg"
+                                                                 alt="Dropdown Trigger">
+                                                        </a>
+
+                                                        <ul class="dropdown-menu shadow dropdown-menu-end border-0 rounded-0 p-0"
+                                                            aria-labelledby="acp-action">
+                                                            <li><a class="dropdown-item" onclick="DeleteStatementDocument(@docId)">Delete</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ----- Documents Tab End ---- -->
+                <!-- ----- Activitys Tab Start ---- -->
+                <div class="tab-pane fade border border-top-0 bg-white h-100" id="UnitReadings__"
+                     role="tabpanel" aria-labelledby="nav-building-items-tab">
+                    <div class="step_body_content2 pe-2">
+                        <div class="p-3">
+                            <div class="px-3">
+                                <div class="row">
+                                    <h5 class="modal-title mt-2 pt-1 mb-3" id="">
+                                        Activity
+                                    </h5>
+                                </div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div>
+                                        <img src="~/assets/img/euro.svg" alt="euro_icon">
+                                    </div>
+                                    <div>
+                                        <p class="black_light12 mb-0">
+                                            Transaction added to TE1025, "Rent received Dario Jorge Ventura Da
+                                            Silva for 1st Aug 2023" as "Tenancy Receipt"
+                                        </p>
+                                        <span class="green_12"> Show Transaction</span>
+                                        <img src="~/assets/img/link__icon.svg" alt="link__icon">
+                                        <small class="cre d-block" style="color:#768293;">
+                                            By Jacob Hershberg at
+                                            28 Aug 2023, 1:18 PM. (Time UTC: 28 Aug 2023, 12:18 PM)
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center gap-2 mt-3">
+                                    <div>
+                                        <img src="~/assets/img/euro.svg" alt="euro_icon">
+                                    </div>
+                                    <div>
+                                        <p class="black_light12 mb-0">
+                                            Transaction added to TE1025, "Rent received Dario Jorge Ventura Da
+                                            Silva for 1st Aug 2023" as "Tenancy Receipt"
+                                        </p>
+                                        <span class="green_12"> Show Transaction</span>
+                                        <img src="~/assets/img/link__icon.svg" alt="link__icon">
+                                        <small class="cre d-block" style="color:#768293;">
+                                            By Jacob Hershberg at
+                                            28 Aug 2023, 1:18 PM. (Time UTC: 28 Aug 2023, 12:18 PM)
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center gap-2 mt-3">
+                                    <div>
+                                        <img src="~/assets/img/euro.svg" alt="euro_icon">
+                                    </div>
+                                    <div>
+                                        <p class="black_light12 mb-0">
+                                            Transaction added to TE1025, "Rent received Dario Jorge Ventura Da
+                                            Silva for 1st Aug 2023" as "Tenancy Receipt"
+                                        </p>
+                                        <span class="green_12"> Show Transaction</span>
+                                        <img src="~/assets/img/link__icon.svg" alt="link__icon">
+                                        <small class="cre d-block" style="color:#768293;">
+                                            By Jacob Hershberg at
+                                            28 Aug 2023, 1:18 PM. (Time UTC: 28 Aug 2023, 12:18 PM)
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center gap-2 mt-3">
+                                    <div>
+                                        <img src="~/assets/img/euro.svg" alt="euro_icon">
+                                    </div>
+                                    <div>
+                                        <p class="black_light12 mb-0">
+                                            Transaction added to TE1025, "Rent received Dario Jorge Ventura Da
+                                            Silva for 1st Aug 2023" as "Tenancy Receipt"
+                                        </p>
+                                        <span class="green_12"> Show Transaction</span>
+                                        <img src="~/assets/img/link__icon.svg" alt="link__icon">
+                                        <small class="cre d-block" style="color:#768293;">
+                                            By Jacob Hershberg at
+                                            28 Aug 2023, 1:18 PM. (Time UTC: 28 Aug 2023, 12:18 PM)
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center gap-2 mt-3">
+                                    <div>
+                                        <img src="~/assets/img/euro.svg" alt="euro_icon">
+                                    </div>
+                                    <div>
+                                        <p class="black_light12 mb-0">
+                                            Transaction added to TE1025, "Rent received Dario Jorge Ventura Da
+                                            Silva for 1st Aug 2023" as "Tenancy Receipt"
+                                        </p>
+                                        <span class="green_12"> Show Transaction</span>
+                                        <img src="~/assets/img/link__icon.svg" alt="link__icon">
+                                        <small class="cre d-block" style="color:#768293;">
+                                            By Jacob Hershberg at
+                                            28 Aug 2023, 1:18 PM. (Time UTC: 28 Aug 2023, 12:18 PM)
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ----- Activitys Tab End ---- -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+        const table = document.getElementById('st_action_table');
+        console.log(table)
+        if (table) {
+            new simpleDatatables.DataTable(table);
+        }
+
+        // Code for datatable manipulation
+        var rowCount = $('.datatable-table tbody tr').length;
+        var threshold = 10;
+        if (rowCount < threshold) {
+            $('.datatable-bottom').hide();
+        } else {
+            $('.datatable-bottom').show();
+        }
+
+        var filter = $(".filter_btn");
+        $(".datatable-top").append(filter);
+    });
+    </script>

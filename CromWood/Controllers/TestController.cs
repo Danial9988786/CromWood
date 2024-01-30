@@ -17,6 +17,7 @@ namespace CromWood.Controllers
         }
         public IActionResult Index()
         {
+            testService.GetTests();
             return View();
         }
 

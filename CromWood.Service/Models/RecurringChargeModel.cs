@@ -7,6 +7,7 @@ namespace CromWood.Business.Models
         public Guid Id { get; set; }
         public Guid TenancyId { get; set; }
         public string ChargerFor { get; set; }
+        public bool Active { get; set; }
         public Guid? RecurringBasisForId { get; set; }
         public Tenant RecurringBasisFor { get; set; }
         public Guid RecurringFrequencyId { get; set; }

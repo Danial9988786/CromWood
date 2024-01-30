@@ -3,7 +3,7 @@
 @model CromWood.Business.Models.RecurringChargeModel
 @inject ILookupService<TransactionType> _lookupTransactionType;
 @inject ILookupService<RecurringFrequency> _lookupFrequency;
-@inject ITenantService _tenantService;
+@inject ITenancyService _tenancyService;
 
 
 @{
@@ -13,130 +13,140 @@
     var asyncTransactionTypes = await _lookupTransactionType.GetAllItems();
     var transactionTypes = new SelectList(asyncTransactionTypes.Data, "Id", "Name");
 
-    var asyncTenants = await _tenantService.GetTenantForList();
+    var asyncTenants = await _tenancyService.GetTenancyTenants(Model.TenancyId);
     var tenants = new SelectList(asyncTenants.Data, "Id", "FullName");
 }
 
 <div class="modal-content rounded-0 model-custom-bg">
-                <div class="modal-header py-2 bg-white">
-                    <h5 class="modal-title" id="staticBackdropLabel">Add Recurring Charge</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
+    <div class="modal-header py-2 bg-white">
+        <h5 class="modal-title" id="staticBackdropLabel">Add Recurring Charge</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
     <form asp-action="AddModifyRecurringCharge" class="modal-body">
         @Html.HiddenFor(x=>x.Id)
         @Html.HiddenFor(x=>x.TenancyId)
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="step_body_content3 mb-3 pe-2">
-                        <div class="d-flex justify-content-between mb-3">
-                            <div>
-                                <h5 class="modal-title" id="staticBackdropLabel">Tenancy ID : 112384</h5>
-                            </div>
-                            <div class="d-flex align-items-center gap-3">
-                                <span class="switch__check d-flex align-items-center gap-2">
-                                    <span class="pagagraph">Active</span>
-                                    <input type="checkbox" id="switch_c" checked=""><label class="mt-0" for="switch_c">Toggle</label>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="p-3 bg-white border">
-                            <div class="d-flex gap-3 pb-2">
-                                <div class="input__field w-100">
-                                    <label for="This Charge is
-                                    for" class="form-label">This Charge is
-                                        for</label>
-                                    <select asp-for="ChargerFor" id="charger_for" class="form-select select_font_14"
-                                        aria-label="Default select example">
-                                        <option value="Tenant">Tenant</option>
-                                        <option value="Propertyowner">Property owner</option>
-                            <option value="Contractor">Contractor</option>
-                                    </select>
-                                </div>
-                                <div class="input__field w-100">
-                                    <label for="This Charge is
-                                    for" class="form-label">Recurring basis
-                                        for</label>
-                                    <select id="tenants-id" class="form-select select_font_14"
-                                       asp-for="RecurringBasisForId"  asp-items="tenants">
-                                    </select>
-                                </div>
-                                <div class="input__field w-100">
-                                    <div class="mb-3">
-                                        <label for="Invoice Raised On" class="form-label">Invoice Raised On</label>
-                                        <input type="date" class="form-control"
-                                            placeholder="01 /06 / 2023">
-                                    </div>
-                                </div>
-                                <div class="input__field w-100">
-                                    <label for="Frequency" class="form-label">Frequency</label>
-                                    <select id="frequency_id" class="form-select select_font_14" asp-for="RecurringFrequencyId" asp-items="frequencies">
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="d-flex gap-3 pb-2">
-                                <div class="input__field w-100">
-                                    <div class="mb-3">
-                                        <label for="Invoice Raise From
-                                        Date" class="form-label">Invoice Raise From
-                                            Date</label>
-                                        <input type="date" class="form-control"
-                                            placeholder="01 /06 / 2023" asp-for="InvoiceRaisedDate">
-                                    </div>
-                                </div>
-                                <div class="input__field w-100">
-                                    <div class="mb-3">
-                                        <label for="Invoice Raise To
-                                        Date" class="form-label">Invoice Raise To
-                                            Date</label>
-                                        <input type="date" class="form-control" 
-                                   placeholder="01 /06 / 2023" asp-for="InvoiceRaisedToDate">
-                                    </div>
-                                </div>
-                                <div class="input__field w-100">
-                                    <div class="mb-3">
-                                        <label for="Expected Payment Due
-                                        Date" class="form-label">Expected Payment Due
-                                            Date</label>
-                                        <input type="date" class="form-control"
-                                   placeholder="01 /06 / 2023" asp-for="ExpectedPaymentDueDate">
-                                    </div>
-                                </div>
-                                <div class="input__field w-100">
-                                    <label for="Transaction Type" class="form-label">Transaction Type</label>
-                                    <select id="transaction_type" class="form-select select_font_14" asp-for="TransactionTypeId" asp-items="transactionTypes">
-                                    </select>
-                                </div>
-                            </div>
-                            <label for="Transaction Description" class="form-label">Transaction Description</label>
-                            <div class="w-100 h-75 d-inline-block">
-                                <textarea class="w-100" asp-for="TransactionDescription" rows="4" cols="50"
-                                    placeholder="Enter description of transaction"></textarea>
-                            </div>
-                            <label for="Amount Net" class="form-label">
-                                Amount Net
-                            </label>
-                            <div class="">
-                                <input type="number" class="form-control fqft" 
-                                    placeholder="Enter amount" asp-for="NetAmount">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="popup_footer_fixed border-top d-flex justify-content-between bg-white">
-                        <div class="shadow-box">
-                            <a href="#" class="custom__btn" data-bs-toggle="modal">
-                                Cancel
-                            </a>
-                        </div>
-                        <div class="shadow-box ms-auto">
-                <a class="custom__btn2" onclick="submitButton.click()">
-                                <img src="~/assets/img/save-role.svg" alt="right__arrow">
-                                Save Recurring Charge
-                            </a>
-                        </div>
-                    </div>
-        <input type="submit" value="button" hidden id="submitButton" />
-                </form>
+        <div class="step_body_content3 mb-3 pe-2">
+            <div class="d-flex justify-content-between mb-3">
+                <div>
+                    <h5 class="modal-title" id="staticBackdropLabel">Tenancy ID : 112384</h5>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="switch__check d-flex align-items-center gap-2">
+                        <span class="pagagraph">Active</span>
+                        <input type="checkbox" id="switch_c" asp-for="Active"><label class="mt-0" for="switch_c">Toggle</label>
+                    </span>
+                </div>
             </div>
-@* 
+            <div class="p-3 bg-white border">
+                <div class="d-flex gap-3 pb-2">
+                    <div class="input__field w-100">
+                        <label for="This Charge is
+                                    for" class="form-label">
+                            This Charge is
+                            for
+                        </label>
+                        <select asp-for="ChargerFor" id="charger_for" class="form-select select_font_14"
+                                aria-label="Default select example">
+                            <option value="Tenant">Tenant</option>
+                            <option value="Propertyowner">Property owner</option>
+                            <option value="Contractor">Contractor</option>
+                        </select>
+                    </div>
+                    <div class="input__field w-100">
+                        <label for="This Charge is
+                                    for" class="form-label">
+                            Recurring basis
+                            for
+                        </label>
+                        <select id="tenants-id" class="form-select select_font_14"
+                                asp-for="RecurringBasisForId" asp-items="tenants">
+                        </select>
+                    </div>
+                    <div class="input__field w-100">
+                        <div class="mb-3">
+                            <label for="Invoice Raised On" class="form-label">Invoice Raised On</label>
+                            <input type="date" class="form-control"
+                                   placeholder="01 /06 / 2023">
+                        </div>
+                    </div>
+                    <div class="input__field w-100">
+                        <label for="Frequency" class="form-label">Frequency</label>
+                        <select id="frequency_id" class="form-select select_font_14" asp-for="RecurringFrequencyId" asp-items="frequencies">
+                        </select>
+                    </div>
+                </div>
+                <div class="d-flex gap-3 pb-2">
+                    <div class="input__field w-100">
+                        <div class="mb-3">
+                            <label for="Invoice Raise From
+                                        Date" class="form-label">
+                                Invoice Raise From
+                                Date
+                            </label>
+                            <input type="date" class="form-control"
+                                   placeholder="01 /06 / 2023" asp-for="InvoiceRaisedDate">
+                        </div>
+                    </div>
+                    <div class="input__field w-100">
+                        <div class="mb-3">
+                            <label for="Invoice Raise To
+                                        Date" class="form-label">
+                                Invoice Raise To
+                                Date
+                            </label>
+                            <input type="date" class="form-control"
+                                   placeholder="01 /06 / 2023" asp-for="InvoiceRaisedToDate">
+                        </div>
+                    </div>
+                    <div class="input__field w-100">
+                        <div class="mb-3">
+                            <label for="Expected Payment Due
+                                        Date" class="form-label">
+                                Expected Payment Due
+                                Date
+                            </label>
+                            <input type="date" class="form-control"
+                                   placeholder="01 /06 / 2023" asp-for="ExpectedPaymentDueDate">
+                        </div>
+                    </div>
+                    <div class="input__field w-100">
+                        <label for="Transaction Type" class="form-label">Transaction Type</label>
+                        <select id="transaction_type" class="form-select select_font_14" asp-for="TransactionTypeId" asp-items="transactionTypes">
+                        </select>
+                    </div>
+                </div>
+                <label for="Transaction Description" class="form-label">Transaction Description</label>
+                <div class="w-100 h-75 d-inline-block">
+                    <textarea class="w-100" asp-for="TransactionDescription" rows="4" cols="50"
+                              placeholder="Enter description of transaction"></textarea>
+                </div>
+                <label for="Amount Net" class="form-label">
+                    Amount Net
+                </label>
+                <div class="">
+                    <input type="number" class="form-control fqft"
+                           placeholder="Enter amount" asp-for="NetAmount">
+                </div>
+            </div>
+        </div>
+        <div class="popup_footer_fixed border-top d-flex justify-content-between bg-white">
+            <div class="shadow-box">
+                <a href="#" class="custom__btn" data-bs-toggle="modal">
+                    Cancel
+                </a>
+            </div>
+            <div class="shadow-box ms-auto">
+                <a class="custom__btn2" onclick="submitButton.click()">
+                    <img src="~/assets/img/save-role.svg" alt="right__arrow">
+                    Save Recurring Charge
+                </a>
+            </div>
+        </div>
+        <input type="submit" value="button" hidden id="submitButton" />
+    </form>
+</div>
+@*
 <h4>RecurringChargeModel</h4>
 <hr />
 <div class="row">
@@ -210,3 +220,25 @@
 </div>
 
  *@
+
+<script>
+    $(document).ready(function () {
+        // ----------- For Font size 14 -----------
+        $('.select_font_14').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: false,
+            dropdownCssClass: "select_font_14",
+        });
+
+        // ----------- With searh bar funcnality -----------
+        $('.select__search').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: false,
+            dropdownCssClass: "select__search",
+        });
+    })
+</script>

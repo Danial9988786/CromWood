@@ -631,5 +631,170 @@ namespace CromWood.Business.Services.Implementation
         }
         #endregion
 
+        #region Tenancy statements related services inside
+        public async Task<AppResponse<ICollection<StatementViewModel>>> GetStatements(Guid id) {
+            try
+            {
+                var result = await _tenancyRepository.GetStatements(id);
+                var mappedResult = _mapper.Map<ICollection<StatementViewModel>>(result);
+                return ResponseCreater<ICollection<StatementViewModel>>.CreateSuccessResponse(mappedResult, "Tenancies statements loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<ICollection<StatementViewModel>>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<StatementModel>> GetStatement(Guid id) {
+            try
+            {
+                var result = await _tenancyRepository.GetStatement(id);
+                var mappedResult = _mapper.Map<StatementModel>(result);
+                return ResponseCreater<StatementModel>.CreateSuccessResponse(mappedResult, "Statement loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<StatementModel>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<int>> AddModifyStatement(StatementModel req) {
+            try
+            {
+                var mapped = _mapper.Map<TenancyStatement>(req);
+                var result = await _tenancyRepository.AddModifyStatement(mapped);
+                return ResponseCreater<int>.CreateSuccessResponse(result, "Statement add/update successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<StatementViewModel>> GetStatementView(Guid id) {
+            try
+            {
+                var result = await _tenancyRepository.GetStatementView(id);
+                var mappedResult = _mapper.Map<StatementViewModel>(result);
+                return ResponseCreater<StatementViewModel>.CreateSuccessResponse(mappedResult, "Sttament view loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<StatementViewModel>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<int>> DeleteStatement(Guid id) {
+            try
+            {
+                var result = await _tenancyRepository.DeleteStatement(id);
+                return ResponseCreater<int>.CreateSuccessResponse(1, "Statement deleted successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<StatementTransactionModel>> GetStatementTransaction(Guid id) {
+            try
+            {
+                var result = await _tenancyRepository.GetStatementTransaction(id);
+                var mappedResult = _mapper.Map<StatementTransactionModel>(result);
+                return ResponseCreater<StatementTransactionModel>.CreateSuccessResponse(mappedResult, "Statement transaction loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<StatementTransactionModel>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<int>> AddModifyStatementTransaction(StatementTransactionModel req) {
+            try
+            {
+                var mappedMessage = _mapper.Map<StatementTransaction>(req);
+                var result = await _tenancyRepository.AddModifyStatementTransaction(mappedMessage);
+                return ResponseCreater<int>.CreateSuccessResponse(result, "Statement transaction add/update successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<int>> DeleteStatementTransaction(Guid id) {
+            try
+            {
+                var result = await _tenancyRepository.DeleteStatementTransaction(id);
+                return ResponseCreater<int>.CreateSuccessResponse(result, "Statement transaction deleted successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<StatementDocumentModel>> GetStatementDocument(Guid id) {
+            try
+            {
+                var result = await _tenancyRepository.GetStatementDocument(id);
+                var mappedResult = _mapper.Map<StatementDocumentModel>(result);
+                return ResponseCreater<StatementDocumentModel>.CreateSuccessResponse(mappedResult, "Statement document loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<StatementDocumentModel>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<int>> AddModifyStatementDocument(StatementDocumentModel req) {
+            try
+            {
+                var mappedReq = _mapper.Map<StatementDocument>(req);
+                var result = 0;
+                if (req.Document != null)
+                {
+                    // In case of Edit, delete prev file & add new one
+                    if (mappedReq.Id != Guid.Empty)
+                    {
+                        await _fileUploader.Delete(mappedReq.DocUrl, "statementdocument");
+                    }
+                    mappedReq.DocUrl = await _fileUploader.Upload(req.Document, "statementdocument");
+                }
+
+                result = await _tenancyRepository.AddModifyStatementDocument(mappedReq);
+                return ResponseCreater<int>.CreateSuccessResponse(result, "Statement document add/update successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<int>> DeleteStatementDocument(Guid id) {
+            try
+            {
+                var docUrl = await _tenancyRepository.DeleteStatementDocument(id);
+                if (docUrl != null) await _fileUploader.Delete(docUrl, "statementdocument");
+                return ResponseCreater<int>.CreateSuccessResponse(1, "Statement document deleted successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
+        }
+        #endregion
+
     }
 }

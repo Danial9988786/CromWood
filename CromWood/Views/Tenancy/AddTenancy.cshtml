@@ -499,9 +499,12 @@
     function AddRow() {
         // This is done to replace the pattern because c# to js give us this pattern.
         salutationOptions = salutationOptions.replaceAll("&lt;", "<");
-        salutationOptions = salutationOptions.replaceAll("&gt;", ">"); countryOptions = countryOptions.replaceAll("&lt;", "<");
-        countryOptions = countryOptions.replaceAll("&gt;", ">"); tenantOptions = tenantOptions.replaceAll("&lt;", "<");
-        tenantOptions = tenantOptions.replaceAll("&gt;", ">"); $("#tenantAdder").append(`
+        salutationOptions = salutationOptions.replaceAll("&gt;", ">");
+        countryOptions = countryOptions.replaceAll("&lt;", "<");
+        countryOptions = countryOptions.replaceAll("&gt;", ">");
+        tenantOptions = tenantOptions.replaceAll("&lt;", "<");
+        tenantOptions = tenantOptions.replaceAll("&gt;", ">");
+        $("#tenantAdder").append(`
             <div id="Tenant-Section-${counter}" class="mt-3">
             <div class="accordion" id="accordionExample-${counter}">
                 <div class="accordion-item">
@@ -637,6 +640,7 @@
                 $(`#newTenantSection-${counter - 1}`).hide()
             }
         });
+
         counter++;
 
         $('.select_font_14').select2({

@@ -1,78 +1,421 @@
-﻿@model CromWood.Business.Models.ViewModel.RecurringChargeViewModel
+﻿@using CromWood.Business.Services.Interface;
+@using CromWood.Data.Entities.Default;
+@model CromWood.Business.Models.ViewModel.RecurringChargeViewModel
+@inject ILookupService<TransactionType> _lookupTransactionType;
+@inject ILookupService<RecurringFrequency> _lookupFrequency;
+@inject ITenantService _tenantService;
 
-<div>
-    <h4>RecurringChargeViewModel</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TenancyId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TenancyId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ChargerFor)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ChargerFor)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RecurringBasisForId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RecurringBasisForId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RecurringFrequencyId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RecurringFrequencyId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.InvoiceRaisedDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.InvoiceRaisedDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.InvoiceRaisedToDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.InvoiceRaisedToDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ExpectedPaymentDueDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ExpectedPaymentDueDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TransactionTypeId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TransactionTypeId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TransactionDescription)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TransactionDescription)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NetAmount)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NetAmount)
-        </dd>
-    </dl>
+
+@{
+    var asyncFrequency = await _lookupFrequency.GetAllItems();
+    var frequencies = new SelectList(asyncFrequency.Data, "Id", "Name");
+
+    var asyncTransactionTypes = await _lookupTransactionType.GetAllItems();
+    var transactionTypes = new SelectList(asyncTransactionTypes.Data, "Id", "Name");
+
+    var asyncTenants = await _tenantService.GetTenantForList();
+    var tenants = new SelectList(asyncTenants.Data, "Id", "FullName");
+}
+
+<div class="modal-content rounded-0 model-custom-bg">
+    <div class="modal-header modal_header_fixed py-2 bg-white">
+        <h5 class="modal-title" id="staticBackdropLabel">
+            Condition Assessment Report <span>2023-08-24</span>
+        </h5>
+        <button  class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <form asp-action="AddModifyRecurringCharge" class="modal-body pt-0">
+        @Html.HiddenFor(x=>x.Id)
+        @Html.HiddenFor(x=>x.TenancyId)
+        <div class="row">
+            <div class="top_bar__fixed">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <span class="gray_12">Paid to/ by tenant</span>
+                        <h5 class="modal-title" id="staticBackdropLabel">Allison Phillips</h5>
+                    </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <span class="switch__check d-flex align-items-center gap-2">
+                            <span class="pagagraph">Active</span>
+                            <input type="checkbox" id="switch_c" asp-for="Active"><label class="mt-0"
+                                                                                for="switch_c">Toggle</label>
+                        </span>
+                        <div class="dropdown">
+                            <div class="shadow-box ms-auto">
+                                <a class="text-decoration-none custom__btn action_dropwown" href="#"
+                                   role="button" id="acp-action" data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    <img src="~/assets/img/settings-02.svg" alt="setting_icon">
+                                    Actions
+                                    <img src="~/assets/img/down_arrow.svg">
+                                </a>
+                                <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
+                                    aria-labelledby="acp-action">
+                                    <li><a class="dropdown-item" href="#">Edit Recuring Charge</a></li>
+                                    <li><a class="dropdown-item" href="#">Edit day in advance</a></li>
+                                    <li><a class="dropdown-item" href="#">Transaction</a></li>
+                                    <li><a class="dropdown-item" href="#">Delete</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <nav class="mt-3">
+                    <div class="nav nav-tabs flex-nowrap" id="nav-tab" role="tablist">
+                        <a class="nav-link active w-100 text-center" id="Recurring_Charge-tab"
+                           data-bs-toggle="tab" data-bs-target="#Recurring_Charge" role="tab"
+                           aria-controls="Recurring_Charge" aria-selected="false">Recurring Charge</a>
+                        <a class="nav-link w-100 text-center" id="Charge_History-tab" data-bs-toggle="tab"
+                           data-bs-target="#Charge_History" role="tab"
+                           aria-controls="Charge_History" aria-selected="false">Charge History</a>
+                        <a class="nav-link w-100 text-center" id="Activity-tab" data-bs-toggle="tab"
+                           data-bs-target="#Activity__" role="tab" aria-controls="Activity__"
+                           aria-selected="false">Activity</a>
+                    </div>
+                </nav>
+            </div>
+
+            <div class="tab-content" id="nav-tabContent">
+                <!-- ----- Recurring_Charge Tab Start ---- -->
+                <div class="tab-pane fade show active h-100 mb-0 rp_popup" id="Recurring_Charge"
+                     role="tabpanel" aria-labelledby="nav-building-details-tab">
+                    <div class="step_body_content2 pe-2">
+                        <div class="p-3 bg-white rounded border border-top-0">
+                            <div class="d-flex gap-3 pb-2">
+                                <div class="input__field w-100">
+                                    <label for="This Charge is
+                                    for" class="form-label">
+                                        This Charge is
+                                        for
+                                    </label>
+                                    <select asp-for="ChargerFor" id="charger_for" class="form-select select_font_14"
+                                            aria-label="Default select example">
+                                        <option value="Tenant">Tenant</option>
+                                        <option value="Propertyowner">Property owner</option>
+                                        <option value="Contractor">Contractor</option>
+                                    </select>
+                                </div>
+                                <div class="input__field w-100">
+                                    <label for="This Charge is
+                                    for" class="form-label">
+                                        Recurring basis
+                                        for
+                                    </label>
+                                    <select id="tenants-id" class="form-select select_font_14"
+                                            asp-for="RecurringBasisForId" asp-items="tenants">
+                                    </select>
+                                </div>
+                                <div class="input__field w-100">
+                                    <div class="mb-3">
+                                        <label for="Invoice Raised On" class="form-label">Invoice Raised On</label>
+                                        <input type="date" class="form-control"
+                                               placeholder="01 /06 / 2023">
+                                    </div>
+                                </div>
+                                <div class="input__field w-100">
+                                    <label for="Frequency" class="form-label">Frequency</label>
+                                    <select id="frequency_id" class="form-select select_font_14" asp-for="RecurringFrequencyId" asp-items="frequencies">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-3 pb-2">
+                                <div class="input__field w-100">
+                                    <div class="mb-3">
+                                        <label for="Invoice Raise From
+                                        Date" class="form-label">
+                                            Invoice Raise From
+                                            Date
+                                        </label>
+                                        <input type="date" class="form-control"
+                                               placeholder="01 /06 / 2023" asp-for="InvoiceRaisedDate">
+                                    </div>
+                                </div>
+                                <div class="input__field w-100">
+                                    <div class="mb-3">
+                                        <label for="Invoice Raise To
+                                        Date" class="form-label">
+                                            Invoice Raise To
+                                            Date
+                                        </label>
+                                        <input type="date" class="form-control"
+                                               placeholder="01 /06 / 2023" asp-for="InvoiceRaisedToDate">
+                                    </div>
+                                </div>
+                                <div class="input__field w-100">
+                                    <div class="mb-3">
+                                        <label for="Expected Payment Due
+                                        Date" class="form-label">
+                                            Expected Payment Due
+                                            Date
+                                        </label>
+                                        <input type="date" class="form-control"
+                                               placeholder="01 /06 / 2023" asp-for="ExpectedPaymentDueDate">
+                                    </div>
+                                </div>
+                                <div class="input__field w-100">
+                                    <label for="Transaction Type" class="form-label">Transaction Type</label>
+                                    <select id="transaction_type" class="form-select select_font_14" asp-for="TransactionTypeId" asp-items="transactionTypes">
+                                    </select>
+                                </div>
+                            </div>
+                            <label for="Transaction Description" class="form-label">Transaction Description</label>
+                            <div class="w-100 h-75 d-inline-block">
+                                <textarea class="w-100" asp-for="TransactionDescription" rows="4" cols="50"
+                                          placeholder="Enter description of transaction"></textarea>
+                            </div>
+                            <label for="Amount Net" class="form-label">
+                                Amount Net
+                            </label>
+                            <div class="">
+                                <input type="number" class="form-control fqft"
+                                       placeholder="Enter amount" asp-for="NetAmount">
+                            </div>
+                            <div class="d-flex justify-content-between mt-4 bg-white">
+                                <div class="shadow-box ms-auto me-3">
+                                    <a href="#" class="custom__btn" data-bs-toggle="modal">
+                                        Cancel
+                                    </a>
+                                </div>
+                                <div class="shadow-box">
+                                    <a class="custom__btn2" onclick="submitButton.click()">
+                                        <img src="~/assets/img/save-role.svg" alt="right__arrow">
+                                        Save Changes
+                                    </a>
+                                </div>
+                                <input type="submit" value="button" hidden id="submitButton" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ----- Recurring_Charge Tab End  ---- -->
+                <!-- ----- Charge History Tab Start ---- -->
+                <div class="tab-pane fade" id="charge_history" role="tabpanel"
+                     aria-labelledby="nav-inspection-details-tab">
+                    <div class="bg-white rounded border border-top-0">
+                        <div class="px-3">
+                            <div class="row">
+                                <h5 class="modal-title mt-2 pt-1 mb-3" id="staticBackdropLabel">
+                                    Statement
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="ser_lpading bg-white sm48__row_table pt-0 pm_page_top_m table_bottom_border hide_sort_all">
+                            <table id="Charge_History_tab">
+                                <thead>
+                                    <tr>
+                                        <th class="maintable_head">Ref ID</th>
+                                        <th class="maintable_head">Date/ Due Date</th>
+                                        <th class="maintable_head">Transaction Type</th>
+                                        <th class="maintable_head">Description</th>
+                                        <th class="maintable_head">Invoice No</th>
+                                        <th class="maintable_head">Paid To/ By</th>
+                                        <th class="maintable_head">Charge Made</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="align-top">
+                                            <a class="green_12 u_n" href="#">
+                                                TR3627
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <span class="black_12 d-inline-block mb-1">
+                                                22 Aug
+                                                2023
+                                            </span>
+                                            <br><span class="gray_12">Due Date</span>
+                                            <span class="black_12">
+                                                30 Aug 2023
+                                            </span>
+                                            <br>
+                                            <div class="outstanding_btn mt-1">
+                                                Outstanding
+                                            </div>
+                                        </td>
+                                        <td class="align-top">
+                                            <span class="black_12 d-inline-block mb-1">
+                                                Direct Rent
+                                            </span>
+                                        </td>
+                                        <td class="align-top">
+                                            <span class="black_12 d-inline-block mb-2">
+                                                Monthly Rent (22/08/2023 - 31/08/2023)
+                                            </span>
+                                            <br><span class="gray_12">Tenancy</span>
+                                            <span class="st_dis">112384</span>
+                                            <br><span class="gray_12">Property</span>
+                                            <span class="st_dis">11763287</span>
+                                        </td>
+                                        <td class=" align-top">
+                                            <span class="black_12 d-inline-block">267326518</span>
+                                        </td>
+                                        <td class=" align-top">
+                                            <span class="black_12 d-inline-block">Tenant</span><br>
+                                            <span class="black_12 d-inline-block">
+                                                (Allison Philips)
+                                            </span>
+                                        </td>
+                                        <td class=" align-top">
+                                            <span class="black_12 d-inline-block">£500</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class=" align-top">
+                                            <a class="green_12 u_n" href="#">
+                                                TR3627
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <span class="black_12 d-inline-block mb-1">
+                                                22 Aug
+                                                2023
+                                            </span>
+                                            <br><span class="gray_12">Due Date</span>
+                                            <span class="black_12">
+                                                30 Aug 2023
+                                            </span>
+                                            <br>
+                                            <div class="overdue_btn mt-1">
+                                                Overdue
+                                            </div>
+                                        </td>
+                                        <td class="align-top">
+                                            <span class="black_12 d-inline-block mb-1">
+                                                Direct Rent
+                                            </span>
+                                        </td>
+                                        <td class="align-top">
+                                            <span class="black_12 d-inline-block mb-2">
+                                                Monthly Rent (22/08/2023 - 31/08/2023)
+                                            </span>
+                                            <br><span class="gray_12">Tenancy</span>
+                                            <span class="st_dis">112384</span>
+                                            <br><span class="gray_12">Property</span>
+                                            <span class="st_dis">11763287</span>
+                                        </td>
+                                        <td class=" align-top">
+                                            <span class="black_12 d-inline-block">267326518</span>
+                                        </td>
+                                        <td class=" align-top">
+                                            <span class="black_12 d-inline-block">Tenant</span><br>
+                                            <span class="black_12 d-inline-block">
+                                                (Allison Philips)
+                                            </span>
+                                        </td>
+                                        <td class=" align-top">
+                                            <span class="black_12 d-inline-block">£500</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class=" align-top">
+                                            <a class="green_12 u_n" href="#">
+                                                TR3627
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <span class="black_12 d-inline-block mb-1">
+                                                22 Aug
+                                                2023
+                                            </span>
+                                            <br><span class="gray_12">Due Date</span>
+                                            <span class="black_12">
+                                                30 Aug 2023
+                                            </span>
+                                            <br>
+                                            <div class="paid_btn mt-1">
+                                                Paid
+                                            </div>
+                                        </td>
+                                        <td class="align-top">
+                                            <span class="black_12 d-inline-block mb-1">
+                                                Direct Rent
+                                            </span>
+                                        </td>
+                                        <td class="align-top">
+                                            <span class="black_12 d-inline-block mb-2">
+                                                Monthly Rent (22/08/2023 - 31/08/2023)
+                                            </span>
+                                            <br><span class="gray_12">Tenancy</span>
+                                            <span class="st_dis">112384</span>
+                                            <br><span class="gray_12">Property</span>
+                                            <span class="st_dis">11763287</span>
+                                        </td>
+                                        <td class=" align-top">
+                                            <span class="black_12 d-inline-block">267326518</span>
+                                        </td>
+                                        <td class=" align-top">
+                                            <span class="black_12 d-inline-block">Tenant</span><br>
+                                            <span class="black_12 d-inline-block">
+                                                (Allison Philips)
+                                            </span>
+                                        </td>
+                                        <td class=" align-top">
+                                            <span class="black_12 d-inline-block">£500</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- ----- Charge History Tab End ---- -->
+                <!-- ----- Activity Tab Start ---- -->
+                <div class="tab-pane fade border border-top-0 bg-white h-100" id="Activity__"
+                     role="tabpanel" aria-labelledby="nav-building-items-tab">
+                    <div class="p-3">
+                        <div class="px-3">
+                            <div class="row">
+                                <h5 class="modal-title mt-2 pt-1 mb-3" id="">
+                                    Activity
+                                </h5>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <div>
+                                    <img src="~/assets/img/euro.svg" alt="euro_icon">
+                                </div>
+                                <div>
+                                    <p class="black_light12 mb-0">
+                                        Recurring charge added, "Rent", Direct Rent, Monthly added to
+                                        Tenancy 112384</br>
+                                        Start Date at "1 Sep 2023"</br>
+                                        Next Collection Date at "1 Sep 2023"
+                                    </p>
+                                    <span class="green_12"> Show Transaction</span>
+                                    <img src="~/assets/img/link__icon.svg" alt="link__icon">
+                                    <small class="cre d-block" style="color:#768293;">
+                                        By Jacob Hershberg at
+                                        28 Aug 2023, 1:18 PM. (Time UTC: 28 Aug 2023, 12:18 PM)
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ----- Activity Tab End ---- -->
+            </div>
+        </div>
+    </form>
 </div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+<script>
+    $(document).ready(function () {
+        // ----------- For Font size 14 -----------
+        $('.select_font_14').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: false,
+            dropdownCssClass: "select_font_14",
+        });
+
+        // ----------- With searh bar funcnality -----------
+        $('.select__search').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: false,
+            dropdownCssClass: "select__search",
+        });
+    })
+</script>

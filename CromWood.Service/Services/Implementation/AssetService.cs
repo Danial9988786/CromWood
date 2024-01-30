@@ -18,18 +18,34 @@ namespace CromWood.Business.Services.Implementation
             _mapper = mapper;
         }
 
-        public async Task<AppResponse<IEnumerable<AssetViewModel>>> GetAssetsForList()
+        public async Task<AppResponse<IEnumerable<AssetViewModel>>> GetAssetsForList(Guid filterId)
         {
             try
             {
-                var result = await _assetRepository.GetAssetsForList();
+                var result = await _assetRepository.GetAssetsForList(filterId);
                 var mappedResult = _mapper.Map<IEnumerable<AssetViewModel>>(result);
                 return ResponseCreater<IEnumerable<AssetViewModel>>.CreateSuccessResponse(mappedResult, "Assets loaded successfully");
             }
 
             catch (Exception ex)
             {
-                return ResponseCreater<IEnumerable<AssetViewModel>>.CreateErrorResponse(null, ex.ToString());
+                return ResponseCreater<IEnumerable<AssetViewModel>>.CreateErrorResponse(new List<AssetViewModel> { }, ex.ToString());
+            }
+
+        }
+
+        public async Task<AppResponse<IEnumerable<AssetModel>>> GetAssetsForExport(Guid filterId)
+        {
+            try
+            {
+                var result = await _assetRepository.GetAssetsForList(filterId);
+                var mappedResult = _mapper.Map<IEnumerable<AssetModel>>(result);
+                return ResponseCreater<IEnumerable<AssetModel>>.CreateSuccessResponse(mappedResult, "Assets export successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<IEnumerable<AssetModel>>.CreateErrorResponse(new List<AssetModel> { }, ex.ToString());
             }
 
         }

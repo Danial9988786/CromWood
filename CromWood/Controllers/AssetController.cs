@@ -19,14 +19,14 @@ namespace CromWood.Controllers
             _authService = authService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(Guid filterId)
         {
             var havePermission = await _authService.CheckPermission(PermissionKeyConstant.AssetManagement, PermissionConstant.ViewAll);
             if (!havePermission)
             {
                 return RedirectToAction("NotAuthorized", "Auth");
             }
-            var result = await _assetService.GetAssetsForList();
+            var result = await _assetService.GetAssetsForList(filterId);
             return View(result.Data);
         }
 
@@ -34,15 +34,23 @@ namespace CromWood.Controllers
         public async Task<IActionResult> Export()
         {
             // Get assets for exporting
-            var assets = await _assetService.GetAssetsForList();
+            var assets = await _assetService.GetAssetsForExport(Guid.Empty);
             var source = assets.Data.ToList();
-            List<string> headers = new() { "Asset ID", "Street Address", "Ownership", "Availble Units" };
+            List<string> headers = new()
+            {"Asset Id", "Asset Type", "House No Street",
+ "Locality", "Borough", "Post Code", "Title Number", "Ownership",
+ "Aquisition Date", "Purchase Price", "Valuation", "Valuation Date",
+ "Reinstatement", "Lender", "Chargee", "Date Of Charge",
+ "Financial Prgoram", "Grant Provider", "Attributable Grant", "Construction Period",
+ "Landlord Responsible", "Freeholder Responsible", "Owner Responsible", "Landlord Name",
+ "Managing Agent", "Managing Agent House No Street", "Managing Agent Locality", "Managing Agent Borough",
+ "Managing Agent Post Code", "Lease Term", "Lease Expiry" };
 
             #region Exporting for Excel
 
             // This is the best way to export, as we have to loop anyway in another helper as well.
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            string fileName = $"asset-management.xlsx";
+            string fileName = $"asset-lists.xlsx";
             string tabName = "Assets";
 
             using var workbook = new XLWorkbook();
@@ -60,9 +68,37 @@ namespace CromWood.Controllers
             for (int data = 1; data <= source.Count; data++)
             {
                 worksheet.Cell(data + 1, 1).Value = source[data - 1].AssetId;
-                worksheet.Cell(data + 1, 2).Value = source[data - 1].StreetAddress;
-                worksheet.Cell(data + 1, 3).Value = source[data - 1].Ownership;
-                worksheet.Cell(data + 1, 4).Value = "0/2";
+                worksheet.Cell(data + 1, 2).Value = source[data - 1].AssetType.Name;
+                worksheet.Cell(data + 1, 3).Value = source[data - 1].HouseNoStreet;
+                worksheet.Cell(data + 1, 4).Value = source[data - 1].Locality;
+                worksheet.Cell(data + 1, 5).Value = source[data - 1].Borough;
+                worksheet.Cell(data + 1, 6).Value = source[data - 1].PostCode;
+                worksheet.Cell(data + 1, 7).Value = source[data - 1].TitleNumber;
+                worksheet.Cell(data + 1, 8).Value = source[data - 1].Ownership;
+                worksheet.Cell(data + 1, 9).Value = source[data - 1].AquisitionDate;
+                worksheet.Cell(data + 1, 10).Value = source[data - 1].PurchasePrice;
+                worksheet.Cell(data + 1, 11).Value = source[data - 1].Valuation;
+                worksheet.Cell(data + 1, 12).Value = source[data - 1].ValuationDate;
+                worksheet.Cell(data + 1, 13).Value = source[data - 1].Reinstatement;
+                worksheet.Cell(data + 1, 14).Value = source[data - 1].Lender;
+                worksheet.Cell(data + 1, 15).Value = source[data - 1].Chargee;
+                worksheet.Cell(data + 1, 16).Value = source[data - 1].DateOfCharge;
+                worksheet.Cell(data + 1, 17).Value = source[data - 1].FinancialPrgoram.Name;
+                worksheet.Cell(data + 1, 18).Value = source[data - 1].GrantProvider;
+                worksheet.Cell(data + 1, 19).Value = source[data - 1].AttributableGrant;
+                worksheet.Cell(data + 1, 20).Value = source[data - 1].ConstructionPeriod;
+                worksheet.Cell(data + 1, 21).Value = source[data - 1].LandlordResponsible;
+                worksheet.Cell(data + 1, 22).Value = source[data - 1].FreeholderResponsible;
+                worksheet.Cell(data + 1, 23).Value = source[data - 1].OwnerResponsible;
+                worksheet.Cell(data + 1, 24).Value = source[data - 1].LandlordName;
+                worksheet.Cell(data + 1, 25).Value = source[data - 1].ManagingAgent;
+                worksheet.Cell(data + 1, 26).Value = source[data - 1].ManagingAgentHouseNoStreet;
+                worksheet.Cell(data + 1, 27).Value = source[data - 1].ManagingAgentLocality;
+                worksheet.Cell(data + 1, 28).Value = source[data - 1].ManagingAgentBorough;
+                worksheet.Cell(data + 1, 29).Value = source[data - 1].ManagingAgentPostCode;
+                worksheet.Cell(data + 1, 30).Value = source[data - 1].LeaseTerm;
+                worksheet.Cell(data + 1, 31).Value = source[data - 1].LeaseExpiry;
+
             }
             using var stream = new MemoryStream();
             workbook.SaveAs(stream);

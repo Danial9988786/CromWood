@@ -1,0 +1,882 @@
+﻿@using CromWood.Business.Models;
+@using System.ComponentModel;
+@using CromWood.Helper;
+@using CromWood.Data;
+@model IEnumerable<CromWood.Data.Filter>
+
+@{
+    #region C# related code
+    string screenName = ViewBag.ScreenName;
+    var filterColumns = new List<FilterColumn>();
+    filterColumns = ViewBag.FilterColumns;
+
+    string numberOptions = "";
+    string stringOptions = "";
+    string guidOptions = "";
+    string boolOptions = "";
+    string dateTimeOptions = "";
+    string filterColOptions = "";
+
+    foreach (var number in CromwoodConstants.NumberOption)
+    {
+        numberOptions = numberOptions + "<option value=" + number.Value + ">" + number.Key + "</option>";
+    }
+    foreach (var stringO in CromwoodConstants.StringOption)
+    {
+        stringOptions = stringOptions + "<option value=" + stringO.Value + ">" + stringO.Key + "</option>";
+    }
+    foreach (var guid in CromwoodConstants.GuidOption)
+    {
+        guidOptions = guidOptions + "<option value=" + guid.Value + ">" + guid.Key + "</option>";
+    }
+    foreach (var boolO in CromwoodConstants.BoolOption)
+    {
+        boolOptions = boolOptions + "<option value=" + boolO.Value + ">" + boolO.Key + "</option>";
+    }
+    foreach (var dateO in CromwoodConstants.DateTimeOption)
+    {
+        dateTimeOptions = dateTimeOptions + "<option value=" + dateO.Value + ">" + dateO.Key + "</option>";
+    }
+    foreach (var col in filterColumns)
+    {
+        if (col.FetchType != null)
+        {
+            filterColOptions = filterColOptions + "<option data-type=" + col.Type + " data-fetch-type=" + col.FetchType + " value=" + col.Name + ">" + col.DisplayName + "</option>";
+        }
+        else
+        {
+            filterColOptions = filterColOptions + "<option data-type=" + col.Type + " value=" + col.Name + ">" + col.DisplayName + "</option>";
+        }
+    }
+    #endregion
+}
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+
+<a role="button" id="fil_ter" data-bs-toggle="dropdown" aria-expanded="false">
+    <img class="pe-1" src="~/assets/img/filter-lines.svg" alt="user__iocn">
+    Filter
+    <img class="ps-2" src="~/assets/img/filter_down_arrow.svg">
+</a>
+
+<div class="hide filter___c dropdown-menu dropdown-menu-end shadow border rounded-0 p-3">
+    <div class="input-group mb-3">
+        <span class="input-group-text bg-transparent" id="srf">
+            <img src="~/assets/img/search-gray.svg" alt="search_iocn">
+        </span>
+        <input type="text" class="form-control border-start-0 ps-0"
+               placeholder="Search for filters">
+    </div>
+    <ul class="list-unstyled ft__list">
+        @foreach (var filter in Model)
+        {
+            string filterId = "'" + filter.Id + "'";
+            <li>
+                <a onclick="applyFilter(@filterId)" class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded">
+                    <span>@filter.Name</span>
+                    <span class="i__gro">
+                        <span class="ed pe-2">
+                            <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
+                        </span>
+                        <span class="de" onclick="DeleteFilter(@filterId)">
+                            <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
+                        </span>
+                    </span>
+                </a>
+            </li>
+        }
+    </ul>
+
+    <div class="mark__btn text-center">
+        <img class="me-1" src="~/assets/img/green__plus_icon.svg" />
+        <a href="#" data-bs-toggle="modal" data-bs-target="#filterAddModal" class="text-uppercase">add new Filter</a>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="filterAddModal"
+     aria-labelledby="edit_roleLabel">
+    <div class="modal-dialog modal-dialog-centered cm2_size rp_popup add_edit_popup">
+        <div class="modal-content rounded-0 model-custom-bg">
+            <div class="modal-header modal_header_fixed  py-2 bg-white">
+                <h5 class="modal-title" id="">Create New Filter</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0 h-100 add_new_filter_body">
+                <div class="form_info_new_filter mt-3 step_body_content1">
+                    <form>
+                        <fieldset>
+                            <div class="ps-3 pe-2 me-2">
+                                <div class="border p-3 bg-white">
+                                    <h6 class="text-cpitlize mb-3 filter_h_font_size">
+                                        Show the Assets that match ALL
+                                        of these conditions
+                                    </h6>
+                                    <div id="andConditionCollection">
+                                    </div>
+                                    <!-- Row Third Start -->
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="mb-2 d-flex align-items-center justify-content-start">
+                                                <a onclick="addAndCondition()"
+                                                   class="c_file_2 d-flex gap-1 align-items-center text-uppercase fw_600 green_12">
+                                                    <img src="~/assets/img/plus_circleGreen_icon.svg" alt=""> add
+                                                    condition
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Row Third End -->
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <div class="ps-3 pe-2 me-2 mt-3">
+                                <div class="border p-3 bg-white">
+                                    <h6 class="text-cpitlize mb-3 filter_h_font_size">
+                                        And match ANY of these
+                                        conditions
+                                    </h6>
+                                    <div id="orConditionCollection">
+                                    </div>
+                                    <!-- Row One Start -->
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="mb-2 d-flex align-items-center justify-content-start">
+                                                <a onclick="addOrCondition()"
+                                                   class="c_file_2 d-flex gap-1 align-items-center text-uppercase fw_600 green_12">
+                                                    <img src="~/assets/img/plus_circleGreen_icon.svg" alt=""> add
+                                                    condition
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Row One End -->
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <div class="ps-3 pe-2 me-2 mt-3">
+                                <h6 class="text-cpitlize mb-2 filter_h_font_size">Filter Name</h6>
+                                <!-- Row One Start -->
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="mb-2 d-flex align-items-center justify-content-start">
+                                            <input type="text" class="form-control text-black"
+                                                   placeholder="Enter a name for this filter" id="filter_name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Row One End -->
+
+                            </div>
+
+                            <div class="popup_footer_fixed border-top d-flex justify-content-end bg-white">
+                                <div class="shadow-box ms-auto">
+                                    <span class="pair_btn">
+                                        <div class="shadow-box ms-auto">
+                                            <span class="custom__btn">
+                                                <a href="#">
+                                                    <img src="~/assets/img/eye.svg" alt="">
+                                                    Preview
+                                                </a>
+                                            </span>
+                                            <span class="custom__btn2">
+                                                <a onclick="saveFilter(@screenName)">
+                                                    <img src="~/assets/img/save.svg" alt="img_icon">
+                                                    Save
+                                                </a>
+                                            </span>
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+
+<script>
+    $(function () {
+        $('.datepicker').datepicker();
+    });
+
+    var numberOptions = '@numberOptions';
+    var stringOptions = '@stringOptions';
+    var guidOptions = '@guidOptions';
+    var boolOptions = '@boolOptions';
+    var dateTimeOptions = '@dateTimeOptions';
+    var filterColOptions = '@filterColOptions';
+
+    numberOptions = numberOptions.replaceAll("&lt;", "<");
+    numberOptions = numberOptions.replaceAll("&gt;", ">");
+    stringOptions = stringOptions.replaceAll("&lt;", "<");
+    stringOptions = stringOptions.replaceAll("&gt;", ">");
+    guidOptions = guidOptions.replaceAll("&lt;", "<");
+    guidOptions = guidOptions.replaceAll("&gt;", ">");
+    boolOptions = boolOptions.replaceAll("&lt;", "<");
+    boolOptions = boolOptions.replaceAll("&gt;", ">");
+    dateTimeOptions = dateTimeOptions.replaceAll("&lt;", "<");
+    dateTimeOptions = dateTimeOptions.replaceAll("&gt;", ">");
+    filterColOptions = filterColOptions.replaceAll("&lt;", "<");
+    filterColOptions = filterColOptions.replaceAll("&gt;", ">");
+
+    addCounter = 0;
+    orCounter = 0;
+
+    $(document).ready(function () {
+        // For Select2 Functionality
+        $('.select_font_14').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: true,
+            dropdownCssClass: "select_font_14",
+        });
+    });
+
+    let firstAndDropdownType = [];
+    let firstAndDropdownFetchType = [];
+    let dropDownValuesAnd = []; // List of list
+
+    let firstOrDropdownType = [];
+    let firstOrDropdownFetchType = [];
+    let dropDownValuesOr = []; // List of list
+
+    function addAndCondition() {
+        // Added row in AND condition collection
+        $("#andConditionCollection").append(`
+            <div id="andCondition__${addCounter}" class="d-flex align-items-center justify-content-between mb-2">
+                <div class="d-flex gap-2">
+                    <select id="firstAndDropdown-${addCounter}" data-counter="${addCounter}" class="form-select select_font_14" style="width:250px;">
+                        ${filterColOptions}
+                    </select>
+                    <select id="secondAndDropdown-${addCounter}" data-counter="${addCounter}" class="form-select select_font_14" style="width:180px;">
+                    </select>
+                    <div id="filterAndConditionSetter-${addCounter}" class="d-flex gap-2">
+                    </div>
+                </div>
+                    <a onclick="removeAndFilterCondition(${addCounter})" class="c_file d-flex gap-1 align-items-center text-uppercase fw_600 green_12">
+                    add
+                    <img src="./assets/img/minus_circleGreen_icon.svg" alt="">
+                </a>
+            </div>
+        `);
+
+        
+        // Added on change event to select element for AND row
+        $(`#firstAndDropdown-${addCounter}`).change(function () {
+            const type = $(this).find(':selected').data('type');
+            const fetchType = $(this).find(':selected').data('fetch-type');
+            const firstAddDropdownCounter = $(this).data('counter');
+            $(`#filterAndConditionSetter-${addCounter}`).children().remove();
+
+            firstAndDropdownType[firstAddDropdownCounter] = type;
+            firstAndDropdownFetchType[firstAddDropdownCounter] = fetchType;
+
+            if (type == "String") {
+                // Append respective options to Second dropdown
+                $(`#secondAndDropdown-${firstAddDropdownCounter}`)
+                    .find('option')
+                    .remove()
+                    .end()
+                    .append(`${stringOptions}`);
+            }
+            if (type == "Guid") {
+                // Append respective options to Second dropdown
+                $(`#secondAndDropdown-${firstAddDropdownCounter}`)
+                    .find('option')
+                    .remove()
+                    .end()
+                    .append(`${guidOptions}`);
+                // In this particular case, we also have to load Guids of options to choose from in next drop
+                var url = `/Filter/Get${fetchType}`;
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    success: function (result) {
+                        dropDownValuesAnd[firstAddDropdownCounter] = result.Data;
+                    },
+                    error: function () {
+                    }
+                });
+            }
+            if (type == "Int32" || type == "Single") {
+                // Append respective options to Second dropdown
+                $(`#secondAndDropdown-${firstAddDropdownCounter}`)
+                    .find('option')
+                    .remove()
+                    .end()
+                    .append(`${numberOptions}`);
+            }
+            if (type == "Boolean") {
+                // Append respective options to Second dropdown
+                $(`#secondAndDropdown-${firstAddDropdownCounter}`)
+                    .find('option')
+                    .remove()
+                    .end()
+                    .append(`${boolOptions}`);
+            }
+            if (type == "DateTime") {
+                // Append respective options to Second dropdown
+                $(`#secondAndDropdown-${firstAddDropdownCounter}`)
+                    .find('option')
+                    .remove()
+                    .end()
+                    .append(`${dateTimeOptions}`);
+            }
+
+            $(`#secondAndDropdown-${firstAddDropdownCounter}`).change(function () {
+                $(`#filterAndConditionSetter-${firstAddDropdownCounter}`).children().remove();
+                const secondDropdownCondition = $(this).find(':selected').val();
+                const secondAddDropdownCounter = $(this).data('counter');
+
+                if (firstAndDropdownType[secondAddDropdownCounter] == "String") {
+                    // Condition for string type and all cases.
+                    if (secondDropdownCondition == "ie" || secondDropdownCondition == "ine") {
+                        $(`#filterAndConditionSetter-${secondAddDropdownCounter}`).children().remove();
+                    }
+                    else {
+                        $(`#filterAndConditionSetter-${secondAddDropdownCounter}`)
+                            .find('*')
+                            .remove()
+                            .end()
+                            .append(`
+                                          <input type="text" class="form-control" placeholder ="Enter value" id="filterAndCondition-0-${secondAddDropdownCounter}">
+                                            `);
+                    }
+                }
+
+                if (firstAndDropdownType[secondAddDropdownCounter] == "Int32" || firstAndDropdownType[secondAddDropdownCounter] == "Single") {
+                    // Condition for int & float type and equals to;
+                    if (secondDropdownCondition == "in") {
+                        // Need two input box
+                        $(`#filterAndConditionSetter-${secondAddDropdownCounter}`)
+                            .find('*')
+                            .remove()
+                            .end()
+                            .append(`
+                                                            <input type="text" class="form-control" placeholder ="Enter value" id="filterAndCondition-0-${secondAddDropdownCounter}">
+                                                            <input type="text" class="form-control" placeholder ="Enter value" id="filterAndCondition-1-${secondAddDropdownCounter}">
+                                                `);
+                    }
+                    else {
+                        $(`#filterAndConditionSetter-${secondAddDropdownCounter}`)
+                            .find('*')
+                            .remove()
+                            .end()
+                            .append(`
+                                                                <input type="text" class="form-control" placeholder ="Enter value" id="filterAndCondition-0-${secondAddDropdownCounter}">
+                                                    `);
+                    }
+                }
+
+                if (firstAndDropdownType[secondAddDropdownCounter] == "DateTime") {
+                    // Condition for int & float type and equals to;
+                    if (secondDropdownCondition == "in") {
+                        // Need two input box
+                        $(`#filterAndConditionSetter-${secondAddDropdownCounter}`)
+                            .find('*')
+                            .remove()
+                            .end()
+                            .append(`
+                                                <div class="input-container">
+                                                     <div class="input-group date__box date datepicker">
+                                                             <input type="text" class="form-control" placeholder ="Enter value" placeholder="24/01/2024" id="filterAndCondition-0-${secondAddDropdownCounter}>
+                                                          <span class="input-group-append">
+                                                          <span class="date__icon bg-white">
+                                                              <img src="./assets/img/date__icon.svg" alt="date_icon">
+                                                          </span>
+                                                          </span>
+                                                      </div>
+                                                </div>
+                                                 <div class="input-container">
+                                                     <div class="input-group date__box date datepicker">
+                                                             <input type="text" class="form-control" placeholder ="Enter value" placeholder="24/01/2024" id="filterAndCondition-1-${secondAddDropdownCounter}>
+                                                          <span class="input-group-append">
+                                                          <span class="date__icon bg-white">
+                                                              <img src="./assets/img/date__icon.svg" alt="date_icon">
+                                                          </span>
+                                                          </span>
+                                                      </div>
+                                                </div>
+                                                    `);
+                    }
+                    else {
+                        $(`#filterAndConditionSetter-${secondAddDropdownCounter}`)
+                            .find('*')
+                            .remove()
+                            .end()
+                            .append(`
+                                                            <div class="input-container">
+                                                                                <div class="input-group date__box date datepicker">
+                                                                                            <input type="text" class="form-control" placeholder ="Enter value" placeholder="24/01/2024" id="filterAndCondition-0-${secondAddDropdownCounter}>
+                                                                                        <span class="input-group-append">
+                                                                                            <span class="date__icon bg-white">
+                                                                                                <img src="./assets/img/date__icon.svg" alt="date_icon">
+                                                                                        </span>
+                                                                                        </span>
+                                                                                    </div>
+                                                                            </div>
+                                                        `);
+                    }
+                    $('.datepicker').datepicker();
+                }
+               
+                if (firstAndDropdownType[secondAddDropdownCounter] == "Guid") {
+                    // Drop Down Values
+                    dropDownOptions = '';
+                    console.log(dropDownValuesAnd)
+                    dropDownValuesAnd[secondAddDropdownCounter].forEach((item) => {
+                        dropDownOptions = dropDownOptions + `<option value="${item.Id}">${item.Name}</option>`;
+                    });
+                    $(`#filterAndConditionSetter-${secondAddDropdownCounter}`)
+                        .find('*')
+                        .remove()
+                        .end()
+                        .append(
+                            `
+                                            <select id="filterAndCondition-0-${secondAddDropdownCounter}" class="form-select select_font_14" style="width:180px;">
+                                               ${dropDownOptions}
+                                        </select>
+                                    `
+                        );
+
+                    // For Select2 Functionality
+                    $('.select_font_14').select2({
+                        theme: "bootstrap-5",
+                        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+                        placeholder: $(this).data('placeholder'),
+                        closeOnSelect: true,
+                        dropdownCssClass: "select_font_14",
+                    });
+                }
+            });
+
+            // Trgigger on change event automatically
+            setTimeout(() => {
+                $(`#secondAndDropdown-${firstAddDropdownCounter}`).trigger("change");
+            },500)
+            
+        });
+
+        // Trigger on change event automatically
+        $(`#firstAndDropdown-${addCounter}`).trigger("change");
+
+        // Applied Select2 style to each
+        $('.select_font_14').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: true,
+            dropdownCssClass: "select_font_14",
+        });
+
+        addCounter = addCounter + 1;
+
+    }
+
+    function addOrCondition() {
+        // Added row in OR condition collection
+        $("#orConditionCollection").append(`
+                    <div id="orCondition__${orCounter}" class="d-flex align-items-center justify-content-between mb-2">
+                                        <div class="d-flex gap-2">
+                                                <select id="firstOrDropdown-${orCounter}" data-counter="${orCounter}" class="form-select select_font_14" style="width:250px;">
+                                                    ${filterColOptions}
+                                            </select>
+
+    @* This select will change based on the type selected in First Dropdown *@
+                                                    <select id="secondOrDropdown-${orCounter}" data-counter="${orCounter}" class="form-select select_font_14" style="width:180px;">
+                                                </select>
+
+                                                <div id="filterOrConditionSetter-${orCounter}" class="d-flex gap-2">
+                                            </div>
+                                        </div>
+                                            <a onclick="removeOrFilterCondition(${orCounter})"
+                                           class="c_file d-flex gap-1 align-items-center text-uppercase fw_600 green_12">
+                                            add
+                                            <img src="./assets/img/minus_circleGreen_icon.svg" alt="">
+                                        </a>
+                                    </div>
+            `);
+
+        // Added on change event to select element for OR row
+        $(`#firstOrDropdown-${orCounter}`).change(function () {
+            const type = $(this).find(':selected').data('type');
+            const fetchType = $(this).find(':selected').data('fetch-type');
+            const firstAddDropdownCounter = $(this).data('counter');
+            $(`#filterOrConditionSetter-${addCounter}`).children().remove();
+
+            firstOrDropdownType[firstAddDropdownCounter] = type;
+            firstOrDropdownFetchType[firstAddDropdownCounter] = fetchType;
+
+            if (type == "String") {
+                // Append respective options to Second dropdown
+                $(`#secondOrDropdown-${firstAddDropdownCounter}`)
+                    .find('option')
+                    .remove()
+                    .end()
+                    .append(`${stringOptions}`);
+            }
+            if (type == "Guid") {
+                // Append respective options to Second dropdown
+                $(`#secondOrDropdown-${firstAddDropdownCounter}`)
+                    .find('option')
+                    .remove()
+                    .end()
+                    .append(`${guidOptions}`);
+                // In this particular case, we also have to load Guids of options to choose from in next drop
+                var url = `/Filter/Get${fetchType}`;
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    success: function (result) {
+                        dropDownValuesOr[firstAddDropdownCounter] = result.Data;
+                    },
+                    error: function () {
+                    }
+                });
+            }
+            if (type == "Int32" || type == "Single") {
+                // Append respective options to Second dropdown
+                $(`#secondOrDropdown-${firstAddDropdownCounter}`)
+                    .find('option')
+                    .remove()
+                    .end()
+                    .append(`${numberOptions}`);
+            }
+            if (type == "Boolean") {
+                // Append respective options to Second dropdown
+                $(`#secondOrDropdown-${firstAddDropdownCounter}`)
+                    .find('option')
+                    .remove()
+                    .end()
+                    .append(`${boolOptions}`);
+            }
+            if (type == "DateTime") {
+                // Append respective options to Second dropdown
+                $(`#secondOrDropdown-${firstAddDropdownCounter}`)
+                    .find('option')
+                    .remove()
+                    .end()
+                    .append(`${dateTimeOptions}`);
+            }
+
+            $(`#secondOrDropdown-${firstAddDropdownCounter}`).change(function () {
+                $(`#filterOrConditionSetter-${firstAddDropdownCounter}`).children().remove();
+                const secondDropdownCondition = $(this).find(':selected').val();
+                const secondAddDropdownCounter = $(this).data('counter');
+
+                if (firstOrDropdownType[secondAddDropdownCounter] == "String") {
+                    // Condition for string type and all cases.
+                    if (secondDropdownCondition == "ie" || secondDropdownCondition == "ine") {
+                        $(`#filterOrConditionSetter-${secondAddDropdownCounter}`).children().remove();
+                    }
+                    else {
+                        $(`#filterOrConditionSetter-${secondAddDropdownCounter}`)
+                            .find('*')
+                            .remove()
+                            .end()
+                            .append(`
+                                          <input type="text" class="form-control" placeholder ="Enter value" id="filterOrCondition-0-${secondAddDropdownCounter}">
+                                            `);
+                    }
+                }
+
+                if (firstOrDropdownType[secondAddDropdownCounter] == "Int32" || firstOrDropdownType[secondAddDropdownCounter] == "Single") {
+                    // Condition for int & float type and equals to;
+                    if (secondDropdownCondition == "in") {
+                        // Need two input box
+                        $(`#filterOrConditionSetter-${secondAddDropdownCounter}`)
+                            .find('*')
+                            .remove()
+                            .end()
+                            .append(`
+                                                            <input type="text" class="form-control" placeholder ="Enter value" id="filterOrCondition-0-${secondAddDropdownCounter}">
+                                                            <input type="text" class="form-control" placeholder ="Enter value" id="filterOrCondition-1-${secondAddDropdownCounter}">
+                                                `);
+                    }
+                    else {
+                        $(`#filterOrConditionSetter-${secondAddDropdownCounter}`)
+                            .find('*')
+                            .remove()
+                            .end()
+                            .append(`
+                                                                <input type="text" class="form-control" placeholder ="Enter value" id="filterOrCondition-0-${secondAddDropdownCounter}">
+                                                    `);
+                    }
+                }
+
+                if (firstOrDropdownType[secondAddDropdownCounter] == "DateTime") {
+                    // Condition for int & float type and equals to;
+                    if (secondDropdownCondition == "in") {
+                        // Need two input box
+                        $(`#filterOrConditionSetter-${secondAddDropdownCounter}`)
+                            .find('*')
+                            .remove()
+                            .end()
+                            .append(`
+                                                <div class="input-container">
+                                                     <div class="input-group date__box date datepicker">
+                                                             <input type="text" class="form-control" placeholder ="Enter value" placeholder="24/01/2024" id="filterOrCondition-0-${secondAddDropdownCounter}>
+                                                          <span class="input-group-append">
+                                                          <span class="date__icon bg-white">
+                                                              <img src="./assets/img/date__icon.svg" alt="date_icon">
+                                                          </span>
+                                                          </span>
+                                                      </div>
+                                                </div>
+                                                 <div class="input-container">
+                                                     <div class="input-group date__box date datepicker">
+                                                             <input type="text" class="form-control" placeholder ="Enter value" placeholder="24/01/2024" id="filterOrCondition-1-${secondAddDropdownCounter}>
+                                                          <span class="input-group-append">
+                                                          <span class="date__icon bg-white">
+                                                              <img src="./assets/img/date__icon.svg" alt="date_icon">
+                                                          </span>
+                                                          </span>
+                                                      </div>
+                                                </div>
+                                                    `);
+                    }
+                    else {
+                        $(`#filterOrConditionSetter-${secondAddDropdownCounter}`)
+                            .find('*')
+                            .remove()
+                            .end()
+                            .append(`
+                                                            <div class="input-container">
+                                                                                <div class="input-group date__box date datepicker">
+                                                                                            <input type="text" class="form-control" placeholder ="Enter value" placeholder="24/01/2024" id="filterOrCondition-0-${secondAddDropdownCounter}>
+                                                                                        <span class="input-group-append">
+                                                                                            <span class="date__icon bg-white">
+                                                                                                <img src="./assets/img/date__icon.svg" alt="date_icon">
+                                                                                        </span>
+                                                                                        </span>
+                                                                                    </div>
+                                                                            </div>
+                                                        `);
+                    }
+                    $('.datepicker').datepicker();
+                }
+
+                if (firstOrDropdownType[secondAddDropdownCounter] == "Guid") {
+                    // Drop Down Values
+                    dropDownOptions = '';
+                    console.log(dropDownValuesOr, secondAddDropdownCounter)
+                    dropDownValuesOr[secondAddDropdownCounter].forEach((item) => {
+                        dropDownOptions = dropDownOptions + `<option value="${item.Id}">${item.Name}</option>`;
+                    });
+                    $(`#filterOrConditionSetter-${secondAddDropdownCounter}`)
+                        .find('*')
+                        .remove()
+                        .end()
+                        .append(
+                            `
+                                            <select id="filterOrCondition-0-${secondAddDropdownCounter}" class="form-select select_font_14" style="width:180px;">
+                                               ${dropDownOptions}
+                                        </select>
+                                    `
+                        );
+
+                    // For Select2 Functionality
+                    $('.select_font_14').select2({
+                        theme: "bootstrap-5",
+                        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+                        placeholder: $(this).data('placeholder'),
+                        closeOnSelect: true,
+                        dropdownCssClass: "select_font_14",
+                    });
+                }
+            });
+
+            // Trgigger on change event automatically
+            setTimeout(() => {
+                $(`#secondOrDropdown-${firstAddDropdownCounter}`).trigger("change");
+            }, 500)
+        });
+
+        // Trigger on change event automatically
+        $(`#firstOrDropdown-${orCounter}`).trigger("change");
+
+        // Applied Select2 style to each
+        $('.select_font_14').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: true,
+            dropdownCssClass: "select_font_14",
+        });
+
+        orCounter = orCounter + 1;
+
+    }
+
+    function removeAndFilterCondition(index){
+        $(`#andCondition__${index}`).remove();
+    }
+
+    function removeOrFilterCondition(index) {
+        $(`#orCondition__${index}`).remove();
+    }
+
+    function saveFilter(screenName) {
+
+        andConditions = [];
+        orConditions = [];
+
+        for (i = 0; i < addCounter; i++) {
+            console.log(i)
+            const first = $(`#firstAndDropdown-${i}`).val();
+            const second = $(`#secondAndDropdown-${i}`).val();
+            const third = $(`#filterAndCondition-0-${i}`).val();
+            const fourth = $(`#filterAndCondition-1-${i}`).val();
+            console.log(firstAndDropdownType[i], first, second, third, fourth)
+            if (first && second) {
+            andConditions.push({
+                Condition: this.encodeFilterCondition(firstAndDropdownType[i], first, second, third, fourth)
+            });
+            }
+        }
+
+        for (i = 0; i < orCounter; i++) {
+            const first = $(`#firstOrDropdown-${i}`).val();
+            const second = $(`#secondOrDropdown-${i}`).val();
+            const third = $(`#filterOrCondition-0-${i}`).val();
+            const fourth = $(`#filterOrCondition-1-${i}`).val();
+            console.log(first, second, third, fourth)
+            if (first && second) {
+                orConditions.push({
+                    Condition: this.encodeFilterCondition(firstOrDropdownType[i], first, second, third, fourth)
+                });
+            }
+        }
+
+        console.log(andConditions, orConditions)
+        // Check conditions and make the api call.
+        const payload = {
+            Id: null,
+            Name: $(`#filter_name`).val(),
+            PageName: screenName,
+            AndCondition: andConditions,
+            OrCondition: orConditions
+        }
+
+        $.ajax({
+            type: "POST",
+            url: `Filter/AddFilter`,
+            data: payload,
+            success: function (result) {
+                window.reload();
+            },
+            error: function () {
+                window.reload();
+            }
+        })
+    }
+
+    function encodeFilterCondition(type, first, second, third, fourth) {
+        if (type == "Guid") {
+            if (second == "eq") {
+                return `x.${first}==Guid.Parse("${third}")`;
+            }
+            if (second == "inl") {
+                return `${first}==${third}`;
+            }
+        }
+        if (type == "String") {
+            if (second == "eq") {
+                return `x.${first}=="${third}"`;
+            }
+            if (second == "ct") {
+                return `x.${first}.Contains("${third}")`;
+            }
+            if (second == "dct") {
+                return `!x.${first}.Contains("${third}")`;
+            }
+            if (second == "ie") {
+                return `x.${first}.IsNullOrEmpty()`;
+            }
+            if (second == "ine") {
+                return `!x.${first}.IsNullOrEmpty()`;
+            }
+        }
+
+        if (type == "Int32" || type == "Single") {
+            if (second == "eq") {
+                return `x.${first}==${third}`;
+            }
+            if (second == "mt") {
+                return `x.${first}>${third}`;
+            }
+            if (second == "mte") {
+                return `x.${first}>=${third}`;
+            }
+            if (second == "lt") {
+                return `x.${first}<${third}`;
+            }
+            if (second == "lte") {
+                return `x.${first}<=${third}`;
+            }
+            if (second == "in") {
+                return `x.${first}>${third} && x.${first}<${fourth}`;
+            }
+        }
+
+        if (type == "DateTime") {
+            if (second == "eq") {
+                return `x.${first}==${third}`;
+            }
+            if (second == "in") {
+                return `x.${first}>${third} && x.${first}<${fourth}`;
+            }
+            if (second == "iet") {
+                return `x.${first}>${third}`;
+            }
+            if (second == "ilt") {
+                return `x.${first}<${third}`;
+            }
+        }
+        if (type == "Boolean") {
+            if (second == "eqt") {
+                return `x.${first}`;
+            }
+            if (second == "eqf") {
+                return `!x.${first}`;
+            }
+        }
+    }
+
+
+    function DeleteFilter(id) {
+         event.stopPropagation();
+        var url = "/Filter/Delete?id=" + id;
+        $.ajax({
+            type: "POST",
+            url: url,
+            success: function (result) {
+                window.location.reload();
+            },
+            error: function () {
+            }
+        })
+    }
+
+    function applyFilter(id){
+        if (window.location.href.includes("?filterId")){
+            window.location.href = window.location.href.split("?filterId")[0] + `?filterId=${id}`;
+        }
+        else{
+            window.location.href = window.location.href + `?filterId=${id}`;
+        }
+    }
+</script>

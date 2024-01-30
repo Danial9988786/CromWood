@@ -7,7 +7,7 @@ namespace CromWood.Data.Entities
         public Guid Id { get; set; }
         public string PaidBy { get; set; } // It can be housing benefit or Tenant.
         public Guid? PaidByTenantId { get; set; }
-        public Tenant PaidByTenant { get; set; }
+        public Tenant? PaidByTenant { get; set; }
         public Guid? StatementId { get; set; }
         public TenancyStatement Statement { get; set; }
         public string InvoiceNumber { get; set; }

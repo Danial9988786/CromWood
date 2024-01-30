@@ -71,8 +71,4 @@
     <ProjectReference Include="..\CromWood.Service\CromWood.Business.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Helper\" />
-  </ItemGroup>
-
 </Project>

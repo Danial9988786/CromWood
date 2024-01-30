@@ -2,6 +2,7 @@
 using CromWood.Data.Entities;
 using CromWood.Data.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
 
 namespace CromWood.Data.Repository.Implementation
 {
@@ -11,9 +12,16 @@ namespace CromWood.Data.Repository.Implementation
         {
         }
 
-        public async Task<IEnumerable<Asset>> GetAssetsForList()
+        public async Task<IEnumerable<Asset>> GetAssetsForList(Guid filterId)
         {
-            return await _context.Assets.Include(x=>x.AssetType).Include(x=>x.Properties).OrderByDescending(x=>x.CreatedDate).ToListAsync();
+
+            if(filterId != Guid.Empty)
+            {
+                var condition = await GetFilterConiditon(filterId);
+                var result = await _context.Assets.Where(condition).Include(x => x.AssetType).Include(x => x.FinancialPrgoram).Include(x => x.Properties).OrderByDescending(x => x.CreatedDate).ToListAsync();
+                return result;
+            }
+            return await _context.Assets.Include(x=>x.AssetType).Include(x=>x.FinancialPrgoram).Include(x=>x.Properties).OrderByDescending(x=>x.CreatedDate).ToListAsync();
         }
 
         public async Task<Asset> GetAssetsOverView(Guid assetId)

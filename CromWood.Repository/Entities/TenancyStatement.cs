@@ -13,6 +13,8 @@ namespace CromWood.Data.Entities
         public string StatementDescription { get; set; }
         public Guid TenancyId { get; set; }
         public Tenancy Tenancy { get; set; }
+        public ICollection<StatementTransaction> Transactions { get; set; }
+        public ICollection<StatementDocument> Documents { get; set; }
 
     }
 }

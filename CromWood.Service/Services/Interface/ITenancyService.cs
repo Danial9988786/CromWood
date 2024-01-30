@@ -43,5 +43,16 @@ namespace CromWood.Business.Services.Interface
         public Task<AppResponse<RecurringChargeViewModel>> GetRecurringChargeView(Guid id);
         public Task<AppResponse<int>> AddModifyRecurringCharge(RecurringChargeModel req);
         public Task<AppResponse<int>> DeleteRecurringCharge(Guid id);
+        public Task<AppResponse<ICollection<StatementViewModel>>> GetStatements(Guid id);
+        public Task<AppResponse<StatementModel>> GetStatement(Guid id);
+        public Task<AppResponse<int>> AddModifyStatement(StatementModel req);
+        public Task<AppResponse<StatementViewModel>> GetStatementView(Guid id);
+        public Task<AppResponse<int>> DeleteStatement(Guid id);
+        public Task<AppResponse<StatementTransactionModel>> GetStatementTransaction(Guid id);
+        public Task<AppResponse<int>> AddModifyStatementTransaction(StatementTransactionModel req);
+        public Task<AppResponse<int>> DeleteStatementTransaction(Guid id);
+        public Task<AppResponse<StatementDocumentModel>> GetStatementDocument(Guid id);
+        public Task<AppResponse<int>> AddModifyStatementDocument(StatementDocumentModel req);
+        public Task<AppResponse<int>> DeleteStatementDocument(Guid id);
     }
 }

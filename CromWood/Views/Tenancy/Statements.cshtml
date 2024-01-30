@@ -1,0 +1,225 @@
+﻿@model IEnumerable<CromWood.Business.Models.ViewModel.StatementViewModel>
+
+@{
+    ViewData["Title"] = "Statements";
+    Layout = "~/Views/Shared/_TenancyDetail.cshtml";
+
+    var rawId = ViewContext.RouteData.Values["id"] as string;
+    string tenancyId = "'" + Guid.Parse(rawId).ToString() + "'";
+    string emptyGuid = "'" + Guid.Empty.ToString() + "'";
+}
+<div class="tab-pane fade border border-top-0 bg-white border-bottom-0 show active" id="statement"
+     role="tabpanel" aria-labelledby="nav-roles-per-tab">
+    <div class="px-3">
+        <div class="row">
+            <div class="col-xl-6">
+                <h1 class="mt-3 mb-3 custom_h">Statement</h1>
+            </div>
+            <div class="col-xl-6 mt-3">
+                <span class="pair_btn">
+                    <div class="shadow-box ms-auto">
+                        <span class="custom__btn">
+                            <a onclick="">
+                                <img src="~/assets/img/explor_icon.svg" alt="">
+                                Print Statement
+                            </a>
+                        </span>
+                        <span class="custom__btn2">
+                            <a onclick="AddModifyStatement(@tenancyId, @emptyGuid)">
+                                <img src="~/assets/img/plus_white.svg" alt="">
+                                Add New Statement
+                            </a>
+                        </span>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="ser_lpading  sm48__row_table pt-0 pm_page_top_m table_bottom_border hide_sort_all">
+        <table id="statement_table">
+            <thead>
+                <tr>
+                    <th class="maintable_head">Ref ID</th>
+                    <th class="maintable_head">Date/ Due Date</th>
+                    <th class="maintable_head">Statement Type</th>
+                    <th class="maintable_head">Description</th>
+                    <th class="maintable_head">Charge Made</th>
+                    <th class="maintable_head">Received</th>
+                    <th class="maintable_head">Outstanding</th>
+                    <th class="maintable_head">&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    var id = "'" + item.Id + "'";
+                    <tr>
+                        <td class="align-top">
+                            <a class="green_12 u_n" href="#">
+                                @item.ReferenceID
+                            </a>
+                        </td>
+                        <td>
+                            <span class="black_12 d-inline-block mb-1">
+                                @item.Date
+                            </span>
+                            <br>
+                            <br>
+                            <div class="outstanding_btn mt-1">
+                                Outstanding
+                            </div>
+                        </td>
+                        <td class="align-top">
+                            <span class="black_12 d-inline-block mb-1">
+                                @item.StatementType.Name
+                            </span>
+                        </td>
+                        <td class="align-top">
+                            <span class="black_12 d-inline-block mb-2">
+                                @item.StatementDescription
+                            </span>
+                            <br><span class="gray_12">Tenancy</span>
+                            <span class="st_dis">112384</span>
+                            <br><span class="gray_12">Property</span>
+                            <span class="st_dis">11763287</span>
+                        </td>
+                        <td class="align-top">
+                            <span class="black_12 d-inline-block">@item.NetAmount</span>
+                        </td>
+                        <td class="align-top">
+                            <span class="black_12 d-inline-block">--</span>
+                        </td>
+                        <td class="align-top">
+                            <span class=" d-inline-block">£500</span>
+                        </td>
+                        <td class="text-end">
+                            <a class="text-decoration-none" onclick="ViewStatement(@id)">
+                                <img src="~/assets/img/eye.svg" />
+                            </a>
+                            <a class="text-decoration-none action_dropwown" 
+                               id="acp-action" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="~/assets/img/down_arrow.svg" class="ms-2" />
+                            </a>
+                            <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
+                                aria-labelledby="acp-action">
+                                <li><a class="dropdown-item" onclick="">Edit Statement</a></li>
+                                <li><a class="dropdown-item" onclick="">Add Transaction</a></li>
+                                <li><a class="dropdown-item" onclick="">Void Statement</a></li>
+                                <li><a class="dropdown-item" onclick="">Print</a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="statementAddEditDialog">
+    <div class="modal-dialog modal-dialog-centered cm2_size rp_popup add_edit_popup" id="statementAddEditDialogBody">
+    </div>
+</div>
+
+<div class="modal fade" id="statementViewDialog">
+    <div class="modal-dialog modal-dialog-centered modal-xl model_height" id="statementViewDialogBody">
+    </div>
+</div>
+
+<script>
+
+    window.addEventListener('DOMContentLoaded', event => {
+        const table = document.getElementById('statement_table');
+        if (table) {
+            new simpleDatatables.DataTable(table);
+        }
+
+        // Code for datatable manipulation
+        var rowCount = $('.datatable-table tbody tr').length;
+        var threshold = 10;
+        if (rowCount < threshold) {
+            $('.datatable-bottom').hide();
+        } else {
+            $('.datatable-bottom').show();
+        }
+
+        var filter = $(".filter_btn");
+        $(".datatable-top").append(filter);
+    });
+
+    function AddModifyStatement(tenancyId, id) {
+        var url = `/Tenancy/AddModifyStatement?tenancyId=${tenancyId}&id=${id}`;
+        $("#statementAddEditDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#statementAddEditDialogBody").css("width", "100%");
+            $("#statementAddEditDialog").modal("show");
+        });
+    }
+
+    function ViewStatement(id) {
+        var url = `/Tenancy/ViewStatement?id=${id}`;
+        $("#statementViewDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#statementViewDialogBody").css("width", "100%");
+            $("#statementViewDialog").modal("show");
+        });
+    }
+
+    function AddModifyStatementTransaction(statementId, tenancyId, id) {
+        var url = `/Tenancy/AddModifyStatementTransaction?statementId=${statementId}&tenancyId=${tenancyId}&id=${id}`;
+        $("#statementAddEditDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#statementAddEditDialogBody").css("width", "100%");
+            $("#statementAddEditDialog").modal("show");
+        });
+    }
+
+    function DeleteStatement(id) {
+        $.ajax({
+            type: "POST",
+            url: `/Tenancy/DeleteStatement?id=${id}`,
+            success: function (result) {
+                window.location.reload();
+            },
+            error: function () {
+            }
+        })
+    }
+
+    function DeleteStatementTransaction(id) {
+        $.ajax({
+            type: "POST",
+            url: `/Tenancy/DeleteStatementTransaction?id=${id}`,
+            success: function (result) {
+                window.location.reload();
+            },
+            error: function () {
+            }
+        })
+    }
+
+    function DeleteStatementDocument(id) {
+        $.ajax({
+            type: "POST",
+            url: `/Tenancy/DeleteStatementDocument?id=${id}`,
+            success: function (result) {
+                window.location.reload();
+            },
+            error: function () {
+            }
+        })
+    }
+
+</script>

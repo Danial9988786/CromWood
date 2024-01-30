@@ -43,5 +43,16 @@ namespace CromWood.Data.Repository.Interface
         public Task<RecurringCharge> GetRecurringChargeView(Guid id);
         public Task<int> AddModifyRecurringCharge(RecurringCharge mapped);
         public Task<int> DeleteRecurringCharge(Guid id);
+        public Task<ICollection<TenancyStatement>> GetStatements(Guid id);
+        public Task<TenancyStatement> GetStatement(Guid id);
+        public Task<int> AddModifyStatement(TenancyStatement mapped);
+        public Task<TenancyStatement> GetStatementView(Guid id);
+        public Task<int> DeleteStatement(Guid id);
+        public Task<StatementTransaction> GetStatementTransaction(Guid id);
+        public Task<int> AddModifyStatementTransaction(StatementTransaction mappedMessage);
+        public Task<int> DeleteStatementTransaction(Guid id);
+        public Task<StatementDocument> GetStatementDocument(Guid id);
+        public Task<int> AddModifyStatementDocument(StatementDocument mappedReq);
+        public Task<string> DeleteStatementDocument(Guid id);
     }
 }

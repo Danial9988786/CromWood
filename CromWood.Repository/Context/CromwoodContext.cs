@@ -99,7 +99,9 @@ namespace CromWood.Data.Context
         public DbSet<RecurringCharge> RecurringCharges { get; set; }
         public DbSet<PaymentPlan> PaymentPlans { get; set; }
         public DbSet<PaymentPlanInstallment> PaymentPlanInstallments { get; set; }
-
+        public DbSet<Filter> Filters { get; set; }
+        public DbSet<FilterAndCondition> FilterAndConditions { get; set; }
+        public DbSet<FilterOrCondition> FilterOrConditions { get; set; }
 
         public override int SaveChanges()
         {

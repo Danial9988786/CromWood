@@ -1,0 +1,185 @@
+﻿@using CromWood.Business.Services.Interface;
+@using CromWood.Data.Entities.Default;
+@model CromWood.Business.Models.StatementTransactionModel
+@inject ILookupService<TransactionMode> _lookUpTransaction;
+@inject ITenancyService _tenancyService;
+@{
+    var tenancyId = ViewBag.TenancyId;
+
+    var asyncTransactionModes = await _lookUpTransaction.GetAllItems();
+    var modes = new SelectList(asyncTransactionModes.Data, "Id", "Name");
+
+    var asyncTenants = await _tenancyService.GetTenancyTenants(tenancyId);
+    var tenants = new SelectList(asyncTenants.Data, "Id", "FullName");
+}
+
+<div class="modal-content rounded-0 model-custom-bg">
+    <div class="modal-header py-2 bg-white">
+        <h5 class="modal-title" id="staticBackdropLabel">Add New Transaction</h5>
+        <span class="pagagraph ms-2">Tenancy 112384</span>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <form asp-action="AddModifyStatementTransaction" class="modal-body" asp-route-tenancyId="@tenancyId">
+        @Html.HiddenFor(x=>x.Id)
+        @Html.HiddenFor(x=>x.StatementId)
+        <div class="step_body_content3 mb-3 pe-2">
+            <div class="mb-2 border p-3 bg-white rounded">
+                <div class="d-flex gap-3 pb-2">
+                    <div class="input__field w-100">
+                        <label for="Paid To/ By" class="form-label">Paid To/ By</label>
+                        <select id="Paid_by" class="form-select select_font_14" asp-for="PaidBy">
+                            <option value="Tenant">Tenent</option>
+                            <option value="HousingBenefit">Goverment Housing Benifits</option>
+                        </select>
+                    </div>
+                    <div class="input__field w-100">
+                        <label for="Tenant" class="form-label">Tenant</label>
+                        <select id="Paid_by_id" class="form-select select_font_14" asp-for="PaidByTenantId">
+                            <option value="00000000-0000-0000-0000-000000000000">None</option>
+                            @foreach(var item in tenants)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-2 border p-3 bg-white rounded">
+                <h5 class="modal-title" id="staticBackdropLabel">Transaction Details</h5>
+                <div class="d-flex gap-3 pb-2 mt-2">
+                    <div class="input__field w-100">
+                        <label for="Invoice No" class="form-label">Invoice No</label>
+                        <div class="position-relative">
+                            <input asp-for="InvoiceNumber" class="form-control fqft" placeholder="Invoice No"
+                                   >
+                        </div>
+                    </div>
+                    <div class="input__field w-100">
+                        <label for="Mode of Transaction" class="form-label">Mode of Transaction</label>
+                        <select id="Transaction_Type" asp-for="TransactionModeId" asp-items="modes" class="form-select select_font_14">
+                        </select>
+                    </div>
+                </div>
+                <div class="d-flex gap-3 mt-2">
+                    <div class="input__field w-100">
+                        <div class="mb-3">
+                            <label for="Date" class="form-label">Date</label>
+                            <input type="date" class="form-control" asp-for="Date" placeholder="01 /06 / 2023">
+                        </div>
+                    </div>
+                    <div class="input__field w-100">
+                        <label for="Amount Net" class="form-label">Amount Net</label>
+                        <div class="position-relative">
+                            <input type="number" class="form-control fqft" placeholder="Enter amount" asp-for="NetAmount">
+                        </div>
+                    </div>
+                </div>
+                <label for="Statement Description" class="form-label">Statement Description</label>
+                <div class="w-100 h-75 d-inline-block">
+                    <textarea class="w-100" asp-for="TransactionDescription" rows="4" cols="50"
+                              placeholder="Enter Description of Statement"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="popup_footer_fixed border-top d-flex justify-content-between bg-white">
+            <div class="shadow-box">
+                <a href="#" class="custom__btn" data-bs-toggle="modal">
+                    Cancel
+                </a>
+            </div>
+            <div class="shadow-box ms-auto">
+                <a class="custom__btn2" onclick="submitButton.click()">
+                    <img src="~/assets/img/save-role.svg" alt="right__arrow">
+                    Save Transaction
+                </a>
+            </div>
+        </div>
+        <input type="submit" value="button" hidden id="submitButton" />
+
+    </form>
+</div>
+@*
+<h4>StatementTransactionModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddModifyStatementTransaction">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PaidBy" class="control-label"></label>
+                <input asp-for="PaidBy" class="form-control" />
+                <span asp-validation-for="PaidBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PaidByTenantId" class="control-label"></label>
+                <input asp-for="PaidByTenantId" class="form-control" />
+                <span asp-validation-for="PaidByTenantId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StatementId" class="control-label"></label>
+                <input asp-for="StatementId" class="form-control" />
+                <span asp-validation-for="StatementId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvoiceNumber" class="control-label"></label>
+                <input asp-for="InvoiceNumber" class="form-control" />
+                <span asp-validation-for="InvoiceNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TransactionModeId" class="control-label"></label>
+                <input asp-for="TransactionModeId" class="form-control" />
+                <span asp-validation-for="TransactionModeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NetAmount" class="control-label"></label>
+                <input asp-for="NetAmount" class="form-control" />
+                <span asp-validation-for="NetAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TransactionDescription" class="control-label"></label>
+                <input asp-for="TransactionDescription" class="form-control" />
+                <span asp-validation-for="TransactionDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+ *@
+
+<script>
+    $(document).ready(function () {
+        // ----------- For Font size 14 -----------
+        $('.select_font_14').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: false,
+            dropdownCssClass: "select_font_14",
+        });
+
+        // ----------- With searh bar funcnality -----------
+        $('.select__search').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: false,
+            dropdownCssClass: "select__search",
+        });
+    })
+</script>
