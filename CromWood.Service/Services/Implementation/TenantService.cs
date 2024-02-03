@@ -18,11 +18,11 @@ namespace CromWood.Business.Services.Implementation
             _mapper = mapper;
         }
 
-        public async Task<AppResponse<IEnumerable<TenantViewModel>>> GetTenantForList()
+        public async Task<AppResponse<IEnumerable<TenantViewModel>>> GetTenantForList(Guid filterId)
         {
             try
             {
-                var result = await _tenantRepository.GetTenantForList();
+                var result = await _tenantRepository.GetTenantForList(filterId);
                 var mappedResult = _mapper.Map<IEnumerable<TenantViewModel>>(result);
                 return ResponseCreater<IEnumerable<TenantViewModel>>.CreateSuccessResponse(mappedResult, "Tenancies loaded successfully");
             }
@@ -30,6 +30,22 @@ namespace CromWood.Business.Services.Implementation
             catch (Exception ex)
             {
                 return ResponseCreater<IEnumerable<TenantViewModel>>.CreateErrorResponse(null, ex.ToString());
+            }
+
+        }
+
+        public async Task<AppResponse<IEnumerable<TenantModel>>> GetTenantForExport()
+        {
+            try
+            {
+                var result = await _tenantRepository.GetTenantForList(default(Guid));
+                var mappedResult = _mapper.Map<IEnumerable<TenantModel>>(result);
+                return ResponseCreater<IEnumerable<TenantModel>>.CreateSuccessResponse(mappedResult, "Tenancies for export successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<IEnumerable<TenantModel>>.CreateErrorResponse(null, ex.ToString());
             }
 
         }

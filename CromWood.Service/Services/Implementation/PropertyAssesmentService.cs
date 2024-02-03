@@ -23,11 +23,11 @@ namespace CromWood.Business.Services.Implementation
             _uploader= fileUploader;
         }
 
-        public async Task<AppResponse<IEnumerable<PropertyAssesmentViewModel>>> GetPropertyAssesments()
+        public async Task<AppResponse<IEnumerable<PropertyAssesmentViewModel>>> GetPropertyAssesments(Guid filterId)
         {
             try
             {
-                var result = await _properyAssesmentRepository.GetPropertyAssesments();
+                var result = await _properyAssesmentRepository.GetPropertyAssesments(filterId);
                 var mappedResult = _mapper.Map<IEnumerable<PropertyAssesmentViewModel>>(result);
                 return ResponseCreater<IEnumerable<PropertyAssesmentViewModel>>.CreateSuccessResponse(mappedResult, "Assesments loaded successfully");
             }

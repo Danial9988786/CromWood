@@ -6,9 +6,12 @@
   --main-font: 'Inter', sans-serif;
   --main-color: hsl(78, 100%, 21%);
   --secondary-color: #6D9000;
+  --dark-green: #344900;
   --light-green: #8DB300;
   --red-color: #FF0031;
   --fair-color:#FF6D00;
+  --light-orange:#FF9800;
+  --light-blue:#0098FF;
   --good-color: #41BD00;
   --red-dark-color: #AC0223;
   --g-text-color: #2F2E35;
@@ -120,6 +123,18 @@
   font-size: 14px!important;
   text-decoration: none;
 }
+.good_color{
+  color: var(--good-color)!important;
+}
+.red_color{
+  color: var(--red-color)!important;
+}
+.light_orange{
+  color: var(--light-orange)!important;
+}
+.light_blue{
+  color: var(--light-blue)!important;
+}
 .font14_inter{
     font-family: Inter;
     font-size: 14px;
@@ -139,6 +154,14 @@
   font-weight: 500!important;
   font-size: 12px!important;
   text-decoration: none;
+}
+.gray_text_12{
+  color: #5F6D81;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%;
 }
 .gray_12{
   color: #768293;
@@ -179,6 +202,14 @@
   font-style: normal;
   font-weight: 400;
   line-height: 140%;
+}
+.green_16{
+  color:#6D9000;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%; 
 }
 .sora_16{
   color:#2F2E35;
@@ -221,6 +252,7 @@
   line-height: 140%;
   color:#48586F;
 }
+
 .main-bg {
   background-color: var(--main-color);
 }

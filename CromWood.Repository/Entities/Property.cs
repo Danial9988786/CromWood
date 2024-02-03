@@ -24,6 +24,7 @@ namespace CromWood.Data.Entities
         public float NoOfBedroom { get; set; }
         public float NoOfBathroom { get; set; }
         public ICollection<PropertyAmenity> PropertyAmenities { get; set; }
+        public ICollection<Tenancy> Tenancies { get; set; }
         public PropertyInsurance PropertyInsurance { get; set; }
 
     }

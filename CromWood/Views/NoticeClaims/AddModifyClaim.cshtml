@@ -28,7 +28,7 @@
         <div class="step_body_content3 mb-3 pe-2">
             <form asp-action="AddModifyClaim">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                @Html.HiddenFor(m=>m.Id)
+                @Html.HiddenFor(m => m.Id)
                 <div class="mb-3 border p-3 bg-white h-100">
                     <label for="Rent Frequency" class="form-label">Tenant Name</label>
                     <select id="tenant-id" class="form-select select_font_14" asp-for="TenantId" asp-items="tenants"></select>
@@ -103,12 +103,12 @@
 
 <script>
     $(document).ready(function () {
-        $('.select_font_14').select2({
-            theme: "bootstrap-5",
-            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-            placeholder: $(this).data('placeholder'),
-            closeOnSelect: true,
-            dropdownCssClass: "select_font_14",
-        });
+    $('.select_font_14').select2({
+        theme: "bootstrap-5",
+        placeholder: "Select...",
+        dropdownAutoWidth : true,
+        width: '100%',
+        dropdownCssClass: "select_font_14"
+    });
     });
 </script>

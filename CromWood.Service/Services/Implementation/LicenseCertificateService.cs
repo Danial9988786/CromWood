@@ -21,11 +21,11 @@ namespace CromWood.Business.Services.Implementation
             _fileUploader = uploader;
         }
 
-        public async Task<AppResponse<IEnumerable<LicenseCertificateViewModel>>> GetAllLicenseCertificates()
+        public async Task<AppResponse<IEnumerable<LicenseCertificateViewModel>>> GetAllLicenseCertificatesList(Guid filterId)
         {
             try
             {
-                var result = await _licenseRepository.GetAllLicenseCertificates();
+                var result = await _licenseRepository.GetAllLicenseCertificatesList(filterId);
                 var mappedResult = _mapper.Map<IEnumerable<LicenseCertificateViewModel>>(result);
                 return ResponseCreater<IEnumerable<LicenseCertificateViewModel>>.CreateSuccessResponse(mappedResult, "licenses loaded successfully");
             }

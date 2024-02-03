@@ -9,8 +9,8 @@
 
 <style>
     .tab-pane ::-webkit-scrollbar {
-    display: none;
-}
+        display: none;
+    }
 </style>
 
 <div class="tab-pane fade border-top-0 bg-white show active border-end border-start border-bottom"
@@ -39,41 +39,41 @@
                     {
                         <tr>
                             <td class="black_14 align-top">
-                                @item.CreatedDate
+                                @item.CreatedDate?.ToString("d/MM/yyyy")
                             </td>
                             <td class="black_14 align-top">
                                 @item.Concern.Name
                             </td>
                             <td class="maintext_size">
-                                <a class="main-text" href="#">
+                                <a class="main-text">
                                     <span class="owner_clr">Tenant Name</span>
                                     <br>@item.Tenant.FullName
                                     <br> <img src="~/assets/img/Location.svg" alt=""> @item.Tenant.Address
                                 </a>
                             </td>
                             <td class="black_14 align-top">
-                                @item.ASTLicense
+                                @(item.ASTLicense ?? "--")
                             </td>
                             <td class="black_14 align-top">
-                                @item.Section.Name
+                                @(item.Section.Name ?? "--")
                             </td>
                             <td class="black_14 align-top">
-                                @item.IsDrafted
+                                @(item.IsDrafted == true ? "Y" : "N")
                             </td>
                             <td class="black_14 align-top">
-                                @item.TrackingNumber
+                                @(item.TrackingNumber ?? "--")
                             </td>
                             <td class="black_14 align-top">
-                                @item.EmailedOn
+                                @(item.EmailedOn != null ? item.EmailedOn?.ToString("d/MM/yyyy") : "--")
                             </td>
                             <td class="black_14 align-top">
-                                @item.ServedAndPictured
+                                @(item.ServedAndPictured != null ? item.ServedAndPictured?.ToString("d/MM/yyyy") : "--")
                             </td>
                             <td class="black_14 align-top">
-                                @item.ExpiryDate
+                                @(item.ExpiryDate != null ? item.ExpiryDate?.ToString("d/MM/yyyy") : "--")
                             </td>
                             <td class="black_14 align-top">
-                                @item.Comment
+                                @(item.Comment ?? "--")
                             </td>
                             @{
                                 string id = "'" + item.Id.ToString() + "'";

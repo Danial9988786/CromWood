@@ -13,9 +13,9 @@ namespace CromWood.Controllers
             _assesmentService = assesmentService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(Guid filterId)
         {
-            var result = await _assesmentService.GetPropertyAssesments();
+            var result = await _assesmentService.GetPropertyAssesments(filterId);
             return View(result.Data);
         }
 
@@ -24,7 +24,7 @@ namespace CromWood.Controllers
         {
             var model = new PropertyAssesmentModel()
             {
-                InspectionID = "ASM-" + RandomAlphaNumbericGenerator.Random(6)
+                InspectionID = "ASM-" + RandomAlphaNumbericGenerator.Random(6),
             };
             return PartialView(model);
         }
@@ -59,7 +59,7 @@ namespace CromWood.Controllers
         [HttpGet]
         public IActionResult AddModifyPropertyAssesmentItem(Guid assesmentId)
         {
-            var result = new PropertyInspectionItemModel() {  PropertyAssesmentId = assesmentId};
+            var result = new PropertyInspectionItemModel() {  PropertyAssesmentId = assesmentId, ConditionRating =0};
             return PartialView(result);
         }
 

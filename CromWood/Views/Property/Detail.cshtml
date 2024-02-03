@@ -1,4 +1,5 @@
-﻿@model CromWood.Business.Models.PropertyModel
+﻿@using System.Globalization;
+@model CromWood.Business.Models.PropertyModel
 
 @{
     ViewData["Title"] = "Detail";
@@ -34,24 +35,24 @@
                 </tr>
                 <tr class="bg-white">
                     <th class="r_heading" scope="row">House No. & Street</th>
-                    <td colspan="2">@Model.Asset.HouseNoStreet</td>
+                    <td colspan="2">@(Model.Asset.HouseNoStreet??"--")</td>
                 </tr>
                 <tr class="bg-white">
                     <th class="r_heading" scope="row">Locality</th>
-                    <td colspan="2">@Model.Asset.Locality</td>
+                    <td colspan="2">@(Model.Asset.Locality??"--")</td>
                 </tr>
                 <tr class="bg-white">
                     <th class="r_heading" scope="row">Borough</th>
-                    <td colspan="2">@Model.Asset.Borough</td>
+                    <td colspan="2">@(Model.Asset.Borough??"--")</td>
                 </tr>
                 <tr class="bg-white">
                     <th class="r_heading" scope="row">Post Code</th>
-                    <td colspan="2">@Model.Asset.PostCode</td>
+                    <td colspan="2">@(Model.Asset.PostCode??"")</td>
                 </tr>
 
                 <tr class="bg-white">
                     <th class="r_heading" scope="row">Expected Earnings per Month</th>
-                    <td class="earn_p_month" colspan="2">@Model.ExpectedMonthlyRate</td>
+                    <td class="earn_p_month" colspan="2">@(Model.ExpectedMonthlyRate.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ") ?? "--")</td>
                 </tr>
             </tbody>
         </table>
@@ -67,20 +68,15 @@
                 </tr>
                 <tr class="bg-white">
                     <th class="r_heading" scope="row">Square Footage</th>
-                    <td colspan="2">@Model.SquareFootage ft²</td>
+                    <td colspan="2">@(Model.SquareFootage??"0") ft²</td>
                 </tr>
-                <tr>
-                    <th class="r_heading" scope="row">Self Contained</th>
-                    <td colspan="2">Yes</td>
-                </tr>
-                <tr class="bg-white">
-                    <th class="r_heading" scope="row">Garage</th>
-                    <td colspan="2">Yes</td>
-                </tr>
-                <tr>
-                    <th class="r_heading" scope="row">Car Parking</th>
-                    <td colspan="2">Yes</td>
-                </tr>
+                @foreach(var amenty in Model.PropertyAmenities.Take(3))
+                    {
+                        <tr class="bg-white">
+                            <th class="r_heading" scope="row">@amenty.Amenity.Key</th>
+                            <td colspan="2">Yes</td>
+                        </tr>
+                    }
                 <tr class="bg-white">
                     <th class="r_heading" scope="row">Bedroom(s)</th>
                     <td colspan="2">@Model.NoOfBedroom</td>

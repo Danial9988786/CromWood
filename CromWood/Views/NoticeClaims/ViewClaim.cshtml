@@ -1,12 +1,14 @@
 ﻿@model CromWood.Business.Models.ViewModel.ClaimViewModel
+@{
+    string id = "'" + Model.Id.ToString() + "'";
+}
 
 <div class="modal-content rounded-0 model-custom-bg">
     <div class="modal-header h_60 py-2 bg-white">
         <h5 class="modal-title" id="staticBackdropLabel">Claim Details</h5>
         <div class="d-flex align-items-center gap-2">
             <div>
-                <a class="text-decoration-none custom__btn action_dropwown" href="#" role="button" id=""
-                   data-bs-toggle="modal" data-bs-target="#edit_claim_details">
+                <a class="text-decoration-none custom__btn action_dropwown" onclick="AddModifyClaim(@id)" data-bs-toggle="modal">
                     <img src="~/assets/img/edit_icon2.svg" alt="edit_icon">
                     Edit details
                 </a>

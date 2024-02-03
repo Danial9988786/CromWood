@@ -1,12 +1,15 @@
 ﻿@model CromWood.Business.Models.ViewModel.NoticeViewModel
+@{
+    string id = "'" + Model.Id.ToString() + "'";
+}
 
 <div class="modal-content rounded-0 model-custom-bg">
     <div class="modal-header h_60 py-2 bg-white">
         <h5 class="modal-title" id="staticBackdropLabel">Notice Details</h5>
         <div class="d-flex align-items-center gap-2">
             <div>
-                <a class="text-decoration-none custom__btn action_dropwown" href="#" role="button" id=""
-                   data-bs-toggle="modal" data-bs-target="#edit_notice_details">
+                <a class="text-decoration-none custom__btn action_dropwown"
+                   data-bs-toggle="modal" onclick="AddModifyNotice(@id)">
                     <img src="~/assets/img/edit_icon2.svg" alt="edit_icon">
                     Edit details
                 </a>

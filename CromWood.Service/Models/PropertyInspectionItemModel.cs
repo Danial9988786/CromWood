@@ -10,7 +10,7 @@ namespace CromWood.Business.Models
         public Guid? SurverySectionId { get; set; }
         public Guid? DetailItemId { get; set; }
         public string Description { get; set; }
-        public string ConditionRating { get; set; }
+        public int ConditionRating { get; set; }
         public string Defects { get; set; }
         public Guid? UnitOfMeesurementId { get; set; }
         public float StockUnitCost { get; set; }

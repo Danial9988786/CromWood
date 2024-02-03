@@ -1,10 +1,12 @@
-﻿@model IEnumerable<CromWood.Business.Models.ViewModel.TenantViewModel>
+﻿@using CromWood.Business.Constants;
+@model IEnumerable<CromWood.Business.Models.ViewModel.TenantViewModel>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     int counter = 1;
+    var screenName = PermissionKeyConstant.TenantManagement;
 }
 
 <ol class="breadcrumb align-items-end mb-10 mt-3">
@@ -21,10 +23,13 @@
         <span class="">
             <div class="shadow-box ms-auto">
                 <span class="custom__btn">
-                    <a >
-                        <img src="~/assets/img/explor_icon.svg" alt="">
-                        Export XLS
-                    </a>
+                    <form asp-action="Export" method="post">
+                        <a onclick="exportExcelButton.click()">
+                            <img src="~/assets/img/explor_icon.svg" class="pe-2" alt="">
+                            Export XLS
+                        </a>
+                        <input id="exportExcelButton" type="submit" hidden />
+                    </form>
                 </span>
             </div>
         </span>
@@ -34,59 +39,10 @@
 
 <div class="NeedaFillter sm48__row_table hide_sort_all pt-0 table_bottom_border">
 
-    <div class="filter_btn ms-auto">
-        <a class="" href="#" role="button" id="fil_ter" data-bs-toggle="dropdown"
-           aria-expanded="false">
-            <img class="pe-1" src="~/assets/img/filter-lines.svg" alt="user__iocn">
-            Filter
-            <img class="ps-2" src="~/assets/img/filter_down_arrow.svg">
-        </a>
-
-        <div class="filter___c dropdown-menu dropdown-menu-end shadow border rounded-0 p-3"
-             aria-labelledby="fil_ter">
-            <div class="input-group mb-3">
-                <span class="input-group-text bg-transparent" id="srf">
-                    <img src="~/assets/img/search-gray.svg" alt="search_iocn">
-                </span>
-                <input type="text" class="form-control border-start-0 ps-0"
-                       placeholder="Search for filters" aria-label="Username" aria-describedby="srf">
-            </div>
-            <ul class="list-unstyled ft__list">
-                <li>
-                    <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded"
-                       href="#">
-                        <span>My Filter 1</span>
-                        <span class="i__gro">
-                            <span class="ed pe-2">
-                                <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
-                            </span>
-                            <span class="de">
-                                <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
-                            </span>
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded"
-                       href="#">
-                        <span>My Filter 2</span>
-                        <span class="i__gro">
-                            <span class="ed pe-2">
-                                <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
-                            </span>
-                            <span class="de">
-                                <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
-                            </span>
-                        </span>
-                    </a>
-                </li>
-            </ul>
-            <div class="mark__btn text-center">
-                <img class="me-1" src="~/assets/img/green__plus_icon.svg" />
-                <a href="#" class="text-uppercase">add new Filter</a>
-            </div>
-        </div>
+    <!------- filter start here ------>
+    <div class="filter_btn ms-auto" id="filterBox">
     </div>
+    <!----------- filter end here  --------->
 
     <table id="datatablesSimple" class="border rounded-top border-bottom-0">
         <thead>
@@ -99,17 +55,18 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model) {
-            <tr>
-                <td class="maintext_size">@counter.</td>
-                <td class="maintext_size">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="maintext_size">@counter.</td>
+                    <td class="maintext_size">
                         <a class="u_n main-text" asp-action="Detail" asp-route-id="@item.Id">
-                        @item.FullName
-                    </a>
-                </td>
-                <td class="maintext_size">@item.Phone</td>
-                <td class="maintext_size">@item.Email</td>
-                <td class="maintext_size">@item.NIN</td>
+                            @item.FullName
+                        </a>
+                    </td>
+                    <td class="maintext_size">@(item.Phone ?? "--")</td>
+                    <td class="maintext_size">@(item.Email ?? "--")</td>
+                    <td class="maintext_size">@(item.NIN ?? "--")</td>
                 </tr>
                 counter = counter + 1;
             }
@@ -118,7 +75,7 @@
 </div>
 
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
 <script>
     $(document).ready(function () {
         // Code for datatable manipulation
@@ -132,5 +89,10 @@
 
         var filter = $(".filter_btn");
         $(".datatable-top").append(filter);
+
+        // For the Filter
+        $("#filterBox").load("/Filter/Index?keyName=@screenName", function () {
+            $("#filterBox").show();
+        });
     });
-    </script>
+</script>

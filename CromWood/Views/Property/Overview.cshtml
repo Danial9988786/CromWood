@@ -2,6 +2,546 @@
     ViewData["Title"] = "Overview";
     Layout = "~/Views/Shared/_PropertyDetail.cshtml";
 }
-@{
-}
-<h1>Overview tab</h1>
+
+<div class="tab-pane fade show active border border-top-0 bg-white" id="asset_overview"
+     role="tabpanel" aria-labelledby="asset_overview-tab">
+    <div class="card-header border-bottom-0 pt-4 pb-0 bg-white">
+        <div class="d-flex align-items-center justify-content-between">
+            <h4 class="heading-style2 mb-0">Property Overview</h4>
+            <div class="" style="width:340px;">
+                <select id="" class="form-select select_font_14"
+                        aria-label="Default select example">
+                    <option selected>Today</option>
+                    <option value="1">This Week</option>
+                    <option value="2">This Month</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Chart row start here  -->
+        <div class="row chart__bar mt-3">
+            <div class="col-xl-9 mb-3">
+                <!-- Graph Container -->
+                <div class="border rounded">
+                    <div class="graph_info_flex p-3">
+                        <div class="graph_info_flex_child3">
+                            <h4>Revenue</h4>
+                        </div>
+                        <div class="graph_info_flex_child">
+                            <span class="income_cir graph_circle"></span>Income
+                        </div>
+                        <div class="graph_info_flex_child2">£ 72,000.00</div>
+                        <div class="graph_info_flex_child3">
+                            <span>
+                                Overview of Jan 23 - Dec
+                                23
+                            </span>
+                        </div>
+                        <div class="graph_info_flex_child">
+                            <span class="expen_cir graph_circle"></span>Expenses
+                        </div>
+                        <div class="graph_info_flex_child2">£ 18,000.00</div>
+                    </div>
+                    <div id="chart-container" class="pt-3 bg-white"
+                         style="min-width: 310px; height:288px; margin: 0 auto"></div>
+                </div>
+                <!-- Graph Container -->
+            </div>
+            <div class="col-xl-3">
+                <div class="card rounder__c mb-4">
+                    <div class="card-header mt-3 border-bottom-0 bg-white">
+                        <!-- <i class="fas fa-chart-area me-1"></i> -->
+                        <h4 class="heading-style">Occupancy Days</h4>
+                    </div>
+                    <div class="card-body">
+
+                        <!-- Donut Graph Container -->
+                        <div id="chartContainer2"></div>
+                        <div id="chartInfo1"><span>365</span></div>
+                        <div class="donut_graph_info">
+                            <div class="donut_info_flex">
+                                <div class="donut_info_flex_child"><span class="graph_circle bg_goodColor"></span> Occupied</div>
+                                <div class="donut_info_flex_child2">290</div>
+                                <div class="donut_info_flex_child"><span class="graph_circle bg_orangeColor"></span> Vacant</div>
+                                <div class="donut_info_flex_child2">75</div>
+                            </div>
+                        </div>
+                        <!-- Donut Graph Container -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Chart row End here  -->
+        <!-- Row Third -->
+        <div class="row chart__bar">
+            <div class="col-xl-9 mb-3">
+                <!-- Graph Container -->
+                <div class="border rounded">
+                    <div class="graph_info_flex p-3 mb-5">
+                        <div class="graph_info_flex_child3">
+                            <h4>Yearly Occupancy Graph</h4>
+                        </div>
+                        <div class="graph_info_flex_child">
+                            <span class="income_cir graph_circle"></span>
+                            Occupied Days
+                        </div>
+                        <div class="graph_info_flex_child2">290</div>
+                        <div class="graph_info_flex_child3"><span></span></div>
+                        <div class="graph_info_flex_child">
+                            <span class="expen_cir graph_circle"></span>
+                            Vacant Days
+                        </div>
+                        <div class="graph_info_flex_child2">75</div>
+                    </div>
+                    <div id="chart-container2" style="height:150px;"></div>
+                </div>
+                <!-- Graph Container -->
+                <!-- Recent Transaction -->
+                <div class="mb-4 tenancies_tt mt-3 show_sort_1 no_top_search">
+                    <div class="card-header border-bottom-0 bg-white border-top border-start border-end">
+                        <!-- <i class="fas fa-table me-1"></i> -->
+                        <h4 class="heading-style pt-3">Recent Transactions</h4>
+                    </div>
+                    <div class="card-body rnct_trnsctn p-0">
+                        <table id="Recent__Transactions_tab">
+                            <thead>
+                                <tr>
+                                    <th>Ref ID</th>
+                                    <th>Date/ Due Date</th>
+                                    <th>Transaction Type</th>
+                                    <th>Description</th>
+                                    <th>Paid To/By</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="align-top">
+                                        <a class="green_12 u_n" href="#">
+                                            ST3627
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <span class="black_12 d-inline-block mb-1">
+                                            22 Aug
+                                            2023
+                                        </span>
+                                        <br><span class="gray_12">Due Date</span>
+                                        <span class="black_12">
+                                            30 Aug 2023
+                                        </span>
+                                        <br>
+                                        <div class="outstanding_btn mt-1">
+                                            Outstanding
+                                        </div>
+                                    </td>
+                                    <td class="align-top">
+                                        <span class="black_12 d-inline-block mb-1">
+                                            Direct Rent
+                                        </span>
+                                    </td>
+                                    <td class="align-top">
+                                        <span class="black_12 d-inline-block mb-2">
+                                            Monthly Rent (22/08/2023 - 31/08/2023)
+                                        </span>
+                                        <br><span class="gray_12">Tenancy</span>
+                                        <span class="st_dis">112384</span>
+                                        <br><span class="gray_12">Property</span>
+                                        <span class="st_dis">11763287</span>
+                                    </td>
+                                    <td class=" align-top">
+                                        <span class="black_12 d-inline-block">Tenant</span><br>
+                                        <span class="black_12 d-inline-block">
+                                            (Allison Philips)
+                                        </span>
+                                    </td>
+                                    <td class=" align-top">
+                                        <span class=" d-inline-block">£500</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="align-top">
+                                        <a class="green_12 u_n" href="#">
+                                            ST3627
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <span class="black_12 d-inline-block mb-1">
+                                            22 Aug
+                                            2023
+                                        </span>
+                                        <br><span class="gray_12">Due Date</span>
+                                        <span class="black_12">
+                                            30 Aug 2023
+                                        </span>
+                                        <br>
+                                        <div class="overdue_btn mt-1">
+                                            Overdue
+                                        </div>
+                                    </td>
+                                    <td class="align-top">
+                                        <span class="black_12 d-inline-block mb-1">
+                                            Direct Rent
+                                        </span>
+                                    </td>
+                                    <td class="align-top">
+                                        <span class="black_12 d-inline-block mb-2">
+                                            Monthly Rent (22/08/2023 - 31/08/2023)
+                                        </span>
+                                        <br><span class="gray_12">Tenancy</span>
+                                        <span class="st_dis">112384</span>
+                                        <br><span class="gray_12">Property</span>
+                                        <span class="st_dis">11763287</span>
+                                    </td>
+                                    <td class=" align-top">
+                                        <span class="black_12 d-inline-block">Tenant</span><br>
+                                        <span class="black_12 d-inline-block">
+                                            (Allison Philips)
+                                        </span>
+                                    </td>
+                                    <td class=" align-top">
+                                        <span class=" d-inline-block">£500</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="align-top">
+                                        <a class="green_12 u_n" href="#">
+                                            ST3627
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <span class="black_12 d-inline-block mb-1">
+                                            22 Aug
+                                            2023
+                                        </span>
+                                        <br><span class="gray_12">Due Date</span>
+                                        <span class="black_12">
+                                            30 Aug 2023
+                                        </span>
+                                        <br>
+                                        <div class="paid_btn mt-1">
+                                            Paid
+                                        </div>
+                                    </td>
+                                    <td class="align-top">
+                                        <span class="black_12 d-inline-block mb-1">
+                                            Direct Rent
+                                        </span>
+                                    </td>
+                                    <td class="align-top">
+                                        <span class="black_12 d-inline-block mb-2">
+                                            Monthly Rent (22/08/2023 - 31/08/2023)
+                                        </span>
+                                        <br><span class="gray_12">Tenancy</span>
+                                        <span class="st_dis">112384</span>
+                                        <br><span class="gray_12">Property</span>
+                                        <span class="st_dis">11763287</span>
+                                    </td>
+                                    <td class=" align-top">
+                                        <span class="black_12 d-inline-block">Tenant</span><br>
+                                        <span class="black_12 d-inline-block">
+                                            (Allison Philips)
+                                        </span>
+                                    </td>
+                                    <td class=" align-top">
+                                        <span class=" d-inline-block">£500</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Recent Transaction -->
+
+            </div>
+
+
+            <!-- Recent Complaints -->
+            <div class="col-xl-3">
+                <div class="card rounder__c mb-4">
+                    <div class="card-header border-bottom-0 pt-3 bg-white">
+                        <!-- <i class="fas fa-chart-area me-1"></i> -->
+                        <h4 class="heading-style">Recent Complaints</h4>
+                    </div>
+                    <div class="card-body border mx-2 mb-2 p-0 recent__c">
+                        <!-- ---content box --- -->
+                        <div class="rc__box p-2 border-bottom">
+                            <div class="row">
+                                <div class="col-9">
+                                    <span class="main-text">CP3627</span>
+                                </div>
+                                <div class="col-3 text-end">
+                                    <span class="c__bages2 badge rounded-pill p-2 text-black border ">New</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <h5 class="text-black">Anti-Social Behaviour</h5>
+                                <span class="darkgray pb-2">Tenant Behaviour</span>
+                                <p class="smblacktext mb-1">Tenant (Allison Philips)</p>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <span class="smblacktext">22 Aug 2023</span>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <span class="darkgray">Jacob Hershberg</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ---content box --- -->
+                        <!-- ---content box --- -->
+                        <div class="rc__box p-3 border-bottom">
+                            <div class="row">
+                                <div class="col-9">
+                                    <span class="main-text">CP3627</span>
+                                </div>
+                                <div class="col-3 text-end">
+                                    <span class="c__bages badge rounded-pill p-2 text-black border ">New</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <h5 class="text-black">Anti-Social Behaviour</h5>
+                                <span class="darkgray pb-2">Tenant Behaviour</span>
+                                <p class="smblacktext mb-1">Tenant (Allison Philips)</p>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <span class="smblacktext">22 Aug 2023</span>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <span class="darkgray">Jacob Hershberg</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ---content box --- -->
+                        <!-- ---content box --- -->
+                        <div class="rc__box p-3 border-bottom">
+                            <div class="row">
+                                <div class="col-9">
+                                    <span class="main-text">CP3627</span>
+                                </div>
+                                <div class="col-3 text-end">
+                                    <span class="c__bages badge rounded-pill p-2 text-black border ">New</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <h5 class="text-black">Anti-Social Behaviour</h5>
+                                <span class="darkgray pb-2">Tenant Behaviour</span>
+                                <p class="smblacktext mb-1">Tenant (Allison Philips)</p>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <span class="smblacktext">22 Aug 2023</span>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <span class="darkgray">Jacob Hershberg</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ---content box --- -->
+
+                    </div>
+                </div>
+            </div>
+            <!-- Recent Complaints -->
+        </div>
+        <!-- Row Third End -->
+
+    </div>
+</div>
+
+
+<!-- Graph Chart Script -->
+<script>
+    // Sample data for income and expenses
+    const data = {
+        categories: ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'],
+        income: [6200, 5800, 5500, 8000, 7500, 6000, 8000, 7800, 5700, 6600, 7200, 6600],
+        expenses: [1000, 1200, 2200, 3500, 1000, 2200, 2200, 2200, 2200, 2200, 2200, 2200]
+    };
+
+    // Create the chart using Highcharts
+    Highcharts.chart('chart-container', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: '', // Removed "Property Revenue Overview"
+            align: 'left',
+            style: {
+                fontSize: '20px',
+                fontFamily: 'sora',
+                color: '#2F2E35',
+                fontWeight: 400
+            }
+        },
+        subtitle: {
+            text: '', // Removed "Overview of April 22 - March 23"
+            align: 'left'
+        },
+        xAxis: {
+            categories: data.categories,
+            crosshair: true,
+            labels: {
+                style: {
+                    color: '#5F6D81' // Set month color to #5F6D81
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            max: 10000,
+            tickInterval: 2000,
+            title: {
+                text: '' // Remove the "Amount" label
+            },
+            labels: {
+                formatter: function () {
+                    const valueInK = this.value / 1000;
+                    return valueInK !== 0 ? '£ ' + valueInK + 'K' : '0';
+                },
+                style: {
+                    color: '#5F6D81', // Set color for specific tick labels
+                }
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>£{point.y:.2f}K</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.1, // Adjust the space between columns
+                groupPadding: 0.1, // Adjust the space between groups of columns
+                borderWidth: 0
+            }
+        },
+        legend: {
+            enabled: false // Disable legend
+        },
+        credits: {
+            enabled: false // Remove Highcharts.com credits
+        },
+        series: [{
+            name: 'Expenses',
+            data: data.expenses,
+            color: '#344900'
+        }, {
+            name: 'Income',
+            data: data.income,
+            color: '#6D9000'
+        }]
+    });
+</script>
+<!-- Graph Chart Script -->
+<!-- Donut Graph Script -->
+<script>
+    Highcharts.chart('chartContainer2', {
+        chart: {
+            type: 'pie'
+        },
+        title: {
+            text: ''
+        },
+        plotOptions: {
+            pie: {
+                innerSize: '70%', // Set a smaller percentage for a thinner donut chart
+                dataLabels: {
+                    enabled: false
+                }
+            }
+        },
+        series: [{
+            name: 'Information',
+            data: [{
+                name: 'Vacant',
+                y: 75,
+                color: '#FF9800'
+            }, {
+                name: 'Occupied',
+                y: 290,
+                color: '#41BD00'
+            }]
+        }],
+        credits: {
+            enabled: false // Remove Highcharts.com credits
+        },
+        legend: {
+            align: 'center',
+            verticalAlign: 'bottom',
+            layout: 'horizontal'
+        }
+    });
+
+</script>
+<!-- Donut Graph Script -->
+<!-- Line Chart Graph -->
+<script>
+    // Your data
+    const categories = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const occupiedData = [10, 10, 10, 0, 0, 10, 0, 0, 0, 0, 10, 10];
+
+    // Create the chart
+    Highcharts.chart('chart-container2', {
+        chart: {
+            type: 'line',
+            events: {
+                load: function () {
+                    // Move grid lines below the tracker line
+                    const seriesGroup = this.series[0].group;
+                    const gridGroup = this.yAxis[0].gridGroup;
+
+                    if (seriesGroup && gridGroup) {
+                        seriesGroup.element.parentNode.insertBefore(gridGroup.element, seriesGroup.element);
+                    }
+                }
+            }
+        },
+        title: {
+            text: ''
+        },
+        xAxis: {
+            categories: categories
+        },
+        yAxis: {
+            title: {
+                text: ''
+            },
+            tickPositions: [0, 10], // Set tick positions at 0 and 10
+            labels: {
+                formatter: function () {
+                    // Display 'Occupied' label at the position where the value is 10,
+                    // and 'Vacant' label at the position where the value is 0
+                    return this.value === 10 ? 'Occupied' : (this.value === 0 ? 'Vacant' : this.value);
+                }
+            },
+            gridLineColor: '#CCCCCC', // Set the color of the grid lines
+            gridLineWidth: 1, // Set the thickness of the grid lines
+            gridLineDashStyle: 'solid', // Set the dash style of the grid lines (optional)
+            gridLineOpacity: 0.5 // Set the opacity of the grid lines
+        },
+        legend: {
+            enabled: false // Disable the legend item
+        },
+        credits: {
+            enabled: false // Disable the credits
+        },
+        series: [
+            {
+                name: 'Occupancy',
+                data: occupiedData,
+                color: '#6D9000',
+                marker: {
+                    enabled: false // Disable the default markers
+                },
+                lineWidth: 2 // Set the thickness of the tracker line
+            }
+        ]
+    });
+</script>
+<!-- Line Chart Graph -->

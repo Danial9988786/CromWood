@@ -29,7 +29,8 @@
             Created on: <sapn>@tenant.Data.CreatedDate?.ToString("yyyy-MM-dd")</sapn>
         </h6>
         <h6 class="cre mb-0">
-            Last Modified: <sapn>@tenant.Data.UpdatedDate?.ToString("yyyy-MM-dd")</sapn> <a class="v_c">
+            Last Modified: <sapn>@tenant.Data.UpdatedDate?.ToString("yyyy-MM-dd")</sapn> 
+            <a class="v_c" asp-action="ChangeLog" asp-controller="Tenant" asp-route-id="@tenant.Data.Id" asp-route-tenantName="@tenant.Data.FullName">
                 View
                 Changelog
             </a>

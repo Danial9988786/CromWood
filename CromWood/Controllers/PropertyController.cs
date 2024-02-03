@@ -15,24 +15,26 @@ namespace CromWood.Controllers
         private IPropertyService _propertyService;
         private IAmenityService _amenityService;
         private ILicenseCertificateService _licenseCertificateService;
+        private readonly IChangeLogService _changeLogService;
         private readonly IAuthService _authService;
         private IFileUploader _fileUploader;
-        public PropertyController(IPropertyService propertyService, IAmenityService amenityService, ILicenseCertificateService licenseCertificateService, IAuthService authService, IFileUploader fileUploader)
+        public PropertyController(IPropertyService propertyService, IAmenityService amenityService, ILicenseCertificateService licenseCertificateService, IAuthService authService, IFileUploader fileUploader, IChangeLogService changeLogService)
         {
             _propertyService = propertyService;
             _amenityService = amenityService;
             _licenseCertificateService = licenseCertificateService;
             _authService = authService;
             _fileUploader = fileUploader;
+            _changeLogService = changeLogService;
         }
-        public async Task<IActionResult> Index(Guid assetId)
+        public async Task<IActionResult> Index(Guid filterId, Guid assetId)
         {
             var havePermission = await _authService.CheckPermission(PermissionKeyConstant.PropertyManagement, PermissionConstant.ViewAll);
             if (!havePermission)
             {
                 return RedirectToAction("NotAuthorized", "Auth");
             }
-            var result = await _propertyService.GetPropertyForList();
+            var result = await _propertyService.GetPropertyForList(filterId);
             // This is provided incase of new addition of Asset to Redirect to Property Addition
             ViewBag.AssetId = assetId;
             return View(result.Data);
@@ -69,19 +71,19 @@ namespace CromWood.Controllers
             }
 
             // For Data
-            for (int i = 0; i < source.Count; i++)
+            for (int i = 1; i < source.Count; i++)
             {
-                worksheet.Cell(i + 1, 1).Value = source[i].PropertyCode;
-                worksheet.Cell( i + 1, 2).Value = source[i].Asset.AssetId;
-                worksheet.Cell(i + 1, 3).Value = source[i].Asset.StreetAddress;
-                worksheet.Cell(i + 1, 4).Value = source[i].Asset.StreetAddress;
-                worksheet.Cell(i + 1, 5).Value = source[i].ExpectedMonthlyRate + " monthly";
-                worksheet.Cell(i + 1, 6).Value = source[i].PropertyType.Name;
-                worksheet.Cell(i + 1, 7).Value = source[i].SquareFootage;
-                worksheet.Cell(i + 1, 8).Value = source[i].FloorNumber;
-                worksheet.Cell(i + 1, 9).Value = source[i].NoOfBedroom;
-                worksheet.Cell(i + 1, 10).Value = source[i].NoOfBathroom;
-                worksheet.Cell(i + 1, 11).Value = source[i].Tenancies.Count;
+                worksheet.Cell(i + 1, 1).Value = source[i - 1].PropertyCode;
+                worksheet.Cell(i + 1, 2).Value = source[i - 1].Asset.AssetId;
+                worksheet.Cell(i + 1, 3).Value = source[i - 1].Asset.StreetAddress;
+                worksheet.Cell(i + 1, 4).Value = source[i - 1].Asset.StreetAddress;
+                worksheet.Cell(i + 1, 5).Value = source[i - 1].ExpectedMonthlyRate + " monthly";
+                worksheet.Cell(i + 1, 6).Value = source[i - 1].PropertyType.Name;
+                worksheet.Cell(i + 1, 7).Value = source[i - 1].SquareFootage;
+                worksheet.Cell(i + 1, 8).Value = source[i - 1].FloorNumber;
+                worksheet.Cell(i + 1, 9).Value = source[i - 1].NoOfBedroom;
+                worksheet.Cell(i + 1, 10).Value = source[i - 1].NoOfBathroom;
+                worksheet.Cell(i + 1, 11).Value = source[i - 1].Tenancies.Count;
             }
 
             using var stream = new MemoryStream();
@@ -100,7 +102,7 @@ namespace CromWood.Controllers
             {
                 return RedirectToAction("NotAuthorized", "Auth");
             }
-            if(id != Guid.Empty)
+            if (id != Guid.Empty)
             {
                 var result = await _propertyService.GetPropertyOverView(id);
                 return PartialView("AddModifyProperty", result.Data);
@@ -117,22 +119,24 @@ namespace CromWood.Controllers
             }
             property.PropertyAmenities = propertyAmenities;
             property.PropertyCode = "PROP-" + RandomAlphaNumbericGenerator.Random(6);
-            if (assetId != Guid.Empty)
-            {
-                property.AssetId = assetId;
-            }
+            property.AssetId = assetId != Guid.Empty ? assetId : Guid.Empty;
             return PartialView("AddModifyProperty", property);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddModifyProperty(PropertyModel property)
+        public async Task<IActionResult> AddModifyPropertyPost(PropertyModel property, bool addTenancy)
         {
             var havePermission = await _authService.CheckPermission(PermissionKeyConstant.PropertyManagement, PermissionConstant.CanWrite);
             if (!havePermission)
             {
                 return RedirectToAction("NotAuthorized", "Auth");
             }
-            await _propertyService.AddModifyProperty(property);
+            var result = await _propertyService.AddModifyProperty(property);
+            if (addTenancy)
+            {
+                // Redirect to Tenancy Add Page//
+                return RedirectToAction("Index", "Tenancy", new { propertyId = result.Data });
+            }
             return RedirectToAction("Index");
         }
 
@@ -170,7 +174,7 @@ namespace CromWood.Controllers
             return View(result.Data);
         }
 
-        
+
         [HttpPost]
         public async Task<IActionResult> DownloadInsurance(string url)
         {
@@ -282,5 +286,13 @@ namespace CromWood.Controllers
             return View(result.Data);
         }
         #endregion
+
+        public async Task<IActionResult> ChangeLog(Guid id, [FromQuery] string propertyId)
+        {
+            ViewBag.BreadcrumbName = propertyId;
+            ViewBag.Id = id;
+            var result = await _changeLogService.GetChangeLogsForScreenDetail(id);
+            return View(result.Data);
+        }
     }
 }

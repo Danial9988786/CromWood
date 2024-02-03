@@ -2,6 +2,7 @@
 using CromWood.Data.Entities;
 using CromWood.Data.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
 
 namespace CromWood.Data.Repository.Implementation
 {
@@ -11,8 +12,14 @@ namespace CromWood.Data.Repository.Implementation
         {
         }
 
-        public async Task<IEnumerable<LicenseCertificate>> GetAllLicenseCertificates()
+        public async Task<IEnumerable<LicenseCertificate>> GetAllLicenseCertificatesList(Guid filterId)
         {
+            if (filterId != Guid.Empty)
+            {
+                var condition = await GetFilterConiditon(filterId);
+                var result = await _context.LicenseCertificates.Where(condition).Include(x => x.Property).ThenInclude(x => x.Asset).Include(x => x.LicenseCertificateType).ToListAsync();
+                return result;
+            }
             return await _context.LicenseCertificates.Include(x=>x.Property).ThenInclude(x=>x.Asset).Include(x=>x.LicenseCertificateType).ToListAsync();
         }
 

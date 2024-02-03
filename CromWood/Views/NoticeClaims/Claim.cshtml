@@ -12,96 +12,97 @@
     }
 </style>
 
-<div class="tab-pane fade show active border-top-0 bg-white border-end border-start border-bottom" 
+<div class="tab-pane fade show active border-top-0 bg-white border-end border-start border-bottom"
      id="possession_claims" role="tabpanel" aria-labelledby="nav-roles-per-tab">
     <div class="sm48__row_table pt-4 pm_page_top_m ser_lpading table_bottom_border show_sort_2 tableLast_colFixed">
         <div class="table-responsive mb-3">
             <table id="Possession_Claims" class="mb-2 border-top rounded border-bottom-0">
-            <thead>
-                <tr>
-                    <th>S.No</th>
-                    <th>Tenant Details</th>
-                    <th>Claim Reference</th>
-                    <th>Claim</th>
-                    <th>Claim No.</th>
-                    <th>Issue Date</th>
-                    <th>Fee</th>
-                    <th>Hearing Date</th>
-                    <th>Court</th>
-                    <th>Comments</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    int counter = 1;
-                }
-                @foreach (var item in Model)
-                {
-                <tr>
-                    <td class="black_14 align-top">
-                        @counter
-                        @{counter++;}
-                    </td>
-                    <td class="maintext_size">
-                        <a class="main-text">
-                            <span class="owner_clr">Tenant Name</span>
-                            <br>@item.Tenant.FullName
-                            <br> <img src="~/assets/img/Location.svg" alt=""> @item.Tenant.Address
-                        </a>
-                    </td>
-                    <td class="black_14 align-top">
-                        @item.ClaimReference
-                    </td>
-                    <td class="black_14 align-top">
-                        @item.ClaimType.Name
-                    </td>
-                    <td class="black_14 align-top">
-                        @item.ClaimNo
-                    </td>
-                    <td class="black_14 align-top">
-                        @item.CreatedDate
-                    </td>
-                    <td class="black_14 align-top">
-                        @item.Fee
-                    </td>
-                    <td class="black_14 align-top">
-                        @item.HearingDate
-                    </td>
-                    <td class="black_14 align-top">
-                        @item.Court.Name
-                    </td>
-                    <td class="black_14 align-top">
-                        @item.Comment
-                    </td>
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Tenant Details</th>
+                        <th>Claim Reference</th>
+                        <th>Claim</th>
+                        <th>Claim No.</th>
+                        <th>Issue Date</th>
+                        <th>Fee</th>
+                        <th>Hearing Date</th>
+                        <th>Court</th>
+                        <th>Comments</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int counter = 1;
+                    }
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="black_14 align-top">
+                                @counter
+                                @{
+                                    counter++;
+                                }
+                            </td>
+                            <td class="maintext_size">
+                                <a class="main-text">
+                                    <span class="owner_clr">Tenant Name</span>
+                                    <br>@item.Tenant.FullName
+                                    <br> <img src="~/assets/img/Location.svg" alt=""> @item.Tenant.Address
+                                </a>
+                            </td>
+                            <td class="black_14 align-top">
+                                @(item.ClaimReference ?? "--")
+                            </td>
+                            <td class="black_14 align-top">
+                                @item.ClaimType.Name
+                            </td>
+                            <td class="black_14 align-top">
+                                @(item.ClaimNo ?? "--")
+                            </td>
+                            <td class="black_14 align-top">
+                                @item.CreatedDate?.ToString("d/MM/yyyy")
+                            </td>
+                            <td class="black_14 align-top">
+                                $ @(item.Fee??0.00)
+                            </td>
+                            <td class="black_14 align-top">
+                                @(item.HearingDate != null ? item.HearingDate?.ToString("d/MM/yyyy") : "--")
+                            </td>
+                            <td class="black_14 align-top">
+                                @item.Court.Name
+                            </td>
+                            <td class="black_14 align-top">
+                                @(item.Comment ?? "--")
+                            </td>
                             @{
                                 string id = "'" + item.Id.ToString() + "'";
                             }
-                    <td class="maintext_size text-end">
-                        <div class="d-inline-flex ">
+                            <td class="maintext_size text-end">
+                                <div class="d-inline-flex ">
                                     <a onclick="ViewClaim(@id)">
-                                <img src="~/assets/img/eye.svg">
-                            </a>
-                            <div class="dropdown">
-                                <a class="text-decoration-none action_dropwown" href="#"
-                                   role="button" data-bs-toggle="dropdown"
-                                   aria-expanded="false">
-                                    <img src="~/assets/img/down_arrow.svg" class="ms-2">
-                                </a>
-                                <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
-                                    aria-labelledby="acp-action">
+                                        <img src="~/assets/img/eye.svg">
+                                    </a>
+                                    <div class="dropdown">
+                                        <a class="text-decoration-none action_dropwown" href="#"
+                                           role="button" data-bs-toggle="dropdown"
+                                           aria-expanded="false">
+                                            <img src="~/assets/img/down_arrow.svg" class="ms-2">
+                                        </a>
+                                        <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
+                                            aria-labelledby="acp-action">
                                             <li><a class="dropdown-item" onclick="AddModifyClaim(@id)">Edit</a></li>
-                                    <li><a class="dropdown-item" href="#">Download</a></li>
                                             <li><a class="dropdown-item" onclick="DeleteClaim(@id)">Delete</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

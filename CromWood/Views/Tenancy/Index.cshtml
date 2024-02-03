@@ -1,6 +1,13 @@
 ﻿@using CromWood.Business.Models.ViewModel;
 @using System.Globalization;
 @model IEnumerable<TenancyViewModel>
+@{
+    var propertyId = "";
+    if (ViewBag.PropertyId != Guid.Empty)
+    {
+        propertyId = ViewBag.PropertyId.ToString();
+    }
+}
 
 <ol class="breadcrumb align-items-end mb-10 mt-3">
     <li class="breadcrumb-item">
@@ -158,7 +165,7 @@
     </div>
 </div>
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
 <script>
     $(document).ready(function () {
         // Code for datatable manipulation
@@ -172,10 +179,18 @@
         $(".datatable-table thead tr th button.datatable-sorter").append("<span class='c__icon'></span>");
         var filter = $(".filter_btn");
         $(".datatable-top").append(filter);
+
+        var propertyId = '@propertyId';
+        console.log(propertyId)
+
+        if (propertyId != null && propertyId != '') {
+            AddTenancy(propertyId);
+        }
     });
 
-    function AddTenancy() {
-        var url = "/Tenancy/AddTenancy";
+    function AddTenancy(propertyId) {
+        var url = "/Tenancy/AddTenancy?propertyId=" + propertyId;
+        console.log(url);
         $("#tenancyDialogBody").load(url, function () {
             // This is done to add validation to partial view, as they don't support validationscript partial.
             $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {

@@ -3,6 +3,7 @@ using CromWood.Business.Models;
 using CromWood.Business.Models.ViewModel;
 using CromWood.Business.ViewModels;
 using CromWood.Data.Entities;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace CromWood.Mapper
 {
@@ -45,7 +46,7 @@ namespace CromWood.Mapper
             CreateMap<Tenant, TenantModel>().ReverseMap();
 
             CreateMap<TenantViewModel, Tenant>().ReverseMap()
-                .ForMember(dest => dest.Address, opt => opt.MapFrom(src => $"{src.AddressLine1}, {src.County} ,{src.City}, {src.PostCode}"));
+                .ForMember(dest => dest.Address, opt => opt.MapFrom(src => $"{string.Join(", ", new List<String> { src.AddressLine1, src.County, src.City, src.PostCode}.Where(x=>!string.IsNullOrEmpty(x)))}"));
 
             CreateMap<TenancyNote, TenancyNoteModel>().ReverseMap();
             CreateMap<TenancyDocument, TenancyDocumentModel>().ReverseMap();

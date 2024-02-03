@@ -1,5 +1,13 @@
 
 /* ----------------------------- Responsive style start here -------------------------- */
+ /* -------- Max 1550px ----- */
+@media only screen and (max-width:1550px){
+    .top___card h3, .custom_h{
+        font-size: 20px;
+    }
+}
+
+
 
 @media only screen and (min-width:576px){
   

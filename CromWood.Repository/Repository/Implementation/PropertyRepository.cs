@@ -1,7 +1,9 @@
 ﻿using CromWood.Data.Context;
 using CromWood.Data.Entities;
 using CromWood.Data.Repository.Interface;
+using CromWood.Helper;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
 
 namespace CromWood.Data.Repository.Implementation
 {
@@ -12,14 +14,20 @@ namespace CromWood.Data.Repository.Implementation
 
         }
 
-        public async Task<IEnumerable<Property>> GetPropertyForList()
+        public async Task<IEnumerable<Property>> GetPropertyForList(Guid filterId)
         {
-            return await _context.Properties.Include(x => x.Asset).Include(x => x.PropertyType).OrderByDescending(x=>x.CreatedDate).ToListAsync();
+            if (filterId != Guid.Empty)
+            {
+                var condition = await GetFilterConiditon(filterId);
+                var result = await _context.Properties.Where(condition).Include(x => x.Asset).Include(x => x.PropertyType).Include(x => x.Tenancies).ThenInclude(x => x.TenancyTenants).ThenInclude(x => x.Tenant).OrderByDescending(x => x.CreatedDate).ToListAsync();
+                return result;
+            }
+            return await _context.Properties.Include(x => x.Asset).Include(x => x.PropertyType).Include(x=>x.Tenancies).ThenInclude(x=>x.TenancyTenants).ThenInclude(x=>x.Tenant).OrderByDescending(x=>x.CreatedDate).ToListAsync();
         }
 
         public async Task<Property> GetPropertyOverView(Guid PropertyId)
         {
-            return await _context.Properties.Include(x => x.Asset).Include(x => x.PropertyAmenities).ThenInclude(x => x.Amenity).Include(x => x.PropertyType).FirstOrDefaultAsync(x => x.Id == PropertyId);
+            return await _context.Properties.Include(x => x.Asset).Include(x => x.PropertyAmenities).ThenInclude(x => x.Amenity).Include(x => x.PropertyType).Include(x=>x.Tenancies).FirstOrDefaultAsync(x => x.Id == PropertyId);
         }
 
         public async Task<PropertyInsurance> GetPropertyInsurance(Guid PropertyId)
@@ -27,21 +35,42 @@ namespace CromWood.Data.Repository.Implementation
             return await _context.PropertyInsurances.FirstOrDefaultAsync(x => x.PropertyId == PropertyId);
         }
 
-        public async Task<int> AddModifyProperty(Property Property)
+        public async Task<Guid> AddModifyProperty(Property Property)
         {
             try
             {
+                var changelog = new ChangeLog();
                 if (Property.Id == Guid.Empty)
                 {
                     Property.Id = Guid.NewGuid();
                     await _context.Properties.AddAsync(Property);
+
+                    changelog = new ChangeLog()
+                    {
+                        Type = ChangeType.Add,
+                        ScreenName = ScreenConstant.PropertyManagement,
+                        ScreenDetailId = Property.Id,
+                        Description = $"Added New Property with Property ID: {Property.PropertyCode}"
+                    };
                 }
                 else
                 {
+                    var old = await _context.Properties.AsNoTracking().FirstOrDefaultAsync(x => x.Id == Property.Id);
                     _context.Update(Property);
+
+                    List<string> changedProperties = ObjectComparer.CompareObjects(old, Property);
+                    changelog = new ChangeLog()
+                    {
+                        Type = ChangeType.Edit,
+                        ScreenName = ScreenConstant.PropertyManagement,
+                        ScreenDetailId = Property.Id,
+                        Description = $"Changed Property Folowing were changed: {string.Join(", ", changedProperties)}"
+                    };
                 }
-                await _context.SaveChangesAsync();
-                return 1;
+                var result = await _context.SaveChangesAsync();
+                if (result == 1)
+                    await AddChangeLog(changelog);
+                return Property.Id;
             }
             catch
             {
@@ -55,8 +84,18 @@ namespace CromWood.Data.Repository.Implementation
             {
                 insurance.Id = Guid.NewGuid();
                 await _context.PropertyInsurances.AddAsync(insurance);
-                await _context.SaveChangesAsync();
-                return 1;
+                var result = await _context.SaveChangesAsync();
+                if (result == 1)
+                {
+                    await AddChangeLog(new ChangeLog()
+                    {
+                        Type = ChangeType.Add,
+                        ScreenName = ScreenConstant.PropertyManagement,
+                        ScreenDetailId = insurance.PropertyId,
+                        Description = $"Added New Insurance to Property"
+                    });
+                }
+                return result;
             }
             catch
             {
@@ -69,8 +108,18 @@ namespace CromWood.Data.Repository.Implementation
             try
             {
                 _context.PropertyInsurances.Update(insurance);
-                await _context.SaveChangesAsync();
-                return 1;
+                var result = await _context.SaveChangesAsync();
+                if (result == 1)
+                {
+                    await AddChangeLog(new ChangeLog()
+                    {
+                        Type = ChangeType.Edit,
+                        ScreenName = ScreenConstant.PropertyManagement,
+                        ScreenDetailId = insurance.PropertyId,
+                        Description = $"Modified Insurance of the Property"
+                    });
+                }
+                return result;
             }
             catch
             {
@@ -95,7 +144,18 @@ namespace CromWood.Data.Repository.Implementation
                 key.Id = Guid.NewGuid();
                 await _context.PropertyKeys.AddAsync(key);
                 await _context.SaveChangesAsync();
-                return 1;
+                var result = await _context.SaveChangesAsync();
+                if (result == 1)
+                {
+                    await AddChangeLog(new ChangeLog()
+                    {
+                        Type = ChangeType.Add,
+                        ScreenName = ScreenConstant.PropertyManagement,
+                        ScreenDetailId = key.PropertyId,
+                        Description = $"Added New Key to Property: {key.Name}"
+                    });
+                }
+                return result;
             }
             catch
             {
@@ -108,8 +168,18 @@ namespace CromWood.Data.Repository.Implementation
             try
             {
                 _context.PropertyKeys.Update(key);
-                await _context.SaveChangesAsync();
-                return 1;
+                var result = await _context.SaveChangesAsync();
+                if (result == 1)
+                {
+                    await AddChangeLog(new ChangeLog()
+                    {
+                        Type = ChangeType.Edit,
+                        ScreenName = ScreenConstant.PropertyManagement,
+                        ScreenDetailId = key.PropertyId,
+                        Description = $"Updated Key of the Property: {key.Name}"
+                    });
+                }
+                return result;
             }
             catch
             {
@@ -123,7 +193,17 @@ namespace CromWood.Data.Repository.Implementation
             {
                 var key = await _context.PropertyKeys.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
                 _context.PropertyKeys.Remove(key);
-                await _context.SaveChangesAsync();
+                var result = await _context.SaveChangesAsync();
+                if (result == 1)
+                {
+                    await AddChangeLog(new ChangeLog()
+                    {
+                        Type = ChangeType.Delete,
+                        ScreenName = ScreenConstant.PropertyManagement,
+                        ScreenDetailId = key.PropertyId,
+                        Description = $"Deleted Key of the Property: {key.Name}"
+                    });
+                }
                 return key.ImageUrl;
             }
             catch

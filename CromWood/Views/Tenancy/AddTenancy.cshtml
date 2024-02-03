@@ -68,6 +68,8 @@
         tenantString = tenantString + "<option value=" + tenant.Id + ">" + tenant.FullName + "</option>";
     }
 
+
+    var disabled = Model.PropertyId == Guid.Empty ? false : true;
 }
 
 <div class="modal-content rounded-0">
@@ -137,7 +139,6 @@
             <div class="form___info mt-3">
                 <form asp-action="AddTenancy">
                     @Html.HiddenFor(m=>m.TenancyId)
-
                     <fieldset class="active">
                         <div class="step_body_content ps-3 pe-1 me-2">
                             <div class="border p-3 bg-white h-100">
@@ -170,7 +171,7 @@
                                                 Choose
                                                 Property
                                             </label>
-                                            <select id="property" class="form-select select_font_14" asp-for="PropertyId" asp-items="properties">
+                                            <select id="property" disabled="@disabled" class="form-select select_font_14" asp-for="PropertyId" asp-items="properties">
                                             </select>
                                         </div>
                                     </div>
@@ -481,13 +482,13 @@
         $('.form___info form fieldset:first-child').addClass('active');
 
         // For Select2 Functionality
-        $('.select_font_14').select2({
-            theme: "bootstrap-5",
-            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-            placeholder: $(this).data('placeholder'),
-            closeOnSelect: true,
-            dropdownCssClass: "select_font_14",
-        });
+    $('.select_font_14').select2({
+        theme: "bootstrap-5",
+        placeholder: "Select...",
+        dropdownAutoWidth : true,
+        width: '100%',
+        dropdownCssClass: "select_font_14"
+    });
 
     });
 
@@ -643,13 +644,13 @@
 
         counter++;
 
-        $('.select_font_14').select2({
-            theme: "bootstrap-5",
-            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-            placeholder: $(this).data('placeholder'),
-            closeOnSelect: true,
-            dropdownCssClass: "select_font_14",
-        });
+    $('.select_font_14').select2({
+        theme: "bootstrap-5",
+        placeholder: "Select...",
+        dropdownAutoWidth : true,
+        width: '100%',
+        dropdownCssClass: "select_font_14"
+    });
     }
 
     function RemoveRow(position) {

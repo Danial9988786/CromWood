@@ -18,7 +18,7 @@
             </div>
         </div>
     </div>
-    <div class="">
+    <div class="show_sort_1">
         <table id="datatablesSimple" class="border-bottom-0">
             <thead>
                 <tr>
@@ -70,10 +70,20 @@
                             </span>
                     </td>
                     <td class="maintext_size align-top">
-                        <div class="ongoing_btn">
-                            <img class="pe-1" src="~/assets/img/check-file.svg" alt="">
-                            Ongoing
-                        </div>
+                            @if (item.EndDate > DateTime.Now)
+                            {
+                                <div class="ongoing_btn">
+                                    <img class="pe-1" src="~/assets/img/check-file.svg" alt="">
+                                    Ongoing
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="past_btn">
+                                    <img class="pe-1" src="./assets/img/Completed_icon.svg" alt="">
+                                    Past
+                                </div>
+                            }
                     </td>
                     <td class="maintext_size align-top">
                             <span class="pm_date">@item.RentAmount.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ") @item.RentFrequency.Name</span>
@@ -85,10 +95,11 @@
     </div>
 </div>
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
 <script>
     $(document).ready(function () {
         // Code for datatable manipulation
+        $(".datatable-table thead tr th button.datatable-sorter").append("<span class='c__icon'></span>");
         var rowCount = $('.datatable-table tbody tr').length;
         var threshold = 10;
         if (rowCount < threshold) {

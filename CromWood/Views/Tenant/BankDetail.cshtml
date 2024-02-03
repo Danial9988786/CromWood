@@ -29,39 +29,39 @@
             <tbody class="asset_table">
                 <tr>
                     <th class="r_heading" scope="row">Account Name</th>
-                    <td>@Model.AccountName</td>
+                    <td>@(Model.AccountName ?? "--")</td>
                 </tr>
                 <tr class="bg-white">
                     <th class="r_heading" scope="row">Account Number</th>
-                    <td colspan="2">@Model.AccountNumber</td>
+                    <td colspan="2">@(Model.AccountNumber ?? "--")</td>
                 </tr>
                 <tr>
                     <th class="r_heading" scope="row">Sort Code</th>
-                    <td colspan="2">@Model.SortCode</td>
+                    <td colspan="2">@(Model.SortCode ?? "--")</td>
                 </tr>
                 <tr class="bg-white">
                     <th class="r_heading" scope="row">Bank Name</th>
-                    <td colspan="2">@Model.BankName</td>
+                    <td colspan="2">@(Model.BankName ?? "--")</td>
                 </tr>
                 <tr>
                     <th class="r_heading" scope="row">Address 1</th>
-                    <td colspan="2">@Model.AddressLine1</td>
+                    <td colspan="2">@(Model.AddressLine1 ?? "--")</td>
                 </tr>
                 <tr class="bg-white">
                     <th class="r_heading" scope="row">Address 2</th>
-                    <td colspan="2">@Model.AddressLine2</td>
+                    <td colspan="2">@(Model.AddressLine2 ?? "--")</td>
                 </tr>
                 <tr class="bg-white">
                     <th class="r_heading" scope="row">Town/ CIty</th>
-                    <td colspan="2">@Model.City</td>
+                    <td colspan="2">@(Model.City ?? "--")</td>
                 </tr>
                 <tr class="bg-white">
                     <th class="r_heading" scope="row">Country</th>
-                    <td colspan="2">@Model.Country.Name</td>
+                    <td colspan="2">@Model.Country?.Name</td>
                 </tr>
                 <tr class="bg-white">
                     <th class="r_heading" scope="row">Post Code</th>
-                    <td colspan="2">@Model.PostCode</td>
+                    <td colspan="2">@(Model.PostCode ?? "--")</td>
                 </tr>
             </tbody>
         </table>

@@ -67,6 +67,29 @@ namespace CromWood.Controllers
             return Ok(result);
         }
 
+        public async Task<IActionResult> GetPropertyType([FromServices] ILookupService<PropertyType> service)
+        {
+            var result = await service.GetAllItems();
+            return Ok(result);
+        }
+        public async Task<IActionResult> GetLicenseCertificateType([FromServices] ILookupService<LicenseCertificateType> service)
+        {
+            var result = await service.GetAllItems();
+            return Ok(result);
+        }
+
+        public async Task<IActionResult> GetCountry([FromServices] ILookupService<Country> service)
+        {
+            var result = await service.GetAllItems();
+            return Ok(result);
+        }
+
+        public async Task<IActionResult> GetSalutation([FromServices] ILookupService<Salution> service)
+        {
+            var result = await service.GetAllItems();
+            return Ok(result);
+        }
+
         public async Task<IActionResult> AddFilter(Filter filter)
         {
             var result = await _context.Filters.AddAsync(filter);
@@ -87,12 +110,16 @@ namespace CromWood.Controllers
         {
             switch (keyName)
             {
+                case PermissionKeyConstant.AssetManagement:
+                    return typeof(AssetModel).GetProperties();
+                case PermissionKeyConstant.PropertyManagement:
+                    return typeof(PropertyModel).GetProperties();
+                case PermissionKeyConstant.LicenseManagement:
+                    return typeof(LicenseCertificateModel).GetProperties();
                 case PermissionKeyConstant.AssementManagement:
-                    return typeof(AssetModel).GetProperties();
-                case "asset_managemenat":
-                    return typeof(AssetModel).GetProperties();
-                case "asset_managements":
-                    return typeof(AssetModel).GetProperties();
+                    return typeof(PropertyAssesmentModel).GetProperties();
+                case PermissionKeyConstant.TenantManagement:
+                    return typeof(TenantModel).GetProperties();
                 default:
                     return new PropertyInfo[] { };
             }

@@ -7,9 +7,11 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     var assetId = "";
-    if(ViewBag.AssetId!=Guid.Empty){
+    if (ViewBag.AssetId != Guid.Empty)
+    {
         assetId = "'" + ViewBag.AssetId + "'";
     }
+    var screenName = PermissionKeyConstant.PropertyManagement;
     var havePermission = await _authService.CheckPermission(PermissionKeyConstant.AssetManagement, PermissionConstant.CanWrite);
 }
 
@@ -29,7 +31,7 @@
             <div class="shadow-box ms-auto">
                 <span class="custom__btn">
                     <form asp-action="Export" method="post">
-                        <a onclick="submitBtn.click()" >
+                        <a onclick="submitBtn.click()">
                             <img src="~/assets/img/explor_icon.svg" class="pe-2" alt="">
                             Export XLS
                         </a>
@@ -48,61 +50,10 @@
 
 </div>
 
-<!-------filter start here --- -->
-<div class="filter_btn ms-auto">
-    <a class="" href="#" role="button" id="fil_ter" data-bs-toggle="dropdown" aria-expanded="false">
-        <img class="pe-1" src="~/assets/img/filter-lines.svg" alt="user__iocn">
-        Filter
-        <img class="ps-2" src="~/assets/img/filter_down_arrow.svg">
-    </a>
-
-    <div class="filter___c dropdown-menu dropdown-menu-end shadow border rounded-0 p-3"
-         aria-labelledby="fil_ter">
-        <div class="input-group mb-3">
-            <span class="input-group-text bg-transparent" id="srf">
-                <img src="~/assets/img/search-gray.svg" alt="search_iocn">
-            </span>
-            <input type="text" class="form-control border-start-0 ps-0"
-                   placeholder="Search for filters" aria-label="Username" aria-describedby="srf">
-        </div>
-        <ul class="list-unstyled ft__list">
-            <li>
-                <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded"
-                   href="#">
-                    <span>My Filter 1</span>
-                    <span class="i__gro">
-                        <span class="ed pe-2">
-                            <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
-                        </span>
-                        <span class="de">
-                            <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
-                        </span>
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded"
-                   href="#">
-                    <span>My Filter 2</span>
-                    <span class="i__gro">
-                        <span class="ed pe-2">
-                            <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
-                        </span>
-                        <span class="de">
-                            <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
-                        </span>
-                    </span>
-                </a>
-            </li>
-        </ul>
-        <div class="mark__btn text-center">
-            <img class="me-1" src="~/assets/img/green__plus_icon.svg" />
-            <a href="#" class="text-uppercase">add new Filter</a>
-        </div>
-    </div>
+<div class="filter_btn ms-auto" id="filterBox">
 </div>
-<!------ filter end here  --------->
-<!-- ----- Property Management table start here ------->
+
+
 <div class="user__list as__menag  sm48__row_table hide_sort_all pt-0 pm_page_top_m table_bottom_border mt-1">
     <table id="datatablesSimple" class="border rounded-top border-bottom-0">
         <thead>
@@ -118,6 +69,12 @@
             @foreach (var item in Model)
             {
                 <tr>
+                    @{
+                        var tenancyExist = item.Tenancies.Count > 0;
+                        var availableToLet = tenancyExist ? (item.Tenancies.Any(x => x.EndDate > DateTime.Now) ? false : true) : true;
+                        var availableDate = tenancyExist ? item.Tenancies.Max(x => x.EndDate) : DateTime.Now;
+                        var latestTenancy = item.Tenancies.FirstOrDefault(x => x.EndDate == availableDate);
+                    }
                     <td class="maintext_size align-top">
                         <a class="main-text u_n" asp-action="Detail" asp-route-id="@item.Id">
                             @item.PropertyCode
@@ -129,12 +86,41 @@
                             <br>@item.Asset.Ownership
                         </a>
                     </td>
-                    <td class="maintext_size align-top">-</td>
+                    <td class="maintext_size align-top">
+                        @if (tenancyExist)
+                        {
+                            <a class="main-text" href="#">
+                                <a href="#" class="u_n"><span class="atl">@latestTenancy?.TenancyId</span></a>
+                            </a>
+
+                            <br>
+                            <span class="d-inline-block pt-2">@latestTenancy?.TenancyTenants[0].Tenant.FullName</span>
+                        }
+                        else
+                        {
+                            <span>-</span>
+                        }
+                    </td>
                     <td class="maintext_size align-top ">
                         <a class="main-text" href="#">
-                            <img src="~/assets/img/Ellipse 11.svg"><a class="u_n"><span class="atl"> Available To Let</span></a>
-                            <br><span class="owner_clr">Available From</span>
-                            <br><span class="pm_date">31 Aug 2023</span>
+
+                            @if (availableToLet)
+                            {
+                                <img src="~/assets/img/Ellipse 11.svg">
+                                <a href="#" class="u_n"><span class="atl"> Available To Let</span></a>
+                                <br>
+                                <span class="owner_clr">Available From</span>
+                                <br>
+                                <span class="pm_date">@(availableDate.ToString("dd MMM yyyy"))</span>
+                            }
+                            else
+                            {
+                                <img src="~/assets/img/Ellipse 11 red.svg" class="pe-1" alt="">
+                                <span class="occ">Occupied</span>
+                                <br>
+                                <span>-</span>
+                            }
+
                         </a>
                     </td>
 
@@ -150,7 +136,6 @@
         </tbody>
     </table>
 </div>
-<!-- ----- Property Management table end here ------->
 
 
 <div class="modal fade" id="propertyDialog">
@@ -176,8 +161,12 @@
             var filter = $(".filter_btn");
             $(".datatable-top").append(filter);
 
+            // For the Filter
+            $("#filterBox").load("/Filter/Index?keyName=@screenName", function () {
+                $("#filterBox").show();
+            });
+
             var assetId = '@assetId';
-            console.log(assetId)
             if (assetId != null && assetId != '') {
                 CreateProperty(assetId);
             }

@@ -72,19 +72,19 @@
         @foreach (var filter in Model)
         {
             string filterId = "'" + filter.Id + "'";
-            <li>
-                <a onclick="applyFilter(@filterId)" class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded">
-                    <span>@filter.Name</span>
-                    <span class="i__gro">
-                        <span class="ed pe-2">
-                            <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
+                <li>
+                    <a onclick="applyFilter(@filterId)" class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded">
+                        <span>@filter.Name</span>
+                        <span class="i__gro">
+                            <span class="ed pe-2">
+                                <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
+                            </span>
+                            <span class="de" onclick="DeleteFilter(@filterId)">
+                                <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
+                            </span>
                         </span>
-                        <span class="de" onclick="DeleteFilter(@filterId)">
-                            <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
-                        </span>
-                    </span>
-                </a>
-            </li>
+                    </a>
+                </li>
         }
     </ul>
 
@@ -186,7 +186,7 @@
                                                 </a>
                                             </span>
                                             <span class="custom__btn2">
-                                                <a onclick="saveFilter(@screenName)">
+                                                <a onclick="saveFilter('@screenName')">
                                                     <img src="~/assets/img/save.svg" alt="img_icon">
                                                     Save
                                                 </a>
@@ -236,13 +236,13 @@
 
     $(document).ready(function () {
         // For Select2 Functionality
-        $('.select_font_14').select2({
-            theme: "bootstrap-5",
-            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-            placeholder: $(this).data('placeholder'),
-            closeOnSelect: true,
-            dropdownCssClass: "select_font_14",
-        });
+    $('.select_font_14').select2({
+        theme: "bootstrap-5",
+        placeholder: "Select...",
+        dropdownAutoWidth : true,
+        width: '100%',
+        dropdownCssClass: "select_font_14"
+    });
     });
 
     let firstAndDropdownType = [];
@@ -273,7 +273,7 @@
             </div>
         `);
 
-        
+
         // Added on change event to select element for AND row
         $(`#firstAndDropdown-${addCounter}`).change(function () {
             const type = $(this).find(':selected').data('type');
@@ -432,7 +432,7 @@
                     }
                     $('.datepicker').datepicker();
                 }
-               
+
                 if (firstAndDropdownType[secondAddDropdownCounter] == "Guid") {
                     // Drop Down Values
                     dropDownOptions = '';
@@ -467,20 +467,20 @@
             setTimeout(() => {
                 $(`#secondAndDropdown-${firstAddDropdownCounter}`).trigger("change");
             },500)
-            
+
         });
 
         // Trigger on change event automatically
         $(`#firstAndDropdown-${addCounter}`).trigger("change");
 
         // Applied Select2 style to each
-        $('.select_font_14').select2({
-            theme: "bootstrap-5",
-            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-            placeholder: $(this).data('placeholder'),
-            closeOnSelect: true,
-            dropdownCssClass: "select_font_14",
-        });
+    $('.select_font_14').select2({
+        theme: "bootstrap-5",
+        placeholder: "Select...",
+        dropdownAutoWidth : true,
+        width: '100%',
+        dropdownCssClass: "select_font_14"
+    });
 
         addCounter = addCounter + 1;
 
@@ -709,13 +709,13 @@
         $(`#firstOrDropdown-${orCounter}`).trigger("change");
 
         // Applied Select2 style to each
-        $('.select_font_14').select2({
-            theme: "bootstrap-5",
-            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-            placeholder: $(this).data('placeholder'),
-            closeOnSelect: true,
-            dropdownCssClass: "select_font_14",
-        });
+    $('.select_font_14').select2({
+        theme: "bootstrap-5",
+        placeholder: "Select...",
+        dropdownAutoWidth : true,
+        width: '100%',
+        dropdownCssClass: "select_font_14"
+    });
 
         orCounter = orCounter + 1;
 

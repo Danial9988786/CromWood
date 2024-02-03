@@ -21,7 +21,7 @@ namespace CromWood.Controllers
         }
 
         #region TENANCY RELATED CODES
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(Guid propertyId)
         {
             var havePermission = await _authService.CheckPermission(PermissionKeyConstant.TenancyManagement, PermissionConstant.ViewAll);
             if (!havePermission)
@@ -29,6 +29,8 @@ namespace CromWood.Controllers
                 return RedirectToAction("NotAuthorized", "Auth");
             }
             var tenancies = await _tenancyService.GetTenancyForList();
+            // This is provided incase of new addition of Property to Redirect to Tenancy Addition
+            ViewBag.PropertyId = propertyId;
             return View(tenancies.Data);
         }
 
@@ -77,14 +79,15 @@ namespace CromWood.Controllers
             #endregion
         }
 
-        public async Task<IActionResult> AddTenancy()
+        [HttpGet]
+        public async Task<IActionResult> AddTenancy([FromQuery] Guid propertyId)
         {
             var havePermission = await _authService.CheckPermission(PermissionKeyConstant.TenancyManagement, PermissionConstant.CanWrite);
             if (!havePermission)
             {
                 return RedirectToAction("NotAuthorized", "Auth");
             }
-            var tenancy = new TenancyModel() { TenancyId = "TNT-" + RandomAlphaNumbericGenerator.Random(6), StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(1) };
+            var tenancy = new TenancyModel() { PropertyId=propertyId, TenancyId = "TNT-" + RandomAlphaNumbericGenerator.Random(6), StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(1) };
             return PartialView(tenancy);
         }
 

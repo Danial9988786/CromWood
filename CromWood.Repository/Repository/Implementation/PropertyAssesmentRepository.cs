@@ -9,14 +9,20 @@ namespace CromWood.Data.Repository.Implementation
     {
         public PropertyAssesmentRepository(CromwoodContext context) : base(context) { }
 
-        public async Task<IEnumerable<PropertyAssesment>> GetPropertyAssesments()
+        public async Task<IEnumerable<PropertyAssesment>> GetPropertyAssesments(Guid filterId)
         {
+            if (filterId != Guid.Empty)
+            {
+                var condition = await GetFilterConiditon(filterId);
+                var result = await _context.PropertyAssesments.Include(x => x.Property).ThenInclude(x => x.Asset).ToListAsync();
+                return result;
+            }
             return await _context.PropertyAssesments.Include(x=>x.Property).ThenInclude(x=>x.Asset).ToListAsync();
         }
 
         public async Task<PropertyAssesment> GetPropertyAssesment(Guid assesmentId)
         {
-            return await _context.PropertyAssesments.Include(x => x.Property).ThenInclude(x => x.Asset).FirstOrDefaultAsync(x => x.Id == assesmentId);
+            return await _context.PropertyAssesments.Include(x => x.Property).ThenInclude(x => x.Asset).Include(x => x.Property).ThenInclude(x=>x.PropertyType).FirstOrDefaultAsync(x => x.Id == assesmentId);
         }
 
         public async Task<IEnumerable<PropertyAssesment>> GetPropertyAssesmentsOfProperty(Guid propId)

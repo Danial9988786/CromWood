@@ -9,6 +9,7 @@
     var assesment = await _assesmentService.GetPropertyAssesment(id);
 
     var stringId = "'" + id + "'";
+    var completed = assesment.Data.DateTime < DateTime.Now;
 }
 
 <ol class="breadcrumb align-items-end mb-10 mt-3">
@@ -24,9 +25,19 @@
             <a asp-action="Index"><img src="~/assets/img/left_Icon.svg"></a>&nbsp @assesment.Data.InspectionID
         </h1>
 
-        <div class="paid_btn payment p_comp ms-3">
-            Completed
-        </div>
+        @if (completed)
+        {
+            <div class="paid_btn payment p_comp ms-3">
+                Completed
+            </div>
+        }
+        else
+        {
+            <div class="paid_btn purple p_comp ms-3">
+                Started
+            </div>
+        }
+        
     </div>
     <div class="col-xl-2">
         <span class="owner_clr"> </span>
@@ -38,18 +49,6 @@
     <div class="col-xl-2">
         <span class="owner_clr"></span>
         <h2 class="expd"></h2>
-    </div>
-    <div class="col-xl-3">
-        <div class="shadow-box ms-auto">
-                <div class="shadow-box ms-auto">
-                    <span class="custom__btn2">
-                    <a onclick="AddModifyPropertyAssesmentItem(@stringId)">
-                            <img src="~/assets/img/add_new_icon.svg" alt="img_icon">
-                            Add Item
-                    </a>
-                    </span>
-                </div>
-        </div>
     </div>
 </div>
 
@@ -72,17 +71,11 @@
     @RenderBody()
 </div>
 
-<div class="modal fade" id="propertyAssesmentItemDialog">
-    <div class="modal-dialog modal-dialog-centered cm2_size add_edit_popup" id="propertyAssesmentItemDialogBody">
-    </div>
-</div>
+<script src="~/lib/jquery/dist/jquery.js"></script>
 
-
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
 @await RenderSectionAsync("Scripts", required: false)
 
 <script>
-    console.log(window.location.pathname)
     if (window.location.pathname.includes('/PropertyAssesment/BuildingDetail')) {
         document.getElementById("nav-building-details").classList.add('active');
     }
@@ -96,15 +89,4 @@
         document.getElementById("nav-inspection-details").classList.add('active');
     }
 
-    function AddModifyPropertyAssesmentItem(assesmentId) {
-        var url = `/PropertyAssesment/AddModifyPropertyAssesmentItem?assesmentId=${assesmentId}`;
-        $("#propertyAssesmentItemDialogBody").load(url, function () {
-            // This is done to add validation to partial view, as they don't support validationscript partial.
-            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
-                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
-                });
-            });
-            $("#propertyAssesmentItemDialog").modal("show");
-        });
-    }
 </script>

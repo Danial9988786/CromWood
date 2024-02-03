@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Tenancy";
     Layout = "~/Views/Shared/_PropertyDetail.cshtml";
+    var rawId = ViewContext.RouteData.Values["id"] as string;
+    var propertyId = Guid.Parse(rawId ?? Guid.Empty.ToString());
 }
 
 <div class="tab-pane fade show active border border-top-0 bg-white"
@@ -14,7 +16,7 @@
             </div>
             <div class="col-6">
                 <div class="shadow-box ms-auto">
-                    <a class="custom__btn">
+                    <a class="custom__btn" asp-action="Index" asp-controller="Tenancy" asp-route-propertyId="@propertyId">
                         <img src="~/assets/img/plus.svg" alt="user__iocn">
                         Create New Tenancy
                     </a>
@@ -86,23 +88,32 @@
                         </td>
 
                         <td class="maintext_size text-center">
-                            <div class="active_btn">
-                                Active
-                            </div>
+                                @if(item.EndDate > DateTime.Now)
+                                {
+                                <div class="active_btn">
+                                    <span>Active</span>
+                                </div>
+                                }
+                                else
+                                {
+                                <div class="Completed_btn">
+                                    <img class="pe-1" src="~/assets/img/Completed_icon.svg" alt="">
+                                    Completed
+                                </div>
+                                }
                         </td>
                         <td>
-                            <a class="Upd_btn" href="#">
+                            <a class="Upd_btn" asp-action="Detail" asp-controller="Tenancy" asp-route-id="@item.Id">
                                 Update
                             </a>
                         </td>
                     </tr>
-
                 }
             </tbody>
         </table>
     </div>
 </div>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
 <script>
     $(document).ready(function () {
         $(".datatable-table thead tr th button.datatable-sorter").append("<span class='c__icon'></span>");

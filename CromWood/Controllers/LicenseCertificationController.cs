@@ -13,9 +13,9 @@ namespace CromWood.Controllers
             _licenseCertificateService = licenseCertificateService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(Guid filterId)
         {
-            var result = await _licenseCertificateService.GetAllLicenseCertificates();
+            var result = await _licenseCertificateService.GetAllLicenseCertificatesList(filterId);
             return View(result.Data);
         }
 
@@ -27,19 +27,20 @@ namespace CromWood.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddModifyLicense(Guid id)
+        public async Task<IActionResult> AddModifyLicense(Guid id, Guid propId)
         {
             var license =  await _licenseCertificateService.GetLicenseCertificateById(id);
+            ViewBag.PropertyId = propId;
             return PartialView(license.Data);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddModifyLicense([FromForm] LicenseCertificateModel license, Guid propertyId)
+        public async Task<IActionResult> AddModifyLicense([FromForm] LicenseCertificateModel license, Guid propId)
         {
             await _licenseCertificateService.AddModifyLicense(license);
-            if (propertyId != Guid.Empty)
+            if (propId != Guid.Empty)
             {
-                return RedirectToAction("Licensing", "Property", new { id = propertyId });
+                return RedirectToAction("Licensing", "Property", new { id = propId });
             }
             return RedirectToAction("Index");
         }

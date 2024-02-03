@@ -73,7 +73,7 @@
             </div>
 
             <div class="form___info mt-3">
-                <form asp-action="AddModifyProperty">
+                <form asp-action="AddModifyPropertyPost" method="post" asp-route-addTenancy="false">
 
                     <fieldset>
                         <div class="step_body_content ps-3 pe-2 me-2">
@@ -81,9 +81,8 @@
                                 <h5 class="text-cpitlize mb-4">Basic Details</h5>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        @Html.HiddenFor(m=>m.Id)
-                                        @Html.HiddenFor(m=>m.PropertyCode)
-                                        @Html.HiddenFor(m=>m.AssetId)
+                                        @Html.HiddenFor(m => m.Id)
+                                        @Html.HiddenFor(m => m.PropertyCode)
                                         <div class="mb-3">
                                             <label for="Select Asset" class="form-label">
                                                 Select
@@ -221,26 +220,26 @@
                                 <div class="row">
                                     @foreach (var group in groupByAmenties)
                                     {
-                                        <div class="col-md-3">
-                                            <label for="Bedroom" class="form-label mb-3">
+                                            <div class="col-md-3">
+                                                <label for="Bedroom" class="form-label mb-3">
                                                 @group.Key
-                                            </label>
-                                            <div class="check__boxList">
+                                                </label>
+                                                <div class="check__boxList">
 
                                                 @foreach (var amenty in group.ToList())
                                                 {
                                                     int index = Model.PropertyAmenities.FindIndex(x => x.Amenity == amenty.Amenity);
-                                                    <div class="form-check">
-                                                        @Html.CheckBoxFor(m => m.PropertyAmenities[index].Included, new { @class = "form-check-input ip"})
-                                                        <label class="form-check-label pagagraph"
-                                                               for="Internet">@Model.PropertyAmenities[index].Amenity.Key</label>
-                                                    </div>
-                                                    @Html.HiddenFor(m=>m.PropertyAmenities[index].Amenity.Id)
-                                                    @Html.HiddenFor(m=>m.PropertyAmenities[index].PropertyId)
-                                                    @Html.HiddenFor(m=>m.PropertyAmenities[index].Id)
+                                                            <div class="form-check">
+                                                        @Html.CheckBoxFor(m => m.PropertyAmenities[index].Included, new { @class = "form-check-input ip" })
+                                                                <label class="form-check-label pagagraph"
+                                                                       for="Internet">@Model.PropertyAmenities[index].Amenity.Key</label>
+                                                            </div>
+                                                    @Html.HiddenFor(m => m.PropertyAmenities[index].Amenity.Id)
+                                                    @Html.HiddenFor(m => m.PropertyAmenities[index].PropertyId)
+                                                    @Html.HiddenFor(m => m.PropertyAmenities[index].Id)
                                                 }
+                                                </div>
                                             </div>
-                                        </div>
                                     }
                                 </div>
                                 <div class="row">
@@ -301,8 +300,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="shadow-box mx-auto px-0">
-                                        <a href="#" class="custom__btn2" data-bs-toggle="modal"
-                                           data-bs-target="#AddNewTenancy">
+                                        <a onclick="submitClick(true)" class="custom__btn2" >
                                             <img src="~/assets/img/white_plus.svg" alt="plus">
                                             Add Tenancy agreement
                                         </a>
@@ -319,7 +317,7 @@
 
                             </div>
                             <div class="shadow-box ms-auto">
-                                <a onclick="submitClick()" class="custom__btn2">
+                                <a onclick="submitClick(false)" class="custom__btn2">
                                     <img src="~/assets/img/save-role.svg" alt="right__arrow">
                                     save property
                                 </a>
@@ -343,18 +341,20 @@
         var currentIndex = 0;
 
         $('.step_nextbtn').click(function () {
-            // Remove the active class from the current item
-            $('.step__f .step').eq(currentIndex).removeClass('active');
-            $('.form___info form fieldset').eq(currentIndex).removeClass('active');
+            if (currentIndex != 2) {
+                // Remove the active class from the current item
+                $('.step__f .step').eq(currentIndex).removeClass('active');
+                $('.form___info form fieldset').eq(currentIndex).removeClass('active');
 
-            // Increment the index or reset to 0 if it exceeds the number of items
-            currentIndex = (currentIndex + 1) % $('.step__f .step').length;
-            // currentIndex = (currentIndex + 1) % $('.form___info form fieldset').length;
+                // Increment the index or reset to 0 if it exceeds the number of items
+                currentIndex = (currentIndex + 1) % $('.step__f .step').length;
+                // currentIndex = (currentIndex + 1) % $('.form___info form fieldset').length;
 
-            // Add the active class to the next item
-            $('.step__f .step').eq(currentIndex).addClass('active');
-            $('.step__f .step').eq(currentIndex).addClass('pass');
-            $('.form___info form fieldset').eq(currentIndex).addClass('active');
+                // Add the active class to the next item
+                $('.step__f .step').eq(currentIndex).addClass('active');
+                $('.step__f .step').eq(currentIndex).addClass('pass');
+                $('.form___info form fieldset').eq(currentIndex).addClass('active');
+            }
         });
 
         $('.stepbackbtn').click(function () {
@@ -380,16 +380,19 @@
         if (assetId != '') { fetchAsset(); }
 
         // For Select2 Functionality
-        $('.select_font_14').select2({
-            theme: "bootstrap-5",
-            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-            placeholder: $(this).data('placeholder'),
-            closeOnSelect: true,
-            dropdownCssClass: "select_font_14",
-        });
+    $('.select_font_14').select2({
+        theme: "bootstrap-5",
+        placeholder: "Select...",
+        dropdownAutoWidth : true,
+        width: '100%',
+        dropdownCssClass: "select_font_14"
+    });
     });
 
-    function submitClick() {
+    function submitClick(addTenancy) {
+        if (addTenancy){
+            $('form').attr('action', "/Property/AddModifyPropertyPost?addTenancy=true");
+        }
         $("#submitBtnProperty").click();
     }
 

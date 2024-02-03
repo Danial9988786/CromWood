@@ -4,7 +4,7 @@ namespace CromWood.Data.Repository.Interface
 {
     public interface IPropertyAssesmentRepository
     {
-        public Task<IEnumerable<PropertyAssesment>> GetPropertyAssesments();
+        public Task<IEnumerable<PropertyAssesment>> GetPropertyAssesments(Guid filterId);
         public Task<PropertyAssesment> GetPropertyAssesment(Guid assesmentId);
         public Task<IEnumerable<PropertyAssesment>> GetPropertyAssesmentsOfProperty(Guid propId);
         public Task<int> AddModifyPropertyAssesment(PropertyAssesment assesment);

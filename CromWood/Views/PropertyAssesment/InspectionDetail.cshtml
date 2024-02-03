@@ -38,16 +38,16 @@
                     </tr>
                     <tr class="bg-white">
                         <th class="r_heading pt-2 pb-2" scope="row">Inspection Date</th>
-                        <td class="pt-2 pb-2">@Model.DateTime</td>
+                        <td class="pt-2 pb-2">@(Model.DateTime?.ToString("dddd MMM d, yyyy") ?? "--")</td>
                     </tr>
                     <tr class="bg-white">
                         <th class="r_heading pt-2 pb-2" scope="row">Inspection Time</th>
-                        <td class="pt-2 pb-2">10:55 AM</td>
+                        <td class="pt-2 pb-2">@(Model.DateTime?.ToString("hh:mm tt") ?? "--")</td>
                     </tr>
                     <tr class="bg-white">
                         <th class="r_heading pt-2 pb-2" scope="row">Inspection Notes</th>
                         <td class="pt-2 pb-2">
-                            @Model.InspectionNote
+                            @(Model.InspectionNote ?? "--")Wx`
                         </td>
                     </tr>
                 </tbody>

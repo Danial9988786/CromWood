@@ -95,7 +95,7 @@
                                                     (Auto Generated)
                                                 </span>
                                             </label>
-                                            @Html.HiddenFor(m=>m.AssetId)
+                                            @Html.HiddenFor(m => m.AssetId)
                                             <input asp-for="@Model.AssetId" class="form-control h-40" disabled>
                                         </div>
                                     </div>
@@ -190,10 +190,17 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="Borough" class="form-label">Acquisition Date</label>
-                                            <input type="date" class="form-control h-40" asp-for="@Model.AquisitionDate"
-                                                   placeholder="Select Acquisition Date" id="acquisition-date"
-                                                   aria-describedby="Acquisition Date-Help">
+                                            <label for="start_date" class="form-label">Aquisition Date</label>
+                                            <div class="input-container">
+                                                <div class="input-group date__box date datepicker">
+                                                    <input type="datetime" class="form-control" asp-for="AquisitionDate" placeholder="24/01/2024" id="start_date">
+                                                    <span class="input-group-append">
+                                                        <span class="date__icon bg-white">
+                                                            <img src="~/assets/img/date__icon.svg" alt="date_icon">
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -216,10 +223,17 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="valuation-date" class="form-label">Valuation Date</label>
-                                            <input type="date" class="form-control h-40" asp-for="@Model.ValuationDate"
-                                                   placeholder="Select Valuation Date" id="valuation-date"
-                                                   aria-describedby="Valuation Date-Help">
+                                            <label for="start_date" class="form-label">Valuation Date</label>
+                                            <div class="input-container">
+                                                <div class="input-group date__box date datepicker">
+                                                    <input type="datetime" class="form-control" asp-for="ValuationDate" placeholder="24/01/2024" id="start_date">
+                                                    <span class="input-group-append">
+                                                        <span class="date__icon bg-white">
+                                                            <img src="~/assets/img/date__icon.svg" alt="date_icon">
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -284,13 +298,17 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="Date of Charge" class="form-label">
-                                                Date of
-                                                Charge
-                                            </label>
-                                            <input type="date" class="form-control h-40" asp-for="@Model.DateOfCharge"
-                                                   placeholder="Select Date of Charge" id="Date of Charge"
-                                                   aria-describedby="Date of Charge-Help">
+                                            <label for="start_date" class="form-label">Date Of Charge</label>
+                                            <div class="input-container">
+                                                <div class="input-group date__box date datepicker">
+                                                    <input type="datetime" class="form-control" asp-for="DateOfCharge" placeholder="24/01/2024" id="start_date">
+                                                    <span class="input-group-append">
+                                                        <span class="date__icon bg-white">
+                                                            <img src="~/assets/img/date__icon.svg" alt="date_icon">
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -379,8 +397,7 @@
                             <div class="shadow-box">
                                 <div class="custom__btn">
                                     <a href="#" class="stepbackbtn">
-                                        <img class="pe-2" src="~/assets/img/back_black-arrow.svg"
-                                             alt="back-arrow">
+                                        <img class="pe-2" src="~/assets/img/back_black-arrow.svg" alt="back-arrow">
                                         back, Valuation & Ownership
                                     </a>
                                 </div>
@@ -456,20 +473,35 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="mb-3">
-                                            <label for="Landlord" class="form-label">Lease Term</label>
-                                            <input id="leaseTerm" type="date" class="form-control h-40" asp-for="@Model.LeaseTerm"
-                                                   placeholder="Select Lease Term Date" id="Select Lease Term Date"
-                                                   aria-describedby="Select Lease Term Date-Help">
+                                            <label for="start_date" class="form-label">Date Of Charge</label>
+                                            <div class="input-container">
+                                                <div class="input-group date__box date datepicker">
+                                                    <input id="leaseTerm" type="date" class="form-control" asp-for="LeaseTerm" placeholder="24/01/2024" id="start_date">
+                                                    <span class="input-group-append">
+                                                        <span class="date__icon bg-white">
+                                                            <img src="~/assets/img/date__icon.svg" alt="date_icon">
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="mb-3">
-                                            <label for="Landlord" class="form-label">Lease Expiry</label>
-                                            <input id="leaseExpiry" type="date" class="form-control h-40" asp-for="@Model.LeaseExpiry"
-                                                   placeholder="Select Lease Expiry Date" id="house-no"
-                                                   aria-describedby="Select Lease Expiry Date-Help">
+                                            <label for="start_date" class="form-label">Lease Expiry</label>
+                                            <div class="input-container">
+                                                <div class="input-group date__box date datepicker">
+                                                    <input id="leaseExpiry" type="date" class="form-control" asp-for="LeaseExpiry" placeholder="24/01/2024" id="start_date">
+                                                    <span class="input-group-append">
+                                                        <span class="date__icon bg-white">
+                                                            <img src="~/assets/img/date__icon.svg" alt="date_icon">
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label for="Landlord" class="form-label">Lease Length</label>
@@ -513,6 +545,10 @@
 
 <script>
 
+    $(function () {
+        $('.datepicker').datepicker();
+    });
+
     $(document).ready(function () {
 
         const monthDiff = (d1, d2) => {
@@ -524,13 +560,13 @@
         }
 
         // For Select2 Functionality
-        $('.select_font_14').select2({
-            theme: "bootstrap-5",
-            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-            placeholder: $(this).data('placeholder'),
-            closeOnSelect: true,
-            dropdownCssClass: "select_font_14",
-        });
+    $('.select_font_14').select2({
+        theme: "bootstrap-5",
+        placeholder: "Select...",
+        dropdownAutoWidth : true,
+        width: '100%',
+        dropdownCssClass: "select_font_14"
+    });
 
         var currentIndex = 0;
 

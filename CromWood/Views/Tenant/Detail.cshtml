@@ -33,15 +33,15 @@
                 </tr>
                 <tr class="bg-white">
                     <th class="r_heading" scope="row">Phone Number</th>
-                    <td colspan="2">@Model.Phone</td>
+                    <td colspan="2">@(Model.Phone ?? "--")</td>
                 </tr>
                 <tr>
                     <th class="r_heading" scope="row">Email Address</th>
-                    <td colspan="2">@Model.Email</td>
+                    <td colspan="2">@(Model.Email ?? "--")</td>
                 </tr>
                 <tr class="bg-white">
                     <th class="r_heading" scope="row">National Insurance Number</th>
-                    <td colspan="2">@Model.NIN</td>
+                    <td colspan="2">@(Model.NIN ?? "--")</td>
                 </tr>
             </tbody>
         </table>
@@ -57,7 +57,7 @@
 
 <script>
     function ModifyTenant(id) {
-        var url = "/Tenant/ModifyTenant/"+id;
+        var url = "/Tenant/ModifyTenant/" + id;
         $("#tenantDialogBody").load(url, function () {
             // This is done to add validation to partial view, as they don't support validationscript partial.
             $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {

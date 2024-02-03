@@ -41,7 +41,7 @@ namespace CromWood.Data.Repository.Implementation
                     await AddChangeLog(new ChangeLog()
                     {
                         Type = ChangeType.Add,
-                        ScreenName = ScreenConstant.AssementManagement,
+                        ScreenName = ScreenConstant.AssetManagement,
                         ScreenDetailId = asset.Id,
                         Description = $"Added New Asset with Asset ID: {asset.AssetId}"
                     });
@@ -69,7 +69,7 @@ namespace CromWood.Data.Repository.Implementation
                     await AddChangeLog(new ChangeLog()
                     {
                         Type = ChangeType.Edit,
-                        ScreenName = ScreenConstant.AssementManagement,
+                        ScreenName = ScreenConstant.AssetManagement,
                         ScreenDetailId = asset.Id,
                         Description = $"Changed Asset Folowing were changed: {string.Join(", ", changedProperties)}"
                     });

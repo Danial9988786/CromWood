@@ -2,6 +2,7 @@
 using CromWood.Data.Entities;
 using CromWood.Data.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
 
 namespace CromWood.Data.Repository.Implementation
 {
@@ -11,9 +12,15 @@ namespace CromWood.Data.Repository.Implementation
         {
         }
 
-        public async Task<IEnumerable<Tenant>> GetTenantForList()
+        public async Task<IEnumerable<Tenant>> GetTenantForList(Guid filterId)
         {
-            return await _context.Tenants.ToListAsync();
+            if (filterId != Guid.Empty)
+            {
+                var condition = await GetFilterConiditon(filterId);
+                var result = await _context.Tenants.Where(condition).Include(x => x.Country).Include(x => x.Salutation).ToListAsync();
+                return result;
+            }
+            return await _context.Tenants.Include(x => x.Country).Include(x => x.Salutation).ToListAsync();
         }
         public async Task<IEnumerable<Tenant>> GetTenantsNotInTenancy(Guid tenancyId)
         {

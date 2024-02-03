@@ -14,101 +14,278 @@
 
     var asyncUOMS = await _lookupUOM.GetAllItems();
     var uoms = new SelectList(asyncUOMS.Data, "Id", "Name");
+
+    var conditions = new List<KeyValuePair<int, string>>()
+    {
+        new KeyValuePair<int, string>(
+            0, "POOR"
+        ),
+         new KeyValuePair<int, string>(
+            1, "FAIR"
+        ),
+         new KeyValuePair<int, string>(
+            2, "GOOD"
+        )
+    };
 }
 
 <div class="modal-content rounded-0 model-custom-bg">
     <div class="modal-header py-2 bg-white">
-        <h5 class="modal-title" id="staticBackdropLabel">Add Property Assesment Item</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">Add Item</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <form asp-action="AddModifyPropertyAssesmentItem" enctype="multipart/form-data">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        @Html.HiddenFor(m=>m.Id)
-        <div class="form-group">
-            <label asp-for="Location1" class="control-label"></label>
-            <input asp-for="Location1" class="form-control" />
-            <span asp-validation-for="Location1" class="text-danger"></span>
+        <div class="modal-body">
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.PropertyAssesmentId)
+            <div class="step_body_content3 mb-3 pe-2">
+                <div class="mb-3 border p-3 bg-white">
+                    <h5 class="modal-title" id="staticBackdropLabel">Location Details</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div id="" class="input__field mt-3 w-100">
+                                <label for="Location_1" class="form-label">Location 1</label>
+                                <input asp-for="Location1" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input__field mt-3 w-100">
+                                <label for="Location_2" class="form-label">Location 2</label>
+                                <input asp-for="Location2" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3 border p-3 bg-white">
+                    <h5 class="modal-title" id="staticBackdropLabel">Details</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input__field mt-3 w-100">
+                                <label for="Survey_Section" class="form-label">Survey Section</label>
+                                <select id="surveySection" class="form-select select_font_14  select__search pagagraph" asp-for="@Model.SurverySectionId" asp-items="surveyList">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input__field mt-3 w-100">
+                                <label for="Item" class="form-label">Item</label>
+                                <select id="item-id" class="form-select select_font_14 pagagraph" asp-for="@Model.DetailItemId" asp-items="items">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input__field mt-3 w-100">
+                                <label for="Description" class="form-label">Description</label>
+                                <input asp-for="Description" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input__field mt-3 w-100">
+                                <label for="Condition_Rating" class="form-label">Condition Rating</label>
+                                <div class="l__wraper pb-1">
+                                    <div class="level__box mt-1 mb-1 d-flex align-items-center">
+                                        @foreach (var condition in conditions)
+                                        {
+                                            string className = condition.Key == 0 ? "p_text" : (condition.Key == 1 ? "f_text" : "g_text");
+                                                <input type="radio" asp-for="ConditionRating" class="@className" value="@condition.Key" id="Condition@(condition.Key)" />
+                                                <label for="Condition@(condition.Key)" class="pagagraph">@condition.Value</label>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input__field mt-3 w-100">
+                                <label for="Defects" class="form-label">Defects</label>
+                                <select asp-for="Defects" multiple="true" class="form-select select_font_14 select__search">
+                                    <option>Lighting</option>
+                                    <option>Other</option>
+                                    <option>Tables</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input__field mt-3 w-100">
+                                <label for="Notes" class="form-label">Notes</label>
+                                <input type="text" class="form-control text-black" asp-for="Description">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3 border p-3 bg-white">
+                    <h5 class="modal-title" id="staticBackdropLabel">Capital Costs</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input__field mt-3 w-100">
+                                <label for="Stock_UoM" class="form-label">Stock UoM</label>
+                                <select id="uom" class="form-select select_font_14 select__search"
+                                        asp-for="UnitOfMeesurementId" asp-items="uoms">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input__field mt-3 w-100">
+                                <label for="Stock_UnitCost" class="form-label">Stock Unit Cost</label>
+                                <div id="product_A_form" class="input-group">
+                                    <span class="input-group-btn">
+                                        <button onclick="decreaseValue('StockUnitCost')" class="btn decrement" type="button">
+                                            <img src="~/assets/img/minus_accodian.svg" alt="minus">
+                                        </button>
+                                    </span>
+                                    <input type="number"
+                                           id="StockUnitCost"
+                                           class="product_A_qty form-control border-end-0 border-start-0 no-padding text-center"
+                                           asp-for="StockUnitCost">
+                                    <span class="input-group-btn">
+                                        <button onclick="increaseValue('StockUnitCost')" class="btn increment" type="button">
+                                            <img src="~/assets/img/plus.svg" alt="plus">
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input__field mt-3 w-100">
+                                <label for="Stock_Quantity" class="form-label">Stock Quantity</label>
+                                <div id="product_A_form" class="input-group">
+                                    <span class="input-group-btn">
+                                        <button onclick="decreaseValue('StockQuantity')" class="btn decrement" type="button">
+                                            <img src="~/assets/img/minus_accodian.svg" alt="minus">
+                                        </button>
+                                    </span>
+                                    <input type="number"
+                                           id="StockQuantity"
+                                           class="product_A_qty form-control border-end-0 border-start-0 no-padding text-center"
+                                           asp-for="StockQuantity">
+                                    <span class="input-group-btn">
+                                        <button onclick="increaseValue('StockQuantity')" class="btn increment" type="button">
+                                            <img src="~/assets/img/plus.svg" alt="plus">
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input__field mt-3 w-100">
+                                <label for="StockRemainingQuantity" class="form-label">
+                                    Stock Remaining
+                                    Quantity
+                                </label>
+                                <input type="number" class="form-control text-black" asp-for="StockRemainingQuantity"
+                                       id="StockRemainingQuantity" aria-describedby="codeHelp">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input__field mt-3 w-100">
+                                <label for="StockReplaceYear" class="form-label">Stock Replace Year</label>
+                                <div id="product_A_form" class="input-group">
+                                    <span class="input-group-btn">
+                                        <button onclick="decreaseValue('StockReplaceYear')" class="btn decrement" type="button">
+                                            <img src="~/assets/img/minus_accodian.svg" alt="minus">
+                                        </button>
+                                    </span>
+                                    <input type="number"
+                                           id="StockReplaceYear"
+                                           class="product_A_qty form-control border-end-0 border-start-0 no-padding text-center"
+                                           asp-for="StockReplaceYear">
+                                    <span class="input-group-btn">
+                                        <button onclick="increaseValue('StockReplaceYear')" class="btn increment" type="button">
+                                            <img src="~/assets/img/plus.svg" alt="plus">
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input__field mt-3 w-100">
+                                <label for="StockYearBrand" class="form-label">Stock Year Brand</label>
+                                <input type="text" class="form-control text-black" asp-for="StockYearBand"
+                                       id="StockYearBrand" aria-describedby="codeHelp">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input__field mt-3">
+                                <label for="StockLifecycle" class="form-label">Stock Lifecycle</label>
+                                <input type="number" class="form-control text-black" asp-for="StockLifecycle"
+                                       id="StockLifecycle" aria-describedby="codeHelp">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3 border p-3 bg-white">
+                    <h5 class="modal-title" id="#">Images</h5>
+                    <div class="input__field mt-3">
+                        <label for="Rent Frequency" class="form-label">Images</label>
+                        <a onclick="imageUploader.click()">
+                            <label for="formFileLg" class="c_file form-label custom__filetype">
+                                <img class="pe-1" src="~/assets/img/chosefile.svg" alt="chosefile">
+                                CHOOSE FILE
+                            </label>
+                        </a>
+                        <input id="imageUploader" hidden type="file" asp-for="Images" multiple="true" class="form-control" />
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label asp-for="Location2" class="control-label"></label>
-            <input asp-for="Location2" class="form-control" />
-            <span asp-validation-for="Location2" class="text-danger"></span>
-            <div class="form-group">        </div>
-
-            <label asp-for="SurverySectionId" class="control-label"></label>
-            <select id="surveySection" class="form-select select_font_14 pagagraph" asp-for="@Model.SurverySectionId" asp-items="surveyList">
-            </select>
-            <span asp-validation-for="SurverySectionId" class="text-danger"></span>
+        <div class="popup_footer_fixed border-top d-flex justify-content-between bg-white">
+            <div class="shadow-box">
+                <a class="custom__btn" href="#" data-bs-toggle="modal">
+                    Cancel
+                </a>
+            </div>
+            <div class="shadow-box ms-auto">
+                <a onclick="submitItemButton.click()" class="custom__btn2">
+                    <img src="~/assets/img/save-role.svg" alt="save_icon">
+                    Save Item
+                </a>
+            </div>
         </div>
-        <div class="form-group">
-            <label asp-for="DetailItemId" class="control-label"></label>
-            <select id="detailItem" class="form-select select_font_14 pagagraph" asp-for="@Model.DetailItemId" asp-items="items">
-            </select>
-            <span asp-validation-for="DetailItemId" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Description" class="control-label"></label>
-            <input asp-for="Description" class="form-control" />
-            <span asp-validation-for="Description" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="ConditionRating" class="control-label"></label>
-            <select id="conditionRating" class="form-select select_font_14 pagagraph" asp-for="@Model.ConditionRating">
-                <option value="0">POOR</option>
-                <option value="1">FAIR</option>
-                <option value="2">GOOD</option>
-            </select>
-            <span asp-validation-for="ConditionRating" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Defects" class="control-label"></label>
-            <input asp-for="Defects" class="form-control" />
-            <span asp-validation-for="Defects" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="UnitOfMeesurementId" class="control-label"></label>
-            <select id="uom" class="form-select select_font_14 pagagraph" asp-for="@Model.UnitOfMeesurementId" asp-items="uoms">
-            </select>
-            <span asp-validation-for="UnitOfMeesurementId" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="StockUnitCost" class="control-label"></label>
-            <input asp-for="StockUnitCost" class="form-control" />
-            <span asp-validation-for="StockUnitCost" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="StockQuantity" class="control-label"></label>
-            <input asp-for="StockQuantity" class="form-control" />
-            <span asp-validation-for="StockQuantity" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="StockRemainingQuantity" class="control-label"></label>
-            <input asp-for="StockRemainingQuantity" class="form-control" />
-            <span asp-validation-for="StockRemainingQuantity" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="StockReplaceYear" class="control-label"></label>
-            <input asp-for="StockReplaceYear" class="form-control" />
-            <span asp-validation-for="StockReplaceYear" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="StockYearBand" class="control-label"></label>
-            <input asp-for="StockYearBand" class="form-control" />
-            <span asp-validation-for="StockYearBand" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="StockLifecycle" class="control-label"></label>
-            <input asp-for="StockLifecycle" class="form-control" />
-            <span asp-validation-for="StockLifecycle" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <a onclick="imageUploader.click()">Upload</a>
-            <input id="imageUploader" type="file" asp-for="Images" multiple="true" class="form-control" />
-        </div>
-
-        @Html.HiddenFor(m=>m.PropertyAssesmentId)
-        <div class="form-group">
-            <input type="submit" value="Create" class="btn btn-primary" />
-        </div>
+        <input type="submit" id="submitItemButton" hidden value="Create" class="btn btn-primary" />
     </form>
 </div>
+
+<script>
+    $(document).ready(function () {
+
+        // For Select2 Functionality
+    $('.select_font_14').select2({
+        theme: "bootstrap-5",
+        placeholder: "Select...",
+        dropdownAutoWidth : true,
+        width: '100%',
+        dropdownCssClass: "select_font_14"
+    });
+    $('.select__search').select2({
+        theme: "bootstrap-5",
+        dropdownAutoWidth : true,
+        placeholder: "Select...",
+        width: '100%',
+        dropdownCssClass: "select__search"
+    });
+
+    });
+
+    $(function () {
+        $('.datepicker').datepicker();
+    });
+
+    function increaseValue(id) {
+        var currentValue = parseFloat($(`#${id}`).val());
+        $(`#${id}`).val(currentValue + 1);
+    }
+
+    function decreaseValue(id) {
+        var currentValue = parseFloat($(`#${id}`).val(), 0);
+        $(`#${id}`).val(currentValue - 1);
+    }
+</script>

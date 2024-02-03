@@ -7,7 +7,7 @@ namespace CromWood.Business.Services.Interface
 {
     public interface ILicenseCertificateService
     {
-        public Task<AppResponse<IEnumerable<LicenseCertificateViewModel>>> GetAllLicenseCertificates();
+        public Task<AppResponse<IEnumerable<LicenseCertificateViewModel>>> GetAllLicenseCertificatesList(Guid filterId = default(Guid));
         public Task<AppResponse<LicenseCertificateViewModel>> GetLicenseCertificateView(Guid Id);
         public Task<AppResponse<LicenseCertificateModel>> GetLicenseCertificateById(Guid Id);
         public Task<AppResponse<IEnumerable<LicenseCertificateViewModel>>> GetAllLicenseCertificates(Guid propertyId);

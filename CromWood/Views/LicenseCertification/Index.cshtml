@@ -1,4 +1,5 @@
-﻿@using CromWood.Business.Models.ViewModel;
+﻿@using CromWood.Business.Constants;
+@using CromWood.Business.Models.ViewModel;
 @using CromWood.Business.Services.Interface;
 @model IEnumerable<LicenseCertificateViewModel>
 @inject IUserService _userService;
@@ -14,7 +15,7 @@
 
     var propId = ViewContext.RouteData.Values["id"] as string;
     string tableClass = propId == null ? "border rounded-top border-bottom-0" : "";
-
+    var screenName = PermissionKeyConstant.LicenseManagement;
 }
 
 
@@ -56,60 +57,9 @@
 
     </div>
 
-    <!------- filter start here ------>
-    <div class="filter_btn ms-auto">
-        <a class="" href="#" role="button" id="fil_ter" data-bs-toggle="dropdown" aria-expanded="false">
-            <img class="pe-1" src="~/assets/img/filter-lines.svg" alt="user__iocn">
-            Filter
-            <img class="ps-2" src="~/assets/img/filter_down_arrow.svg">
-        </a>
-
-        <div class="filter___c dropdown-menu dropdown-menu-end shadow border rounded-0 p-3"
-             aria-labelledby="fil_ter">
-            <div class="input-group mb-3">
-                <span class="input-group-text bg-transparent" id="srf">
-                    <img src="~/assets/img/search-gray.svg" alt="search_iocn">
-                </span>
-                <input type="text" class="form-control border-start-0 ps-0"
-                       placeholder="Search for filters" aria-label="Username" aria-describedby="srf">
-            </div>
-            <ul class="list-unstyled ft__list">
-                <li>
-                    <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded"
-                       href="#">
-                        <span>My Filter 1</span>
-                        <span class="i__gro">
-                            <span class="ed pe-2">
-                                <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
-                            </span>
-                            <span class="de">
-                                <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
-                            </span>
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded"
-                       href="#">
-                        <span>My Filter 2</span>
-                        <span class="i__gro">
-                            <span class="ed pe-2">
-                                <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
-                            </span>
-                            <span class="de">
-                                <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
-                            </span>
-                        </span>
-                    </a>
-                </li>
-            </ul>
-            <div class="mark__btn text-center">
-                <img class="me-1" src="~/assets/img/green__plus_icon.svg" />
-                <a href="#" class="text-uppercase">add new Filter</a>
-            </div>
-        </div>
+    <div class="filter_btn ms-auto" id="filterBox">
     </div>
-    <!----- filter end here  ---------->
+
 }
 else
 {
@@ -171,15 +121,15 @@ else
                             {
                                 <form asp-controller="LicenseCertification" asp-action="Download" asp-route-url="@item.DocUrl" method="POST">
                                     <a onclick="downloadBtn.click()" class="d-inline-block pt-2">
-                                    <img src="~/assets/img/downloadfile.svg"
-                                    class="pe-2" alt="">Download File
+                                        <img src="~/assets/img/download-cloud-02.svg"
+                                    class="pe-2" alt="" />Download File
                                 </a>
                                     <input id="downloadBtn" type="submit" hidden />
                                 </form>
                             }
                         </div>
                     </td>
-                    <td class="maintext_size align-top">@item.Note</td>
+                    <td class="maintext_size align-top">@(item.Note??"--")</td>
                     <td class="maintext_size">
                         <span class="owner_clr">Expiry Date</span>
                         <br><span class="pm_date">@item.ExpiryDate.ToString("MMM dd, yyyy")</span><br>
@@ -227,8 +177,9 @@ else
     </div>
 </div>
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
 <script>
+    var propertyId = '@propId';
     $(document).ready(function () {
         // Code for datatable manipulation
         var rowCount = $('.datatable-table tbody tr').length;
@@ -243,6 +194,12 @@ else
 
         var filter = $(".filter_btn");
         $(".datatable-top").append(filter);
+
+
+        // For the Filter
+        $("#filterBox").load("/Filter/Index?keyName=@screenName", function () {
+            $("#filterBox").show();
+        });
     });
 
     function ViewLicense(id) {
@@ -255,7 +212,7 @@ else
     }
 
     function AddModifyLicense(id) {
-        var url = "/LicenseCertification/AddModifyLicense?id=" + id;
+        var url = "/LicenseCertification/AddModifyLicense?id=" + id + "&propId=" + propertyId;
         $("#licenseCertificationDialogBody").load(url, function () {
             // This is done to add validation to partial view, as they don't support validationscript partial.
             $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {

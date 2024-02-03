@@ -7,7 +7,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var screenName = PermissionKeyConstant.AssementManagement;
+    var screenName = PermissionKeyConstant.AssetManagement;
     var havePermission = await _authService.CheckPermission(PermissionKeyConstant.AssetManagement, PermissionConstant.CanWrite);
 }
 
@@ -47,7 +47,7 @@
 
 </div>
 
-<!-------filter start here ------>
+<!------- filter start here ------>
 <div class="filter_btn ms-auto" id="filterBox">
     
 </div>

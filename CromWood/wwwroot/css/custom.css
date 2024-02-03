@@ -1,3 +1,23 @@
+.spinner-class {
+    position: absolute;
+    display: flex;
+    top: 0px;
+    width: 100%;
+    align-items: center;
+    height: 100%;
+    justify-content: center;
+    left: 0px;
+    background: #ffffff52;
+    z-index: 100000;
+}
+
+a{
+    text-decoration:none !important;
+}
+
+.form-check-input[type="checkbox"]{
+  cursor: pointer;
+}
 .nav-tabs .nav-link{
     height: 40px;
 }
@@ -11,10 +31,9 @@
     border: none !important;
 }
 /* ck editor css End here  */
-
-.w144{
-    max-width: 144px;
-    width: 144px;
+.w150{
+    max-width: 150px;
+    width: 150px;
 }
 
 /* table last colfixed style start */
@@ -172,17 +191,16 @@
 .custom__filetype input[type="file"] {
     display: none;
 }
-
 .nav a.nav-link:not(.active) .active_nav_icon {
     display: none;
 }
-
 .form-check-input:active {
     filter: none !important;
 }
 
-dropdown-toggle {
-    cursor: pointer;
+/*---------------- Select & Option ---------------- */
+.select2-container{
+    z-index: 1060;
 }
 .select2-selection--single{
     background-image: none!important;
@@ -198,7 +216,7 @@ dropdown-toggle {
     background-position: center;
     background-repeat: no-repeat;
     top: 50;
-    right: 10px;
+    right: 8px;
     bottom: 10px;
     width: 15px;
     height: 15px;
@@ -208,8 +226,7 @@ dropdown-toggle {
     transform: rotate(-180deg);
     transition: 0s;
 }
-
-/* Select & Option ----------- For Font size 12 ----------- */
+/* ------ For Font size 12 ----------- */
 .select_font_12+.select2 .select2-selection__rendered,
 .select_font_12 .select2-results__option {
     color: #000!important;
@@ -221,45 +238,55 @@ dropdown-toggle {
     padding: 0.5rem 0.75rem;
     background-color: #fff!important;
 }
-.select_font_12+.select2 .select2-selection{
-    height: 33px!important;
-}
 .select2-search--dropdown {
     display: none!important;
 }
-
-/* Select & Option ----------- For Font size 14 ----------- */
+/* Select & Option ---- For Font size 14 ----------- */
 .select_font_14+.select2 .select2-selection__rendered,
 .select_font_14 .select2-results__option {
-    color: #768293!important;
+    color: #2F2E35!important;
     font-family: Inter;
     font-size: 14px!important;
     font-style: normal!important;
     font-weight: 400!important;
     line-height: 140%!important;
     padding: 0.5rem 0.75rem;
-    background-color: #fff!important;
 }
 .select_font_14 .select2-results__option{
     color: #000!important;
+    border-radius: 4px;
 }
 
-/* Select & Option with search option ----------- For Font size 14 with search option ----------- */
+/* Select & Option with search option ------ For Font size 14 with search option ----------- */
 .select__search+.select2 .select2-selection__rendered,
 .select__search .select2-results__option {
-    color: #768293!important;
+    color: #2F2E35!important;
     font-family: Inter;
     font-size: 14px!important;
     font-style: normal!important;
     font-weight: 400!important;
     line-height: 140%!important;
     padding: 0.5rem 0.75rem;
-    background-color: #fff!important;
+}
+.select2-container--bootstrap-5 .select2-dropdown .select2-search .select2-search__field {
+    border: 1px solid #D1D5DB;
+    box-shadow:none!important;
 }
 .select2-search__field {
     font-size: 14px!important;
     font-family: Inter!important;
-    background-color: #fff!important;
+    background-color: #fff;
+    text-transform: capitalize;
+    outline: none;
+    border-radius: 4px;
+    padding: 6px 8px;
+}
+.select2-search__field:focus {
+    border: 1px solid var(--secondary-color)!important;
+}
+textarea.select2-search__field:focus{
+    border: 0px solid var(--secondary-color)!important;
+    outline: 0px solid #8DB300;
 }
 .select__search .select2-search--dropdown {
     display: block!important;
@@ -267,21 +294,23 @@ dropdown-toggle {
 .select__search .select2-search--dropdown{
     box-shadow: none;
 }
-
-.select_font_14+.select2 .select2-selection{
-    height: 40px!important;
+span.select2-search.select2-search--inline {
+    display: flex;
+    align-items: center;
 }
-.select2-container--bootstrap-5 .select2-dropdown .select2-search .select2-search__field:focus {
-    border: 1px solid #D1D5DB!important;
-    box-shadow:none!important;
+.select2-container .select2-search--inline .select2-search__field{
+    margin-top: 0px!important;
+    margin-left: 4px!important;
 }
-/* Select & Option ----------- For Font size 14 ----------- */
-
+.select2-search--dropdown{
+    padding: 6px!important;
+}
+.select2.select2-container .select2-selection {
+    min-height: 40px!important;
+    background-color: #fff;
+}
 .select2-dropdown{
     border-color: var(--secondary-color)!important;
-}
-.select2-container .select2-selection--single .select2-selection__rendered{
-    display: unset!important;
 }
 .select2-container--bootstrap-5 .select2-dropdown.select2-dropdown--below{
     border-top: 1px solid var(--secondary-color)!important;
@@ -293,26 +322,54 @@ dropdown-toggle {
 .select2-results {
     box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.15);
 }
-.select2-dropdown .select2-results__options .select2-results__option.select2-results__option--selected, 
-.select2-dropdown .select2-results__options .select2-results__option[aria-selected=true]:not(.select2-results__option--highlighted){
- background-color: #fff!important;
-}
 .select2-container--bootstrap-5 .select2-selection{
     border-radius: 4px!important;
     border: 1px solid #D1D5DB!important;
     box-shadow:none!important;
 }
-
+.select2-container .select2-selection--single{
+    display: flex!important;
+    align-items: center;
+}
+.select2-container .select2-selection--single .select2-selection__rendered{
+    border-radius: 4px;
+}
+.select2-selection--multiple{
+    display: flex!important;
+}
+.select2-container .select2-selection--multiple .select2-selection__rendered {
+    display: flex!important;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+    padding: 4px!important;
+    gap: 5px;
+}
+button.select2-selection__choice__remove {
+    border: none;
+    background: transparent;
+    color: var(--main-color);
+}
+.select2-selection__choice__display{
+    font-size: 12px;
+    color: #000;
+}
+li.select2-selection__choice {
+    border: 1px solid #f2f2f2;
+    background: #f2f2f2;
+    border-radius: 4px;
+    padding-right: 6px;
+    display: flex;
+    align-items: center;
+}
+/* Select & Option ----------- For Font size 14 ----------- */
 .accordion-header h5:not(.collapsed) .m_inus,
 .accordion-header h5.collapsed .p_lus {
     display: block;
 }
-
 .accordion-header h5:not(.collapsed) .p_lus,
 .accordion-header h5.collapsed .m_inus {
     display: none;
 }
-
 .font12 {
     color: var(--Greyscale-Grey-9, #5F6D81);
     font-family: Inter;
@@ -843,6 +900,14 @@ table thead tr th .datatable-sorter .c__icon::after {
     display: none !important;
 }
 
+/* / / hide on 1 & last items / / */
+.hide_sort_first_last .datatable-table th:first-child .datatable-sorter::after,
+.hide_sort_first_last .datatable-table th:last-child .datatable-sorter::after,
+.hide_sort_first_last .datatable-table th:first-child .datatable-sorter .c__icon::after,
+.hide_sort_first_last .datatable-table th:last-child .datatable-sorter .c__icon::after {
+    display: none !important;
+}
+
 .btn-check:focus+.btn,
 .btn:focus,
 input[type=text]:focus,
@@ -990,7 +1055,54 @@ input.custom__btn3 {
     /* line-height: 140%; */
     /* box-shadow: 0px 4px 0rem 0px #AC0223; */
 }
-
+.custom_btn4{
+    background: #F1F7F6;
+    height: 40px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-family: var(--sora-font);
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1px;
+    color: var(--bran-color);
+    display: flex;
+    column-gap: 8px;
+    align-items: center;
+    border-bottom: 4px #D1D5DB solid;
+    transition: .1s ease-in-out;
+}
+.custom_btn4 a:hover,
+a.custom_btn4:hover,
+input.custom_btn4:hover {
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.25);
+    border-bottom: 6px #D1D5DB solid;
+}
+.sm_white_btn{
+    background: #F1F7F6;
+    height: 29px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-family: var(--sora-font);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1px;
+    color: var(--bran-color);
+    display: flex;
+    column-gap: 8px;
+    align-items: center;
+    border-bottom: 4px #D1D5DB solid;
+    transition: .1s ease-in-out;
+}
+.sm_white_btn a:hover,
+a.sm_white_btn:hover,
+input.sm_white_btn:hover {
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.25);
+    border-bottom: 6px #D1D5DB solid;
+}
 .custom__btn a:hover,
 a.custom__btn:hover,
 input.custom__btn:hover {
@@ -1638,32 +1750,15 @@ span.exp {
     font-weight: 700;
     padding: 3px 6px;
 }
-
 .t_t {
-    font-size: 24px;
-    font-weight: 400;
-    font-family: 'Sora';
-    color: #2F80ED;
+    color: #2F80ED!important;
 }
-
 .etm {
-    font-size: 24px;
-    font-weight: 400;
-    font-family: 'Sora';
-    color: #ff9255;
+    color: #ff9255!important;
 }
-
 .expd {
-    font-size: 24px;
-    font-weight: 400;
-    font-family: 'Sora';
-    color: #FF0031;
+    color: #FF0031!important;
 }
-
-.col-xl-2 {
-    margin-top: -17px;
-}
-
 input.alc_date {
     padding: 4px 96px;
     border: 1px solid #D1D5DB;
@@ -1723,11 +1818,6 @@ textarea:focus, textarea:focus-visible{
     color: #768293;
 }
 
-.input-container {
-    width: 100%;
-    margin-top: -5px;
-}
-
 input[type="date"] {
     width: 100%;
     padding: 8px 8px;
@@ -1775,11 +1865,12 @@ tbody.asset_table tr {
     border-bottom: 2px dotted #E8EAED !important;
 }
 
-span.a_m {
+.a_m{
     font-size: 14px;
     font-weight: 400;
     color: #4D6D00;
     font-family: var(--main-font);
+    text-decoration: none;
 }
 
 .cre {
@@ -1955,8 +2046,12 @@ td.k_data {
     padding: 6px 12px;
 }
 
-.property_tab_bage {
-    display: none;
+.property_tab_bage .occupied_bage {
+    color: var(--red-color);
+    font: var(--sort-font-500);
+    border-radius: 50px;
+    background: rgb(179 0 0 / 10%);
+    padding: 6px 12px;
 }
 
 .comple_pro_bar {
@@ -2151,6 +2246,7 @@ td.k_data {
 
 #hhsrs tr td {
     vertical-align: middle !important;
+    width: 100%;
 }
 
 #hhsrs thead tr th button {
@@ -2159,6 +2255,12 @@ td.k_data {
 
 .p__text {
     color: #FF0031 !important;
+}
+.f__text {
+    color: #ff9400 !important;
+}
+.g__text {
+    color: #38a400 !important;
 }
 
 .b__img {
@@ -2958,16 +3060,17 @@ span.t_wigdes_2.mx-2 {
 
 /* date picker style start here */
 .date__box {
-    padding: 6px 0px!important;
+    padding: 0px 0px!important;
     cursor: pointer;
+    height: 40px;
 }
 .datepicker input{
     border-radius: 4px!important;
 }
 .date__icon {
     position: absolute;
-    top: 10px;
-    right: 12px;
+    top: 6px;
+    right: 8px;
     z-index: 5;
 }
 .datepicker.datepicker-dropdown{
@@ -3082,206 +3185,303 @@ span.t_wigdes_2.mx-2 {
 background-color: #F6F7F8;
 }
 
-/* Button CSS */
-.c_file_2 {
-    color: #4D6D00 !important;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    transition: .3s ease-in-out;
-    padding: 10px 10px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600 !important;
-    width: fit-content;
-}
-.c_file_2:hover{
-    text-decoration: underline;
-    background: #f2f2f2;
-}
-/* Button  */
-
-/* Placeholder Color */
-.placeholder_clr::placeholder{
-color:#000;
-}
-/* Placeholder Color */
-
-/* Form Heading Font Size & Color */
-.filter_h_font_size{
-font-size: 14px;
-color: #000;    
-}
-/* Form Heading Font Size & Color */
-
-/* Creator Info Edit Filter */
-.creator_info
-{
-color: #5F6D81;
-font-size: 12px;
-}
-/* Creator Info Edit Filter */
-
-/* Filter Edit Form BTN */
-.custom__btn_edit a,
-a.custom__btn_edit,
-input.custom__btn_edit {
-    background: #F1F7F6;
-    height: 40px;
-    padding: 10px 20px;
-    /* border-radius: 30px; */
-    font-family: var(--sora-font);
-    font-weight: 600;
-    font-size: 14px;
-    text-transform: uppercase;
-    text-decoration: none;
-    letter-spacing: 1px;
-    color: var(--bran-color);
-    display: flex;
-    column-gap: 8px;
-    align-items: center;
-    border-bottom: 4px #D1D5DB solid;
-    transition: .1s ease-in-out;
-    /* line-height: 140%; */
-    /* box-shadow: 0px 4px 0px 0px #D1D5DB; */
-}
-
-.custom__btn_edit a:hover,
-a.custom__btn_edit:hover,
-input.custom__btn_edit:hover {
-    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.25);
-    border-bottom: 6px #D1D5DB solid;
-}
-/* Filter Edit Form BTN */
-
 
 /* ----------- Property Management -> Add New Filter & Edit Filter CSS --------- */
+.add_new_filter_body{
+    background-color: #F6F7F8;
+    }
+    
+    /* Button CSS */
+    .c_file_2 {
+        color: #4D6D00 !important;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        transition: .3s ease-in-out;
+        padding: 10px 10px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600 !important;
+        width: fit-content;
+    }
+    .c_file_2:hover{
+        text-decoration: underline;
+        background: #f2f2f2;
+    }
+    /* Button  */
+    
+    /* Placeholder Color */
+    .placeholder_clr::placeholder{
+    color:#000;
+    }
+    /* Placeholder Color */
+    
+    /* Form Heading Font Size & Color */
+    .filter_h_font_size{
+    font-size: 14px;
+    color: #000;    
+    }
+    /* Form Heading Font Size & Color */
+    
+    /* Creator Info Edit Filter */
+    .creator_info
+    {
+    color: #5F6D81;
+    font-size: 12px;
+    }
+    /* Creator Info Edit Filter */
+    
+    /* Filter Edit Form BTN */
+    .custom__btn_edit a,
+    a.custom__btn_edit,
+    input.custom__btn_edit {
+        background: #F1F7F6;
+        height: 40px;
+        padding: 10px 20px;
+        /* border-radius: 30px; */
+        font-family: var(--sora-font);
+        font-weight: 600;
+        font-size: 14px;
+        text-transform: uppercase;
+        text-decoration: none;
+        letter-spacing: 1px;
+        color: var(--bran-color);
+        display: flex;
+        column-gap: 8px;
+        align-items: center;
+        border-bottom: 4px #D1D5DB solid;
+        transition: .1s ease-in-out;
+        /* line-height: 140%; */
+        /* box-shadow: 0px 4px 0px 0px #D1D5DB; */
+    }
+    
+    .custom__btn_edit a:hover,
+    a.custom__btn_edit:hover,
+    input.custom__btn_edit:hover {
+        box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.25);
+        border-bottom: 6px #D1D5DB solid;
+    }
+    /* Filter Edit Form BTN */
+    
+    
+    /* ----------- Property Management -> Add New Filter & Edit Filter CSS --------- */
+    
+    
+    /*-- Dashboard -> Donut Graph CSS Start ----*/
+    #chartContainer1
+    {
+    height: 220px;
+    }
+    #chartInfo1{
+    text-align: center; 
+    margin-top: -120px;
+    z-index: 999;
+    position: relative;
+    }
+    #chartInfo1 span
+    {
+    font-family: Sora;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    text-transform: capitalize;    
+    }
+    .donut_graph_info
+    {
+    width:100%; 
+    margin-top: 100px;
+    }
+    .donut_info_flex
+    {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    }
+    .graph_info_flex
+    {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    }
+    .donut_info_flex_child
+    {
+    width: 50%;
+    margin-bottom: 10px;
+    /* Label-2/400 */
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%; /* 19.6px */
+    }
+    .graph_info_flex_child
+    {
+    width: 20%;
+    /* Label-2/400 */
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%; /* 19.6px */
+    }
+    .donut_info_flex_child2
+    {
+    width: 50%;
+    margin-bottom: 10px;
+    text-align: right;
+    /* Label-2/400 */
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%; /* 19.6px */
+    }
+    .graph_info_flex_child2
+    {
+    width: 20%;
+    text-align: right;
+    /* Label-2/400 */
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%; /* 19.6px */
+    }
+    .graph_info_flex_child3
+    {
+    width: 60%;
+    /* Label-2/400 */
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%; /* 19.6px */
+    }
+    .graph_info_flex_child3 h4
+    {
+    /* Headings/h4 */
+    margin: 0px;
+    font-family: Sora;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%; /* 28px */
+    text-transform: capitalize;
+    }
+    .graph_info_flex_child3 span
+    {
+    /* Label-2/500 */
+    color: #5F6D81;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%; /* 19.6px */
+    }
+    .graph_circle {
+        height: 12px;
+        width: 12px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 8px;
+    }
+    .income_cir{
+        background-color: var(--secondary-color);
+    }
+    .expen_cir{
+        background-color: var(--dark-green);
+    }
+    .bg_goodColor{
+        background-color: var(--good-color);
+    }
+    .bg_lightBlueColor{
+        background-color: var(--light-blue);
+    }
+    .bg_orangeColor{
+        background-color: var(--light-orange);
+    }
+    /*-- Dashboard -> Donut Graph CSS End ----*/
+    
+    /*-- Property Management -> Donut Graph CSS ----*/
+    #chartContainer2
+    {
+    height: 220px;
+    margin-top: -30px;
+    }
+    /*-- Property Management -> Donut Graph CSS ----*/
+    
+    /* Dashboard Overview Card CSS */
+    .custom_pb-3
+    {
+    padding-bottom: 19px;
+    }
+    /* Dashboard Overview Card CSS */
+    
+    /* Property Management */
+    .rnct_trnsctn .datatable-wrapper.datatable-loading.no-footer.sortable.searchable.fixed-columns {
+    margin: 0px;
+    border-radius: 0px;   
+    }
+    .rnct_trnsctn .datatable-table .datatable-sorter::after
+    {
+    display:none;
+    }
+    .rnct_trnsctn table thead tr th .datatable-sorter .c__icon::after
+    {
+    display: none;
+    }
+    /* Property Management */
+
+/* custom report page */
+.accordionBelow_page .accordion-item {
+  border-radius: 8px;
+  overflow: hidden;
+}
+.below_btnBar {
+    position: fixed;
+    width: calc(100% - 16rem);
+    bottom: 0;
+    background: #fff;
+    left: 16rem;
+    z-index: 50;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-top: 1px solid #D1D5DB;
+}
+.amt {
+    color: #219653;
+}
+.logo__br:empty {
+    height: 2px;
+    width: 90%;
+    background: #8DB300;
+    margin-top: -2px;
+}
+.logo__br_2:empty {
+    height: 2px;
+    width: 100%;
+    background: #8DB300;
+    margin-top: -2px;
+}
+.tenancy_rent label {
+    padding: 10px;
+}
+.tenancy_rent .p_text:checked + label {
+    background-color: #6D9000 ;
+    color: #fff!important;
+}
+.tenancy_rent .f_text:checked + label {
+    background-color: #6D9000;
+    color: #fff!important;
+}
+.tenancy_rent .g_text:checked + label {
+    background-color: #6D9000;
+    color: #fff!important;
+}
+
+/* .tenancy_rent .p_text:checked + label  */
 
 
-/*-- Dashboard -> Donut Graph CSS Start ----*/
-#chartContainer1
-{
-height: 220px;
-}
-#chartInfo1{
-text-align: center; 
-margin-top: -120px;
-z-index: 999;
-position: relative;
-}
-#chartInfo1 span
-{
-font-family: Sora;
-font-size: 20px;
-font-style: normal;
-font-weight: 400;
-text-transform: capitalize;    
-}
-.donut_graph_info
-{
-width:100%; 
-margin-top: 100px;
-}
-.donut_info_flex
-{
-display: flex;
-justify-content: space-between;
-flex-wrap: wrap;
-}
-.graph_info_flex
-{
-display: flex;
-justify-content: space-between;
-flex-wrap: wrap;
-}
-.donut_info_flex_child
-{
-width: 50%;
-margin-bottom: 10px;
-/* Label-2/400 */
-font-family: Inter;
-font-size: 14px;
-font-style: normal;
-font-weight: 400;
-line-height: 140%; /* 19.6px */
-}
-.graph_info_flex_child
-{
-width: 20%;
-/* Label-2/400 */
-font-family: Inter;
-font-size: 14px;
-font-style: normal;
-font-weight: 400;
-line-height: 140%; /* 19.6px */
-}
-.donut_info_flex_child2
-{
-width: 50%;
-margin-bottom: 10px;
-text-align: right;
-/* Label-2/400 */
-font-family: Inter;
-font-size: 14px;
-font-style: normal;
-font-weight: 400;
-line-height: 140%; /* 19.6px */
-}
-.graph_info_flex_child2
-{
-width: 20%;
-text-align: right;
-/* Label-2/400 */
-font-family: Inter;
-font-size: 14px;
-font-style: normal;
-font-weight: 400;
-line-height: 140%; /* 19.6px */
-}
-.graph_info_flex_child3
-{
-width: 60%;
-/* Label-2/400 */
-font-family: Inter;
-font-size: 14px;
-font-style: normal;
-font-weight: 400;
-line-height: 140%; /* 19.6px */
-}
-.graph_info_flex_child3 h4
-{
-/* Headings/h4 */
-margin: 0px;
-font-family: Sora;
-font-size: 20px;
-font-style: normal;
-font-weight: 400;
-line-height: 140%; /* 28px */
-text-transform: capitalize;
-}
-.graph_info_flex_child3 span
-{
-/* Label-2/500 */
-color: #5F6D81;
-font-family: Inter;
-font-size: 14px;
-font-style: normal;
-font-weight: 500;
-line-height: 140%; /* 19.6px */
-}
-.donut_graph_circle
-{
-margin-right:8px;
-}
-.graph_graph_circle
-{
-margin-right:8px;
-}
-/*-- Dashboard -> Donut Graph CSS End ----*/
 
-/*-- Property Management -> Donut Graph CSS ----*/
-#chartContainer2
-{
-height: 220px;
-margin-top: -30px;
-}
-/*-- Property Management -> Donut Graph CSS ----*/

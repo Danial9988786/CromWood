@@ -5,9 +5,9 @@ namespace CromWood.Data.Repository.Interface
 {
     public interface IPropertyRepository
     {
-        public Task<IEnumerable<Property>> GetPropertyForList();
+        public Task<IEnumerable<Property>> GetPropertyForList(Guid filterId);
         public Task<Property> GetPropertyOverView(Guid propertyId);
-        public Task<int> AddModifyProperty(Property property);
+        public Task<Guid> AddModifyProperty(Property property);
         public Task<PropertyInsurance> GetPropertyInsurance(Guid propertyId);
         public Task<int> AddInsurance(PropertyInsurance insurance);
         public Task<int> ModifyInsurance(PropertyInsurance insurance);

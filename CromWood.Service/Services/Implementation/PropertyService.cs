@@ -21,11 +21,11 @@ namespace CromWood.Business.Services.Implementation
             _fileUploader = uploader;
         }
 
-        public async Task<AppResponse<IEnumerable<PropertyViewModel>>> GetPropertyForList()
+        public async Task<AppResponse<IEnumerable<PropertyViewModel>>> GetPropertyForList(Guid filterId)
         {
             try
             {
-                var result = await _properyRepository.GetPropertyForList();
+                var result = await _properyRepository.GetPropertyForList(filterId);
                 var mappedResult = _mapper.Map<IEnumerable<PropertyViewModel>>(result);
                 return ResponseCreater<IEnumerable<PropertyViewModel>>.CreateSuccessResponse(mappedResult, "Properties loaded successfully");
             }
@@ -52,7 +52,7 @@ namespace CromWood.Business.Services.Implementation
             }
         }
 
-        public async Task<AppResponse<int>> AddModifyProperty(PropertyModel property)
+        public async Task<AppResponse<Guid>> AddModifyProperty(PropertyModel property)
         {
             try
             {
@@ -60,12 +60,12 @@ namespace CromWood.Business.Services.Implementation
                 mappedProperty.PropertyAmenities.ToList().ForEach(x => x.AmenityId = x.Amenity.Id);
                 mappedProperty.PropertyAmenities.ToList().ForEach(x => x.Amenity = null);
                 var result = await _properyRepository.AddModifyProperty(mappedProperty);
-                return ResponseCreater<int>.CreateSuccessResponse(result, "Property added successfully");
+                return ResponseCreater<Guid>.CreateSuccessResponse(result, "Property added successfully");
             }
 
             catch (Exception ex)
             {
-                return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+                return ResponseCreater<Guid>.CreateErrorResponse(Guid.Empty, ex.ToString());
             }
         }
 
@@ -93,7 +93,7 @@ namespace CromWood.Business.Services.Implementation
                 if (insurance.File != null)
                 {
                     // In case of Edit, delete prev file & add new one
-                    if (mappedInsurance.Id != Guid.Empty)
+                    if (mappedInsurance.Id != Guid.Empty && mappedInsurance.FileUrl!=null)
                     {
                         await _fileUploader.Delete(mappedInsurance.FileUrl, "propertyinsurance");
                     }

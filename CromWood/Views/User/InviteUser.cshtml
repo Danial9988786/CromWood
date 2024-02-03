@@ -3,7 +3,7 @@
 @model CromWood.Business.Models.UserModel
 
 @{
-    var asyncRoles= await _rolePermisssion.GetRolesAsync();
+    var asyncRoles = await _rolePermisssion.GetRolesAsync();
     var roles = new SelectList(asyncRoles.Data, "Id", "Name");
 }
 
@@ -64,13 +64,13 @@
 <script>
 
     $(document).ready(function () {
-        $('.select_font_14').select2({
-            theme: "bootstrap-5",
-            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-            placeholder: $(this).data('placeholder'),
-            closeOnSelect: true,
-            dropdownCssClass: "select_font_14",
-        });
+    $('.select_font_14').select2({
+        theme: "bootstrap-5",
+        placeholder: "Select...",
+        dropdownAutoWidth : true,
+        width: '100%',
+        dropdownCssClass: "select_font_14"
+    });
     })
 
 </script>

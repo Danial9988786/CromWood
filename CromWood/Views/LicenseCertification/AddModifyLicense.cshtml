@@ -10,6 +10,8 @@
 
     var asynLicenseTypes = await _lookupService.GetAllItems();
     var licenseTypes = new SelectList(asynLicenseTypes.Data, "Id", "Name");
+
+    var propId = ViewBag.PropertyId;
 }
 
 <div class="modal-content rounded-0" style="min-height:500px">
@@ -18,8 +20,8 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body p-0">
-        <form asp-action="AddModifyLicense" enctype="multipart/form-data">
-            @Html.HiddenFor(x=>x.Id)
+        <form asp-action="AddModifyLicense" enctype="multipart/form-data" asp-route-propId="@propId">
+            @Html.HiddenFor(x => x.Id)
             <div class="mb-3 px-3 pt-3">
                 <div class="row">
                     <div class="col-md-4">
@@ -78,10 +80,10 @@
                               placeholder="Start typing a note here..."></textarea>
                 </div>
             </div>
-            @Html.HiddenFor(x=>x.Archieved)
-            @Html.HiddenFor(x=>x.DocUrl)
-            <div class="popup_footer_fixed text-end border-top d-flex justify-content-between" data-bs-dismiss="modal">
-                <div class="shadow-box">
+            @Html.HiddenFor(x => x.Archieved)
+            @Html.HiddenFor(x => x.DocUrl)
+            <div class="popup_footer_fixed text-end border-top d-flex justify-content-between">
+                <div class="shadow-box" data-bs-dismiss="modal">
                     <a class="custom__btn">
                         Cancel
                     </a>
@@ -101,12 +103,12 @@
 
 <script>
     $(document).ready(function () {
-        $('.select_font_14').select2({
-            theme: "bootstrap-5",
-            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-            placeholder: $(this).data('placeholder'),
-            closeOnSelect: true,
-            dropdownCssClass: "select_font_14",
-        });
+    $('.select_font_14').select2({
+        theme: "bootstrap-5",
+        placeholder: "Select...",
+        dropdownAutoWidth : true,
+        width: '100%',
+        dropdownCssClass: "select_font_14"
+    });
     });
 </script>

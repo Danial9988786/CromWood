@@ -1,4 +1,5 @@
-﻿using CromWood.Models;
+﻿using CromWood.Data.Entities.Default;
+using CromWood.Models;
 
 namespace CromWood.Helper
 {
@@ -43,5 +44,28 @@ namespace CromWood.Helper
         new FilterOption() { Key = "Is Later Than", Value = "ilt" }
     };
 
+        public static List<KeyValue> BuildingDates = new List<KeyValue>()
+        {
+            new KeyValue()
+            {
+                Id = Guid.Parse("20c391d3-2674-4bd5-887b-ea811ddff9c5"),
+                Name = "1960's",
+            },
+            new KeyValue()
+            {
+                Id = Guid.Parse("38c002a3-f234-4408-a00b-ec0fcdca6df3"),
+                Name = "1970's",
+            },
+            new KeyValue()
+            {
+                Id = Guid.Parse("93a093a0-7bbc-402c-a5ff-ea9b716fb7ee"),
+                Name = "Post 1974",
+            },
+            new KeyValue()
+            {
+                Id = Guid.Parse("f4f7d564-360b-4fb6-bd4e-b6cf299e901a"),
+                Name = "Post 1985",
+            },
+        };
     }
 }

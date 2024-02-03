@@ -7,6 +7,8 @@
     var rawId = ViewContext.RouteData.Values["id"] as string;
     var id = Guid.Parse(rawId);
     var property = await _propertyService.GetPropertyOverView(id);
+    var tenancyExist = property.Data.Tenancies.Count > 0;
+    var availableToLet = tenancyExist ? (property.Data.Tenancies.Any(x => x.EndDate > DateTime.Now) ? false : true) : true;
 }
 
 
@@ -25,22 +27,35 @@
         </a>
         @property.Data.PropertyCode
     </h1>
-    <!-- bage show hide for proparty tab -->
-    <div class="property_tab_bage ps-3 pe-2">
-        <div class="avail_bage">
-            <span>
-                <img class="pe-1" src="~/assets/img/gree_circle.svg" alt="circle_">
-                Available To Let
-            </span>
+    @if (availableToLet)
+    {
+        <div class="property_tab_bage ps-3 pe-2">
+            <div class="avail_bage">
+                <span>
+                    <img class="pe-1" src="~/assets/img/gree_circle.svg" alt="circle_">
+                    Available To Let
+                </span>
+            </div>
         </div>
-    </div>
-    <!-- bage show hide for proparty tab End -->
+    }
+    else
+    {
+        <div class="property_tab_bage ps-3 pe-2">
+            <div class="occupied_bage">
+                <span>
+                    <img class="pe-1" src="~/assets/img/Ellipse 11 red.svg" alt="circle_">
+                    Occupied
+                </span>
+            </div>
+        </div>
+    }
+
     <div class="d-flex ms-1 all_tab_tb align-items-end">
         <div class="cre ms-3">
             <p class="mb-0">Created on: @property.Data.CreatedDate?.ToString("yyyy-MM-dd")</p>
             <p class="mb-0"> Last Modified: @property.Data.UpdatedDate?.ToString("yyyy-MM-dd")</p>
         </div>
-        <a class="ms-2 v_c" href="#">View Changelog</a>
+        <a class="v_c" asp-action="ChangeLog" asp-route-id="@property.Data.Id" asp-route-propertyId="@property.Data.PropertyCode">View Changelog</a>
     </div>
 </div>
 
@@ -73,7 +88,7 @@
     @RenderBody()
 </div>
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
 @await RenderSectionAsync("Scripts", required: false)
 
 <script>

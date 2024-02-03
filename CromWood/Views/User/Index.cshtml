@@ -241,13 +241,13 @@
         $(document).ready(function () {
             
             // For select 2 functionality
-            $('.select_font_12').select2({
-                theme: "bootstrap-5",
-                width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-                placeholder: $(this).data('placeholder'),
-                closeOnSelect: false,
-                dropdownCssClass: "select_font_12",
-            });
+    $('.select_font_12').select2({
+        theme: "bootstrap-5",
+        dropdownAutoWidth : true,
+        placeholder: "Select...",
+        width: '100%',
+        dropdownCssClass: "select_font_12"
+    });
 
             // Code for datatable manipulation
             var rowCount = $('.datatable-table tbody tr').length;
