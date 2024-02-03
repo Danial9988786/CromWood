@@ -14,7 +14,7 @@
     <li class="breadcrumb-item">
         <a asp-action="Index" asp-controller="Test"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
     </li>
-    <li class="breadcrumb-item active"><a asp-action="Index"></a>Tenancy Management</li>
+    <li class="breadcrumb-item"><a class="a_m" asp-action="Index">Tenancy Management</a></li>
     <li class="breadcrumb-item active">@tenancy.Data.TenancyId</li>
 </ol>
 <div class="row mb-2">
@@ -32,12 +32,12 @@
         <span class="owner_clr"> </span>
         <h2 class="etm"></h2>
     </div>
-    
+
     <div class="col-xl-5">
         <span class="owner_clr"></span>
         <h2 class="expd"></h2>
     </div>
-  
+
     <div class="col-xl-2">
         <span class="owner_clr mx-3">Balance</span>
         <h2 class="expd">

@@ -116,7 +116,7 @@
             {
                 <tr>
                     <td class="maintext_size align-top">
-                        <a class="main-text" asp-action="Detail" asp-route-id="@item.Id">
+                        <a class="main-text u_n" asp-action="Detail" asp-route-id="@item.Id">
                             @item.TenancyId
                         </a>
                     </td>
@@ -147,10 +147,20 @@
                         }
                     </td>
                     <td class="maintext_size align-top">
-                        <div class="ongoing_btn">
-                            <img class="pe-1" src="~/assets/img/file-check.svg" alt="">
-                            Ongoing
-                        </div>
+                        @if (item.EndDate > DateTime.Now)
+                        {
+                            <div class="ongoing_btn">
+                                <img class="pe-1" src="~/assets/img/check-file.svg" alt="">
+                                Ongoing
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="past_btn">
+                                <img class="pe-1" src="./assets/img/Completed_icon.svg" alt="">
+                                Past
+                            </div>
+                        }
                     </td>
                     <td class="maintext_size align-top">@item.RentAmount.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ") @item.RentFrequency.Name</td>
                 </tr>

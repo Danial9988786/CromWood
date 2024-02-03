@@ -15,6 +15,10 @@ namespace CromWood.Data.Repository.Implementation
         {
             return await _context.Tenancies.Include(x => x.Property).ThenInclude(x => x.Asset).Include(x => x.Property).ThenInclude(x => x.PropertyType).Include(x => x.RentFrequency).ToListAsync();
         }
+        public async Task<IEnumerable<Tenancy>> GetTenancyForExport()
+        {
+            return await _context.Tenancies.Include(x => x.ContractType).Include(x => x.TransactionType).Include(x => x.TenancyType).Include(x => x.Property).ThenInclude(x => x.Asset).Include(x => x.Property).ThenInclude(x => x.PropertyType).Include(x => x.RentFrequency).Include(x=>x.PaymentMethod).ToListAsync();
+        }
 
         public async Task<Tenancy> GetTenancyOverView(Guid tenancyId)
         {

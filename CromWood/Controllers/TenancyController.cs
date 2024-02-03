@@ -38,15 +38,19 @@ namespace CromWood.Controllers
         public async Task<IActionResult> Export()
         {
             // Get tenancies for exporting
-            var tenancies = await _tenancyService.GetTenancyForList();
+            var tenancies = await _tenancyService.GetTenancyForExport();
             var source = tenancies.Data.ToList();
-            List<string> headers = new() { "Tenancy ID", "Property Address", "Property Owner", "Start Date", "End Date", "Status", "Rent" };
-
+            List<string> headers = new() {"Tenancy ID", "Tenancy Type", "Property Address", "Contract Type",
+             "Start Date", "End Date", "Rent Amount", "Rent Frequency",
+             "Payment Method", "Security Deposit",
+             "Bank Name", "Account Number",
+             "Bank Code", "Transaction Type", "Move In Date",
+             "Contact Fee Applicable", "Contract Fee", "Transaction Description"};
 
             #region Exporting for Excel
             // This is the best way to export, as we have to loop anyway in another helper as well.
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            string fileName = $"tenant-management.xlsx";
+            string fileName = $"tenancy-management.xlsx";
             string tabName = "Tenancies";
 
 
@@ -65,13 +69,25 @@ namespace CromWood.Controllers
             for (int data = 1; data <= source.Count; data++)
             {
                 worksheet.Cell(data + 1, 1).Value = source[data - 1].TenancyId;
-                worksheet.Cell(data + 1, 2).Value = source[data - 1].Property.Asset.StreetAddress;
-                worksheet.Cell(data + 1, 3).Value = source[data - 1].Property.Asset.Ownership;
-                worksheet.Cell(data + 1, 4).Value = source[data - 1].StartDate;
-                worksheet.Cell(data + 1, 5).Value = source[data - 1].EndDate;
-                worksheet.Cell(data + 1, 6).Value = "Rent Eaer";
+                worksheet.Cell(data + 1, 2).Value = source[data - 1].TenancyType.Name;
+                worksheet.Cell(data + 1, 3).Value = source[data - 1].Property.Asset.Borough;
+                worksheet.Cell(data + 1, 4).Value = source[data - 1].ContractType.Name;
+                worksheet.Cell(data + 1, 5).Value = source[data - 1].StartDate;
+                worksheet.Cell(data + 1, 6).Value = source[data - 1].EndDate;
                 worksheet.Cell(data + 1, 7).Value = source[data - 1].RentAmount;
+                worksheet.Cell(data + 1, 8).Value = source[data - 1].RentFrequency.Name;
+                worksheet.Cell(data + 1, 9).Value = source[data - 1].PaymentMethod.Name;
+                worksheet.Cell(data + 1, 10).Value = source[data - 1].SecurityDeposit;
+                worksheet.Cell(data + 1, 11).Value = source[data - 1].BankName;
+                worksheet.Cell(data + 1, 12).Value = source[data - 1].AccountNumber;
+                worksheet.Cell(data + 1, 13).Value = source[data - 1].BankCode;
+                worksheet.Cell(data + 1, 14).Value = source[data - 1].TransactionType.Name;
+                worksheet.Cell(data + 1, 15).Value = source[data - 1].MoveInDate;
+                worksheet.Cell(data + 1, 16).Value = source[data - 1].ContactFeeApplicable == null || false ? "Yes" : "No";
+                worksheet.Cell(data + 1, 17).Value = source[data - 1].ContractFee;
+                worksheet.Cell(data + 1, 18).Value = source[data - 1].TransactionDescription;
             }
+
             using var stream = new MemoryStream();
             workbook.SaveAs(stream);
             var content = stream.ToArray();
@@ -80,15 +96,19 @@ namespace CromWood.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddTenancy([FromQuery] Guid propertyId)
+        public async Task<IActionResult> AddTenancy([FromQuery] Guid propertyId, Guid tenancId)
         {
             var havePermission = await _authService.CheckPermission(PermissionKeyConstant.TenancyManagement, PermissionConstant.CanWrite);
             if (!havePermission)
             {
                 return RedirectToAction("NotAuthorized", "Auth");
             }
-            var tenancy = new TenancyModel() { PropertyId=propertyId, TenancyId = "TNT-" + RandomAlphaNumbericGenerator.Random(6), StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(1) };
-            return PartialView(tenancy);
+            var tenancy = await _tenancyService.GetTenancyOverView(tenancId);
+            if(tenancId == Guid.Empty)
+            {
+                tenancy.Data = new TenancyModel() { PropertyId = propertyId, TenancyId = "TNT-" + RandomAlphaNumbericGenerator.Random(6), StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(1) };
+            }
+            return PartialView(tenancy.Data);
         }
 
         [HttpPost]
@@ -568,7 +588,7 @@ namespace CromWood.Controllers
         [HttpPost]
         public async Task<IActionResult> AddModifyStatementTransaction(StatementTransactionModel req, Guid tenancyId)
         {
-            if(req.PaidByTenantId == Guid.Empty)
+            if (req.PaidByTenantId == Guid.Empty)
             {
                 req.PaidByTenantId = null;
             }

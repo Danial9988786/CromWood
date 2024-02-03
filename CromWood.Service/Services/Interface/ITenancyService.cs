@@ -7,6 +7,7 @@ namespace CromWood.Business.Services.Interface
     public interface ITenancyService
     {
         public Task<AppResponse<IEnumerable<TenancyViewModel>>> GetTenancyForList();
+        public Task<AppResponse<IEnumerable<TenancyModel>>> GetTenancyForExport();
         public Task<AppResponse<TenancyModel>> GetTenancyOverView(Guid tenancyId);
         public Task<AppResponse<TenancyViewModel>> GetTenancyViewDetail(Guid tenancyId);
         public Task<AppResponse<int>> AddTenancy(TenancyModel tenancy);

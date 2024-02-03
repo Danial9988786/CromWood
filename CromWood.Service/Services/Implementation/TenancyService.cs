@@ -37,6 +37,21 @@ namespace CromWood.Business.Services.Implementation
             }
         }
 
+        public async Task<AppResponse<IEnumerable<TenancyModel>>> GetTenancyForExport()
+        {
+            try
+            {
+                var result = await _tenancyRepository.GetTenancyForExport();
+                var mappedResult = _mapper.Map<IEnumerable<TenancyModel>>(result);
+                return ResponseCreater<IEnumerable<TenancyModel>>.CreateSuccessResponse(mappedResult, "Tenancies export successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<IEnumerable<TenancyModel>>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
         public async Task<AppResponse<TenancyModel>> GetTenancyOverView(Guid tenancyId)
         {
             try

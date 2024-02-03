@@ -7,6 +7,7 @@ namespace CromWood.Business.Services.Interface
     public interface IPropertyAssesmentService
     {
         public Task<AppResponse<IEnumerable<PropertyAssesmentViewModel>>> GetPropertyAssesments(Guid filterId = default(Guid));
+        public Task<AppResponse<PropertyAssesmentModel>> GetPropertyAssesmentById(Guid assesmentId);
         public Task<AppResponse<PropertyAssesmentViewModel>> GetPropertyAssesment(Guid assesmentId);
         public Task<AppResponse<IEnumerable<PropertyAssesmentViewModel>>> GetPropertyAssesmentsOfProperty(Guid propId);
         public Task<AppResponse<int>> AddModifyPropertyAssesment(PropertyAssesmentModel propertyAssesment);

@@ -4,6 +4,8 @@
 @{
     ViewData["Title"] = "Detail";
     Layout = "~/Views/Shared/_TenancyDetail.cshtml";
+    var propertyId = "'" + Model.PropertyId + "'";
+    var tenancyId = "'" + Model.Id + "'";
 }
 
 <div class="tab-pane fade show border border-top-0 active bg-white"
@@ -15,8 +17,7 @@
             </div>
             <div class="col-6 text-end d-flex justify-content-end">
                 <div class="shadow-box">
-                    <a class="custom__btn" href="#" data-bs-toggle="edit_detail"
-                       data-bs-target="#ivites__user">
+                    <a class="custom__btn" onclick="AddTenancy(@propertyId, @tenancyId)">
                         <img class="pe-1" src="~/assets/img/edit_icon.svg" alt="user__iocn">
                         Edit details
                     </a>
@@ -80,3 +81,26 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="tenancyDialog">
+    <div class="modal-dialog modal-dialog-centered cm2_size step_model" id="tenancyDialogBody">
+    </div>
+</div>
+
+
+                            <script>
+    function AddTenancy(propertyId, tenancyId) {
+        var url = "/Tenancy/AddTenancy?propertyId=" + propertyId + "&tenancId=" + tenancyId;
+        console.log(url);
+        $("#tenancyDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#tenancyDialogBody").css("max-width", "950px");
+            $("#tenancyDialogBody").css("width", "100%");
+            $("#tenancyDialog").modal("show");
+        });
+    }
+</script>

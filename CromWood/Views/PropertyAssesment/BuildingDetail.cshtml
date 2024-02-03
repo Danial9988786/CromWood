@@ -6,6 +6,7 @@
     Layout = "~/Views/Shared/_PropertyAssesmentDetail.cshtml";
 
     var buildingDate = CromwoodConstants.BuildingDates.Find(x => x.Id == Guid.Parse(Model.BuildingDate));
+    var id = "'" + Model.Id + "'";
 }
 
 <div class="tab-pane fade show active border border-top-0" id="nav-building-details"
@@ -13,7 +14,7 @@
     <div class="d-flex justify-content-between align-items-center p-3 bg-white rounded">
         <h1 class="custom_h mb-0 pb-1">Building Details</h1>
         <div class="shadow-box ms-auto">
-            <a class="custom__btn">
+            <a class="custom__btn" onclick="AddModifyPropertyAssesment(@id)">
                 <img src="~/assets/img/bd_edit.svg" alt="edit__iocn">
                 Edit
             </a>
@@ -49,22 +50,27 @@
                         <th class="r_heading pt-2 pb-2" scope="row">Address</th>
                         <td class="pt-2 pb-2">@(Model.Property.Asset.StreetAddress ?? "--")</td>
                     </tr>
-                    @* <tr class="bg-white">
-                    <th class="r_heading pt-2 pb-2" scope="row">Tenure</th>
-                    <td class="pt-2 pb-2">Leasehold</td>
-                    </tr>
-                    <tr class="bg-white">
-                    <th class="r_heading pt-2 pb-2" scope="row">Building Form</th>
-                    <td class="pt-2 pb-2">Purpose Built Household</td>
-                    </tr>
-                    <tr class="bg-white">
-                    <th class="r_heading pt-2 pb-2" scope="row">
-                    Building Construction
-                    </th>
-                    <td class="earn_p_month pt-2 pb-2">Traditional Brick</td>
-                    </tr> *@
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="propertyAssesmentDialog">
+    <div class="modal-dialog modal-dialog-centered cm2_size step_model" id="propertyAssesmentDialogBody">
+    </div>
+</div>
+
+<script>
+    function AddModifyPropertyAssesment(assesmentId) {
+        var url = `/PropertyAssesment/AddModifyPropertyAssesment?assesmentId=${assesmentId}`;
+        $("#propertyAssesmentDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#propertyAssesmentDialog").modal("show");
+        });
+    }
+</script>

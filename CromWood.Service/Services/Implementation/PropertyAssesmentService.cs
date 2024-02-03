@@ -38,6 +38,7 @@ namespace CromWood.Business.Services.Implementation
             }
         }
 
+
         public async Task<AppResponse<PropertyAssesmentViewModel>> GetPropertyAssesment(Guid assesmentId)
         {
             try
@@ -50,6 +51,21 @@ namespace CromWood.Business.Services.Implementation
             catch (Exception ex)
             {
                 return ResponseCreater<PropertyAssesmentViewModel>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<PropertyAssesmentModel>> GetPropertyAssesmentById(Guid assesmentId)
+        {
+            try
+            {
+                var result = await _properyAssesmentRepository.GetPropertyAssesment(assesmentId);
+                var mappedResult = _mapper.Map<PropertyAssesmentModel>(result);
+                return ResponseCreater<PropertyAssesmentModel>.CreateSuccessResponse(mappedResult, "Assesment loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<PropertyAssesmentModel>.CreateErrorResponse(null, ex.ToString());
             }
         }
 

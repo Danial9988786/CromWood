@@ -20,13 +20,18 @@ namespace CromWood.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddModifyPropertyAssesment()
+        public async Task<IActionResult> AddModifyPropertyAssesment(Guid assesmentId)
         {
-            var model = new PropertyAssesmentModel()
+            var assesment = await _assesmentService.GetPropertyAssesmentById(assesmentId);
+            if(assesmentId == Guid.Empty)
             {
-                InspectionID = "ASM-" + RandomAlphaNumbericGenerator.Random(6),
-            };
-            return PartialView(model);
+                assesment.Data = new PropertyAssesmentModel()
+                {
+                    InspectionID = "ASM-" + RandomAlphaNumbericGenerator.Random(6),
+                };
+            }
+            
+            return PartialView(assesment.Data);
         }
 
         [HttpPost]
