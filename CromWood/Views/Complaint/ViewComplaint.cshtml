@@ -7,11 +7,40 @@
                 <div class="modal-header py-2 bg-white">
                     <h5 class="modal-title" id="staticBackdropLabel">Complaint @Model.Id.ToString().Substring(0,5).ToUpper()</h5>
                     <span class="pagagraph ms-2">@Model.CreatedDate</span>
-                    <span class="pagagraph new open ms-3">@Model.Status</span>
+        @switch (Model.Status)
+        {
+            case "New":
+                                        <div class="new_badges ms-3">
+                    @Model.Status
+                                        </div>
+                break;
+            case "Open":
+                                        <div class="new_badges open ms-3">
+                    @Model.Status
+                                        </div>
+                break;
+            case "Resolved":
+                                        <div class="new_badges resolved ms-3">
+                    @Model.Status
+                                        </div>
+                break;
+            case "Unresolved":
+                                        <div class="new_badges unresolved ms-3">
+                    @Model.Status
+                                        </div>
+                break;
+            case "Cancelled":
+                                        <div class="new_badges cancelled ms-3">
+                    @Model.Status
+                                        </div>
+                break;
+            default:
+                break;
+        }
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <div class="step_body_content4 mb-3 pe-2">
+                  <div class="step_body_content4 mb-3">
                     <div class="d-flex gap-2">
                         <div class="l_box" style="width: 50% !important">
                             <div class="mb-3 border p-3 bg-white h-100">
@@ -34,7 +63,7 @@
                                         <span class="pagagraph">@Model.ExpectedResolveDate</span<br><br>
                                             <span class="gray_12 d-inline-block mt-2 pt-1">Descriptions</span><br>
                                             <p class="pagagraph m-0 pb-3">
-                                                @Model.Description
+                            @Model.Description
                                             </p>
                                             <img src="~/assets/img/gallery.svg" alt="gallery_img">
                                             <img src="~/assets/img/pdf_c.svg" class="ms-3" alt="pdf_c">
@@ -49,11 +78,11 @@
                                             </div>
                             </div>
                         </div>
-                        <div class="r_box">
+                        <div class="r_box" style="width: 50%;">
                             <div class="mb-3 border p-3 bg-white">
                                 <p class="modal-title" id="staticBackdropLabel">Recent Comments</p>
                                 <div id="commentsTableBody">
-                                 @* Comments will go here *@
+                            @* Comments will go here *@
                             </div>
                             <form id="addCommentForm" class="border h-25 p-3 mt-3 bg-white">
                                 <input type="text" class="form-control pagagraph" id="commentDescription"
@@ -75,39 +104,39 @@
                                     </div>
                                 </div>
                             </form>
+
+                            <form id="editCommentForm" class="border h-25 p-3 mt-3 bg-white" style="display: none;">
+    <input type="text" id="editCommentId" readonly hidden>
+    <input type="text" class="form-control pagagraph" id="editCommentDescription"
+                                    placeholder="Type a short description for the complaint here...">
+                                <div class="d-flex justify-content-between mt-3">
+                                    <div>
+                                        <a for="formFileLg" class="c_file form-label custom__filetype" onclick="editCommentFile.click()"><img
+                                                class="pe-1" src="~/assets/img/chosefile.svg" alt="chosefile">
+                                            CHOOSE FILE
+                                            <input class="form-control" id="editCommentFile" type="file">
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <div class="d_btn">
+                                            <a  onclick="updateComment()">
+                                                Update Comment
+                                            </a>
+                                            <a onclick="cancelEdit()">Cancel</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                   </div>
                 </div>
             </div>
-
-            <!-- Form for adding comments -->
-@* <form id="addCommentForm">
-    <label for="commentDescription">Description:</label>
-    <input type="text" id="commentDescription" required>
-    <label for="commentFile">File:</label>
-    <input type="file" id="commentFile">
-    <button type="button" onclick="addComment()">Add Comment</button>
-</form> *@
-
-<!-- Form for editing comments -->
-@* <form id="editCommentForm" style="display: none;">
-    <input type="text" id="editCommentId" readonly hidden>
-    <label for="editCommentDescription">New Description:</label>
-    <input type="text" id="editCommentDescription" required>
-    <label for="editCommentFile">New File:</label>
-    <input type="file" id="editCommentFile">
-    <button type="button" onclick="updateComment()">Update Comment</button>
-    <button type="button" onclick="cancelEdit()">Cancel</button>
-</form>
- *@
-
  </div>
 <script>
     // Function to fetch and display comments
     function fetchComments() {
         const id = $("#complaintId").val();
-        console.log(id)
         $.ajax({
             url: `/Complaint/Comments?complaintId=${id}`,
             method: 'GET',
@@ -115,10 +144,8 @@
             success: function (comments) {
                 const tableBody = $('#commentsTableBody');
                 tableBody.empty();
-
                 $.each(comments, function (index, comment) {
                     const row = 
-
                     `<div class="shadow-sm p-3 mt-3">
                                     <p class="pagagraph">
                                        ${comment.Description}
@@ -188,6 +215,7 @@
 
     // Function to update a comment
     function updateComment() {
+        const id = $("#complaintId").val();
         const commentId = $('#editCommentId').val();
         const commentDescription = $('#editCommentDescription').val();
         const commentFile = $('#editCommentFile')[0].files[0];

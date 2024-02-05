@@ -51,7 +51,7 @@ namespace CromWood.Business.Services.Implementation
                 var user = await Authenticate(login.Email, login.Password);
                 if (user != null)
                 {
-                    var result = await GenerateLogin(user);
+                    var result = await GenerateLogin(user, login.RememberMe);
                     // Update user LastActiveDate to null 
                     user.LastActive = null;
                     await _userRepo.SetUserActive(user);
@@ -91,7 +91,7 @@ namespace CromWood.Business.Services.Implementation
         }
 
         #region Private Methods
-        private async Task<string> GenerateLogin(User user)
+        private async Task<string> GenerateLogin(User user, bool rememberMe = false)
         {
             var claims = new[]
             {
@@ -103,7 +103,7 @@ namespace CromWood.Business.Services.Implementation
             var claimIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var authPropertues = new AuthenticationProperties()
             {
-
+                IsPersistent = rememberMe,
             };
             await _httpContextAccessor.HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,

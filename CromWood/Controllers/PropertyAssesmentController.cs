@@ -95,5 +95,16 @@ namespace CromWood.Controllers
             return RedirectToAction("BuildingImages", new { id = imageModel.PropertyAssesmentId });
         }
         #endregion
+
+        public async Task<IActionResult> CapitalForecast(Guid id)
+        {
+            var result = await _assesmentService.GetCapitalForecastForYear(id);
+            return View(result.Data);
+        }
+        public async Task<IActionResult> CapitalForecastList()
+        {
+            var result = await _assesmentService.GetCapitalForecastForYear();
+            return PartialView(result.Data);
+        }
     }
 }

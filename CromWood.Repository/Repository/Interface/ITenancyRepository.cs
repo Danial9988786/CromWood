@@ -7,6 +7,7 @@ namespace CromWood.Data.Repository.Interface
         public Task<IEnumerable<Tenancy>> GetTenancyForList();
         public Task<IEnumerable<Tenancy>> GetTenancyForExport();
         public Task<Tenancy> GetTenancyOverView(Guid tenancyId);
+        public Task<int> DeleteTenancyTenant(Guid id, Guid tenancyId);
         public Task<Tenancy> GetTenancyViewDetail(Guid tenancyId);
         public Task<int> AddTenancy(Tenancy tenancy);
         public Task<int> EditTenancy(Tenancy tenancy);

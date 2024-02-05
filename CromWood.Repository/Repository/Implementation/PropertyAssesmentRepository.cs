@@ -54,7 +54,12 @@ namespace CromWood.Data.Repository.Implementation
 
         public async Task<IEnumerable<PropertyInspectionItem>> GetInspectionItems(Guid assesmentId)
         {
-            return await _context.PropertyInspectionItems.Include(x=>x.DetailItem).Include(x=>x.UnitOfMeasurement).Include(x=>x.SurverySection).Include(x=>x.PropertyInspectionItemImages).Where(x => x.PropertyAssesmentId == assesmentId).ToListAsync();
+            // Incase of need all Inspection items
+            if(assesmentId == Guid.Empty)
+            {
+                return await _context.PropertyInspectionItems.Include(x => x.DetailItem).ToListAsync();
+            }
+            return await _context.PropertyInspectionItems.Include(x => x.DetailItem).Include(x => x.UnitOfMeasurement).Include(x => x.SurverySection).Include(x => x.PropertyInspectionItemImages).Where(x => x.PropertyAssesmentId == assesmentId).ToListAsync();
         }
 
         public async Task<int> AddModifyPropertyAssesmentItem(PropertyInspectionItem item)

@@ -141,14 +141,14 @@ namespace CromWood.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteTenancyTenant(Guid noteId)
+        public async Task<IActionResult> DeleteTenancyTenant(Guid tenantId, Guid tenancyId)
         {
             var havePermission = await _authService.CheckPermission(PermissionKeyConstant.PropertyManagement, PermissionConstant.CanDelete);
             if (!havePermission)
             {
                 return RedirectToAction("NotAuthorized", "Auth");
             }
-            var result = await _tenancyService.DeleteNote(noteId);
+            var result = await _tenancyService.DeleteTenancyTenant(tenantId, tenancyId);
             return StatusCode(result.StatusCode, result.Data);
         }
 

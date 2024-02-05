@@ -111,6 +111,21 @@ namespace CromWood.Business.Services.Implementation
                 return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
             }
         }
+
+        public async Task<AppResponse<int>> DeleteTenancyTenant(Guid id, Guid tenancyId)
+        {
+            try
+            {
+                var imageUrl = await _tenancyRepository.DeleteTenancyTenant(id, tenancyId);
+                return ResponseCreater<int>.CreateSuccessResponse(1, "Tenancy Tenant unlinked successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
+        }
+
         #endregion
 
         #region Tenancy tenant related services

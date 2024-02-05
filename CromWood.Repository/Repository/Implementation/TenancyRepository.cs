@@ -25,6 +25,21 @@ namespace CromWood.Data.Repository.Implementation
             return await _context.Tenancies.Include(x => x.TenancyTenants).ThenInclude(x => x.Tenant).Include(x => x.Property).ThenInclude(x => x.Asset).Include(x => x.Property).ThenInclude(x => x.PropertyType).Include(x => x.RentFrequency).Include(x => x.TenancyType).FirstOrDefaultAsync(x => x.Id == tenancyId);
         }
 
+        public async Task<int> DeleteTenancyTenant(Guid id, Guid tenancyId)
+        {
+            try
+            {
+                var key = await _context.TenancyTenants.AsNoTracking().FirstOrDefaultAsync(x => x.TenantId== id && x.TenancyId == tenancyId);
+                _context.TenancyTenants.Remove(key);
+                var result = await _context.SaveChangesAsync();
+                return result;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public async Task<Tenancy> GetTenancyViewDetail(Guid tenancyId)
         {
             return await _context.Tenancies.FirstOrDefaultAsync(x => x.Id == tenancyId);

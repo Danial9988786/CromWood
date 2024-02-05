@@ -9,6 +9,7 @@ namespace CromWood.Business.Services.Interface
         public Task<AppResponse<IEnumerable<TenancyViewModel>>> GetTenancyForList();
         public Task<AppResponse<IEnumerable<TenancyModel>>> GetTenancyForExport();
         public Task<AppResponse<TenancyModel>> GetTenancyOverView(Guid tenancyId);
+        public Task<AppResponse<int>> DeleteTenancyTenant(Guid id, Guid tenancyId);
         public Task<AppResponse<TenancyViewModel>> GetTenancyViewDetail(Guid tenancyId);
         public Task<AppResponse<int>> AddTenancy(TenancyModel tenancy);
         public Task<AppResponse<int>> EditTenancy(TenancyModel tenancy);

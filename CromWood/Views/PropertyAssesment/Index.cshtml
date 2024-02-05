@@ -93,16 +93,16 @@
                                 <span class="st_date d-inline-block">@(item.DateTime!=null?item.DateTime?.ToString("dd MMM yyyy"):"--")</span><br>
                             </td>
                             <td class="maintext_size">
-                                @if (item.DateTime> DateTime.Now)
+                                @if (item.DateTime < DateTime.Now)
                                 {
-                                    <div class="paid_btn purple">
-                                        Started
+                                    <div class="paid_btn payment">
+                                        Completed
                                     </div>
                                 }
                                 else
                                 {
-                                    <div class="paid_btn payment">
-                                        Completed
+                                    <div class="paid_btn purple">
+                                        Started
                                     </div>
                                 }
 
@@ -137,261 +137,7 @@
     @* Capital Forecast *@
     <div class="tab-pane fade border border-top-0 bg-white " id="capital_cost" role="tabpanel"
          aria-labelledby="nav-roles-per-tab">
-        <div class="">
-            <div class="p-3 bg-white rounded">
-                <h1 class="custom_h mb-2 mt-3 pt-1">Capital Cost Forecast</h1>
-                <p class="pagagraph mb-0">
-                    The following table summarises the cost forecast for
-                    the components as priced on site
-                </p>
-            </div>
-            <div>
-                <table class="custom_table w-100 bb_n">
-                    <thead>
-                        <tr>
-                            <th>Component</th>
-                            <th class="text-end">Backlog</th>
-                            <th class="text-end">This Year</th>
-                            <th class="text-end">Year 1</th>
-                            <th class="text-end">Year 2</th>
-                            <th class="text-end">Year 3</th>
-                            <th class="text-end">Year 4</th>
-                            <th class="text-end">Year 5</th>
-                            <th class="text-end">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="pagagraph">Bathroom</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end custom_th">£ 0</td>
-                        </tr>
-                        <tr>
-                            <td class="pagagraph">Consumer Unit</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end custom_th">£ 0</td>
-                        </tr>
-                        <tr>
-                            <td class="pagagraph">External Doors</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end custom_th">£ 0</td>
-                        </tr>
-                        <tr>
-                            <td class="pagagraph">Kitchen</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end custom_th">£ 0</td>
-                        </tr>
-                        <tr>
-                            <td class="pagagraph">Kitchen Worktops</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end custom_th">£ 0</td>
-                        </tr>
-                        <tr>
-                            <td class="pagagraph">Lintels</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end custom_th">£ 0</td>
-                        </tr>
-                        <tr>
-                            <td class="pagagraph">Window Frames</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end custom_th">£ 0</td>
-                        </tr>
-                        <tr>
-                            <td class="pagagraph">Window Glazing</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end custom_th">£ 0</td>
-                        </tr>
-                        <tr>
-                            <td class="pagagraph">Wiring</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end custom_th">£ 0</td>
-                        </tr>
-                        <tr>
-                            <td class="">&nbsp;</td>
-                            <td class="text-end fw500 pe-4">£ 0</td>
-                            <td class="text-end fw500 pe-4">£ 1,440</td>
-                            <td class="text-end fw500 pe-4">£ 0</td>
-                            <td class="text-end fw500 pe-4">£ 0</td>
-                            <td class="text-end fw500 pe-4">£ 0</td>
-                            <td class="text-end fw500 pe-4">£ 0</td>
-                            <td class="text-end fw500 pe-4">£ 0</td>
-                            <td class="text-end fw500 pe-2 custom_th">£ 1,440</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="">
-            <div class="p-3 bg-white rounded">
-                <h1 class="custom_h mb-2 mt-3 pt-1">Capital Cost Forecast</h1>
-                <p class="pagagraph mb-0">
-                    The following table summarises the cost forecast for
-                    the components as priced on site
-                </p>
-            </div>
-            <div>
-                <table class="custom_table w-100 bb_n">
-                    <thead>
-                        <tr>
-                            <th>Component</th>
-                            <th class="text-end">Backlog</th>
-                            <th class="text-end">This Year</th>
-                            <th class="text-end">Year 1</th>
-                            <th class="text-end">Year 2</th>
-                            <th class="text-end">Year 3</th>
-                            <th class="text-end">Year 4</th>
-                            <th class="text-end">Year 5</th>
-                            <th class="text-end">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="pagagraph">Bathroom</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end custom_th">£ 1,440</td>
-                        </tr>
-                        <tr>
-                            <td class="pagagraph">Consumer Unit</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end custom_th">£ 0</td>
-                        </tr>
-                        <tr>
-                            <td class="pagagraph">Bathroom</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end custom_th">£ 1,440</td>
-                        </tr>
-                        <tr>
-                            <td class="pagagraph">Consumer Unit</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end custom_th">£ 0</td>
-                        </tr>
-                        <tr>
-                            <td class="pagagraph">Bathroom</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end custom_th">£ 1,440</td>
-                        </tr>
-                        <tr>
-                            <td class="pagagraph">Consumer Unit</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end custom_th">£ 0</td>
-                        </tr>
-                        <tr>
-                            <td class="pagagraph">Bathroom</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end pe-2">£ 0</td>
-                            <td class="text-end custom_th">£ 1,440</td>
-                        </tr>
-                        <tr>
-                            <td class="custom_th">Total</td>
-                            <td class="text-end pe-2">&nbsp;</td>
-                            <td class="text-end pe-2">&nbsp;</td>
-                            <td class="text-end pe-2">&nbsp;</td>
-                            <td class="text-end pe-2">&nbsp;</td>
-                            <td class="text-end pe-2">&nbsp;</td>
-                            <td class="text-end pe-2">&nbsp;</td>
-                            <td class="text-end pe-2">&nbsp;</td>
-                            <td class="text-end custom_th">£ 1,440</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        
     </div>
 
 </div>
@@ -422,6 +168,9 @@
         // For the Filter
         $("#filterBox").load("/Filter/Index?keyName=@screenName", function () {
             $("#filterBox").show();
+        });
+
+        $("#capital_cost").load("/PropertyAssesment/CapitalForecastList", function () {
         });
     });
 

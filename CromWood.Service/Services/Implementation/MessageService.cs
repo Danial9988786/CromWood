@@ -39,7 +39,8 @@ namespace CromWood.Business.Services.Implementation
             {
                 var result = await _messageRepo.GetMessageById(id);
                 var mappedResult = _mapper.Map<MessageModel>(result);
-                mappedResult.SelectedRecipients = mappedResult.Recipients.ToList().Select(x => x.RecipientId);
+                if(mappedResult!=null)
+                    mappedResult.SelectedRecipients = mappedResult?.Recipients?.ToList().Select(x => x.RecipientId);
                 return ResponseCreater<MessageModel>.CreateSuccessResponse(mappedResult, "Message loaded successfully");
             }
             catch (Exception ex)

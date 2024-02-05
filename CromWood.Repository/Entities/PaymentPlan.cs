@@ -15,5 +15,6 @@
         public float IntrestCharge { get; set; }
         public float InstallmentAmount { get; set; }
         public DateTime InstallmentStart { get; set; }
+        public ICollection<PaymentPlanInstallment> Installments { get; set; }
     }
 }

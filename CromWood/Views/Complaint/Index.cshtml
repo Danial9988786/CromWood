@@ -58,10 +58,10 @@
                     </td>
                     <td>
                         <span class="black_12 d-inline-block mb-2">
-                            @item.CreatedDate
+                            @item.CreatedDate?.ToString("dd MMM yyyy")
                         </span> <br>
                         <span class="gray_12">Due Date</span> <span class="black_12">
-                            @item.ExpectedResolveDate
+                            @item.ExpectedResolveDate?.ToString("dd MMM yyyy")
                         </span>
                     </td>
                     <td>
@@ -73,7 +73,7 @@
                     <td class=" align-top">
                         <span class="black_12 d-inline-block">Tenant</span><br>
                         <span class="black_12 d-inline-block mb-1">
-                            @item.Tenant.FullName
+                            (@item.Tenant.FullName)
                         </span>
                     </td>
                     <td>
@@ -85,9 +85,36 @@
                         </span>
                     </td>
                     <td class=" px-4">
-                        <div class="new">
-                            New
-                        </div>
+                        @switch (item.Status)
+                        {
+                            case "New":
+                                <div class="new_badges">
+                                    @item.Status
+                                </div>
+                                break;
+                            case "Open":
+                                <div class="new_badges open">
+                                    @item.Status
+                                </div>
+                                break;
+                            case "Resolved":
+                                <div class="new_badges resolved">
+                                    @item.Status
+                                </div>
+                                break;
+                            case "Unresolved":
+                                <div class="new_badges unresolved">
+                                    @item.Status
+                                </div>
+                                break;
+                            case "Cancelled":
+                                <div class="new_badges cancelled">
+                                    @item.Status
+                                </div>
+                                break;
+                            default:
+                                break;
+                        }
                     </td>
                     @{
                         string id = "'" + item.Id.ToString() + "'";

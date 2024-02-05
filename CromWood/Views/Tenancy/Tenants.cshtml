@@ -51,9 +51,9 @@
                                 <ul class="dropdown-menu shadow dropdown-menu-end border-0 rounded-0 p-0"
                                     aria-labelledby="acp-action">
                                     @{
-                                        string tenancyTenantId = "'" + tenant +"'";
+                                        string tenancyTenantId = "'" + tenant.Id +"'";
                                     }
-                                    <li><a class="dropdown-item" onclick="DeleteTenancyTenant(@tenancyTenantId)">Unlink</a></li>
+                                    <li><a class="dropdown-item" onclick="DeleteTenancyTenant(@tenancyTenantId, @tenancyId)">Unlink</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -101,10 +101,10 @@
         });
     }
 
-    function DeleteTenancyTenant(id) {
+    function DeleteTenancyTenant(id, tenancyId) {
         $.ajax({
             type: "POST",
-            url: `/Tenancy/DeleteTenancyTenant?tenancyTenantId=${id}`,
+            url: `/Tenancy/DeleteTenancyTenant?tenantId=${id}&tenancyId=${tenancyId}`,
             success: function (result) {
                 window.location.reload();
             },

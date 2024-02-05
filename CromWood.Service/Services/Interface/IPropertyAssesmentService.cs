@@ -15,5 +15,6 @@ namespace CromWood.Business.Services.Interface
         public Task<AppResponse<int>> AddModifyPropertyAssesmentItem(PropertyInspectionItemModel item);
         public Task<AppResponse<IEnumerable<PropertyInspectionItemImageViewModel>>> GetBuildingImages(Guid assesmentId);
         public Task<AppResponse<int>> AddModifyPropertyAssesmentImage(PropertyInspectionItemImageModel item);
+        public Task<AppResponse<List<CapitalCostForecast>>> GetCapitalForecastForYear(Guid id = default (Guid));
     }
 }

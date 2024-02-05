@@ -4,6 +4,7 @@ using CromWood.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CromWood.Data.Migrations
 {
     [DbContext(typeof(CromwoodContext))]
-    partial class CromwoodContextModelSnapshot : ModelSnapshot
+    [Migration("20240205073919_Added payment plan and transaction accordingly")]
+    partial class Addedpaymentplanandtransactionaccordingly
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1039,9 +1042,6 @@ namespace CromWood.Data.Migrations
                     b.Property<DateTime>("PaymentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("PaymentPlanId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -1049,63 +1049,8 @@ namespace CromWood.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PaymentPlanId");
 
                     b.ToTable("PaymentPlanInstallments");
-                });
-
-            modelBuilder.Entity("CromWood.Data.Entities.PaymentPlanTransaction", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("InvoiceNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("NetAmount")
-                        .HasColumnType("real");
-
-                    b.Property<string>("PaidBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("PaidByTenantId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("PaymentPlanId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("TransactionDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("TransactionModeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PaidByTenantId");
-
-                    b.HasIndex("PaymentPlanId");
-
-                    b.HasIndex("TransactionModeId");
-
-                    b.ToTable("PaymentPlanTransactions");
                 });
 
             modelBuilder.Entity("CromWood.Data.Entities.Permission", b =>
@@ -2516,40 +2461,6 @@ namespace CromWood.Data.Migrations
                     b.Navigation("ReferenceStatement");
                 });
 
-            modelBuilder.Entity("CromWood.Data.Entities.PaymentPlanInstallment", b =>
-                {
-                    b.HasOne("CromWood.Data.Entities.PaymentPlan", "PaymentPlan")
-                        .WithMany("Installments")
-                        .HasForeignKey("PaymentPlanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PaymentPlan");
-                });
-
-            modelBuilder.Entity("CromWood.Data.Entities.PaymentPlanTransaction", b =>
-                {
-                    b.HasOne("CromWood.Data.Entities.Tenant", "PaidByTenant")
-                        .WithMany()
-                        .HasForeignKey("PaidByTenantId");
-
-                    b.HasOne("CromWood.Data.Entities.PaymentPlan", "PaymentPlan")
-                        .WithMany()
-                        .HasForeignKey("PaymentPlanId");
-
-                    b.HasOne("CromWood.Data.Entities.Default.TransactionMode", "TransactionMode")
-                        .WithMany()
-                        .HasForeignKey("TransactionModeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PaidByTenant");
-
-                    b.Navigation("PaymentPlan");
-
-                    b.Navigation("TransactionMode");
-                });
-
             modelBuilder.Entity("CromWood.Data.Entities.Property", b =>
                 {
                     b.HasOne("CromWood.Data.Entities.Asset", "Asset")
@@ -2980,11 +2891,6 @@ namespace CromWood.Data.Migrations
             modelBuilder.Entity("CromWood.Data.Entities.Message", b =>
                 {
                     b.Navigation("Recipients");
-                });
-
-            modelBuilder.Entity("CromWood.Data.Entities.PaymentPlan", b =>
-                {
-                    b.Navigation("Installments");
                 });
 
             modelBuilder.Entity("CromWood.Data.Entities.Property", b =>

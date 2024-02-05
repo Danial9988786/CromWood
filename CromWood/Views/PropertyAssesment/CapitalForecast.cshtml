@@ -1,0 +1,134 @@
+﻿@model IEnumerable<CromWood.Business.Models.CapitalCostForecast>
+
+@{
+    ViewData["Title"] = "CapitalForecast";
+    Layout = "~/Views/Shared/_PropertyAssesmentDetail.cshtml";
+}
+
+<div class="tab-pane fade show active border border-top-0" id="nav-home" role="tabpanel"
+     aria-labelledby="nav-home-tab">
+    <div class="">
+        <div class="p-3 bg-white rounded">
+            <h1 class="custom_h mb-0 pb-1">Capital Cost Forecast</h1>
+            <p class="pagagraph mb-0">
+                The following table summarises the cost forecast for
+                the components as priced on site
+            </p>
+        </div>
+        <div>
+            <table class="custom_table w-100 bb_n">
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th class="text-end">Backlog</th>
+                        <th class="text-end">This Year</th>
+                        <th class="text-end">Year 1</th>
+                        <th class="text-end">Year 2</th>
+                        <th class="text-end">Year 3</th>
+                        <th class="text-end">Year 4</th>
+                        <th class="text-end">Year 5</th>
+                        <th class="text-end">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        float total = 0.0f;
+                    }
+                    @foreach (var item in Model)
+                    {
+                        float subTotal = 0.0f;
+                        <tr>
+                            <td class="pagagraph">@item.Item.Name</td>
+                            @for(int i = 0; i <= 6; i++)
+                            {
+                                    subTotal += @item.YearlyCost[i].Cost;
+                                <td class="text-end pe-2">£ @item.YearlyCost[i].Cost</td>
+
+                        }
+                            <td class="text-end custom_th">£ @subTotal</td>
+                        </tr>
+                        total += subTotal;
+                    }
+
+                    <tr>
+                        <td class="custom_th">Total</td>
+                        <td class="text-end pe-2">&nbsp;</td>
+                        <td class="text-end pe-2">&nbsp;</td>
+                        <td class="text-end pe-2">&nbsp;</td>
+                        <td class="text-end pe-2">&nbsp;</td>
+                        <td class="text-end pe-2">&nbsp;</td>
+                        <td class="text-end pe-2">&nbsp;</td>
+                        <td class="text-end pe-2">&nbsp;</td>
+                        <td class="text-end custom_th">£ @total</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- ----- Second table, Start here --- -->
+    <div class="">
+        <div class="p-3 bg-white rounded">
+            <h1 class="custom_h mb-0">Capital Cost Forecast - 30 Years</h1>
+            <p class="pagagraph mb-0">
+                The following table summarises the cost forecast for
+                the components as priced on site
+            </p>
+        </div>
+        <div>
+            <table class="custom_table w-100 bb_n">
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th class="text-end">Backlog</th>
+                        <th class="text-end">This Year</th>
+                        <th class="text-end">Year 1-5</th>
+                        <th class="text-end">Year 6-10</th>
+                        <th class="text-end">Year 11-15</th>
+                        <th class="text-end">Year 16-20</th>
+                        <th class="text-end">Year 21-25</th>
+                        <th class="text-end">Year 26-30</th>
+                        <th class="text-end">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        float total2 = 0.0f;
+                        }
+                    @foreach (var item in Model)
+                    {
+                        float subTotal = 0.0f;
+                        @for (int i = 2; i <= 6; i++)
+                        {
+                            subTotal += @item.YearlyCost[i].Cost;
+                        }
+                        <tr>
+                            <td class="pagagraph">@item.Item.Name</td>
+                            <td class="text-end pe-2">£ @item.YearlyCost[0].Cost</td>
+                            <td class="text-end pe-2">£ @item.YearlyCost[1].Cost</td>
+                            <td class="text-end pe-2">£ @subTotal</td>
+                            @for (int i = 8; i <= 12; i++)
+                            {
+                                subTotal += @item.YearlyCost[i].Cost;
+                                <td class="text-end pe-2">£ @item.YearlyCost[i].Cost</td>
+                            }
+                            <td class="text-end custom_th">£ @subTotal</td>
+                        </tr>
+                        total2 += (subTotal + @item.YearlyCost[0].Cost + @item.YearlyCost[1].Cost);
+                    }
+                    <tr>
+                        <td class="custom_th">Total</td>
+                        <td class="text-end pe-2">&nbsp;</td>
+                        <td class="text-end pe-2">&nbsp;</td>
+                        <td class="text-end pe-2">&nbsp;</td>
+                        <td class="text-end pe-2">&nbsp;</td>
+                        <td class="text-end pe-2">&nbsp;</td>
+                        <td class="text-end pe-2">&nbsp;</td>
+                        <td class="text-end pe-2">&nbsp;</td>
+                        <td class="text-end pe-2">&nbsp;</td>
+                        <td class="text-end custom_th">£ @total2</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

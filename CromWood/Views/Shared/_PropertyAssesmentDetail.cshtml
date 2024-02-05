@@ -60,7 +60,7 @@
         </a>
         <a class="nav-link" id="nav-building-items" asp-route-id="@assesment.Data.Id" asp-action="BuildingItems">Building Items</a>
         <a class="nav-link" id="nav-building-images" asp-route-id="@assesment.Data.Id" asp-action="BuildingImages">Building Images</a>
-        <a class="nav-link" id="nav-capital-forecast-tab">
+        <a class="nav-link" id="nav-capital-forecast-tab" asp-route-id="@assesment.Data.Id" asp-action="CapitalForecast">
             Capital Cost
             Forecast Details
         </a>
@@ -87,6 +87,9 @@
     }
     if (window.location.pathname.includes('/PropertyAssesment/InspectionDetail')) {
         document.getElementById("nav-inspection-details").classList.add('active');
+    }
+    if (window.location.pathname.includes('/PropertyAssesment/CapitalForecast')) {
+        document.getElementById("nav-capital-forecast-tab").classList.add('active');
     }
 
 </script>

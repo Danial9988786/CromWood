@@ -2689,7 +2689,7 @@ span.t_d_g {
 
 .tenant_t {
     border: 1px solid #D1D5DB;
-    width: 380px;
+    width: 100%;
     border-radius: 5px;
     padding: 16px 17px;
     margin: 10px 13px;

@@ -1,7 +1,6 @@
 ﻿using CromWood.Business.Services.Interface;
 using CromWood.Business.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Protocol.Plugins;
 
 namespace CromWood.Controllers
 {
@@ -21,7 +20,7 @@ namespace CromWood.Controllers
         [HttpGet]
         public IActionResult Login(string ReturnUrl = "/")
         {
-            return View(new LoginModel() { ReturnUrl = ReturnUrl});
+            return View(new LoginModel() { ReturnUrl = ReturnUrl, RememberMe = true });
         }
 
         public IActionResult NotAuthorized()

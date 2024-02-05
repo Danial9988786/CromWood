@@ -53,10 +53,10 @@
                 </div>
                 <div class="login-action-section" >
                     <div class="form-check form-check-inline text-center m-0">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                        @Html.CheckBoxFor(m=>m.RememberMe, new {@class="form-check-input"})
                         Remember me
                     </div>
-                    <p class="login-forgot-pwd-label" >Forgot password?</p>
+                    <a class="login-forgot-pwd-label" >Forgot password?</a>
                 </div>
             </div>
             <!-- Button -->
