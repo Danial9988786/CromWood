@@ -826,5 +826,125 @@ namespace CromWood.Business.Services.Implementation
         }
         #endregion
 
+        #region Tenancy Payment Plans related services inside
+        public async Task<AppResponse<ICollection<PaymentPlanViewModel>>> GetPaymentPlans(Guid id)
+        {
+            try
+            {
+                var result = await _tenancyRepository.GetPaymentPlans(id);
+                var mappedResult = _mapper.Map<ICollection<PaymentPlanViewModel>>(result);
+                return ResponseCreater<ICollection<PaymentPlanViewModel>>.CreateSuccessResponse(mappedResult, "Tenancies PaymentPlans loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<ICollection<PaymentPlanViewModel>>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<PaymentPlanModel>> GetPaymentPlan(Guid id)
+        {
+            try
+            {
+                var result = await _tenancyRepository.GetPaymentPlan(id);
+                var mappedResult = _mapper.Map<PaymentPlanModel>(result);
+                return ResponseCreater<PaymentPlanModel>.CreateSuccessResponse(mappedResult, "PaymentPlan loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<PaymentPlanModel>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<int>> AddModifyPaymentPlan(PaymentPlanModel req)
+        {
+            try
+            {
+                var mapped = _mapper.Map<PaymentPlan>(req);
+                var result = await _tenancyRepository.AddModifyPaymentPlan(mapped);
+                return ResponseCreater<int>.CreateSuccessResponse(result, "PaymentPlan add/update successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<PaymentPlanViewModel>> GetPaymentPlanView(Guid id)
+        {
+            try
+            {
+                var result = await _tenancyRepository.GetPaymentPlanView(id);
+                var mappedResult = _mapper.Map<PaymentPlanViewModel>(result);
+                return ResponseCreater<PaymentPlanViewModel>.CreateSuccessResponse(mappedResult, "Payment plan view loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<PaymentPlanViewModel>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<int>> DeletePaymentPlan(Guid id)
+        {
+            try
+            {
+                var result = await _tenancyRepository.DeletePaymentPlan(id);
+                return ResponseCreater<int>.CreateSuccessResponse(1, "PaymentPlan deleted successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<PaymentPlanTransactionModel>> GetPaymentPlanTransaction(Guid id)
+        {
+            try
+            {
+                var result = await _tenancyRepository.GetPaymentPlanTransaction(id);
+                var mappedResult = _mapper.Map<PaymentPlanTransactionModel>(result);
+                return ResponseCreater<PaymentPlanTransactionModel>.CreateSuccessResponse(mappedResult, "PaymentPlan transaction loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<PaymentPlanTransactionModel>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<int>> AddModifyPaymentPlanTransaction(PaymentPlanTransactionModel req)
+        {
+            try
+            {
+                var mappedMessage = _mapper.Map<PaymentPlanTransaction>(req);
+                var result = await _tenancyRepository.AddModifyPaymentPlanTransaction(mappedMessage);
+                return ResponseCreater<int>.CreateSuccessResponse(result, "PaymentPlan transaction add/update successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<int>> DeletePaymentPlanTransaction(Guid id)
+        {
+            try
+            {
+                var result = await _tenancyRepository.DeletePaymentPlanTransaction(id);
+                return ResponseCreater<int>.CreateSuccessResponse(result, "PaymentPlan transaction deleted successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
+        }
+        #endregion
+
     }
 }

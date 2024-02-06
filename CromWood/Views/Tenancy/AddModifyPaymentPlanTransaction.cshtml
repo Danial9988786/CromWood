@@ -1,0 +1,64 @@
+﻿@model CromWood.Business.Models.PaymentPlanTransactionModel
+
+<h4>PaymentPlanTransactionModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddModifyPaymentPlanTransaction">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PaidBy" class="control-label"></label>
+                <input asp-for="PaidBy" class="form-control" />
+                <span asp-validation-for="PaidBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PaidByTenantId" class="control-label"></label>
+                <input asp-for="PaidByTenantId" class="form-control" />
+                <span asp-validation-for="PaidByTenantId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PaymentPlanId" class="control-label"></label>
+                <input asp-for="PaymentPlanId" class="form-control" />
+                <span asp-validation-for="PaymentPlanId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvoiceNumber" class="control-label"></label>
+                <input asp-for="InvoiceNumber" class="form-control" />
+                <span asp-validation-for="InvoiceNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TransactionModeId" class="control-label"></label>
+                <input asp-for="TransactionModeId" class="form-control" />
+                <span asp-validation-for="TransactionModeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NetAmount" class="control-label"></label>
+                <input asp-for="NetAmount" class="form-control" />
+                <span asp-validation-for="NetAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TransactionDescription" class="control-label"></label>
+                <input asp-for="TransactionDescription" class="form-control" />
+                <span asp-validation-for="TransactionDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

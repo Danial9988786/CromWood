@@ -573,6 +573,96 @@ namespace CromWood.Data.Repository.Implementation
             }
         }
 
+        public async Task<ICollection<PaymentPlan>> GetPaymentPlans(Guid id)
+        {
+            return await _context.PaymentPlans.Include(x => x.ReferenceStatement).Where(x => x.ReferenceStatement.TenancyId == id).Include(x=>x.InstallmentType).ToListAsync();
+        }
 
+        public async Task<PaymentPlan> GetPaymentPlan(Guid id)
+        {
+            return await _context.PaymentPlans.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<int> AddModifyPaymentPlan(PaymentPlan req)
+        {
+            try
+            {
+                if (req.Id == Guid.Empty)
+                {
+                    await _context.PaymentPlans.AddAsync(req);
+                }
+                else
+                {
+                    _context.PaymentPlans.Update(req);
+                }
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<PaymentPlan> GetPaymentPlanView(Guid id)
+        {
+            return await _context.PaymentPlans.Include(x => x.ReferenceStatement).Include(x => x.Installments).Include(x => x.Transactions).FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<int> DeletePaymentPlan(Guid id)
+        {
+            try
+            {
+                var item = await _context.PaymentPlans.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+                _context.PaymentPlans.Remove(item);
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<PaymentPlanTransaction> GetPaymentPlanTransaction(Guid id)
+        {
+            return await _context.PaymentPlanTransactions.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<int> AddModifyPaymentPlanTransaction(PaymentPlanTransaction req)
+        {
+            try
+            {
+                if (req.Id == Guid.Empty)
+                {
+                    await _context.PaymentPlanTransactions.AddAsync(req);
+                }
+                else
+                {
+                    _context.PaymentPlanTransactions.Update(req);
+                }
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<int> DeletePaymentPlanTransaction(Guid id)
+        {
+            try
+            {
+                var item = await _context.PaymentPlanTransactions.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+                _context.PaymentPlanTransactions.Remove(item);
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

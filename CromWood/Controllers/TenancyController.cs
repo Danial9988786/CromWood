@@ -632,5 +632,82 @@ namespace CromWood.Controllers
             return StatusCode(result.StatusCode, result.Data);
         }
         #endregion
+
+        #region TENANCY PAYMENT PLANS AND TRANSACTIONS
+        public async Task<IActionResult> PaymentPlans(Guid id)
+        {
+            var result = await _tenancyService.GetPaymentPlans(id);
+            return View(result.Data);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddModifyPaymentPlan(Guid tenancyId, Guid id)
+        {
+            if (id != Guid.Empty)
+            {
+                var result = await _tenancyService.GetPaymentPlan(id);
+                return PartialView(result.Data);
+            }
+            else
+            {
+                return PartialView(new PaymentPlanModel() { ReferenceStatement = new StatementModel() { TenancyId = tenancyId } });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddModifyPaymentPlan(PaymentPlanModel req, Guid tenancyId)
+        {
+            var result = await _tenancyService.AddModifyPaymentPlan(req);
+            return RedirectToAction("PaymentPlans", new { id = tenancyId });
+        }
+
+        public async Task<IActionResult> ViewPaymentPlan(Guid id)
+        {
+            var result = await _tenancyService.GetPaymentPlanView(id);
+            return PartialView(result.Data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeletePaymentPlan(Guid id)
+        {
+            var result = await _tenancyService.DeletePaymentPlan(id);
+            return StatusCode(result.StatusCode, result.Data);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddModifyPaymentPlanTransaction(Guid paymentPlanId, Guid tenancyId, Guid id)
+        {
+            ViewBag.TenancyId = tenancyId;
+            if (id != Guid.Empty)
+            {
+                var result = await _tenancyService.GetPaymentPlanTransaction(id);
+                return PartialView(result.Data);
+            }
+            else
+            {
+                return PartialView(new PaymentPlanTransactionModel() { PaymentPlanId = paymentPlanId});
+            }
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddModifyPaymentPlanTransaction(PaymentPlanTransactionModel req, Guid tenancyId)
+        {
+            if (req.PaidByTenantId == Guid.Empty)
+            {
+                req.PaidByTenantId = null;
+            }
+            var result = await _tenancyService.AddModifyPaymentPlanTransaction(req);
+            return RedirectToAction("PaymentPlans", new { id = tenancyId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeletePaymentPlanTransaction(Guid id)
+        {
+            var result = await _tenancyService.DeletePaymentPlanTransaction(id);
+            return StatusCode(result.StatusCode, result.Data);
+        }
+  
+        #endregion
     }
 }

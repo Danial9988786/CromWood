@@ -192,6 +192,13 @@ INSERT INTO dbo.UtilityProviders values
 ('c6f007f8-2d30-49a0-a248-add219f4748d','Rogers Network'),
 ('64432c8e-8cc3-4365-a8f5-e4dc925c42fd','Millenium Gas Company');
 
+INSERT INTO dbo.InstallmentTypes values 
+('a8228559-11be-4d9a-9544-8241f2ec59c1','Monthly'),
+('c6f007f8-2d30-49a0-a248-add219f4748d','Quarterly'),
+('64432c8e-8cc3-4365-a8f5-e4dc925c42fd','Bi- Annualy'),
+('914d1a66-0ee7-45f6-ab77-19c928c5a426','Annualy'),
+('01289643-bba0-48d0-b34c-c69b466be7ec','Custom');
+
 -- Default Roles, Permission, User : At first --
 
 INSERT INTO dbo.Permissions (Id, PermissionKey, PermissionDisplayName) values 

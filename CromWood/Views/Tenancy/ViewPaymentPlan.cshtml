@@ -1,0 +1,647 @@
+﻿@model CromWood.Business.Models.ViewModel.PaymentPlanViewModel
+
+<div class="modal-content rounded-0 model-custom-bg">
+    <div class="modal-header modal_header_fixed py-2 bg-white">
+        <h5 class="modal-title" id="staticBackdropLabel">Payment Plan PP3627</h5>
+        <span class="pagagraph ms-2">2023-08-24</span>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body pt-0">
+        <div class="row">
+            <div class="top_bar__fixed">
+                <div class="d-flex justify-content-between">
+                    <h5 class="modal-title" id="staticBackdropLabel">Payment Plan Details</h5>
+                    <div class="dropdown">
+                        <div class="shadow-box ms-auto">
+                            <a class="text-decoration-none custom__btn action_dropwown" href="#"
+                               role="button" id="acp-action" data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                <img src="~/assets/img/settings-02.svg" alt="setting_icon">
+                                Actions
+                                <img src="~/assets/img/down_arrow.svg">
+                            </a>
+                            <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
+                                aria-labelledby="acp-action">
+                                <li><a class="dropdown-item" href="#">Edit Plan</a></li>
+                                <li><a class="dropdown-item" href="#">Add Payment</a></li>
+                                <li><a class="dropdown-item" href="#">Void Statement</a></li>
+                                <li><a class="dropdown-item" href="#">Print</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <nav class="mt-1">
+                    <div class="nav nav-tabs flex-nowrap" id="nav-tab" role="tablist">
+                        <a class="nav-link active w-100 text-center" id="Overview-tab-tab"
+                           data-bs-toggle="tab" data-bs-target="#Overview_tab" type="button" role="tab"
+                           aria-controls="Overview-tab" aria-selected="false">Overview</a>
+                        <a class="nav-link w-100 text-center" id="Statement-tab" data-bs-toggle="tab"
+                           data-bs-target="#Statement_tab" type="button" role="tab"
+                           aria-controls="Statement_tab" aria-selected="false">Statement</a>
+                        <a class="nav-link w-100 text-center" id="Edit_Transaction-tab" data-bs-toggle="tab"
+                           data-bs-target="#Edit_Transaction" type="button" role="tab"
+                           aria-controls="Edit_Transaction" aria-selected="false">Edit Transaction</a>
+                        <a class="nav-link w-100 text-center" id="Activity-tab" data-bs-toggle="tab"
+                           data-bs-target="#Activity__tab" type="button" role="tab"
+                           aria-controls="Activity__tab" aria-selected="false">Activity</a>
+                    </div>
+                </nav>
+            </div>
+
+            <div class="tab-content" id="nav-tabContent">
+                <!-- ----- Overview Tab Start ---- -->
+                <div class="tab-pane fade show active h-100 mb-0 rp_popup" id="Overview_tab" role="tabpanel"
+                     aria-labelledby="nav-building-details-tab">
+                    <div class="step_body_content2 pe-2">
+                        <div class="p-3 bg-white rounded border border-top-0">
+                            <div class="main_insurence">
+                                <h5 class="modal-title mb-2" id="">Overview</h5>
+                                <div class="row">
+                                    <div class="col-xl-3">
+                                        <span class="owner_clr mt-2 pt-2">Transaction Reference ID</span>
+                                        <p class="main-text mb-3">112384</p>
+                                        <span class="owner_clr d-inline-block">Description</span>
+                                        <p class="pagagraph mb-3">For Rent Due</p>
+                                        <span class="owner_clr d-inline-block">Total Paid</span>
+                                        <p class="pagagraph mb-3">£800.00</p>
+
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <span class="owner_clr mt-2 pt-2">Total Amount</span>
+                                        <p class="pagagraph mb-3">£1,200.00 (0% Interest)</p>
+                                        <span class="owner_clr d-inline-block">Installments</span>
+                                        <p class="pagagraph">6 x £200 (to be paid monthly) </p>
+                                        <span class="owner_clr d-inline-block">Outstanding</span>
+                                        <p class="pagagraph">£400.00</p>
+                                    </div>
+                                    <div class="col-xl-5">
+                                        <span class="owner_clr d-inline-block pt-2">Notice Type</span><br />
+                                        <a class="main-text d-inline-block mb-3" href="#">
+                                            <img src="~/assets/img/Location.svg" alt="">
+                                            25 Meadowford Close, London, Greenwich
+                                        </a>
+                                        <br />
+                                        <span class="owner_clr d-inline-block">Tenancy</span>
+                                        <p class="main-text mb-3">112384</p>
+                                        <span class="owner_clr d-inline-block">Primary Tenant</span>
+                                        <span class="owner_clr d-inline-block">To Be Paid By</span>
+                                        <p class="main-text mb-3">Allison Philips</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="sora_16 pb-1">Installment Forecast</h4>
+                            <div class="light_bg_table table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>S No.</th>
+                                            <th>Payment Date</th>
+                                            <th>Total Balance</th>
+                                            <th>Amount</th>
+                                            <th>Interest Charge</th>
+                                            <th>Total Amount</th>
+                                            <th>Amount Pending</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>15 Oct, 2023</td>
+                                            <td>£ 1200.00</td>
+                                            <td>£ 200.00</td>
+                                            <td>2.5%</td>
+                                            <td>£ 205.00</td>
+                                            <td>£ 1000.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>15 Oct, 2023</td>
+                                            <td>£ 1200.00</td>
+                                            <td>£ 200.00</td>
+                                            <td>2.5%</td>
+                                            <td>£ 205.00</td>
+                                            <td>£ 1000.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>15 Oct, 2023</td>
+                                            <td>£ 1200.00</td>
+                                            <td>£ 200.00</td>
+                                            <td>2.5%</td>
+                                            <td>£ 205.00</td>
+                                            <td>£ 1000.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>15 Oct, 2023</td>
+                                            <td>£ 1200.00</td>
+                                            <td>£ 200.00</td>
+                                            <td>2.5%</td>
+                                            <td>£ 205.00</td>
+                                            <td>£ 1000.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td>15 Oct, 2023</td>
+                                            <td>£ 1200.00</td>
+                                            <td>£ 200.00</td>
+                                            <td>2.5%</td>
+                                            <td>£ 205.00</td>
+                                            <td>£ 1000.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>6</td>
+                                            <td>15 Oct, 2023</td>
+                                            <td>£ 1200.00</td>
+                                            <td>£ 200.00</td>
+                                            <td>2.5%</td>
+                                            <td>£ 205.00</td>
+                                            <td>£ 1000.00</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ----- Overview Tab End  ---- -->
+                <!-- ----- Statement_tab Tab Start ---- -->
+                <div class="tab-pane fade" id="Statement_tab" role="tabpanel"
+                     aria-labelledby="nav-inspection-details-tab">
+                    <div class="step_body_content2 mb-3 pe-2">
+                        <div class="bg-white rounded border border-top-0">
+                            <div class="px-3">
+                                <div class="row">
+                                    <h5 class="modal-title mt-2 pt-1 mb-3" id="">
+                                        Statement
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="no_searchontable ser_lpading bg-white sm48__row_table table_bottom_border hide_sort_all">
+                                <table id="Statement___tab">
+                                    <thead>
+                                        <tr>
+                                            <th class="maintable_head">Ref ID</th>
+                                            <th class="maintable_head">Date</th>
+                                            <th class="maintable_head">Transaction Type</th>
+                                            <th class="maintable_head">Description</th>
+                                            <th class="maintable_head">Paid By</th>
+                                            <th class="maintable_head">Received</th>
+                                            <th class="maintable_head">Balance</th>
+                                            <th class="maintable_head">&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="align-top">
+                                                <a class="green_12 u_n" href="#">
+                                                    TR3627
+                                                </a>
+                                            </td>
+                                            <td class="align-top">
+                                                <span class="black_12 d-inline-block mb-1">
+                                                    15 Jan 2024
+                                                </span>
+                                            </td>
+                                            <td class="align-top">
+                                                <span class="black_12 d-inline-block mb-1">
+                                                    Tenancy Receipt
+                                                </span>
+                                            </td>
+                                            <td class="align-top">
+                                                <span class="black_12 d-inline-block mb-1">
+                                                    Payment Plan Payment 4
+                                                </span>
+                                                <br><span class="gray_12">Charge Ref:</span>
+                                                <span class="st_dis">PP3471</span>
+                                                <br><span class="gray_12">Tenancy:</span>
+                                                <span class="st_dis">TE112384 Allison Philips</span>
+                                                <br><span class="gray_12">Property:</span>
+                                                <span class="st_dis">PR11763287</span>
+                                            </td>
+                                            <td class="align-top">
+                                                <span class="black_12 d-inline-block">
+                                                    Tenant<br />
+                                                    (Allison Philips)
+                                                </span>
+                                            </td>
+                                            <td class="align-top">
+                                                <span class="black_12 d-inline-block">£200</span>
+                                            </td>
+                                            <td class="align-top">
+                                                <span class="black_12 d-inline-block">£400</span>
+                                            </td>
+                                            <td class="maintext_size text-end">
+                                                <div class="d-inline-flex ">
+                                                    <a href="#">
+                                                        <img src="~/assets/img/eye.svg">
+                                                    </a>
+                                                    <div class="dropdown">
+                                                        <a class="text-decoration-none action_dropwown"
+                                                           href="#" role="button" data-bs-toggle="dropdown"
+                                                           aria-expanded="false">
+                                                            <img src="~/assets/img/down_arrow.svg"
+                                                                 class="ms-2">
+                                                        </a>
+                                                        <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
+                                                            aria-labelledby="acp-action">
+                                                            <li>
+                                                                <a class="dropdown-item" href="#">Edit</a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item"
+                                                                   href="#">Download</a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item"
+                                                                   href="#">Archive</a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item" href="#">Delete</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="align-top">
+                                                <a class="green_12 u_n" href="#">
+                                                    TR3627
+                                                </a>
+                                            </td>
+                                            <td class="align-top">
+                                                <span class="black_12 d-inline-block mb-1">
+                                                    15 Jan 2024
+                                                </span>
+                                            </td>
+                                            <td class="align-top">
+                                                <span class="black_12 d-inline-block mb-1">
+                                                    Tenancy Receipt
+                                                </span>
+                                            </td>
+                                            <td class="align-top">
+                                                <span class="black_12 d-inline-block mb-1">
+                                                    Payment Plan Payment 4
+                                                </span>
+                                                <br><span class="gray_12">Charge Ref:</span>
+                                                <span class="st_dis">PP3471</span>
+                                                <br><span class="gray_12">Tenancy:</span>
+                                                <span class="st_dis">TE112384 Allison Philips</span>
+                                                <br><span class="gray_12">Property:</span>
+                                                <span class="st_dis">PR11763287</span>
+                                            </td>
+                                            <td class="align-top">
+                                                <span class="black_12 d-inline-block">
+                                                    Tenant<br />
+                                                    (Allison Philips)
+                                                </span>
+                                            </td>
+                                            <td class="align-top">
+                                                <span class="black_12 d-inline-block">£200</span>
+                                            </td>
+                                            <td class="align-top">
+                                                <span class="black_12 d-inline-block">£400</span>
+                                            </td>
+                                            <td class="maintext_size text-end">
+                                                <div class="d-inline-flex ">
+                                                    <a href="#">
+                                                        <img src="~/assets/img/eye.svg">
+                                                    </a>
+                                                    <div class="dropdown">
+                                                        <a class="text-decoration-none action_dropwown"
+                                                           href="#" role="button" data-bs-toggle="dropdown"
+                                                           aria-expanded="false">
+                                                            <img src="~/assets/img/down_arrow.svg"
+                                                                 class="ms-2">
+                                                        </a>
+                                                        <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
+                                                            aria-labelledby="acp-action">
+                                                            <li>
+                                                                <a class="dropdown-item" href="#">Edit</a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item"
+                                                                   href="#">Download</a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item"
+                                                                   href="#">Archive</a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item" href="#">Delete</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="align-top">
+                                                <a class="green_12 u_n" href="#">
+                                                    TR3627
+                                                </a>
+                                            </td>
+                                            <td class="align-top">
+                                                <span class="black_12 d-inline-block mb-1">
+                                                    15 Jan 2024
+                                                </span>
+                                            </td>
+                                            <td class="align-top">
+                                                <span class="black_12 d-inline-block mb-1">
+                                                    Tenancy Receipt
+                                                </span>
+                                            </td>
+                                            <td class="align-top">
+                                                <span class="black_12 d-inline-block mb-1">
+                                                    Payment Plan Payment 4
+                                                </span>
+                                                <br><span class="gray_12">Charge Ref:</span>
+                                                <span class="st_dis">PP3471</span>
+                                                <br><span class="gray_12">Tenancy:</span>
+                                                <span class="st_dis">TE112384 Allison Philips</span>
+                                                <br><span class="gray_12">Property:</span>
+                                                <span class="st_dis">PR11763287</span>
+                                            </td>
+                                            <td class="align-top">
+                                                <span class="black_12 d-inline-block">
+                                                    Tenant<br />
+                                                    (Allison Philips)
+                                                </span>
+                                            </td>
+                                            <td class="align-top">
+                                                <span class="black_12 d-inline-block">£200</span>
+                                            </td>
+                                            <td class="align-top">
+                                                <span class="black_12 d-inline-block">£400</span>
+                                            </td>
+                                            <td class="maintext_size text-end">
+                                                <div class="d-inline-flex ">
+                                                    <a href="#">
+                                                        <img src="~/assets/img/eye.svg">
+                                                    </a>
+                                                    <div class="dropdown">
+                                                        <a class="text-decoration-none action_dropwown"
+                                                           href="#" role="button" data-bs-toggle="dropdown"
+                                                           aria-expanded="false">
+                                                            <img src="~/assets/img/down_arrow.svg"
+                                                                 class="ms-2">
+                                                        </a>
+                                                        <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
+                                                            aria-labelledby="acp-action">
+                                                            <li>
+                                                                <a class="dropdown-item" href="#">Edit</a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item"
+                                                                   href="#">Download</a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item"
+                                                                   href="#">Archive</a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item" href="#">Delete</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ----- Statement_tab Tab End ---- -->
+                <!-- ----- Edit Transaction Start ---- -->
+                <div class="tab-pane fade border-top-0 h-100 rp_popup" id="Edit_Transaction" role="tabpanel"
+                     aria-labelledby="nav-building-items-tab">
+                    <div class="step_body_content2 mb-3 pe-2">
+                        <div class="p-3 bg-white border border-top-0">
+                            <h5 class="modal-title mb-3" id="">Edit Payment Plan</h5>
+                            <div class="mb-3 border p-3 bg-white">
+                                <h5 class="modal-title mb-3" id="">Description</h5>
+                                <div class="input__field mb-3">
+                                    <label for="Reference_Transaction" class="form-label">
+                                        Reference Transaction
+                                        <small class="gray_12 ps-2">
+                                            (Only Outstanding/ Overdue Payments can be selected)
+                                        </small>
+                                    </label>
+                                    <select class="form-select select_font_14"
+                                            aria-label="Default select example">
+                                        <option selected>Select Tenancy</option>
+                                        <option value="1">Property owner</option>
+                                        <option value="2">Contractor</option>
+                                    </select>
+                                </div>
+                                <div class="d-flex mt-3 gap-3">
+                                    <div class="input__field w-100">
+                                        <label for="Description" class="form-label">Description</label>
+                                        <input type="text" class="form-control" value=""
+                                               placeholder="For Rent Due " id="Description"
+                                               aria-describedby="">
+                                    </div>
+                                    <div class="input__field w-100">
+                                        <label for="amount" class="form-label">Amount</label>
+                                        <input type="number" class="form-control" value=""
+                                               placeholder="£ 1,200.00" id="amount" aria-describedby="">
+                                    </div>
+                                    <div class="input__field w-100">
+                                        <label for="Tobepaidby" class="form-label">To be paid by</label>
+                                        <select class="form-select select_font_14"
+                                                aria-label="Default select example">
+                                            <option selected>Select Tenancy</option>
+                                            <option value="1">Property owner</option>
+                                            <option value="2">Contractor</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3 border p-3 bg-white">
+                                <h5 class="modal-title mb-0" id="">Installment Details</h5>
+                                <div class="d-flex mt-3 gap-3">
+                                    <div class="input__field w-100">
+                                        <label for="InstallmentType" class="form-label">
+                                            Installment
+                                            Type
+                                        </label>
+                                        <select class="form-select select_font_14"
+                                                aria-label="Default select example">
+                                            <option selected>Select Installment Type</option>
+                                            <option>Managment Companey</option>
+                                            <option>Neighbour</option>
+                                        </select>
+                                    </div>
+                                    <div class="input__field w-100">
+                                        <label for="amounttobepaid" class="form-label">
+                                            Amount to be
+                                            paid
+                                        </label>
+                                        <input type="number" class="form-control" value=""
+                                               placeholder="£ 200" id="amounttobepaid" aria-describedby="">
+                                    </div>
+                                    <div class="input__field w-100">
+                                        <label for="InterestCharge" class="form-label">
+                                            Interest Charge
+                                            %
+                                        </label>
+                                        <input type="number" class="form-control" value="" placeholder="0%"
+                                               id="InterestCharge" aria-describedby="">
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3">
+                                    <div class="col-md-4">
+                                        <div class="input__field w-100">
+                                            <label for="NumberofInstalments" class="form-label">
+                                                Number of
+                                                Instalments
+                                            </label>
+                                            <input type="number" class="form-control" value=""
+                                                   placeholder="6" id="NumberofInstalments"
+                                                   aria-describedby="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input__field w-100">
+                                            <label for="StartDate" class="form-label">Start Date</label>
+                                            <input type="date" class="form-control" value=""
+                                                   placeholder="15 /10 / 2023" id="StartDate"
+                                                   aria-describedby="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h4 class="sora_16 mt-3 pb-1">Installment Forecast</h4>
+                                <div class="light_bg_table table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>S No.</th>
+                                                <th>Payment Date</th>
+                                                <th>Total Balance</th>
+                                                <th>Amount</th>
+                                                <th>Interest Charge</th>
+                                                <th>Total Amount</th>
+                                                <th>Amount Pending</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>15 Oct, 2023</td>
+                                                <td>£ 1200.00</td>
+                                                <td>£ 200.00</td>
+                                                <td>2.5%</td>
+                                                <td>£ 205.00</td>
+                                                <td>£ 1000.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>15 Oct, 2023</td>
+                                                <td>£ 1200.00</td>
+                                                <td>£ 200.00</td>
+                                                <td>2.5%</td>
+                                                <td>£ 205.00</td>
+                                                <td>£ 1000.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>15 Oct, 2023</td>
+                                                <td>£ 1200.00</td>
+                                                <td>£ 200.00</td>
+                                                <td>2.5%</td>
+                                                <td>£ 205.00</td>
+                                                <td>£ 1000.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>4</td>
+                                                <td>15 Oct, 2023</td>
+                                                <td>£ 1200.00</td>
+                                                <td>£ 200.00</td>
+                                                <td>2.5%</td>
+                                                <td>£ 205.00</td>
+                                                <td>£ 1000.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>5</td>
+                                                <td>15 Oct, 2023</td>
+                                                <td>£ 1200.00</td>
+                                                <td>£ 200.00</td>
+                                                <td>2.5%</td>
+                                                <td>£ 205.00</td>
+                                                <td>£ 1000.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>6</td>
+                                                <td>15 Oct, 2023</td>
+                                                <td>£ 1200.00</td>
+                                                <td>£ 200.00</td>
+                                                <td>2.5%</td>
+                                                <td>£ 205.00</td>
+                                                <td>£ 1000.00</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ----- Edit Transaction End ---- -->
+                <!-- ----- Activity Start ---- -->
+                <div class="tab-pane fade border-top-0 h-100" id="Activity__tab" role="tabpanel"
+                     aria-labelledby="nav-building-items-tab">
+                    <div class="step_body_content2 mb-3 pe-2">
+                        <div class="p-3 border bg-white border-top-0 h-100">
+                            <div class="px-3">
+                                <div class="row">
+                                    <h5 class="modal-title mt-2 pt-1 mb-3" id="">
+                                        Activity
+                                    </h5>
+                                </div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div>
+                                        <img src="~/assets/img/euro.svg" alt="euro_icon">
+                                    </div>
+                                    <div>
+                                        <p class="black_light12 mb-0">
+                                            Transaction added to PP1025, "Rent received Dario Jorge Ventura
+                                            Da Silva for 1st Aug 2023" as "Tenancy Receipt"
+                                        </p>
+                                        <span class="green_12"> Show Transaction</span>
+                                        <img src="~/assets/img/link__icon.svg" alt="link__icon">
+                                        <small class="cre d-block" style="color:#768293;">
+                                            By Jacob Hershberg at 28 Aug 2023, 1:18 PM. (Time UTC: 28 Aug
+                                            2023, 12:18 PM)
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center gap-2 mt-3">
+                                    <div>
+                                        <img src="~/assets/img/euro.svg" alt="euro_icon">
+                                    </div>
+                                    <div>
+                                        <p class="black_light12 mb-0">
+                                            Transaction added to PP1025, "Rent received Dario Jorge Ventura
+                                            Da Silva for 1st Aug 2023" as "Tenancy Receipt"
+                                        </p>
+                                        <small class="cre d-block" style="color:#768293;">
+                                            By Jacob Hershberg at 28 Aug 2023, 1:18 PM. (Time UTC: 28 Aug
+                                            2023, 12:18 PM)
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ----- Activity End ---- -->
+            </div>
+        </div>
+    </div>
+</div>

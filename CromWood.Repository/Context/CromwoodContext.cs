@@ -55,6 +55,7 @@ namespace CromWood.Data.Context
         public DbSet<StatementType> StatementTypes { get; set; }
         public DbSet<UtilityType> UtilityTypes { get; set; }
         public DbSet<UtilityProvider> UtilityProviders { get; set; }
+        public DbSet<InstallmentType> InstallmentTypes { get; set; }
         #endregion
 
         public DbSet<Role> Roles { get; set; }

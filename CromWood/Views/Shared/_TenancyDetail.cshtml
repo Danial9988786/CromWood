@@ -67,7 +67,7 @@
         <a class="nav-link text-capitalize" id="nav-tenancy-recurring-charges" asp-route-id="@tenancy.Data.Id" asp-action="RecurringCharges">
             recurring charges
         </a>
-        <a class="nav-link text-capitalize" id="nav-tenancy-payment-plans" asp-route-id="@tenancy.Data.Id" asp-action="PaymentPlan">
+        <a class="nav-link text-capitalize" id="nav-tenancy-payment-plans" asp-route-id="@tenancy.Data.Id" asp-action="PaymentPlans">
             payment plans
         </a>
         <a class="nav-link text-capitalize" id="nav-tenancy-complaints" asp-route-id="@tenancy.Data.Id" asp-action="Complaints">
@@ -121,5 +121,8 @@
     }
     if (window.location.pathname.includes('/Tenancy/Statements')) {
         document.getElementById("nav-tenancy-statement").classList.add('active');
+    }
+    if (window.location.pathname.includes('/Tenancy/PaymentPlans')) {
+        document.getElementById("nav-tenancy-payment-plans").classList.add('active');
     }
 </script>

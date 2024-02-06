@@ -1,4 +1,6 @@
-﻿namespace CromWood.Data.Entities
+﻿using CromWood.Data.Entities.Default;
+
+namespace CromWood.Data.Entities
 {
     public class PaymentPlan: DBTable
     {
@@ -10,11 +12,13 @@
         public string Description { get; set; }
 
         // Installtalment Detail:
-        public Guid? InstallmentType { get; set; }
+        public Guid InstallmentTypeId { get; set; }
+        public InstallmentType InstallmentType { get; set; }
         public int NoOfInstallment { get; set; }
         public float IntrestCharge { get; set; }
         public float InstallmentAmount { get; set; }
         public DateTime InstallmentStart { get; set; }
         public ICollection<PaymentPlanInstallment> Installments { get; set; }
+        public ICollection<PaymentPlanTransaction> Transactions { get; set; }
     }
 }

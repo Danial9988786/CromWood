@@ -71,6 +71,15 @@ namespace CromWood.Mapper
             CreateMap<RecurringCharge, RecurringChargeModel>().ReverseMap();
             CreateMap<RecurringCharge, RecurringChargeViewModel>().ReverseMap();
 
+            CreateMap<PaymentPlan, PaymentPlanModel>().ReverseMap();
+            CreateMap<PaymentPlan, PaymentPlanViewModel>().ReverseMap();
+
+            CreateMap<PaymentPlanInstallment, PaymentPlanInstallmentModel>().ReverseMap();
+            CreateMap<PaymentPlanInstallment, PaymentPlanInstallmentViewModel>().ReverseMap();
+
+            CreateMap<PaymentPlanTransaction, PaymentPlanTransactionModel>().ReverseMap();
+            CreateMap<PaymentPlanTransaction, PaymentPlanTransactionViewModel>().ReverseMap();
+
             CreateMap<Notice, NoticeModel>().ReverseMap();
             CreateMap<Notice, NoticeViewModel>().ReverseMap();
 

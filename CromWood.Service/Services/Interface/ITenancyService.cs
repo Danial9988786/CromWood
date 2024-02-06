@@ -56,5 +56,13 @@ namespace CromWood.Business.Services.Interface
         public Task<AppResponse<StatementDocumentModel>> GetStatementDocument(Guid id);
         public Task<AppResponse<int>> AddModifyStatementDocument(StatementDocumentModel req);
         public Task<AppResponse<int>> DeleteStatementDocument(Guid id);
+        public Task<AppResponse<ICollection<PaymentPlanViewModel>>> GetPaymentPlans(Guid id);
+        public Task<AppResponse<PaymentPlanModel>> GetPaymentPlan(Guid id);
+        public Task<AppResponse<int>> AddModifyPaymentPlan(PaymentPlanModel req);
+        public Task<AppResponse<PaymentPlanViewModel>> GetPaymentPlanView(Guid id);
+        public Task<AppResponse<int>> DeletePaymentPlan(Guid id);
+        public Task<AppResponse<PaymentPlanTransactionModel>> GetPaymentPlanTransaction(Guid id);
+        public Task<AppResponse<int>> AddModifyPaymentPlanTransaction(PaymentPlanTransactionModel req);
+        public Task<AppResponse<int>> DeletePaymentPlanTransaction(Guid id);
     }
 }

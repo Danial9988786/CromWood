@@ -4,6 +4,7 @@ using CromWood.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CromWood.Data.Migrations
 {
     [DbContext(typeof(CromwoodContext))]
-    partial class CromwoodContextModelSnapshot : ModelSnapshot
+    [Migration("20240206022734_Added Installment type")]
+    partial class AddedInstallmenttype
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1004,7 +1007,7 @@ namespace CromWood.Data.Migrations
                     b.Property<DateTime>("InstallmentStart")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("InstallmentTypeId")
+                    b.Property<Guid?>("InstallmentType")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<float>("IntrestCharge")
@@ -1026,8 +1029,6 @@ namespace CromWood.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("InstallmentTypeId");
 
                     b.HasIndex("ReferenceStatementId");
 
@@ -2523,19 +2524,11 @@ namespace CromWood.Data.Migrations
 
             modelBuilder.Entity("CromWood.Data.Entities.PaymentPlan", b =>
                 {
-                    b.HasOne("CromWood.Data.Entities.Default.InstallmentType", "InstallmentType")
-                        .WithMany()
-                        .HasForeignKey("InstallmentTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CromWood.Data.Entities.TenancyStatement", "ReferenceStatement")
                         .WithMany()
                         .HasForeignKey("ReferenceStatementId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("InstallmentType");
 
                     b.Navigation("ReferenceStatement");
                 });

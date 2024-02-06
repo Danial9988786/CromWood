@@ -56,5 +56,13 @@ namespace CromWood.Data.Repository.Interface
         public Task<StatementDocument> GetStatementDocument(Guid id);
         public Task<int> AddModifyStatementDocument(StatementDocument mappedReq);
         public Task<string> DeleteStatementDocument(Guid id);
+        public Task<ICollection<PaymentPlan>> GetPaymentPlans(Guid id);
+        public Task<PaymentPlan> GetPaymentPlan(Guid id);
+        public Task<int> AddModifyPaymentPlan(PaymentPlan mapped);
+        public Task<PaymentPlan> GetPaymentPlanView(Guid id);
+        public Task<int> DeletePaymentPlan(Guid id);
+        public Task<PaymentPlanTransaction> GetPaymentPlanTransaction(Guid id);
+        public Task<int> AddModifyPaymentPlanTransaction(PaymentPlanTransaction mappedMessage);
+        public Task<int> DeletePaymentPlanTransaction(Guid id);
     }
 }

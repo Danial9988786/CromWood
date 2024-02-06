@@ -17,7 +17,7 @@
         @Html.HiddenFor(x=>x.Id)
         @Html.HiddenFor(x=>x.TenancyId)
         @Html.HiddenFor(x=>x.ReferenceID)
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="step_body_content3 mb-3 pe-2">
             <div class="mb-3 border p-3 bg-white h-100">
                 <h3 class="modal-title" id="staticBackdropLabel">Statement Details</h3>
@@ -74,22 +74,20 @@
 
 <script>
     $(document).ready(function () {
-        // ----------- For Font size 14 -----------
         $('.select_font_14').select2({
             theme: "bootstrap-5",
-            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-            placeholder: $(this).data('placeholder'),
-            closeOnSelect: false,
-            dropdownCssClass: "select_font_14",
+            placeholder: "Select...",
+            dropdownAutoWidth: true,
+            width: '100%',
+            dropdownCssClass: "select_font_14"
         });
 
-        // ----------- With searh bar funcnality -----------
-    $('.select__search').select2({
-        theme: "bootstrap-5",
-        dropdownAutoWidth : true,
-        placeholder: "Select...",
-        width: '100%',
-        dropdownCssClass: "select__search"
-    });
+        $('.select__search').select2({
+            theme: "bootstrap-5",
+            dropdownAutoWidth: true,
+            placeholder: "Select...",
+            width: '100%',
+            dropdownCssClass: "select__search"
+        });
     })
 </script>
