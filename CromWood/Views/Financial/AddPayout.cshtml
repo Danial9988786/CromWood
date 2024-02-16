@@ -1,0 +1,166 @@
+﻿@model CromWood.Business.Models.PayoutModel
+
+<div class="modal-content rounded-0 model-custom-bg">
+    <div class="modal-header py-2 bg-white">
+        <h5 class="modal-title" id="staticBackdropLabel">Add Payout</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <form class="modal-body" asp-action="AddPayout" method="post">
+        @Html.HiddenFor(x=>x.PayoutID)
+        @Html.HiddenFor(x=>x.PayoutID)
+        <div class="step_body_content3 mb-3 pe-2">
+            <div class="mb-2 border p-3 bg-white rounded">
+                <div class="d-flex gap-3 pb-2">
+                    <div class="input__field w-100">
+                        <label for="Amount Net" class="form-label">Payout ID</label>
+                        <div class="position-relative">
+                            <input type="number" class="form-control fqft" asp-for="PayoutID" placeholder="11253689"
+                                   id="Security Deposit Amount" disabled>
+                        </div>
+                    </div>
+                    <div class="input__field w-100">
+                        <div class="mb-3">
+                            <label for="Date" class="form-label">Payment Date</label>
+                            <div class="input-container">
+                                <div class="input-group date__box date datepicker">
+                                    <input type="date" class="form-control" placeholder="24/01/2024"
+                                           id="start_date" asp-for="PaymentDate">
+                                    <span class="input-group-append">
+                                        <span class="date__icon bg-white">
+                                            <img src="~/assets/img/date__icon.svg" alt="date_icon">
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input__field w-100">
+                        <label for="Paid Amount" class="form-label">Paid Amount</label>
+                        <div class="position-relative">
+                            <input type="number" class="form-control fqft" placeholder="£5,000"
+                                   id="paidAmountTotal" asp-for="Amount">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-2 border p-3 bg-white rounded">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5 class="modal-title" id="staticBackdropLabel">Tenancy Rent</h5>
+                    </div>
+                    <div class="tenancy_rent">
+                        <div class="pb-1">
+                            <div class="level__box mt-1 mb-1 d-flex align-items-center">
+                                <input type="radio" id="equal" value="equal" class="p_text" name="l_evels" checked>
+                                <label for="equal" class="pagagraph">
+                                    Divide Equally
+                                    <img src="~/assets/img/rows-03.png" class="ps-1" alt=""/>
+                                </label>
+                                <input type="radio" id="auto" value="auto" class="f_text" name="l_evels">
+                                <label for="auto" class="pagagraph border-end border-start">
+                                    Auto Adjust<img src="~/assets/img/calculator.png" class="ps-1" alt="" />
+                                </label>
+                                <input type="radio" id="manual" value="manual" class="g_text" name="l_evels">
+                                <label for="manual" class="pagagraph">
+                                    Divide Manually<img src="~/assets/img/edit-03.png" class="ps-1" alt="" />
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-100 border border-top-0 rp_popup">
+                    <table id="datatablesSimple" class="w-100 mt-3">
+                        <thead>
+                            <tr>
+                                <th class="ps-2">Tenancy ID</th>
+                                <th>Tenant</th>
+                                <th>Monthly Rent</th>
+                                <th>Received Money</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Payouts.Count; i++)
+                            {
+                                <tr>
+                                    @Html.HiddenFor(m=>m.Payouts[i].TenancyId)
+
+                                    <td class="main-text maintext_size ps-3">
+                                        <a class="u_n main-text" href="#">@Model.Payouts[i].TenancyName</a>
+                                    </td>
+                                    <td class="main-text maintext_size">
+                                        <a class="u_n main-text" href="#">@Model.Payouts[i].TenantName</a>
+                                    </td>
+                                    <td class="mdblacktext">
+                                        <p class="mb-0">£ @Model.Payouts[i].RentAmount</p>
+                                    </td>
+                                    <td class="pe-4 align-middle">
+                                        <div class="position-relative w-75">
+                                            <input type="number" class="form-control fqft" asp-for="Payouts[i].Amount"
+                                                   placeholder="£100" id="eachamount-@Model.Payouts[i].TenancyId">
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <div class="popup_footer_fixed border-top d-flex justify-content-between bg-white">
+            <div class="shadow-box">
+                <a href="#" class="custom__btn" data-bs-toggle="modal">
+                    Cancel
+                </a>
+            </div>
+            <div class="shadow-box ms-auto">
+                <a class="custom__btn2" onclick="addPayoutBtn.click()">
+                    <img src="~/assets/img/save-role.svg" alt="right__arrow">
+                    Save Transaction
+                </a>
+            </div>
+        </div>
+        <input id="addPayoutBtn" type="submit" hidden/>
+    </form>
+</div>
+
+<script>
+    $('#paidAmountTotal').on('input', function (e) {
+        let selection = $('input[type=radio][name=l_evels]').val();
+        modifyAmounts(this.value, selection);
+    })
+
+    $('input[type=radio][name=l_evels]').change(function () {
+        let totalAmount = $('#paidAmountTotal').val();
+        modifyAmounts(totalAmount, this.value)
+    });
+
+    function modifyAmounts(total, selection) {
+        if (selection == 'equal') {
+            const length = $("input[id^='eachamount']").length;
+            const eachAmount = total / length;
+            $("input[id^='eachamount']").each(function () {
+                $(this).val(eachAmount);
+                $(this).prop("disabled", true);
+                });
+        }
+        else if (selection == 'auto') {
+            const length = $("input[id^='eachamount']").length;
+            const eachAmount = total / length;
+            $("input[id^='eachamount']").each(function () {
+                $(this).val(eachAmount);
+                $(this).prop("disabled", false);
+            });
+        }
+        else if (selection == 'manual') {
+            const length = $("input[id^='eachamount']").length;
+            const eachAmount = total / length;
+            $("input[id^='eachamount']").each(function () {
+                $(this).val(0);
+                $(this).prop("disabled", false);
+            });
+        }
+    }
+
+</script>

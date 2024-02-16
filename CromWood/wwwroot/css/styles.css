@@ -4,6 +4,7 @@
 
   /* ----- Global setting -------- */
   --main-font: 'Inter', sans-serif;
+  --sora-font: 'Sora', sans-serif;
   --main-color: hsl(78, 100%, 21%);
   --secondary-color: #6D9000;
   --dark-green: #344900;
@@ -24,15 +25,34 @@
   --dashboard-bg: #F9FBFC;
   --element-bg: #F1F7F6;
   --nav-tab-border: #D1D5DB;
-  --sora-font: 'Sora', sans-serif;
-  --sort-font: 400 14px/140% 'Inter', sans-serif;
-  --sort-font-500: 500 14px/140% 'Inter', sans-serif;
-  --sort-font-600: 600 14px/140% 'Inter', sans-serif;
-  --sort-font-700: 700 14px/140% 'Inter', sans-serif;
+
+  /* -----  global fonts ---------- */
+
+  /* -----  Inter fonts ---------- */
+  --inter-font16: 400 16px/140% 'Inter', sans-serif;
+  --inter-font-500: 500 16px/140% 'Inter', sans-serif;
+
+  --inter-font14: 400 14px/140% 'Inter', sans-serif;
+  --inter-font-500: 500 14px/140% 'Inter', sans-serif;
+  --inter-font-600: 600 14px/140% 'Inter', sans-serif;
+  --inter-font-700: 700 14px/140% 'Inter', sans-serif;
+  
+  --inter-font12: 400 12px/140% 'Inter', sans-serif;
+  --inter-font12-500: 500 12px/140% 'Inter', sans-serif;
+  --inter-font-700: 700 12px/140% 'Inter', sans-serif;
+
+  --inter-font16: 400 16px/140% 'Inter', sans-serif;
+  --inter-font16-500: 500 16px/140% 'Inter', sans-serif;
+
   /* ----Sora font ----- */
+  --sora-font16: 500 16px/140% 'Sora', sans-serif;
+  --sora-font16-600: 600 16px/140% 'Sora', sans-serif;
+
   --sora-sort-font: 400 14px/140% 'Sora', sans-serif;
   --sora-sort-font-500: 500 14px/140% 'Sora', sans-serif;
   --sora-sort-font-600: 600 14px/140% 'Sora', sans-serif;
+
+  --sora-font12-500:500 12px/140% 'Sora', sans-serif;
 
   /* ------------- */
   --bs-blue: #0d6efd;
@@ -136,18 +156,38 @@
   color: var(--light-blue)!important;
 }
 .font14_inter{
-    font-family: Inter;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 140%;
+   font: var(--inter-font14);
+}
+.gray_14_500{
+  color: #5F6D81;
+  font: var(--inter-font14);
+}
+.gray_14_400{
+  color: #5F6D81;
+  font: var(--inter-font14);
+}
+.gray_14{
+  color: #768293;
+  font: var(--inter-font14);
+}
+.black_14{
+  color: #000;
+  font: var(--inter-font14);
+}
+.light_gray_14_{
+  color: #BBC0C9;
+  font: var(--inter-font14);
+}
+.font14_gray6f{
+  color: #48586F;
+  font: var(--inter-font14);
+}
+.green_14{
+  color:#6D9000;
+  font: var(--inter-font14);
 }
 .font12_inter{
-  font-family: Inter;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 140%;
+  font: var(--inter-font-700);
 }
 .green_12 {
   color: var(--main-color)!important;
@@ -157,59 +197,32 @@
 }
 .gray_text_12{
   color: #5F6D81;
-  font-family: Inter;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 140%;
+ font: var(--inter-font-500);
 }
 .gray_12{
   color: #768293;
-  font-family: Inter;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 140%;
+  font: var(--inter-font12);
+}
+.gray_12_500{
+  color: #768293;
+  font: var(--inter-font-500);
 }
 .black_light12{
   color: #2F2E35;
-  font-family: Inter;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 140%; 
+  font: var(--inter-font12); 
 }
 .black_12{
   color: #000;
-  font-family: Inter;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 140%;
+  font: var(--inter-font12);
 }
-.gray_14{
-  color: #768293;
-  font-family: Inter;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 140%;
-}
-.black_14{
-  color: #000;
-  font-family: Inter;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 140%;
-}
+
 .green_16{
   color:#6D9000;
-  font-family: Inter;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 140%; 
+  font: var(--inter-font-500); 
+}
+.font16_inter{
+  color:#48586F;
+  font: var(--inter-font-500);
 }
 .sora_16{
   color:#2F2E35;
@@ -220,39 +233,6 @@
   line-height: 140%; 
   text-transform: capitalize;
 }
-.light_gray_14_{
-  color: #BBC0C9;
-  font-family: Inter;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 140%;
-}
-.font14_inter_{
-  font-family: Inter;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 140%;
-  color: #48586F;
-}
-.black_700{
-  color: #000;
-  font-family: Inter;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 140%;
-}
-.font16_inter{
-  font-family: Inter;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 140%;
-  color:#48586F;
-}
-
 .main-bg {
   background-color: var(--main-color);
 }
@@ -282,17 +262,9 @@
 .red-color {
   color: var(--red-color);
 }
-
 .red-radk-color {
   color: var(--red-dark-color);
 }
-
-.heading-style {
-  font-size: 20px;
-  font-family: var(--sora-font);
-  color: var(--g-text-color);
-}
-
 .heading-style {
   font-size: 20px;
   font-family: var(--sora-font);
@@ -314,11 +286,11 @@
 
 .mdblacktext {
   color: var(--black-text);
-  font: var(--sort-font);
+  font: var(--inter-font14);
 }
 
 .maintext_size {
-  font:var(--sort-font-500);
+  font:var(--inter-font-500);
 }
 
 .model-custom-bg {
@@ -12752,7 +12724,7 @@ body {
 
 .sb-nav-fixed #layoutSidenav #layoutSidenav_nav {
   width: 260px;
-  height: 100vh;
+  height: 100%;
   z-index: 1040;
 }
 

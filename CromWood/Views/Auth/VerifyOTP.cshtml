@@ -1,0 +1,83 @@
+﻿@model CromWood.Business.ViewModels.ForgotPasswordModel
+
+@{
+    ViewData["Title"] = "| Verify OTP";
+    Layout = null;
+}
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>CHL @ViewBag.Title</title>
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Sora:wght@200;300;400;500;600;700&display=swap"
+          rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> -->
+    <!-- -->
+    <link href="~/assets/img/favicon.png" rel="icon" type="image/x-icon" />
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+    <link href="~/css/styles.css" rel="stylesheet" />
+    <link href="~/css/custom.css" rel="stylesheet" />
+    <link href="~/css/responsive.css" rel="stylesheet" />
+    <link href="~/css/login.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="login-container">
+        <img src="~/assets/img/cromwood-logo-custom1.svg" width="215">
+        <form asp-action="VerifyOTP" formaction="POST" class="reset-card">
+            <p class="login-label">Verify OTP</p>
+            @Html.HiddenFor(m=>m.Email)
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <!-- Login Form -->
+            <p class="reset_ps_ mb-2">We have sent an 6 digit code to your registered email id</p>
+            <div class="login-form">
+                <div class="login-input-box">
+                    <label class="login-input-label" style="font-weight: 500; color: #5F6D81; font-size: 14px;">Verification Code</label>
+                    <input asp-for="OTP" type="text" class="form-control"
+                           placeholder="Enter 6 digit code">
+                    <span asp-validation-for="OTP" class="text-danger"></span>
+                </div>
+            </div>
+            <!-- Button -->
+            <div class="d-flex w-100">
+                <div class="shadow-box w-100">
+                    <a onclick="submitBtn.click()" class="custom__btn2 w-100 text-center justify-content-center">
+                        verify Code
+                    </a>
+                    <input id="submitBtn" type="submit" value="Login" hidden />
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/scripts.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/custom-jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="assets/demo/chart-area-demo.js"></script>
+    <script src="assets/demo/chart-bar-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+    <script src="js/datatables-simple-demo.js"></script>
+    <script src="assets/demo/chart-pie-demo.js"></script>
+</body>
+
+</html>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

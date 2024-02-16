@@ -122,7 +122,7 @@ INSERT INTO dbo.Sections values
 INSERT INTO dbo.TenantTypes values 
 ('a8228559-11be-4d9a-9544-8241f2ec59c1','Owner'),
 ('c6f007f8-2d30-49a0-a248-add219f4748d','Lander'),
-('64432c8e-8cc3-4365-a8f5-e4dc925c42fd','Oker'),
+('64432c8e-8cc3-4365-a8f5-e4dc925c42fd','Housing Benefits'),
 ('914d1a66-0ee7-45f6-ab77-19c928c5a426','Parent'),
 ('01289643-bba0-48d0-b34c-c69b466be7ec','Typer')
 
@@ -162,6 +162,7 @@ INSERT INTO dbo.UnitOfMeasurements values
 ('01289643-bba0-48d0-b34c-c69b466be7ec','Pieces')
 
 INSERT INTO dbo.TransactionModes values 
+('914d1a66-0ee7-45f6-ab77-19c928c5a426','Housing Benefit Payout'),
 ('a8228559-11be-4d9a-9544-8241f2ec59c1','Cash'),
 ('c6f007f8-2d30-49a0-a248-add219f4748d','Cheque'),
 ('64432c8e-8cc3-4365-a8f5-e4dc925c42fd','Online Bank Transfer');

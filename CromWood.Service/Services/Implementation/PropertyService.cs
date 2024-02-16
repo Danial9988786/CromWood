@@ -4,6 +4,7 @@ using CromWood.Business.Models;
 using CromWood.Business.Models.ViewModel;
 using CromWood.Business.Services.Interface;
 using CromWood.Data.Entities;
+using CromWood.Data.Repository.Implementation;
 using CromWood.Data.Repository.Interface;
 using CromWood.Helper;
 
@@ -49,6 +50,43 @@ namespace CromWood.Business.Services.Implementation
             catch (Exception ex)
             {
                 return ResponseCreater<PropertyModel>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<PropertyOverviewModel>> GetPropertyOverViewPageDetail(Guid propertyId)
+        {
+            try
+            {
+                var complaints = await _properyRepository.GetRecentComplaints(propertyId);
+                var transactions = await _properyRepository.GetRecentTransactions(propertyId);
+                var result = new PropertyOverviewModel()
+                {
+                    RecentComplaints = _mapper.Map<List<ComplaintViewModel>>(complaints),
+                    RecentTransactions = _mapper.Map<List<StatementViewModel>>(transactions)
+                };
+
+                var mappedResult = _mapper.Map<PropertyOverviewModel>(result);
+                return ResponseCreater<PropertyOverviewModel>.CreateSuccessResponse(mappedResult, "Property overview loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<PropertyOverviewModel>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<PropertyOverviewModel>> GetPropertyOverViewPageJSON(Guid propertyId)
+        {
+            try
+            {
+                var result = await _properyRepository.GetPropertyOverview(propertyId);
+                var mappedResult = _mapper.Map<PropertyOverviewModel>(result);
+                return ResponseCreater<PropertyOverviewModel>.CreateSuccessResponse(mappedResult, "Property json overview loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<PropertyOverviewModel>.CreateErrorResponse(null, ex.ToString());
             }
         }
 

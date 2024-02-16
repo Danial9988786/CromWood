@@ -52,9 +52,22 @@
                             </span>
                         </td>
                         <td>
-                            <div class="new_badges unresolved draft">
-                                <img src="~/assets/img/draft.svg" alt="draft">&nbsp Draft
-                            </div>
+                            @if (message.IsDraft==true)
+                            {
+                                <div class="new_badges unresolved draft">
+                                    <img src="~/assets/img/draft.svg" alt="draft">&nbsp Draft
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="new_badges resolved sent">
+                                    <img src="~/assets/img/check-circle_green.svg" alt="check_circle">
+                                    &nbspSent
+                                </div>
+                            }
+
+
+                            
                         </td>
                         <td>
                             <span class="black_14  d-inline-block mb-1">

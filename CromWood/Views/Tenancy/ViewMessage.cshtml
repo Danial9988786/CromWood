@@ -1,4 +1,11 @@
-﻿@model CromWood.Business.Models.TenancyMessageModel
+﻿@using CromWood.Business.Services.Interface;
+@model CromWood.Business.Models.TenancyMessageModel
+@inject ITenancyService _tenancyService;
+@{
+    string message = Model.Message;
+    var tenantsAsync = await _tenancyService.GetTenancyTenants(Model.TenancyId);
+    var tenants = tenantsAsync.Data;
+}
 <div class="modal-content rounded-0 model-custom-bg">
     <div class="modal-header py-2 bg-white">
         <h5 class="modal-title" id="staticBackdropLabel">View Message</h5>
@@ -9,12 +16,13 @@
         <div class="modal-body">
             <div class="mb-3 border p-3 bg-white h-100">
                 <div class="d-flex justify-content-between border-bottom">
-                    <p class="modal-title" id="staticBackdropLabel">Allison Phillips (allison@gmail.com)</p>
+                    <p class="modal-title" id="staticBackdropLabel">
+                        @foreach (var tenant in tenants)
+                        {
+                            <span>@tenant.FullName (@tenant.Email)</span>
+                        }
+                    </p>
                     <div>
-                        <a href="" class="c_file form-label d-inline-block">
-                            <img class="pe-1" src="~/assets/img/green_reply.svg" alt="chosefile">
-                            Reply
-                        </a>
                         <a href="" class="c_file form-label d-inline-block">
                             <img class="pe-1" src="~/assets/img/green_dlt_icon.svg" alt="chosefile">
                             Delete
@@ -28,17 +36,29 @@
                         </div>
                         <div>
                             <p class="pagagraph">
-                               @Model.Subject
+                                @Model.Subject
                             </p>
                         </div>
                     </div>
                 </div>
-                <p class="lh_160 pagagraph border-bottom mt-3 pb-3">
+                <p class="lh_160 pagagraph border-bottom mt-3 pb-3" id="messageBox">
                     @Model.Message
                 </p>
-
-                <img src="~/assets/img/rent.png" alt="rent">
+                @if(!string.IsNullOrEmpty(Model.AttachmentUrl))
+                {
+                    <img src="@Model.AttachmentUrl" alt="rent">
+                }
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        var msg = $("#messageBox")[0].innerText;
+        $("#messageBox").empty()
+            .find('*')
+            .remove()
+            .end().append(msg);
+    });
+</script>

@@ -7,6 +7,7 @@ namespace CromWood.Data.Repository.Interface
         #region For Logins
         public Task<User> GetUser(string email, string password);
         public Task<User> GetUser(Guid Id);
+        public Task<User> GetUser(string email);
         public bool CheckEmail(string email);
         public Task<List<RolePermission>> GetAllRolesAndPermission();
         #endregion
@@ -21,5 +22,8 @@ namespace CromWood.Data.Repository.Interface
         public Task<string> DeleteUserById(Guid Id);
 
         #endregion
+        public Task<string> SetOTPForUser(string email, string otp);
+        public Task<int> UpdateUserPassword(User user);
+        public Task<string> UpdateUser(User user);
     }
 }

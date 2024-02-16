@@ -2,6 +2,8 @@
 using CromWood.Business.Helper;
 using CromWood.Business.Models;
 using CromWood.Business.Models.ViewModel;
+using CromWood.Business.ViewModels;
+using Microsoft.AspNetCore.Http;
 
 namespace CromWood.Business.Services.Interface
 {
@@ -15,6 +17,14 @@ namespace CromWood.Business.Services.Interface
         public Task<AppResponse<string>> BlockUserById(Guid Id);
         public Task<AppResponse<string>> DeleteUserById(Guid Id);
 
+        #endregion
+
+        #region Profile settings update
+        public Task<AppResponse<string>>  UpdateFirstName(string FirstName);
+        public Task<AppResponse<string>>  UpdateLastName(string LastName);
+        public Task<AppResponse<string>>  UpdatePhone(string Phone);
+        public Task<AppResponse<string>>  UpdateAvatar(IFormFile file);
+        public Task<AppResponse<string>>  UpdatePassword(ResetPasswordModel model);
         #endregion
     }
 }

@@ -76,7 +76,7 @@
                             </a>
                             <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
                                 aria-labelledby="acp-action">
-                                <li><a class="dropdown-item" href="#">Add Transaction</a></li>
+                                <li><a class="dropdown-item" onclick="AddModifyPaymentPlanTransaction('@item.Id.ToString()', @tenancyId, @emptyGuid)">Add Transaction</a></li>
                                 <li><a class="dropdown-item" href="#">Delete</a></li>
                             </ul>
                         </td>
@@ -157,4 +157,18 @@
             }
         })
     }
+
+    function AddModifyPaymentPlanTransaction(paymentPlanId, tenancyId, id) {
+        var url = `/Tenancy/AddModifyPaymentPlanTransaction?paymentPlanId=${paymentPlanId}&tenancyId=${tenancyId}&id=${id}`;
+        $("#paymentPlanAddEditDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#paymentPlanAddEditDialogBody").css("width", "100%");
+            $("#paymentPlanAddEditDialog").modal("show");
+        });
+    }
+
 </script>

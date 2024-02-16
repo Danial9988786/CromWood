@@ -1,0 +1,286 @@
+﻿@using CromWood.Business.Models.ViewModel;
+@using System.Globalization;
+@model IEnumerable<TenancyViewModel>
+@{
+    ViewData["Title"] = "HousingBenefit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<StatementViewModel> payOuts = ViewBag.Payouts ?? new List<StatementViewModel>();
+}
+
+<ol class="breadcrumb align-items-end mb-3 mt-3">
+    <li class="breadcrumb-item">
+        <a href="index.html"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
+    </li>
+    <li class="breadcrumb-item active">Housing Benefits</li>
+</ol>
+<div class="row mb-3">
+    <div class="col-xl-6 d-flex">
+        <h1 class="custom_h mb-0">
+            Housing Benefits
+        </h1>
+    </div>
+    <div class="col-xl-6">
+        <div class="shadow-box ms-auto">
+            <span class="pair_btn">
+                <div class="shadow-box ms-auto">
+                    <span class="custom__btn">
+                        <a>
+                            <img src="~/assets/img/transfer.svg" alt="">
+                            Transfer Balances
+                            <!-- <img src="~/assets/img/down_arrow.svg" alt=""> -->
+                        </a>
+                    </span>
+                    <span class="custom__btn2">
+                        <a onclick="AddPayout()">
+                            <img src="~/assets/img/add_new_icon.svg" alt="img_icon">
+                            Add Payout
+                        </a>
+                    </span>
+                </div>
+            </span>
+        </div>
+    </div>
+</div>
+<div class="border rounded p-3 bg-white">
+    <div class="d-flex justify-content-between">
+        <h6 class="modal-title">Overview</h6>
+        <img src="~/assets/img/mony_transfer.svg" class="mony_icon">
+    </div>
+    <div class="top___card d-flex">
+        <div class="card_box w-100">
+            <p class="topcard__text">Overview of April 22 - March 23</p>
+            <h3 class="mb-0">£ 46,589.00</h3>
+        </div>
+        <div class="card_box border-start ps-2 w-100">
+            <p class="topcard__text">Overview of April 22 - March 23</p>
+            <h3 class="mb-0">£ 36,589.00</h3>
+        </div>
+        <div class="card_box border-start ps-2 w-100">
+            <p class="topcard__text">Last 30 Days</p>
+            <h3 class="mb-0">£ 24,840.00</h3>
+        </div>
+        <div class="card_box border-start ps-2 w-100">
+            <p class="topcard__text">Overview of April 22 - March 23</p>
+            <h3 class="mb-0">£ 8,420.00</h3>
+        </div>
+    </div>
+</div>
+
+<!-- ----- Tab box start here ---- -->
+<nav class="mt-3 pt-1">
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-link text-capitalize active" id="housing_benefits_tenancies-tab"
+           data-bs-toggle="tab" data-bs-target="#housing_benefits_tenancies" type="button"
+           role="tab" aria-controls="housing_benefits_tenancies" aria-selected="false">
+            Housing Benefits Tenancies
+        </a>
+        <a class="nav-link text-capitalize" id="payout_statement-tab" data-bs-toggle="tab"
+           data-bs-target="#payout_statement" type="button" role="tab"
+           aria-controls="payout_statement" aria-selected="false">
+            Payout Statements
+
+        </a>
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <!------- Sent Messages Start Here ------->
+    <div class="tab-pane fade border-top-0 border border-left-none pb-5 ser_lpading bg-white show active"
+         id="housing_benefits_tenancies" role="tabpanel" aria-labelledby="nav-roles-per-tab">
+        <div class="sm48__row_table pt-3 pm_page_top_m table_bottom_border show_sort_1">
+            <table id="table1" class="border-top rounded-top border-bottom-0">
+                <thead>
+                    <tr>
+                        <th class="maintable_head">HB ID</th>
+                        <th class="maintable_head">Tenant Details</th>
+                        <th class="maintable_head">Start Date</th>
+                        <th class="maintable_head">End Date</th>
+                        <th class="maintable_head">Status</th>
+                        <th class="maintable_head">Rent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="maintext_size align-top">
+                                <a class="main-text u_n" asp-controller="Tenancy" asp-action="Detail" asp-route-id="@item.Id">
+                                    @item.TenancyId
+                                </a>
+                            </td>
+                            <td class="maintext_size">
+                                <a class="main-text">
+                                    <span class="owner_clr">Tenants</span>
+                                    <br> @foreach (var rec in item.TenancyTenants)
+                                    {
+                                        @rec.Tenant.FullName <br />
+                                    }
+                                    <img src="~/assets/img/Location.svg" alt=""> @item.Property.Asset.StreetAddress <br>
+                                </a>
+                            </td>
+                            <td class="maintext_size align-top">
+                                @if (item.StartDate == default(DateTime))
+                                {
+                                    <span>N/A</span>
+                                }
+                                else
+                                {
+                                    <span>@item.StartDate.ToString("dd MMM, yyyy")</span>
+                                }
+                            </td>
+                            <td class="maintext_size align-top">
+                                @if (item.EndDate == default(DateTime))
+                                {
+                                    <span>N/A</span>
+                                }
+                                else
+                                {
+                                    <span>@item.EndDate.ToString("dd MMM, yyyy")</span>
+                                }
+                            </td>
+                            <td class="maintext_size align-top">
+                                @if (item.EndDate > DateTime.Now)
+                                {
+                                    <div class="ongoing_btn">
+                                        <img class="pe-1" src="~/assets/img/check-file.svg" alt="">
+                                        Ongoing
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="past_btn">
+                                        <img class="pe-1" src="./assets/img/Completed_icon.svg" alt="">
+                                        Past
+                                    </div>
+                                }
+                            </td>
+                            <td class="maintext_size align-top">@item.RentAmount.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ") @item.RentFrequency.Name</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!------- Sent Messages End Here ------->
+    <!------- Payout Statements Start here------->
+    <div class="tab-pane fade border-top-0 border ser_lpading bg-white" id="payout_statement"
+         role="tabpanel" aria-labelledby="nav-roles-per-tab">
+        <div class="sm48__row_table pt-3 pm_page_top_m table_bottom_border hide_sort_all">
+            <table id="table2" class="border-top">
+                <thead>
+                    <tr>
+                        <th class="maintable_head">Payout ID</th>
+                        <th class="maintable_head">Due Date</th>
+                        <th class="maintable_head">Description</th>
+                        <th class="maintable_head">Paid To/ By</th>
+                        <th class="maintable_head">Amount</th>
+                        <th class="maintable_head">Received</th>
+                        <th class="maintable_head">Outstanding</th>
+                        <th class="maintable_head">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var pay in payOuts)
+                    {
+                        <tr>
+                            <td class="align-top">
+                                <a class="green_12 u_n" href="#">
+                                    @pay.PayoutID
+                                </a>
+                            </td>
+                            <td class="align-top">
+                                <span class="black_12 d-inline-block mb-1">
+                                    @pay.Date
+                                </span>
+                            </td>
+                            <td class="align-top">
+                                <span class="gray_12">Tenancy ID</span>
+                                <span class="st_dis">@pay.Tenancy.TenancyId</span>
+                                <br><span class="gray_12">Property ID</span>
+                                <span class="st_dis">@pay.Tenancy.Property.PropertyCode</span>
+                            </td>
+                            <td class="align-top">
+                                <span class="black_12 d-inline-block mb-1">
+                                    Housing Benifits
+                                </span>
+                            </td>
+
+                            <td class=" align-top">
+                                <span class="black_12 d-inline-block">£ @pay.NetAmount</span>
+                            </td>
+                            <td class=" align-top">
+                                <span class="black_12 d-inline-block">£ @pay.NetAmount</span>
+                            </td>
+
+                            <td class=" align-top">
+                                <span class="black_12 d-inline-block">--</span>
+                            </td>
+                            <td class="text-end">
+                                <a class="text-decoration-none">
+                                    <img src="~/assets/img/eye.svg" />
+                                </a>
+                                <a class="text-decoration-none action_dropwown" href="#" role="button"
+                                   id="acp-action" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="~/assets/img/down_arrow.svg" class="ms-2" />
+                                </a>
+                                <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
+                                    aria-labelledby="acp-action">
+                                    <li><a class="dropdown-item" href="#">Edit Statement</a></li>
+                                    <li><a class="dropdown-item" href="#">Add Transaction</a></li>
+                                    <li><a class="dropdown-item" href="#">Void Statement</a></li>
+                                    <li><a class="dropdown-item" href="#">Print</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--------- Payout Statements End here--------->
+</div>
+<!-- ----- Tab box start end here ---- -->
+
+<div class="modal fade" id="payoutDialog">
+    <div class="modal-dialog modal-dialog-centered cm2_size rp_popup add_edit_popup" id="payoutDialogBody">
+    </div>
+</div>
+
+<script>
+    window.addEventListener('DOMContentLoaded', event => {
+
+        const datatablesSimpless = document.getElementById('table1');
+        if (datatablesSimpless) {
+            new simpleDatatables.DataTable(datatablesSimpless);
+        }
+
+        const datatablesSimplesss = document.getElementById('table2');
+        if (datatablesSimplesss) {
+            new simpleDatatables.DataTable(datatablesSimplesss);
+        }
+        // Code for datatable manipulation
+        var rowCount = $('.datatable-table tbody tr').length;
+        var threshold = 10;
+        if (rowCount < threshold) {
+            $('.datatable-bottom').hide();
+        } else {
+            $('.datatable-bottom').show();
+        }
+        $(".datatable-table thead tr th button.datatable-sorter").append("<span class='c__icon'></span>");
+        var filter = $(".filter_btn");
+        $(".datatable-top").append(filter);
+    });
+
+    function AddPayout() {
+        var url = "/Financial/AddPayout";
+        $("#payoutDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#payoutDialog").modal("show");
+        });
+    }
+</script>

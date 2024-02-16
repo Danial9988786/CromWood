@@ -1,0 +1,30 @@
+﻿@using CromWood.Business.Models;
+@model StatementDocumentModel
+<div class="row">
+    <div class="col-md-3">
+        <img src="~/assets/img/uploaadf_f.png" alt="">
+    </div>
+    <div class="col-md-5">
+        <p class="gray_14 mt-3 ">
+            Drag and drop a file or
+            click Upload button to browse a file.
+            Supported file formats are JPG, PNG, PDF
+        </p>
+    </div>
+    <div class="col-md-4">
+        <form id="form" asp-action="AddModifyStatementDocument" asp-controller="Tenancy" class="shadow-box mt-3 ms-auto">
+            @Html.HiddenFor(m=>m.StatementId)
+            <a class="custom__btn" onclick="docFile.click()">
+                <img src="~/assets/img/upload_icon.svg" alt="dots_icon">
+                Select from Storage
+            </a>
+            <input hidden type="file" asp-for="Document" id="docFile" onchange="submitForm()" />
+        </form>
+    </div>
+</div>
+
+<script>
+    function submitForm() {
+        document.getElementById("form").submit();
+    }
+</script>

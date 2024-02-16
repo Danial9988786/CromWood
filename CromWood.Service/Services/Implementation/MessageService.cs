@@ -53,6 +53,10 @@ namespace CromWood.Business.Services.Implementation
         {
             try
             {
+                if(message.Recipients == null)
+                {
+                    message.Recipients = new List<MessageRecipientModel>();
+                }
                 message.Recipients.RemoveAll(x => !message.SelectedRecipients.Contains(x.RecipientId));
                 foreach (var rec in message.SelectedRecipients)
                 {

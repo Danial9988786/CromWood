@@ -47,7 +47,6 @@ namespace CromWood.Business.Services.Implementation
             {
                 return ResponseCreater<IEnumerable<AssetModel>>.CreateErrorResponse(new List<AssetModel> { }, ex.ToString());
             }
-
         }
 
         public async Task<AppResponse<AssetModel>> GetAssetsOverView(Guid assetId)
@@ -92,6 +91,21 @@ namespace CromWood.Business.Services.Implementation
             catch (Exception ex)
             {
                 return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<AssetOverviewModel>> GetAssetsOverViewPageDetail(Guid assetId)
+        {
+            try
+            {
+                var result = await _assetRepository.GetAssetOverviewDTO(assetId);
+                var mappedResult = _mapper.Map<AssetOverviewModel>(result);
+                return ResponseCreater<AssetOverviewModel>.CreateSuccessResponse(mappedResult, "Asset overview loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<AssetOverviewModel>.CreateErrorResponse(null, ex.ToString());
             }
         }
     }

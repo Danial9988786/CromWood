@@ -1,0 +1,192 @@
+﻿@using CromWood.Business.Services.Interface;
+@using CromWood.Data.Entities.Default;
+@model CromWood.Business.Models.PaymentPlanModel
+@inject ITenancyService _tenancyService;
+@inject ILookupService<InstallmentType> _installmentService;
+
+@{
+    var asyncStatement = await _tenancyService.GetStatements();
+    var asyncTenants = await _tenancyService.GetTenancyTenants();
+    var asyncTypes = await _installmentService.GetAllItems();
+    var statements = new SelectList(asyncStatement.Data, "Id", "ReferenceID");
+    var tenants = new SelectList(asyncTenants.Data, "Id", "FullName");
+    var types = new SelectList(asyncTypes.Data, "Id", "Name");
+}
+
+<div class="modal-content rounded-0 model-custom-bg">
+    <div class="modal-header py-2 bg-white">
+        <h5 class="modal-title" id="staticBackdropLabel">Add Payment Plan</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <form asp-action="AddModifyPaymentPlan">
+        <div class="modal-body">
+            <div class="step_body_content3 mb-3 pe-2">
+                <div class="mb-3 border p-3 bg-white">
+                    @* As Tenancy is linked with statements this is not needed here. *@
+                    @* <div class="input__field mb-3">
+                    <label for="Tenancy" class="form-label">Tenancy</label>
+                    <select class="form-select select_font_14 select__search"
+                    aria-label="Default select example">
+                    <option selected>Select Tenancy</option>
+                    <option value="1">Property owner</option>
+                    <option value="2">Contractor</option>
+                    </select>
+                    </div> *@
+                    <div class="input__field mb-3">
+                        <label for="Reference_Transaction" class="form-label">
+                            Reference Transaction
+                            <small class="gray_12 ps-2">
+                                (Only Outstanding/ Overdue Payments can be
+                                selected)
+                            </small>
+                        </label>
+                        <select id="statement" asp-for="ReferenceStatementId" asp-items="statements" class="form-select select_font_14 select__search">
+                        </select>
+                    </div>
+                    <div class="d-flex mt-3 gap-3">
+                        <div class="input__field w-100">
+                            <label for="Tobepaidby" class="form-label">To be paid by</label>
+                            <select id="tenant-sel" asp-for="ToPaidBy" asp-items="tenants" class="form-select select_font_14">
+                            </select>
+                        </div>
+                        <div class="input__field w-100">
+                            <label for="amount" class="form-label">Amount</label>
+                            <input type="number" class="form-control" asp-for="Amount" placeholder="£ 1,200.00"
+                                   id="amount">
+                        </div>
+                        <div class="input__field w-100">
+                            <label for="description" class="form-label">Description</label>
+                            <input type="text" class="form-control" asp-for="Description" placeholder="Enter Description"
+                                   id="description">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3 border p-3 bg-white">
+                    <h5 class="modal-title mb-0" id="">Installment Details</h5>
+                    <div class="d-flex mt-3 gap-3">
+                        <div class="input__field w-100">
+                            <label for="InstallmentType" class="form-label">Installment Type</label>
+                            <select id="installmenttype" asp-for="InstallmentTypeId" asp-items="types" class="form-select select_font_14">
+                            </select>
+                        </div>
+                        <div class="input__field w-100">
+                            <label for="amounttobepaid" class="form-label">Amount to be paid</label>
+                            <input type="number" class="form-control" asp-for="InstallmentAmount" placeholder="£ 200"
+                                   id="amounttobepaid">
+                        </div>
+                        <div class="input__field w-100">
+                            <label for="StartDate" class="form-label">Start Date</label>
+                            <input type="date" class="form-control" asp-for="InstallmentStart" placeholder="15 /10 / 2023"
+                                   id="StartDate">
+                        </div>
+                    </div>
+                    <h4 class="sora_16 mt-3 pb-1">Installment Forecast</h4>
+                    <div class="light_bg_table table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>S No.</th>
+                                    <th>Payment Date</th>
+                                    <th>Total Balance</th>
+                                    <th>Amount</th>
+                                    <th>Interest Charge</th>
+                                    <th>Total Amount</th>
+                                    <th>Amount Pending</th>
+                                </tr>
+                            </thead>
+                            <tbody id="installmentTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="popup_footer_fixed border-top d-flex justify-content-between bg-white">
+            <div class="shadow-box">
+                <a data-bs-dismiss="modal" class="custom__btn">
+                    Cancel
+                </a>
+            </div>
+            <div class="shadow-box ms-auto">
+                <a class="custom__btn2" onclick="paymentPlanSubmitBtn.click()">
+                    <img class="pe-1" src="~/assets/img/save-role.svg" alt="save icon">
+                    Save Payment Plan
+                </a>
+            </div>
+        </div>
+        <input id="paymentPlanSubmitBtn" type="submit" hidden />
+    </form>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.select_font_14').select2({
+            theme: "bootstrap-5",
+            placeholder: "Select...",
+            dropdownAutoWidth: true,
+            width: '100%',
+            dropdownCssClass: "select_font_14"
+        });
+
+        $('.select__search').select2({
+            theme: "bootstrap-5",
+            dropdownAutoWidth: true,
+            placeholder: "Select...",
+            width: '100%',
+            dropdownCssClass: "select__search"
+        });
+
+        // Do on change event in this type
+        $("#installmenttype").change(function (type) {
+            // According to the type append row into the installments table.
+            type = $(this).find(':selected').val();
+
+            amount = $("#amount").val();
+            starting = new Date($("#StartDate").val());
+            toBePaid = $("#amounttobepaid").val();
+
+            addMonth = 0
+            // For Monthly
+            if (type == "a8228559-11be-4d9a-9544-8241f2ec59c1") {
+                addMonth = 0;
+            }
+            // For Quarterly
+            if (type == "c6f007f8-2d30-49a0-a248-add219f4748d") {
+                addMonth = 2;
+            }
+            // For Bi Anually
+            if (type == "64432c8e-8cc3-4365-a8f5-e4dc925c42fd") {
+                addMonth = 5;
+            }
+            // For Anually
+            if (type == "914d1a66-0ee7-45f6-ab77-19c928c5a426") {
+                addMonth = 11;
+            }
+            const period = Math.ceil(amount / toBePaid);
+            let remaining = amount;
+            $("#installmentTableBody").find('*').remove().end();
+            for (i = 0; i < period; i++) {
+                if (i == period - 1) {
+                    toBePaid = toBePaid - remaining;
+                }
+                remaining -= toBePaid;
+                const newMonth = starting.setMonth(starting.getMonth() + i + addMonth);
+                const withIntrest = parseFloat(toBePaid * 1.025).toFixed(2);
+                $("#installmentTableBody").append(`
+                            <tr>
+                            <td>${i + 1}</td>
+                            <td> ${new Date(newMonth)}</td>
+                            <td>£ ${amount}</td>
+                            <td>£ ${toBePaid}</td>
+                            <td>2.5%</td>
+                            <td>£ ${withIntrest}</td>
+                            <td>£ ${remaining}</td>
+                            </tr>
+                `);
+            }
+
+        })
+        $("#installmenttype").trigger("change");
+    })
+</script>

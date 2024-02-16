@@ -25,4 +25,10 @@
         public const string CanWrite = "Write";
         public const string CanDelete = "Delete";
     }
+
+    public static class OtherConstants
+    {
+        public static Guid HousingBenfitTransactionMode = Guid.Parse("914d1a66-0ee7-45f6-ab77-19c928c5a426");
+        public static Guid HousingBenefitStatementType = Guid.Parse("01289643-bba0-48d0-b34c-c69b466be7ec");
+    }
 }

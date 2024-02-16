@@ -7,12 +7,15 @@ namespace CromWood.Business.Services.Interface
     public interface ITenancyService
     {
         public Task<AppResponse<IEnumerable<TenancyViewModel>>> GetTenancyForList();
+        public Task<AppResponse<IEnumerable<TenancyViewModel>>> GetHousingBenefitTenancy();
+        public Task<AppResponse<ICollection<StatementViewModel>>> GetHousingBenefitStatments();
         public Task<AppResponse<IEnumerable<TenancyModel>>> GetTenancyForExport();
         public Task<AppResponse<TenancyModel>> GetTenancyOverView(Guid tenancyId);
         public Task<AppResponse<int>> DeleteTenancyTenant(Guid id, Guid tenancyId);
         public Task<AppResponse<TenancyViewModel>> GetTenancyViewDetail(Guid tenancyId);
         public Task<AppResponse<int>> AddTenancy(TenancyModel tenancy);
         public Task<AppResponse<int>> EditTenancy(TenancyModel tenancy);
+        public Task<AppResponse<IEnumerable<TenantViewModel>>> GetTenancyTenants();
         public Task<AppResponse<IEnumerable<TenantViewModel>>> GetTenancyTenants(Guid tenancyId);
         public Task<AppResponse<int>> LinkTenancyTenant(TenancyTenantModel tenancyTenant);
         public Task<AppResponse<IEnumerable<TenancyNoteModel>>> GetTenancyNotes(Guid tenancyId);
@@ -45,6 +48,7 @@ namespace CromWood.Business.Services.Interface
         public Task<AppResponse<RecurringChargeViewModel>> GetRecurringChargeView(Guid id);
         public Task<AppResponse<int>> AddModifyRecurringCharge(RecurringChargeModel req);
         public Task<AppResponse<int>> DeleteRecurringCharge(Guid id);
+        public Task<AppResponse<ICollection<StatementViewModel>>> GetStatements();
         public Task<AppResponse<ICollection<StatementViewModel>>> GetStatements(Guid id);
         public Task<AppResponse<StatementModel>> GetStatement(Guid id);
         public Task<AppResponse<int>> AddModifyStatement(StatementModel req);
@@ -56,6 +60,7 @@ namespace CromWood.Business.Services.Interface
         public Task<AppResponse<StatementDocumentModel>> GetStatementDocument(Guid id);
         public Task<AppResponse<int>> AddModifyStatementDocument(StatementDocumentModel req);
         public Task<AppResponse<int>> DeleteStatementDocument(Guid id);
+        public Task<AppResponse<ICollection<PaymentPlanViewModel>>> GetPaymentPlans();
         public Task<AppResponse<ICollection<PaymentPlanViewModel>>> GetPaymentPlans(Guid id);
         public Task<AppResponse<PaymentPlanModel>> GetPaymentPlan(Guid id);
         public Task<AppResponse<int>> AddModifyPaymentPlan(PaymentPlanModel req);
@@ -64,5 +69,6 @@ namespace CromWood.Business.Services.Interface
         public Task<AppResponse<PaymentPlanTransactionModel>> GetPaymentPlanTransaction(Guid id);
         public Task<AppResponse<int>> AddModifyPaymentPlanTransaction(PaymentPlanTransactionModel req);
         public Task<AppResponse<int>> DeletePaymentPlanTransaction(Guid id);
+        public Task<AppResponse<int>> CreateTenancyStatements(PayoutModel payout);
     }
 }

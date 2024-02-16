@@ -5,7 +5,7 @@
 @inject IAuthService _authService;
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "| Assets";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var screenName = PermissionKeyConstant.AssetManagement;
     var havePermission = await _authService.CheckPermission(PermissionKeyConstant.AssetManagement, PermissionConstant.CanWrite);

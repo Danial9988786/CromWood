@@ -10,8 +10,8 @@
 }
 
 .login-card {
-    width: 400px;
-    height: 455px;
+    height: 400px;
+    width: 366px;
     padding: 40px;
     border-radius: 8px;
     background-color: white;
@@ -72,3 +72,74 @@
     color: #5F6D81;
     text-align: center;
 }
+
+/************* Reset Password Css Start here **********/
+
+.reset_ps_ {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%;
+    color: #48586F;
+    font-family: 'Sora';
+    text-align: center;
+}
+.reset-card{
+    width: 400px;
+    height: 366px;
+    padding: 40px;
+    border-radius: 8px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+}
+
+/************* Reset Password Css End here **********/
+ 
+/*  Reset your Password Css Start Here*/
+
+.reset_pss__{
+    width: 400px;
+    height: 482px;
+    padding: 40px;
+    border-radius: 8px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.uhfy li{
+    font: var(--inter-font14);
+    color: #48586F;
+}
+.uhfy li {
+    width: 19rem;
+}
+ /*  Reset your Password Css End Here*/
+ .p__emal{
+    color: #000;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%;
+  }
+  .emial__temp__{
+    width: 560px;
+    height: 420px;
+    padding: 32px;
+    border-radius: 8px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+  .green__14_{
+    color: #6D9000;
+    font: var(--inter-font14);
+  }

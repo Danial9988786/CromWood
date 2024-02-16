@@ -251,5 +251,35 @@ a[x-apple-data-detectors] {{
                 smtp.Send(message);
             }
         }
+
+        public static void SendOTPEmail(string email, string otp)
+        {
+            string mailbody = $@"
+                    Your OTP: {otp}
+                    ";
+
+            var fromAddress = new MailAddress("ananta.caresort@gmail.com", "Ananta Poudel");
+            var toAddress = new MailAddress(email);
+            const string fromPassword = "vqlz osnj bcce imyc";
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+            };
+            using (var message = new MailMessage(fromAddress, toAddress)
+            {
+                Subject = "Verify OTP",
+                Body = mailbody,
+                IsBodyHtml = true
+            })
+            {
+                smtp.Send(message);
+            }
+        }
     }
 }

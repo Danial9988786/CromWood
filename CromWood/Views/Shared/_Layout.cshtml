@@ -15,12 +15,14 @@
     var accessMessage = false;
     var toogleClass = Context.Request.Cookies["sidebar-toggle"] == "true" ? "sb-sidenav-toggled" : "";
     string userName = "";
+    string avatar = "";
     if (User.Identity!.IsAuthenticated)
     {
         var userId = Guid.Empty.ToString();
         userId = User.Claims.First(o => o.Type == ClaimTypes.NameIdentifier).Value.ToString();
         var userAsync = await _userService.GetUserById(Guid.Parse(userId));
         userName = userAsync.Data.Name;
+        avatar = userAsync.Data.AvatarUrl;
         accessPropertyManagement = await _authService.CheckPermission(PermissionKeyConstant.PropertyManagement, PermissionConstant.ViewAll);
         accessAccessManagement = await _authService.CheckPermission(PermissionKeyConstant.AssetManagement, PermissionConstant.ViewAll);
         accessLicense = await _authService.CheckPermission(PermissionKeyConstant.LicenseManagement, PermissionConstant.ViewAll);
@@ -42,7 +44,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>CromWood Housing Group Management Software @ViewBag.Title</title>
+    <title>CHL @ViewBag.Title</title>
 
     <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -150,7 +152,7 @@
                 <button class="btn text-black dropdown-menu-button pe-3" type="button" id="dropdownMenuButton1"
                         data-bs-toggle="dropdown" aria-expanded="false">
                     <div class="user-profile-pic">
-                        <img class="avtar_img" src="~/assets/img/avtar__img.svg" />
+                        <img class="avtar_img" src="@(string.IsNullOrEmpty(avatar)?"/assets/img/user__profile.png":avatar)" />
                     </div>
 
                     <span class="avtar_name main-font">@userName</span>
@@ -159,7 +161,7 @@
 
                 <ul class="dropdown-menu shadow border-0 rounded-0 w-100" aria-labelledby="dropdownMenuButton1">
                     <li class="pb-2">
-                        <a class="dropdown-item">
+                        <a class="dropdown-item" asp-action="ProfileSetting" asp-controller="User">
                             <img class="pe-2" src="~/assets/img/user--settings.svg" />
                             Profile Settings
                         </a>
@@ -305,35 +307,35 @@
                                 <span class="tooltiptext">Messages</span>
                             </a>
                         }
-                        @*
+
                         <a class="nav-link collapsed myc" href="finance-management.html" data-bs-toggle="collapse"
-                        data-bs-target="#Finance-tab" aria-expanded="false" aria-controls="Finance-tab">
-                        <!-- <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div> -->
-                        <div class="sb-nav-link-icon">
-                        <img class="main_nav_icon" src="~/assets/img/main_finance_manag.svg" />
-                        <img class="active_nav_icon" src="~/assets/img/active_main_finance_manag.svg" />
-                        </div>
-                        <span class="nav__text">Finance Management</span>
-                        <div class="sb-sidenav-collapse-arrow">
-                        <svg width="12" height="8" viewBox="0 0 12 8" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path d="M1 1.5L6 6.5L11 1.5" stroke="#2F2E35" stroke-width="1.5"
-                        stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                        </div>
+                           data-bs-target="#Finance-tab" aria-expanded="false" aria-controls="Finance-tab">
+                            <!-- <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div> -->
+                            <div class="sb-nav-link-icon">
+                                <img class="main_nav_icon" src="~/assets/img/main_finance_manag.svg" />
+                                <img class="active_nav_icon" src="~/assets/img/active_main_finance_manag.svg" />
+                            </div>
+                            <span class="nav__text">Finance Management</span>
+                            <div class="sb-sidenav-collapse-arrow">
+                                <svg width="12" height="8" viewBox="0 0 12 8" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1 1.5L6 6.5L11 1.5" stroke="#2F2E35" stroke-width="1.5"
+                                          stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </div>
                         </a>
 
                         <div class="collapse" id="Finance-tab" aria-labelledby="headingOne"
-                        data-bs-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="index.html">Finance Dashboard</a>
-                        <a class="nav-link" href="index.html">Rent Management</a>
-                        <a class="nav-link" href="index.html">Payment Plan</a>
-                        <a class="nav-link" href="index.html">Housing Benefits</a>
-                        <a class="nav-link" href="index.html">Revenue & Expenses</a>
-                        </nav>
+                             data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" asp-controller="Financial" asp-action="Dashboard">Finance Dashboard</a>
+                                <a class="nav-link" asp-controller="Financial" asp-action="RentManagement">Rent Management</a>
+                                <a class="nav-link" asp-controller="Financial" asp-action="PaymentPlan">Payment Plan</a>
+                                <a class="nav-link" asp-controller="Financial" asp-action="HousingBenefit">Housing Benefits</a>
+                                <a class="nav-link" asp-controller="Financial" asp-action="RevenueExpense">Revenue & Expenses</a>
+                            </nav>
                         </div>
-                        *@
+
 
                         @if (accessComplaints)
                         {
@@ -346,14 +348,14 @@
                                 <span class="tooltiptext">Complaints</span>
                             </a>
                         }
-                        @*
-                        <a class="nav-link" href="reports.html">
-                        <div class="sb-nav-link-icon">
-                        <img class="main_nav_icon" src="~/assets/img/main_reports.svg" />
-                        <img class="active_nav_icon" src="~/assets/img/active_main_reports.svg" />
-                        </div>
-                        <span class="nav__text">Reports</span>
-                        </a> *@
+
+                        <a class="nav-link" asp-controller="Report" asp-action="Index">
+                            <div class="sb-nav-link-icon">
+                                <img class="main_nav_icon" src="~/assets/img/main_reports.svg" />
+                                <img class="active_nav_icon" src="~/assets/img/active_main_reports.svg" />
+                            </div>
+                            <span class="nav__text">Reports</span>
+                        </a>
 
                         @if (accessUserSetting)
                         {
@@ -428,6 +430,8 @@
     <script src="~/js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="~/js/datatables-simple-demo.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
+
 
     <script>
         $(document).ready(function () {

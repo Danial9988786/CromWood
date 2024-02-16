@@ -2,6 +2,7 @@
 using CromWood.Data.Entities;
 using CromWood.Data.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
+using static System.Net.WebRequestMethods;
 
 namespace CromWood.Data.Repository.Implementation
 {
@@ -35,6 +36,13 @@ namespace CromWood.Data.Repository.Implementation
         {
             var currentUser = await _context.Users
                 .FirstOrDefaultAsync(o => o.Id==Id);
+            return currentUser;
+        }
+
+        public async Task<User> GetUser(string email)
+        {
+            var currentUser = await _context.Users
+                .FirstOrDefaultAsync(o => o.Email == email);
             return currentUser;
         }
 
@@ -137,6 +145,48 @@ namespace CromWood.Data.Repository.Implementation
                 throw;
             }
         }
+        public async Task<string> SetOTPForUser(string email, string otp)
+        {
+            try
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+                user.OTP = otp;
+                user.OTPExpirationDate = DateTime.Now.AddMinutes(10);
+                await _context.SaveChangesAsync();
+                return user.Email;
+            }
+            catch
+            {
+                throw;
+            }
+        }
 
+        public async Task<int> UpdateUserPassword(User user)
+        {
+            try
+            {
+                _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<string> UpdateUser(User user)
+        {
+            try
+            {
+                _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+                return "success";
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

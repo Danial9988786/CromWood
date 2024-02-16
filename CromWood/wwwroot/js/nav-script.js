@@ -35,6 +35,9 @@ var navigations = [
     {
         url: '/Auth', id: 'nav-login'
     },
+    {
+        url: '/Message', id: 'nav-messages'
+    },
 ]
 
 let activeNavId = '';

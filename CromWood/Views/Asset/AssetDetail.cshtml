@@ -1,5 +1,7 @@
 ﻿@using System.Globalization;
+@using CromWood.Business.Services.Interface;
 @model CromWood.Business.Models.AssetModel
+@inject IAssetService _assetService;
 
 @{
     ViewData["Title"] = "AssetDetail";
@@ -12,6 +14,8 @@
         leaseLength = lE.Subtract(lT).Days.ToString() + " days";
     }
     string Id = Model.Id.ToString();
+
+    var assetOverview = await _assetService.GetAssetsOverViewPageDetail(Model.Id);
 }
 <ol class="breadcrumb align-items-end mb-10 mt-3">
     <li class="breadcrumb-item">
@@ -39,11 +43,11 @@
 <nav class="user___tabs mt-3">
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
 
-        <a class="nav-link text-capitalize" id="asset_overview-tab" data-bs-toggle="tab"
+        <a class="nav-link text-capitalize active" id="asset_overview-tab" data-bs-toggle="tab"
            data-bs-target="#asset_overview" role="tab" aria-controls="asset_overview"
            aria-selected="false">Asset Overview</a>
 
-        <a class="nav-link text-capitalize active" id="address_details-tab" data-bs-toggle="tab"
+        <a class="nav-link text-capitalize" id="address_details-tab" data-bs-toggle="tab"
            data-bs-target="#nav_address_details" role="tab" aria-controls="nav_address_details"
            aria-selected="true">Address Details</a>
 
@@ -65,24 +69,191 @@
 <div class="tab-content aseet_m_d" id="nav-tabContent">
 
     <!-- Address Overview tab start here -->
-    <div class="tab-pane fade show border bg-white" id="asset_overview"
+    <div class="tab-pane fade show border border-top-0 active bg-white" id="asset_overview"
          role="tabpanel" aria-labelledby="nav-user-list-tab">
         <div class="card-header border-bottom-0 pb-0 bg-white">
-            <div class="row align-items-center pb-3">
-                <div class="col-6">
-                    <h4 class="heading-style2 mb-0">Address Overview</h4>
+            <div class="row align-items-center mb-2 pb-1 pt-1">
+                <div class="col-10">
+                    <h4 class="heading-style2 mb-0">Asset Overview </h4>
+                </div>
+                <div class="col-2">
+                    <div class="input__field w-100">
+                        <select id="" class="form-select select_font_14"
+                                aria-label="Default select example">
+                            <option selected="">Seclect Date</option>
+                            <option value="1">This Week</option>
+                            <option value="2">This Month</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="mx-3">
-            <table class="table">
-                @* This is dummy content *@
-            </table>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card_box top___card border rounded p-3 bg-white w-100">
+                                <span class="topcard__text">Expected Earnings</span>
+                                <div class="d-flex justify-content-between mt-3">
+                                    <div>
+                                        <h3>@assetOverview.Data.ExpectedEarning.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ")</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card_box top___card border rounded p-3 bg-white w-100">
+                                <div class="d-flex justify-content-between">
+                                    <span class="topcard__text">Earnings</span>
+                                    <span class="money__t">Money In</span>
+                                </div>
+                                <div class="d-flex justify-content-between mt-3">
+                                    <div>
+                                        <h3>@assetOverview.Data.Earning.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ")</h3>
+                                    </div>
+                                    <div>
+                                        <div class="mb-3 text-end">
+                                            <img src="~/assets/img/green__data_bar.svg" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mt-4">
+                            <div class="card_box top___card border rounded p-3 bg-white w-100">
+                                <div class="d-flex justify-content-between">
+                                    <span class="topcard__text">Expenses</span>
+                                    <span class="money__t">Money Out</span>
+                                </div>
+                                <div class="d-flex justify-content-between mt-3">
+                                    <div>
+                                        <h3>@assetOverview.Data.Expenses.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ")</h3>
+                                    </div>
+                                    <div>
+                                        <div class="mb-3 text-end">
+                                            <img src="~/assets/img/red__data_bar.svg" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mt-4">
+                            <div class="card_box top___card border rounded p-3 bg-white w-100">
+                                <span class="topcard__text">Total Profit</span>
+                                <div class="d-flex justify-content-between mt-3">
+                                    <div>
+                                        <h3>@assetOverview.Data.TotalProfit.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ")</h3>
+                                    </div>
+                                    <div>
+                                        <div class="text-end p_invoic">
+                                            <img src="~/assets/img/last_day_erning.svg" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="border rounded px-3 pt-2">
+                        <table class="table">
+                            <h4 class="heading-style">Top Performing Properties</h4>
+                            <tbody class="asset_table">
+                                @{
+                                    int counter = 1;
+                                }
+                                @foreach (var prop in assetOverview.Data.Properties)
+                                {
+                                    <tr>
+                                        <td class="maintext_size">@counter.</td>
+                                        <td class="maintext_size">
+                                            <a class="main-text" asp-controller="Property" asp-action="Detail" asp-route-id="@prop.Id">
+                                                @prop.PropertyID
+                                            </a>
+                                        </td>
+                                        <td class="maintext_size">@prop.ActualEarning.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ")</td>
+                                        <td class="r_heading text-center">@prop.OccupiedByVacantDays occupancy</td>
+                                        @{counter++;}
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
+        <!---- Properties Section Start Here ----->
+        <div class="mx-3 mt-4 mb-3">
+            <h4 class="heading-style2 mb-0">Properties</h4>
+            <div class="row" style="flex-wrap:wrap">
+                @foreach (var prop in assetOverview.Data.Properties)
+                {
+                    <div class="col-xl-6">
+                        <div class="border p-2 rounded mt-3">
+                            <table class="table mb-0">
+                                <tbody class="property__table">
+                                    <tr class="bg-white">
+                                        <th class="r_heading t_d_g" scope="row">
+                                            <a asp-controller="Property" asp-action="Detail" asp-route-id="@prop.Id" class="t_d_g text-decoration-none">
+                                                @prop.PropertyID
+                                            </a>
+                                        </th>
+                                        <td>
+                                            @if (prop.Status == "Vacant")
+                                            {
+                                                <span class="terminated_btn text-center p-1 ">
+                                                    @prop.Status
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <div class="acti_vites ongoing">
+                                                    @prop.Status
+                                                </div>
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr class="bg-white">
+                                        <th class="r_heading" scope="row">Tenant</th>
+                                        <td><span class="t_d_g">@prop.TenantName</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="r_heading" scope="row">Tenancy Start Date</th>
+                                        <td class="black_14">@prop.TenancyStartDate</td>
+                                    </tr>
+                                    <tr class="bg-white">
+                                        <th class="r_heading" scope="row">Tenancy Duration</th>
+                                        <td class="black_14">@(prop.TenancyDuration <= 0 ? "--" : $"{prop.TenancyDuration} days")</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="r_heading" scope="row">Tenancy End Date</th>
+                                        <td class="black_14">@prop.TenancyEndDate</td>
+                                    </tr>
+                                    <tr class="bg-white">
+                                        <th class="r_heading" scope="row">Occupied/ Vacant Days</th>
+                                        <td class="black_14">@prop.OccupiedByVacantDays (365) </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="r_heading" scope="row">Expected Earnings</th>
+                                        <td class="black_14">@prop.ExpectedEarning.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ")</td>
+                                    </tr>
+                                    <tr class="bg-white last_br_none">
+                                        <th class="r_heading" scope="row">Actual Earnings</th>
+                                        <td class="black_14">@prop.ActualEarning.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")).Replace("£", "£ ")</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <!---- Properties Section End Here ----->
     </div>
     <!-- Address Details tab end here -->
     <!-- Address Details tab start here -->
-    <div class="tab-pane fade show border active bg-white" id="nav_address_details"
+    <div class="tab-pane fade border bg-white" id="nav_address_details"
          role="tabpanel" aria-labelledby="nav-user-list-tab">
         <div class="card-header border-bottom-0 pb-0 bg-white">
             <div class="row align-items-center pb-3">
@@ -296,7 +467,7 @@
                     </tr>
                     <tr class="bg-white">
                         <th class="r_heading" scope="row"></th>
-                        <td colspan="2">@(Model.ManagingAgentBorough??"--"), @(Model.ManagingAgentPostCode??"--")</td>
+                        <td colspan="2">@(Model.ManagingAgentBorough ?? "--"), @(Model.ManagingAgentPostCode ?? "--")</td>
                     </tr>
                     <tr class="bg-white">
                         <th class="r_heading" scope="row">Lease Day</th>

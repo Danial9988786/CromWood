@@ -57,5 +57,78 @@ namespace CromWood.Controllers
             await authService.Logout();
             return RedirectToAction("Index", "Test");
         }
+
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordModel model)
+        {
+            var result = await authService.SendOTP(model);
+            if (result)
+            {
+                // Sucessfully send OTP
+                TempData["UserEmail"] = model.Email;
+                return RedirectToAction("VerifyOTP", model);
+            }
+            else
+            {
+                ModelState.AddModelError("OTPFAILED", "Sorry, we were unable to send OTP.");
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult VerifyOTP()
+        {
+            var email = TempData["UserEmail"]?.ToString();
+            if(email == null)
+            {
+                return RedirectToAction("ForgotPassword");
+            }
+            var model = new ForgotPasswordModel()
+            {
+                Email = email
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> VerifyOTP(ForgotPasswordModel model)
+        {
+            var result = await authService.VerifyOTP(model);
+            if (result)
+            {
+                return View("ResetPassword", new ResetPasswordModel() { Email = model.Email, OTP= model.OTP});
+            }
+            else
+            {
+                ModelState.AddModelError("INVALIDOTP", "The OTP is not valid or Expired");
+                return View(model);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword([FromForm] ResetPasswordModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError(string.Empty, "Password doesn't met criteria");
+                return View(model);
+            }
+            var resetResponse = await authService.ResetPassword(model);
+            if (resetResponse.Data == null)
+            {
+                ModelState.AddModelError(string.Empty, resetResponse.Message);
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
+        }
+
     }
 }

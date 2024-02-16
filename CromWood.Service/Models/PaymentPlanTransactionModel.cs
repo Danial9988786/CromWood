@@ -3,13 +3,10 @@
     public class PaymentPlanTransactionModel
     {
         public Guid Id { get; set; }
-        public string PaidBy { get; set; }
-        public Guid? PaidByTenantId { get; set; }
         public Guid PaymentPlanId { get; set; }
-        public string InvoiceNumber { get; set; }
-        public Guid TransactionModeId { get; set; }
-        public float NetAmount { get; set; }
-        public DateTime Date { get; set; }
-        public string TransactionDescription { get; set; }
+        public string ReferenceID { get; set; }
+        public DateTime PaymentDate { get; set; }
+        public float Amount { get; set; }
+        public string Description { get; set; }
     }
 }

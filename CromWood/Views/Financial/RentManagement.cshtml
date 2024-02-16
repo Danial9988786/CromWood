@@ -1,0 +1,230 @@
+﻿@{
+    ViewData["Title"] = "RentManagement";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<ol class="breadcrumb align-items-end mb-3 mt-3">
+    <li class="breadcrumb-item">
+        <a href="index.html"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
+    </li>
+    <li class="breadcrumb-item active">Rent Management</li>
+</ol>
+<div>
+    <h1 class="mb-3 custom_h">
+        <a href="finance-dashboard.html"></a>&nbsp; Rent Management
+    </h1>
+</div>
+
+<div class="border rounded p-3 bg-white">
+    <div class="d-flex justify-content-between">
+        <h6 class="modal-title">Overview</h6>
+        <img src="~/assets/img/mony_transfer.svg" class="mony_icon">
+    </div>
+    <div class="top___card d-flex">
+        <div class="card_box w-100">
+            <p class="topcard__text">Total Invoice Amount</p>
+            <h3 class="mb-0">£ 1,27,837.00</h3>
+        </div>
+        <div class="card_box border-start ps-2 w-100">
+            <p class="topcard__text">Received Amount</p>
+            <h3 class="mb-0">£ 705,357.33</h3>
+        </div>
+        <div class="card_box border-start ps-2 w-100">
+            <p class="topcard__text">Outstanding Amount</p>
+            <h3 class="mb-0">£ 705,357.33</h3>
+        </div>
+        <div class="card_box border-start ps-2 w-100">
+            <p class="topcard__text">Rent Arrears</p>
+            <h3 class="mb-0">£ 634,306.78</h3>
+        </div>
+    </div>
+</div>
+
+<div class="bg-white border mt-3">
+    <div class="px-3">
+        <div class="row">
+            <div class="col-xl-6">
+                <h1 class="mt-3 mb-3 custom_h">Rent Management</h1>
+            </div>
+            <div class="col-xl-6 mt-3">
+                <span class="pair_btn">
+                    <div class="shadow-box ms-auto">
+                        <span class="custom__btn">
+                            <a href="#">
+                                <img src="~/assets/img/explor_icon.svg" alt="">
+                                Print Statements
+                            </a>
+                        </span>
+                        <span class="custom__btn2">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#add_transaction">
+                                <img src="~/assets/img/plus_white.svg" alt="">
+                                Add Transaction
+                            </a>
+                        </span>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="NeedaFillter sm48__row_table hide_sort_first_last pt-3 table_bottom_border ser_lpading">
+
+        <!-- ----filter start here ---------(Put this class to the div that wrraped table (NeedaFillter))---------->
+        <div class="">
+            <div class="filter_btn ms-auto me-3">
+                <a class="" href="#" role="button" id="fil_ter" data-bs-toggle="dropdown"
+                   aria-expanded="false">
+                    <img class="pe-1" src="~/assets/img/filter-lines.svg" alt="user__iocn">
+                    Filter
+                    <img class="ps-2" src="~/assets/img/filter_down_arrow.svg">
+                </a>
+
+                <div class="filter___c dropdown-menu dropdown-menu-end shadow border rounded-0 p-3"
+                     aria-labelledby="fil_ter">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text bg-transparent" id="srf">
+                            <img src="~/assets/img/search-gray.svg" alt="search_iocn">
+                        </span>
+                        <input type="text" class="form-control border-start-0 ps-0"
+                               placeholder="Search for filters" aria-label="Username"
+                               aria-describedby="srf">
+                    </div>
+                    <ul class="list-unstyled ft__list">
+                        <li>
+                            <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded"
+                               href="#">
+                                <span>My Filter 1</span>
+                                <span class="i__gro">
+                                    <span class="ed pe-2">
+                                        <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
+                                    </span>
+                                    <span class="de">
+                                        <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
+                                    </span>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded"
+                               href="#">
+                                <span>My Filter 2</span>
+                                <span class="i__gro">
+                                    <span class="ed pe-2">
+                                        <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
+                                    </span>
+                                    <span class="de">
+                                        <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
+                                    </span>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="mark__btn text-center">
+                        <img class="me-1" src="~/assets/img/green__plus_icon.svg" />
+                        <a href="#" class="text-uppercase">add new Filter</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!----------- filter end here  -------------->
+
+        <div class="ser_lpading  sm48__row_table pt-0 pm_page_top_m table_bottom_border hide_sort_all">
+            <table id="statement_table">
+                <thead>
+                    <tr>
+                        <th class="maintable_head">Ref ID</th>
+                        <th class="maintable_head">Date/ Due Date</th>
+                        <th class="maintable_head">Statement Type</th>
+                        <th class="maintable_head">Description</th>
+                        <th class="maintable_head">Charge Made</th>
+                        <th class="maintable_head">Received</th>
+                        <th class="maintable_head">Outstanding</th>
+                        <th class="maintable_head">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        var id = "'" + item.Id + "'";
+                        <tr>
+                            <td class="align-top">
+                                <a class="green_12 u_n" href="#">
+                                    @item.ReferenceID
+                                </a>
+                            </td>
+                            <td>
+                                <span class="black_12 d-inline-block mb-1">
+                                    @item.Date.ToString("dd MMM yyyy")
+                                </span>
+                                <br>
+                                <br>
+                                <div class="outstanding_btn mt-1">
+                                    Outstanding
+                                </div>
+                            </td>
+                            <td class="align-top">
+                                <span class="black_12 d-inline-block mb-1">
+                                    @item.StatementType.Name
+                                </span>
+                            </td>
+                            <td class="align-top">
+                                <span class="black_12 d-inline-block mb-2">
+                                    @item.StatementDescription
+                                </span>
+                                <br><span class="gray_12">Tenancy</span>
+                                <span class="st_dis">112384</span>
+                                <br><span class="gray_12">Property</span>
+                                <span class="st_dis">11763287</span>
+                            </td>
+                            <td class="align-top">
+                                <span class="black_12 d-inline-block">@item.NetAmount</span>
+                            </td>
+                            <td class="align-top">
+                                <span class="black_12 d-inline-block">--</span>
+                            </td>
+                            <td class="align-top">
+                                <span class=" d-inline-block">£500</span>
+                            </td>
+                            <td class="text-end">
+                                <a class="text-decoration-none" onclick="ViewStatement(@id)">
+                                    <img src="~/assets/img/eye.svg" />
+                                </a>
+                                <a class="text-decoration-none action_dropwown"
+                                   id="acp-action" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="~/assets/img/down_arrow.svg" class="ms-2" />
+                                </a>
+                                <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
+                                    aria-labelledby="acp-action">
+                                    <li><a class="dropdown-item" onclick="">Edit Statement</a></li>
+                                    <li><a class="dropdown-item" onclick="">Add Transaction</a></li>
+                                    <li><a class="dropdown-item" onclick="">Void Statement</a></li>
+                                    <li><a class="dropdown-item" onclick="">Print</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.addEventListener('DOMContentLoaded', event => {
+        const table = document.getElementById('statement_table');
+        if (table) {
+            new simpleDatatables.DataTable(table);
+        }
+
+        // Code for datatable manipulation
+        var rowCount = $('.datatable-table tbody tr').length;
+        var threshold = 10;
+        if (rowCount < threshold) {
+            $('.datatable-bottom').hide();
+        } else {
+            $('.datatable-bottom').show();
+        }
+
+        var filter = $(".filter_btn");
+        $(".datatable-top").append(filter);
+    });
+</script>

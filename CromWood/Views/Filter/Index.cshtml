@@ -2,7 +2,8 @@
 @using System.ComponentModel;
 @using CromWood.Helper;
 @using CromWood.Data;
-@model IEnumerable<CromWood.Data.Filter>
+@using CromWood.Data.Entities;
+@model IEnumerable<Filter>
 
 @{
     #region C# related code
@@ -505,7 +506,7 @@
                                             <a onclick="removeOrFilterCondition(${orCounter})"
                                            class="c_file d-flex gap-1 align-items-center text-uppercase fw_600 green_12">
                                             add
-                                            <img src="./assets/img/minus_circleGreen_icon.svg" alt="">
+                                            <img src="/assets/img/minus_circleGreen_icon.svg" alt="">
                                         </a>
                                     </div>
             `);

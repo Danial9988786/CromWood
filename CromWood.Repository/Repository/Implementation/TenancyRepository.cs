@@ -15,9 +15,13 @@ namespace CromWood.Data.Repository.Implementation
         {
             return await _context.Tenancies.Include(x => x.Property).ThenInclude(x => x.Asset).Include(x => x.Property).ThenInclude(x => x.PropertyType).Include(x => x.RentFrequency).ToListAsync();
         }
+        public async Task<IEnumerable<Tenancy>> GetHousingBenefitTenancy()
+        {
+            return await _context.Tenancies.Where(x => x.TenancyTypeId == OtherConstants.HousingBenefitTypeId).Include(x => x.Property).ThenInclude(x => x.Asset).Include(x => x.Property).ThenInclude(x => x.PropertyType).Include(x => x.RentFrequency).Include(x => x.TenancyTenants).ThenInclude(x => x.Tenant).ToListAsync();
+        }
         public async Task<IEnumerable<Tenancy>> GetTenancyForExport()
         {
-            return await _context.Tenancies.Include(x => x.ContractType).Include(x => x.TransactionType).Include(x => x.TenancyType).Include(x => x.Property).ThenInclude(x => x.Asset).Include(x => x.Property).ThenInclude(x => x.PropertyType).Include(x => x.RentFrequency).Include(x=>x.PaymentMethod).ToListAsync();
+            return await _context.Tenancies.Include(x => x.ContractType).Include(x => x.TransactionType).Include(x => x.TenancyType).Include(x => x.Property).ThenInclude(x => x.Asset).Include(x => x.Property).ThenInclude(x => x.PropertyType).Include(x => x.RentFrequency).Include(x => x.PaymentMethod).ToListAsync();
         }
 
         public async Task<Tenancy> GetTenancyOverView(Guid tenancyId)
@@ -29,7 +33,7 @@ namespace CromWood.Data.Repository.Implementation
         {
             try
             {
-                var key = await _context.TenancyTenants.AsNoTracking().FirstOrDefaultAsync(x => x.TenantId== id && x.TenancyId == tenancyId);
+                var key = await _context.TenancyTenants.AsNoTracking().FirstOrDefaultAsync(x => x.TenantId == id && x.TenancyId == tenancyId);
                 _context.TenancyTenants.Remove(key);
                 var result = await _context.SaveChangesAsync();
                 return result;
@@ -71,6 +75,11 @@ namespace CromWood.Data.Repository.Implementation
             {
                 throw;
             }
+        }
+
+        public async Task<ICollection<Tenant>> GetTenancyTenants()
+        {
+            return await _context.TenancyTenants.Select(x => x.Tenant).ToListAsync();
         }
 
         public async Task<ICollection<Tenant>> GetTenancyTenants(Guid tenancyId)
@@ -439,14 +448,24 @@ namespace CromWood.Data.Repository.Implementation
             }
         }
 
+        public async Task<ICollection<TenancyStatement>> GetStatements()
+        {
+            return await _context.Statements.Include(x => x.StatementType).ToListAsync();
+        }
+
         public async Task<ICollection<TenancyStatement>> GetStatements(Guid id)
         {
-            return await _context.Statements.Include(x=>x.StatementType).Where(x => x.TenancyId == id).ToListAsync();
+            return await _context.Statements.Include(x => x.StatementType).Where(x => x.TenancyId == id).ToListAsync();
         }
 
         public async Task<TenancyStatement> GetStatement(Guid id)
         {
             return await _context.Statements.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<ICollection<TenancyStatement>> GetHousingBenefitStatments()
+        {
+            return await _context.Statements.Where(x => x.StatementTypeId == OtherConstants.HousingBenefitStatementType).Include(x=>x.Tenancy).ThenInclude(x=>x.Property).ToListAsync();
         }
 
         public async Task<int> AddModifyStatement(TenancyStatement req)
@@ -470,9 +489,23 @@ namespace CromWood.Data.Repository.Implementation
             }
         }
 
+        public async Task<int> AddModifyBulkStatement(List<TenancyStatement> req)
+        {
+            try
+            {
+                await _context.Statements.AddRangeAsync(req);
+                await _context.SaveChangesAsync();
+                return 1;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public async Task<TenancyStatement> GetStatementView(Guid id)
         {
-            return await _context.Statements.Include(x => x.StatementType).Include(x=>x.Transactions).Include(x => x.Documents).FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Statements.Include(x => x.StatementType).Include(x => x.Transactions).Include(x => x.Documents).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<int> DeleteStatement(Guid id)
@@ -573,9 +606,13 @@ namespace CromWood.Data.Repository.Implementation
             }
         }
 
+        public async Task<ICollection<PaymentPlan>> GetPaymentPlans()
+        {
+            return await _context.PaymentPlans.Include(x => x.ReferenceStatement).Include(x => x.InstallmentType).ToListAsync();
+        }
         public async Task<ICollection<PaymentPlan>> GetPaymentPlans(Guid id)
         {
-            return await _context.PaymentPlans.Include(x => x.ReferenceStatement).Where(x => x.ReferenceStatement.TenancyId == id).Include(x=>x.InstallmentType).ToListAsync();
+            return await _context.PaymentPlans.Include(x => x.ReferenceStatement).Where(x => x.ReferenceStatement.TenancyId == id).Include(x => x.InstallmentType).ToListAsync();
         }
 
         public async Task<PaymentPlan> GetPaymentPlan(Guid id)
@@ -606,7 +643,7 @@ namespace CromWood.Data.Repository.Implementation
 
         public async Task<PaymentPlan> GetPaymentPlanView(Guid id)
         {
-            return await _context.PaymentPlans.Include(x => x.ReferenceStatement).Include(x => x.Installments).Include(x => x.Transactions).FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.PaymentPlans.Include(x => x.ReferenceStatement).ThenInclude(x => x.Tenancy).ThenInclude(x => x.Property).ThenInclude(x => x.Asset).Include(x => x.Installments).Include(x => x.Transactions).Include(x => x.InstallmentType).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<int> DeletePaymentPlan(Guid id)

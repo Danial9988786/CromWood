@@ -1,0 +1,93 @@
+﻿@using CromWood.Business.Services.Interface;
+@using CromWood.Data.Entities.Default;
+@model CromWood.Business.Models.StatementModel
+@inject ILookupService<StatementType> _lookupStatements;
+@{
+    var asyncTypes = await _lookupStatements.GetAllItems();
+    var types = new SelectList(asyncTypes.Data, "Id", "Name");
+}
+
+<div class="modal-content rounded-0 model-custom-bg">
+    <div class="modal-header py-2 bg-white">
+        <h5 class="modal-title" id="staticBackdropLabel">Add New Statement</h5>
+        <span class="pagagraph ms-2">Tenancy 112384</span>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <form asp-action="AddModifyStatement" class="modal-body">
+        @Html.HiddenFor(x=>x.Id)
+        @Html.HiddenFor(x=>x.TenancyId)
+        @Html.HiddenFor(x=>x.ReferenceID)
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="step_body_content3 mb-3 pe-2">
+            <div class="mb-3 border p-3 bg-white h-100">
+                <h3 class="modal-title" id="staticBackdropLabel">Statement Details</h3>
+                <div class="d-flex gap-3 pb-2 mt-3 mb-2">
+                    <div class="input__field w-100">
+                        <label for="Rference ID" class="form-label">Reference ID</label>
+                        <input class="form-control text-black"
+                               asp-for="ReferenceID" disabled>
+                    </div>
+                    <div class="input__field w-100">
+                        <label for="Statement Type" class="form-label">Statement Type</label>
+                        <select class="form-select select_font_14" asp-for="StatementTypeId" asp-items="types">
+                        </select>
+                    </div>
+                </div>
+                <div class="d-flex gap-3 pb-2">
+                    <div class="input__field w-100">
+                        <div class="mb-3">
+                            <label for="Date" class="form-label">Date</label>
+                            <input type="date" class="form-control" placeholder="01 /06 / 2023"
+                                   asp-for="Date">
+                        </div>
+                    </div>
+                    <div class="input__field w-100">
+                        <label for="Net Amount" class="form-label">Net Amount</label>
+                        <input type="number" class="form-control text-black" value="" placeholder="Enter amount"
+                               asp-for="NetAmount">
+                    </div>
+                </div>
+                <label for="Payment Method" class="form-label">Statement Description</label>
+                <div class="w-100 d-inline-block">
+                    <textarea class="w-100" asp-for="StatementDescription" rows="4" cols="50"
+                              placeholder="Enter description of statement"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="popup_footer_fixed border-top d-flex justify-content-between bg-white">
+            <div class="shadow-box">
+                <a class="custom__btn" data-bs-toggle="modal">
+                    Cancel
+                </a>
+            </div>
+            <div class="shadow-box ms-auto">
+                <a class="custom__btn2" onclick="submitButton.click()">
+                    <img src="~/assets/img/save-role.svg" alt="right__arrow">
+                    Save Statement
+                </a>
+            </div>
+        </div>
+        <input type="submit" value="button" hidden id="submitButton" />
+    </form>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('.select_font_14').select2({
+            theme: "bootstrap-5",
+            placeholder: "Select...",
+            dropdownAutoWidth: true,
+            width: '100%',
+            dropdownCssClass: "select_font_14"
+        });
+
+        $('.select__search').select2({
+            theme: "bootstrap-5",
+            dropdownAutoWidth: true,
+            placeholder: "Select...",
+            width: '100%',
+            dropdownCssClass: "select__search"
+        });
+    })
+</script>

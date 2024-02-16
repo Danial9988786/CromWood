@@ -10,6 +10,7 @@ namespace CromWood.Business.Models.ViewModel
         public Guid? ToPaidBy { get; set; }
         public float Amount { get; set; }
         public string Description { get; set; }
+        public Guid InstallmentTypeId { get; set; }
         public InstallmentType InstallmentType { get; set; }
         public int NoOfInstallment { get; set; }
         public float IntrestCharge { get; set; }

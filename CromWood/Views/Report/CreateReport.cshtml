@@ -1,0 +1,917 @@
+﻿@using CromWood.Business;
+@using CromWood.Helper;
+@model CromWood.Data.Entities.CustomReport
+
+@{
+    ViewData["Title"] = "CreateReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var reportGroups = new SelectList(ReportConstants.ReportGroups, "Value", "Key");
+    var dateFormat = new SelectList(ReportConstants.ReportDateFormat, "Value", "Key");
+
+    string numberOptions = "";
+    string stringOptions = "";
+    string guidOptions = "";
+    string boolOptions = "";
+    string dateTimeOptions = "";
+
+    foreach (var number in CromwoodConstants.NumberOption)
+    {
+        numberOptions = numberOptions + "<option value=" + number.Value + ">" + number.Key + "</option>";
+    }
+    foreach (var stringO in CromwoodConstants.StringOption)
+    {
+        stringOptions = stringOptions + "<option value=" + stringO.Value + ">" + stringO.Key + "</option>";
+    }
+    foreach (var guid in CromwoodConstants.GuidOption)
+    {
+        guidOptions = guidOptions + "<option value=" + guid.Value + ">" + guid.Key + "</option>";
+    }
+    foreach (var boolO in CromwoodConstants.BoolOption)
+    {
+        boolOptions = boolOptions + "<option value=" + boolO.Value + ">" + boolO.Key + "</option>";
+    }
+    foreach (var dateO in CromwoodConstants.DateTimeOption)
+    {
+        dateTimeOptions = dateTimeOptions + "<option value=" + dateO.Value + ">" + dateO.Key + "</option>";
+    }
+}
+
+<ol class="breadcrumb align-items-end mb-3 mt-3">
+    <li class="breadcrumb-item">
+        <a href="index.html"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
+    </li>
+    <li class="breadcrumb-item main-text">
+        <span class="a_m">
+            <a asp-action="Index"> Reports</a>
+        </span>
+    </li>
+    <li class="breadcrumb-item active">Create Custom Reports</li>
+</ol>
+
+<div class="row" style="margin-bottom: 80px;">
+    <h1 class="mb-3 custom_h">
+        Create Custom Reports
+    </h1>
+    <div class="modal-body border bg-white rounded mx-3">
+        <form action="AddCustomReport">
+            <div>
+                <div class="mutli_steps_f mb-3 pe-2">
+                    <div class="mb-3 bg_gray_ border p-3">
+                        <div class="d-flex gap-3">
+                            <div class="input__field w-100">
+                                <label for="Report Group" class="form-label">Report Group</label>
+                                <select id="reportGroup" class="form-select select_font_14"
+                                        asp-for="ReportGroup" asp-items="reportGroups">
+                                </select>
+                            </div>
+                            <div class="input__field w-100">
+                                <label for="Report Name" class="form-label">Report Name</label>
+                                <input type="text" id="reportName" class="form-control pagagraph"
+                                       asp-for="Name"
+                                       placeholder="Enter a name for this report">
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="input__field w-100 mt-3">
+                                <label for="Report Name" class="form-label">Description</label>
+                                <input type="text" id="reportDescription" class="form-control pagagraph"
+                                       asp-for="Description"
+                                       placeholder="Type a short description for report">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h4 class="sora_16">Available Fields</h4>
+                </div>
+                <div class="col-md-4">
+                    <h4 class="sora_16">Selected Fields</h4>
+                </div>
+                <div class="col-md-4">
+                    <h4 class="sora_16">Column Attributes</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-4">
+                    <div class="bg_gray_ d-flex flex-column mb-3 border p-3 h-100">
+                        <div class="input__field w-100">
+                            <input type="text" class="form-control pagagraph"
+                                   id="exampleFormControlInput1" placeholder="Search by field name...">
+                        </div>
+                        <div class="d-flex justify-content-between p-2">
+                            <div class="form-check form-check-inline mb-0">
+                                <input class="form-check-input" type="checkbox" onchange="selectAll('availableFields')" id="inlineCheckbox1"
+                                       value="option1">
+                                <label class="form-check-label pagagraph ms-2"
+                                       id="selectAllAvailableField">Select All</label>
+                            </div>
+                            <div>
+                                <span class="light_gray_14_">Deselect All</span>
+                            </div>
+                        </div>
+                        <ul class="list_field_ list-unstyled" id="availableFields">
+                        </ul>
+                        <div class="mt-auto mx-auto">
+                            <div class="shadow-box">
+                                <span class="custom__btn2">
+                                    <a onclick="moveAvailableToSelected()">
+                                        <img src="~/assets/img/right_align_arrow.svg" alt="">Move to
+                                        Selected Fileds
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4">
+                    <div class="bg_gray_ d-flex flex-column mb-3 border p-3 h-100">
+                        <div class="input__field w-100">
+                            <input type="text" class="form-control pagagraph"
+                                   id="exampleFormControlInput1"
+                                   placeholder="Search by report name...">
+                        </div>
+                        <div class="d-flex justify-content-between p-2">
+                            <div class="form-check form-check-inline mb-0">
+                                <input class="form-check-input" type="checkbox" onchange="selectAll('selectedFields')" id="inlineCheckbox1"
+                                       value="option1">
+                                <label class="form-check-label pagagraph ms-2"
+                                       for="inlineCheckbox1">Select All</label>
+                            </div>
+                            <div>
+                                <span class="pagagraph">Deselect All</span>
+                            </div>
+                        </div>
+                        <ul class="list_field_ list-unstyled" id="selectedFields">
+                        </ul>
+                        <div class="mt-auto mx-auto">
+                            <div class="shadow-box ms-auto">
+                                <a onclick="removeSelectedToAvaialble()" class="custom__btn2">
+                                    <img src="~/assets/img/crosss.svg" alt="crosss">
+                                    Remove all
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4">
+                    <div style="display:none" id="fieldDetailForm" class="mb-3 shadow-sm border rounded h-100 p-3 mutli_steps_f ">
+                        <h4 class="sora_16">Access Name Attributes</h4>
+                        <div class="d-flex">
+                            <div class="input__field w-100 mt-2">
+                                <label for="Heading" class="gray_text_12">Heading</label>
+                                <input type="text" class="form-control pagagraph"
+                                       id="headingOfField">
+                            </div>
+                        </div>
+                        <div class="d-flex gap-3 pt-2">
+                            <div class="input__field w-100">
+                                <label for="Align" class="gray_text_12">Align</label>
+                                <select id="alignmentOfField" class="form-select select_font_14"
+                                        aria-label="Default select example">
+                                    <option value="Auto">Auto</option>
+                                    <option value="Left">Left</option>
+                                    <option value="Right">Right</option>
+                                    <option value="Canter">Center</option>
+                                </select>
+                            </div>
+                            <div class="input__field w-100">
+                                <label for="Width" class="gray_text_12">Width%</label>
+                                <input type="text" class="form-control pagagraph"
+                                       id="widthOfField">
+                            </div>
+                        </div>
+                        <div class="d-flex gap-3 pt-2">
+                            <div class="input__field w-100">
+                                <label for="Append" class="gray_text_12">Append</label>
+                                <input type="text" class="form-control pagagraph"
+                                       id="appendOfField" placeholder="Enter">
+                            </div>
+                            <div class="input__field w-100">
+                                <label for="Prepend" class="gray_text_12">Prepend</label>
+                                <input type="text" class="form-control pagagraph"
+                                       id="prependOfField" placeholder="Enter">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordionBelow_page mt-3 pt-1">
+                <div class="accordion">
+                    <div class="accordion-item border-1">
+                        <div class="accordion-header text-cpitlize bg_gray_" id="headingOne">
+                            <h5 class="mb-0 p-3 h_50 d-flex justify-content-between align-items-center border-bottom"
+                                type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseOne" aria-expanded="false"
+                                aria-controls="collapseOne">
+                                Conditions
+                                <img src="~/assets/img/minus_accodian.svg" class="m_inus"
+                                     alt="minus_accodian">
+                                <img src="~/assets/img/plus.svg" class="p_lus" alt="minus_accodian">
+                            </h5>
+                        </div>
+                        <div id="collapseOne" class="accordion-collapse collapse show bg-white"
+                             aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div id="andConditionCollection">
+                                </div>
+                                <!-- Row Third Start -->
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-2 d-flex align-items-center justify-content-start">
+                                            <a onclick="addAndCondition()"
+                                               class="c_file_2 d-flex gap-1 align-items-center text-uppercase fw_600 green_12">
+                                                <img src="~/assets/img/plus_circleGreen_icon.svg" alt=""> add
+                                                condition
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <div class="accordion">
+                        <div class="accordion-item border-1">
+                            <div class="accordion-header text-cpitlize bg_gray_" id="headingtwo">
+                                <h5 class="mb-0 p-3 h_50 d-flex justify-content-between align-items-center border-bottom"
+                                    type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapsetwo" aria-expanded="true"
+                                    aria-controls="collapsetwo">
+                                    Sort By
+                                    <img src="~/assets/img/minus_accodian.svg" class="m_inus"
+                                         alt="minus_accodian">
+                                    <img src="~/assets/img/plus.svg" class="p_lus"
+                                         alt="minus_accodian">
+                                </h5>
+                            </div>
+                            <div id="collapsetwo" class="accordion-collapse collapse bg-white"
+                                 aria-labelledby="headingtwo" data-bs-parent="#accordionExample">
+                                <div class="accordion-body ">
+                                    <div class="d-flex gap-3 align-items-center mb-2">
+                                        <span class="pagagraph text-nowrap">Sort By</span>
+                                        <div class="ms-5 ">
+                                            <select asp-for="SortBy" class="form-select select_font_14"
+                                                    id="sortByColumn1"
+                                                    aria-label="Default select example">
+                                            </select>
+                                        </div>
+                                        <select asp-for="SortByAsc" id="sortByAscOne" class="form-select select_font_14 ms-5"
+                                                aria-label="Default select example">
+                                            <option value="true">Ascending</option>
+                                            <option value="false">Decending</option>
+                                        </select>
+                                    </div>
+                                    <div class="d-flex gap-3 align-items-center mb-2">
+                                        <span class="pagagraph text-nowrap">Sort By</span>
+                                        <div class="ms-5">
+                                            <select asp-for="SortBy2" class="form-select select_font_14"
+                                                    id="sortByColumn2"
+                                                    aria-label="Default select example">
+                                            </select>
+                                        </div>
+                                        <select asp-for="SortBy2Asc" id="sortByAscTwo" class="form-select select_font_14 ms-5"
+                                                aria-label="Default select example">
+                                            <option value="true">Ascending</option>
+                                            <option value="false">Decending</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <div class="accordion">
+                        <div class="accordion-item border-1">
+                            <div class="accordion-header text-cpitlize bg_gray_" id="headingthree">
+                                <h5 class="mb-0 p-3 h_50 d-flex justify-content-between align-items-center border-bottom"
+                                    type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapsethree" aria-expanded="true"
+                                    aria-controls="collapsethree">
+                                    Additional Options
+                                    <img src="~/assets/img/minus_accodian.svg" class="m_inus"
+                                         alt="minus_accodian">
+                                    <img src="~/assets/img/plus.svg" class="p_lus"
+                                         alt="minus_accodian">
+                                </h5>
+                            </div>
+                            <div id="collapsethree" class="accordion-collapse collapse bg-white"
+                                 aria-labelledby="headingthree" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <div class="d-flex gap-3 align-items-center mb-2">
+                                        <span class="pagagraph">Date Format</span>
+                                        <div class="ms-5 ">
+                                            <select id="dateFormat" class="form-select select_font_14"
+                                                    asp-for="DateFormat" asp-items="dateFormat"
+                                                    placeholder="Mon, Dec 1st 2000 (Day, Month Date Year)">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-check form-check-inline mb-0">
+                                        <input class="form-check-input" type="checkbox"
+                                               id="zeroCurrencyAsBlank" asp-for="ZeroCurrencyBlank">
+                                        <label class="form-check-label pagagraph ms-2"
+                                               for="inlineCheckbox1">
+                                            Zero currency shown as
+                                            blank
+                                        </label>
+                                    </div>
+                                    <div class="form-check mt-2 mb-0">
+                                        <input class="form-check-input" type="checkbox"
+                                               id="hideCurrencySymbol" asp-for="HideCurrencySymbol">
+                                        <label class="form-check-label pagagraph ms-2"
+                                               for="inlineCheckbox1">Hide currency symbol</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="below_btnBar">
+                <div>
+                    <span class="pair_btn">
+                        <div class="shadow-box ms-auto">
+                            <span class="custom__btn">
+                                <a href="#">
+                                    <img src="~/assets/img/discard_icon2.svg" alt="discard_icon">
+                                    Discard
+                                </a>
+                            </span>
+                            <span class="custom__btn2">
+                                <a onclick="saveReport()" data-bs-toggle="modal" data-bs-target="#AddNewTenancy">
+                                    <img src="~/assets/img/save-role.svg" alt="right__arrow">
+                                    Save
+                                </a>
+                            </span>
+                        </div>
+                    </span>
+                </div>
+                <div class="ms-auto">
+                    <div class="d-flex gap-4">
+                        <div class="w150">
+                            <select id="" class="form-select select_font_14" aria-label="">
+                                <option selected="">Screen</option>
+                                <option value="1">CSV Export</option>
+                                <option value="2">PDF</option>
+                            </select>
+                        </div>
+                        <div class="shadow-box">
+                            <a href="#" class="custom__btn2 step_nextbtn" data-bs-dismiss="modal">
+                                <img src="~/assets/img/save-role.svg" alt="right__arrow">
+                                Save and Run
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // For Select2 Functionality
+            $('.select_font_14').select2({
+                theme: "bootstrap-5",
+                placeholder: "Select...",
+                dropdownAutoWidth: true,
+                width: '100%',
+                dropdownCssClass: "select_font_14"
+            });
+        });
+
+        reportProperties = [];
+        var addCounter = 0;
+        var numberOptions = '@numberOptions';
+        var stringOptions = '@stringOptions';
+        var guidOptions = '@guidOptions';
+        var boolOptions = '@boolOptions';
+        var dateTimeOptions = '@dateTimeOptions';
+        var filterColOptions = '';
+
+        numberOptions = numberOptions.replaceAll("&lt;", "<");
+        numberOptions = numberOptions.replaceAll("&gt;", ">");
+        stringOptions = stringOptions.replaceAll("&lt;", "<");
+        stringOptions = stringOptions.replaceAll("&gt;", ">");
+        guidOptions = guidOptions.replaceAll("&lt;", "<");
+        guidOptions = guidOptions.replaceAll("&gt;", ">");
+        boolOptions = boolOptions.replaceAll("&lt;", "<");
+        boolOptions = boolOptions.replaceAll("&gt;", ">");
+        dateTimeOptions = dateTimeOptions.replaceAll("&lt;", "<");
+        dateTimeOptions = dateTimeOptions.replaceAll("&gt;", ">");
+
+        let firstAndDropdownType = [];
+        let firstAndDropdownFetchType = [];
+        let dropDownValuesAnd = []; // List of list
+
+        $("#reportGroup").change(function () {
+            const group = $(this).val();
+            var url = `/Report/GetReportProperties?keyName=${group}`;
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function (result) {
+                    reportProperties = result;
+                    reportProperties.forEach((item, key) => {
+                        $("#availableFields").append(`
+                                                                <li class="d-flex align-items-center bg-white border border-bottom-0 p-2" id="field-li-${item.Name}" onclick="selectedSomeField('field-li-${item.Name}')"
+                                                                    data-Name="${item.Name}"     data-HeaderName="${item.HeaderName || item.DisplayName}" data-DataName="${item.Name || ''}" data-Alignment="${item.Alignment || 'Left'}" data-Width="${item.Width || ''}" data-Append="${item.Append || ''}" data-Prepend="${item.Prepend || ''}"
+                                                        >
+                                                                <div>
+                                                                    <span>
+                                                                                <input class="form-check-input" type="checkbox" data-keyid="field-li-${item.Name}"
+                                                                                               id="field-li-checkbox-${item.Name}" >
+                                                                    </span>
+                                                                    <span class="d-inline-block ms-2">
+                                                                        <img src="/assets/img/9dots.svg"
+                                                                             alt="9dots">
+                                                                    </span>
+                                                                                    <span class="font14_inter_ d-inline-block ms-2 ps-1" id="field-li-label-${item.Name}">
+                                                                                ${item.DisplayName}
+                                                                    </span>
+                                                                </div>
+                                                            </li>
+                                                `)
+                        if (item.FetchType != null) {
+                            filterColOptions = filterColOptions + "<option data-type=" + item.Type + " data-fetch-type=" + item.FetchType + " value=" + item.Name + ">" + item.DisplayName + "</option>";
+                        }
+                        else {
+                            filterColOptions = filterColOptions + "<option data-type=" + item.Type + " value=" + item.Name + ">" + item.DisplayName + "</option>";
+                        }
+                        // Populate sorting fields:
+                        $('#sortByColumn1').append(`${filterColOptions}`);
+                        $('#sortByColumn2').append(`${filterColOptions}`);
+                    })
+
+                },
+                error: function () {
+                }
+            });
+
+
+        });
+
+        function selectAll(id) {
+            $(`#${id}`).find('input[type=checkbox]').each(function () {
+                this.checked = true;
+            });
+        }
+
+        function moveAvailableToSelected() {
+            $("#availableFields").find('input[type=checkbox]').each(function () {
+                if (this.checked) {
+                    const keyId = $(this).attr("data-keyid");
+                    // move this to selected
+                    const element = $(`#${keyId}`).get(0).outerHTML;
+                    $("#selectedFields").append(`${element}`);
+                    $(`#availableFields #${keyId}`).remove();
+                }
+            });
+        }
+
+        function removeSelectedToAvaialble() {
+            $("#selectedFields").find('input[type=checkbox]').each(function () {
+                if (this.checked) {
+                    const keyId = $(this).attr("data-keyid");
+                    // move this to selected
+                    const element = $(`#${keyId}`).get(0).outerHTML;
+                    $("#availableFields").append(`${element}`);
+                    $(`#selectedFields #${keyId}`).remove();
+                }
+            });
+        }
+
+        function selectedSomeField(id) {
+            const keyId = $(`#${id}`).attr("data-keyid");
+
+            $("#headingOfField").off('input')
+            $("#alignmentOfField").off('change')
+            $("#widthOfField").off('input')
+            $("#appendOfField").off('input')
+            $("#prependOfField").off('input')
+
+            if ($(`#selectedFields #${id}`).length > 0) {
+                const HeaderName = $(`#${id}`).attr("data-headerName");
+                const Name = $(`#${id}`).attr("data-name");
+                const DataName = $(`#${id}`).attr("data-dataName");
+                const Alignment = $(`#${id}`).attr("data-alignment");
+                const Width = $(`#${id}`).attr("data-width");
+                const Append = $(`#${id}`).attr("data-append");
+                const Prepend = $(`#${id}`).attr("data-Prepend");
+
+                // Assign values to input fields.
+                $("#fieldDetailForm").show();
+                console.log(HeaderName, Name, DataName, Alignment, Width, Append, Prepend);
+
+                $("#headingOfField").val(HeaderName || "");
+                $("#alignmentOfField").val(Alignment || "");
+                $("#widthOfField").val(Width || "");
+                $("#appendOfField").val(Append || "");
+                $("#prependOfField").val(Prepend || "");
+
+                // On change of fields map them with data attribute.
+                $("#headingOfField").on('input', function (e) {
+                    $(`#${id}`).attr("data-headerName", this.value)
+                });
+                $("#alignmentOfField").on('change', function (e) {
+                    $(`#${id}`).attr("data-alignment", this.value)
+                });
+                $("#widthOfField").on('input', function (e) {
+                    $(`#${id}`).attr("data-width", this.value)
+                });
+                $("#appendOfField").on('input', function (e) {
+                    $(`#${id}`).attr("data-append", this.value)
+                });
+                $("#prependOfField").on('input', function (e) {
+                    $(`#${id}`).attr("data-prepend", this.value)
+                });
+            }
+        }
+
+        function addAndCondition() {
+            // Added row in AND condition collection
+            $("#andConditionCollection").append(`
+                                <div id="andCondition__${addCounter}" class="d-flex align-items-center justify-content-between mb-2">
+                                    <div class="d-flex gap-2">
+                                        <select id="firstAndDropdown-${addCounter}" data-counter="${addCounter}" class="form-select select_font_14" style="width:250px;">
+                                            ${filterColOptions}
+                                        </select>
+                                        <select id="secondAndDropdown-${addCounter}" data-counter="${addCounter}" class="form-select select_font_14" style="width:180px;">
+                                        </select>
+                                        <div id="filterAndConditionSetter-${addCounter}" class="d-flex gap-2">
+                                        </div>
+                                    </div>
+                                        <a onclick="removeAndFilterCondition(${addCounter})" class="c_file d-flex gap-1 align-items-center text-uppercase fw_600 green_12">
+                                        add
+                                        <img src="/assets/img/minus_circleGreen_icon.svg" alt="">
+                                    </a>
+                                </div>
+                            `);
+
+
+            // Added on change event to select element for AND row
+            $(`#firstAndDropdown-${addCounter}`).change(function () {
+                const type = $(this).find(':selected').data('type');
+                const fetchType = $(this).find(':selected').data('fetch-type');
+                const firstAddDropdownCounter = $(this).data('counter');
+                $(`#filterAndConditionSetter-${addCounter}`).children().remove();
+
+                firstAndDropdownType[firstAddDropdownCounter] = type;
+                firstAndDropdownFetchType[firstAddDropdownCounter] = fetchType;
+
+                if (type == "String") {
+                    // Append respective options to Second dropdown
+                    $(`#secondAndDropdown-${firstAddDropdownCounter}`)
+                        .find('option')
+                        .remove()
+                        .end()
+                        .append(`${stringOptions}`);
+                }
+                if (type == "Guid") {
+                    // Append respective options to Second dropdown
+                    $(`#secondAndDropdown-${firstAddDropdownCounter}`)
+                        .find('option')
+                        .remove()
+                        .end()
+                        .append(`${guidOptions}`);
+                    // In this particular case, we also have to load Guids of options to choose from in next drop
+                    var url = `/Filter/Get${fetchType}`;
+                    $.ajax({
+                        type: "GET",
+                        url: url,
+                        success: function (result) {
+                            dropDownValuesAnd[firstAddDropdownCounter] = result.Data;
+                        },
+                        error: function () {
+                        }
+                    });
+                }
+                if (type == "Int32" || type == "Single") {
+                    // Append respective options to Second dropdown
+                    $(`#secondAndDropdown-${firstAddDropdownCounter}`)
+                        .find('option')
+                        .remove()
+                        .end()
+                        .append(`${numberOptions}`);
+                }
+                if (type == "Boolean") {
+                    // Append respective options to Second dropdown
+                    $(`#secondAndDropdown-${firstAddDropdownCounter}`)
+                        .find('option')
+                        .remove()
+                        .end()
+                        .append(`${boolOptions}`);
+                }
+                if (type == "DateTime") {
+                    // Append respective options to Second dropdown
+                    $(`#secondAndDropdown-${firstAddDropdownCounter}`)
+                        .find('option')
+                        .remove()
+                        .end()
+                        .append(`${dateTimeOptions}`);
+                }
+
+                $(`#secondAndDropdown-${firstAddDropdownCounter}`).change(function () {
+                    $(`#filterAndConditionSetter-${firstAddDropdownCounter}`).children().remove();
+                    const secondDropdownCondition = $(this).find(':selected').val();
+                    const secondAddDropdownCounter = $(this).data('counter');
+
+                    if (firstAndDropdownType[secondAddDropdownCounter] == "String") {
+                        // Condition for string type and all cases.
+                        if (secondDropdownCondition == "ie" || secondDropdownCondition == "ine") {
+                            $(`#filterAndConditionSetter-${secondAddDropdownCounter}`).children().remove();
+                        }
+                        else {
+                            $(`#filterAndConditionSetter-${secondAddDropdownCounter}`)
+                                .find('*')
+                                .remove()
+                                .end()
+                                .append(`
+                                                              <input type="text" class="form-control" placeholder ="Enter value" id="filterAndCondition-0-${secondAddDropdownCounter}">
+                                                                `);
+                        }
+                    }
+
+                    if (firstAndDropdownType[secondAddDropdownCounter] == "Int32" || firstAndDropdownType[secondAddDropdownCounter] == "Single") {
+                        // Condition for int & float type and equals to;
+                        if (secondDropdownCondition == "in") {
+                            // Need two input box
+                            $(`#filterAndConditionSetter-${secondAddDropdownCounter}`)
+                                .find('*')
+                                .remove()
+                                .end()
+                                .append(`
+                                                                                <input type="text" class="form-control" placeholder ="Enter value" id="filterAndCondition-0-${secondAddDropdownCounter}">
+                                                                                <input type="text" class="form-control" placeholder ="Enter value" id="filterAndCondition-1-${secondAddDropdownCounter}">
+                                                                    `);
+                        }
+                        else {
+                            $(`#filterAndConditionSetter-${secondAddDropdownCounter}`)
+                                .find('*')
+                                .remove()
+                                .end()
+                                .append(`
+                                                                                    <input type="text" class="form-control" placeholder ="Enter value" id="filterAndCondition-0-${secondAddDropdownCounter}">
+                                                                        `);
+                        }
+                    }
+
+                    if (firstAndDropdownType[secondAddDropdownCounter] == "DateTime") {
+                        // Condition for int & float type and equals to;
+                        if (secondDropdownCondition == "in") {
+                            // Need two input box
+                            $(`#filterAndConditionSetter-${secondAddDropdownCounter}`)
+                                .find('*')
+                                .remove()
+                                .end()
+                                .append(`
+                                                                    <div class="input-container">
+                                                                         <div class="input-group date__box date datepicker">
+                                                                                 <input type="text" class="form-control" placeholder ="Enter value" placeholder="24/01/2024" id="filterAndCondition-0-${secondAddDropdownCounter}>
+                                                                              <span class="input-group-append">
+                                                                              <span class="date__icon bg-white">
+                                                                                  <img src="./assets/img/date__icon.svg" alt="date_icon">
+                                                                              </span>
+                                                                              </span>
+                                                                          </div>
+                                                                    </div>
+                                                                     <div class="input-container">
+                                                                         <div class="input-group date__box date datepicker">
+                                                                                 <input type="text" class="form-control" placeholder ="Enter value" placeholder="24/01/2024" id="filterAndCondition-1-${secondAddDropdownCounter}>
+                                                                              <span class="input-group-append">
+                                                                              <span class="date__icon bg-white">
+                                                                                  <img src="./assets/img/date__icon.svg" alt="date_icon">
+                                                                              </span>
+                                                                              </span>
+                                                                          </div>
+                                                                    </div>
+                                                                        `);
+                        }
+                        else {
+                            $(`#filterAndConditionSetter-${secondAddDropdownCounter}`)
+                                .find('*')
+                                .remove()
+                                .end()
+                                .append(`
+                                                                                <div class="input-container">
+                                                                                                    <div class="input-group date__box date datepicker">
+                                                                                                                <input type="text" class="form-control" placeholder ="Enter value" placeholder="24/01/2024" id="filterAndCondition-0-${secondAddDropdownCounter}>
+                                                                                                            <span class="input-group-append">
+                                                                                                                <span class="date__icon bg-white">
+                                                                                                                    <img src="./assets/img/date__icon.svg" alt="date_icon">
+                                                                                                            </span>
+                                                                                                            </span>
+                                                                                                        </div>
+                                                                                                </div>
+                                                                            `);
+                        }
+                        $('.datepicker').datepicker();
+                    }
+
+                    if (firstAndDropdownType[secondAddDropdownCounter] == "Guid") {
+                        // Drop Down Values
+                        dropDownOptions = '';
+                        console.log(dropDownValuesAnd)
+                        dropDownValuesAnd[secondAddDropdownCounter].forEach((item) => {
+                            dropDownOptions = dropDownOptions + `<option value="${item.Id}">${item.Name}</option>`;
+                        });
+                        $(`#filterAndConditionSetter-${secondAddDropdownCounter}`)
+                            .find('*')
+                            .remove()
+                            .end()
+                            .append(
+                                `
+                                                                <select id="filterAndCondition-0-${secondAddDropdownCounter}" class="form-select select_font_14" style="width:180px;">
+                                                                   ${dropDownOptions}
+                                                            </select>
+                                                        `
+                            );
+
+                        // For Select2 Functionality
+                        $('.select_font_14').select2({
+                            theme: "bootstrap-5",
+                            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+                            placeholder: $(this).data('placeholder'),
+                            closeOnSelect: true,
+                            dropdownCssClass: "select_font_14",
+                        });
+                    }
+                });
+
+                // Trgigger on change event automatically
+                setTimeout(() => {
+                    $(`#secondAndDropdown-${firstAddDropdownCounter}`).trigger("change");
+                }, 500)
+
+            });
+
+            // Trigger on change event automatically
+            $(`#firstAndDropdown-${addCounter}`).trigger("change");
+
+            // Applied Select2 style to each
+            $('.select_font_14').select2({
+                theme: "bootstrap-5",
+                placeholder: "Select...",
+                dropdownAutoWidth: true,
+                width: '100%',
+                dropdownCssClass: "select_font_14"
+            });
+
+            addCounter = addCounter + 1;
+
+        }
+
+        function removeAndFilterCondition(index) {
+            $(`#andCondition__${index}`).remove();
+        }
+
+        function saveReport(){
+            andConditions = [];
+            attributesList = [];
+            // Evaluates filter conditions
+            for (i = 0; i < addCounter; i++) {
+                const first = $(`#firstAndDropdown-${i}`).val();
+                const second = $(`#secondAndDropdown-${i}`).val();
+                const third = $(`#filterAndCondition-0-${i}`).val();
+                const fourth = $(`#filterAndCondition-1-${i}`).val();
+                if (first && second) {
+                    andConditions.push({
+                        Condition: this.encodeFilterCondition(firstAndDropdownType[i], first, second, third, fourth)
+                    });
+                }
+            }
+            // Evaluates attributes conditions
+            $("#selectedFields").find('li').each(function () {
+                const HeaderName = $(this).attr("data-headerName");
+                const Name = $(this).attr("data-name");
+                const DataName = $(this).attr("data-dataName");
+                const Alignment = $(this).attr("data-alignment");
+                const Width = $(this).attr("data-width");
+                const Append = $(this).attr("data-append");
+                const Prepend = $(this).attr("data-Prepend");
+                attributesList.push({
+                    HeaderName: HeaderName,
+                    DataName: DataName,
+                    Alignment: Alignment,
+                    Width: Width,
+                    Append: Append,
+                    Prepend: Prepend,
+                });
+            });
+
+            console.log(attributesList);
+
+            const payload = {
+                ReportGroup: $("#reportGroup").val(),
+                Name: $("#reportName").val(),
+                Description: $("#reportDescription").val(),
+                SortBy: $("#sortByColumn1").val(),
+                SortBy2:$("#sortByColumn2").val(),
+                SortByAsc: $("#sortByAscOne").val(),
+                SortBy2Asc: $("#sortByAscTwo").val(),
+                DateFormat: $("#dateFormat").val(),
+                ZeroCurrencyBlank: $("#zeroCurrencyAsBlank").val(),
+                HideCurrencySymbol: $("#hideCurrencySymbol").val(),
+                CustomReportAttributes: attributesList,
+                CustomReportConditions: andConditions
+            }
+
+            $.ajax({
+                type: "POST",
+                url: `CreateReport`,
+                data: payload,
+                success: function (result) {
+                    window.reload();
+                },
+                error: function () {
+                    window.reload();
+                }
+            })
+        }
+
+        function encodeFilterCondition(type, first, second, third, fourth) {
+            if (type == "Guid") {
+                if (second == "eq") {
+                    return `x.${first}==Guid.Parse("${third}")`;
+                }
+                if (second == "inl") {
+                    return `${first}==${third}`;
+                }
+            }
+            if (type == "String") {
+                if (second == "eq") {
+                    return `x.${first}=="${third}"`;
+                }
+                if (second == "ct") {
+                    return `x.${first}.Contains("${third}")`;
+                }
+                if (second == "dct") {
+                    return `!x.${first}.Contains("${third}")`;
+                }
+                if (second == "ie") {
+                    return `x.${first}.IsNullOrEmpty()`;
+                }
+                if (second == "ine") {
+                    return `!x.${first}.IsNullOrEmpty()`;
+                }
+            }
+
+            if (type == "Int32" || type == "Single") {
+                if (second == "eq") {
+                    return `x.${first}==${third}`;
+                }
+                if (second == "mt") {
+                    return `x.${first}>${third}`;
+                }
+                if (second == "mte") {
+                    return `x.${first}>=${third}`;
+                }
+                if (second == "lt") {
+                    return `x.${first}<${third}`;
+                }
+                if (second == "lte") {
+                    return `x.${first}<=${third}`;
+                }
+                if (second == "in") {
+                    return `x.${first}>${third} && x.${first}<${fourth}`;
+                }
+            }
+
+            if (type == "DateTime") {
+                if (second == "eq") {
+                    return `x.${first}==${third}`;
+                }
+                if (second == "in") {
+                    return `x.${first}>${third} && x.${first}<${fourth}`;
+                }
+                if (second == "iet") {
+                    return `x.${first}>${third}`;
+                }
+                if (second == "ilt") {
+                    return `x.${first}<${third}`;
+                }
+            }
+            if (type == "Boolean") {
+                if (second == "eqt") {
+                    return `x.${first}`;
+                }
+                if (second == "eqf") {
+                    return `!x.${first}`;
+                }
+            }
+        }
+
+    </script>
+}

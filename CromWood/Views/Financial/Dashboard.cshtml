@@ -1,0 +1,124 @@
+﻿
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<ol class="breadcrumb align-items-end mb-3 mt-3">
+    <li class="breadcrumb-item">
+        <a href="index.html"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
+    </li>
+    <li class="breadcrumb-item pagagraph">Financial Dashboard</li>
+</ol>
+<div class="row">
+    <h1 class="mb-3 custom_h">
+        <a href="tenancy-management.html"></a>Financial Dashboard
+    </h1>
+</div>
+<div class="row top___card">
+    <div class="col-md-7">
+        <div class="bg-white p-3 rounded border mb-3">
+            <div class="d-flex justify-content-between">
+                <h6 class="modal-title">Tenant</h6>
+                <img src="~/assets/img/mony_transfer.svg" class="mony_icon">
+            </div>
+            <div class="d-flex">
+                <div class="card_box w-100">
+                    <p class="topcard__text">Invoices Due Today</p>
+                    <h3 class="mb-0">£ 0.00</h3>
+                </div>
+                <div class="card_box border-start ps-2 w-100">
+                    <p class="topcard__text">Overdue Invoices</p>
+                    <h3 class="mb-0">£ 705,357.33</h3>
+                </div>
+                <div class="card_box border-start ps-2 w-100">
+                    <p class="topcard__text">Unpaid Tenant Invoices</p>
+                    <h3 class="mb-0">£ 634,306.78</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="bg-white p-3 border rounded">
+                    <div class="d-flex justify-content-between">
+                        <h6 class="modal-title">Property Owner</h6>
+                        <img src="~/assets/img/proparty_owner.svg" />
+                    </div>
+                    <p class="topcard__text">Unpaid Tenant Invoices</p>
+                    <h3 class="mb-0">£ 634,306.78</h3>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="bg-white p-3 border rounded">
+                    <div class="d-flex justify-content-between">
+                        <h6 class="modal-title">Income</h6>
+                        <img src="~/assets/img/last_day_erning.svg" height="40px" />
+                    </div>
+                    <p class="topcard__text">Unpaid Tenant Invoices</p>
+                    <h3 class="mb-0">£ 634,306.78</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-7">
+        <div class="bg-white pb-5 border rounded">
+            <p class="modal-title p-2 m-1">Tenant Actions</p>
+            <div class="d-flex pt-3">
+                <div class="ms-2 ps-1">
+                    <img src="~/assets/img/tenant_voice.svg" alt="tenant_voice">
+                </div>
+                <div class="ms-2 ps-1 border-bottom w-100 me-3">
+                    <a href="tenant-invoices.html" class="green_16 text-decoration-none">Tenant Invoices</a>
+                    <p class="pagagraph">Print, email and receive payments for Rent and all other tenant related charges</p>
+                </div>
+            </div>
+            <div class="d-flex pt-3">
+                <div class="ms-2 ps-1">
+                    <img src="~/assets/img/tenent_deposite.svg" alt="tenent_deposite">
+                </div>
+                <div class="ms-2 ps-1 border-bottom w-100 me-3">
+                    <a href="tenant-deposits.html" class="green_16 text-decoration-none">
+                        Tenant Deposits
+                    </a>
+                    <p class="pagagraph">Show balances, movements and deposit scheme reconciliations</p>
+                </div>
+            </div>
+            <div class="d-flex pt-3">
+                <div class="ms-2 ps-1">
+                    <img src="~/assets/img/refund.svg" alt="refund">
+                </div>
+                <div class="ms-2 ps-1 border-bottom w-100 me-3">
+                    <a href="payment-refund.html" class="green_16 text-decoration-none">Closing Tenancy Payments and Refunds List</a>
+                    <p class="pagagraph">Print, email and export payments to your tenants</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="bg-white pb-5 h-100 border rounded">
+            <p class="modal-title p-2 m-1">Property Owner Actions</p>
+            <div class="d-flex pt-3">
+                <div class="ms-2 ps-1">
+                    <img src="~/assets/img/remittance.svg" alt="remittance">
+                </div>
+                <div class="ms-2 ps-1 border-bottom w-100 me-3">
+                    <a href="owner-remittance.html" class="green_16 text-decoration-none">Property Owner Remittance</a>
+                    <p class="pagagraph">Produce and print remittances for your owners</p>
+                </div>
+            </div>
+            <div class="d-flex pt-3">
+                <div class="ms-2 ps-1">
+                    <img src="~/assets/img/payment.svg" alt="payment">
+                </div>
+                <div class="ms-2 ps-1 border-bottom w-100 me-3">
+                    <a href="owner-payment.html" class="green_16 text-decoration-none">Property Owner Payment List</a>
+                    <p class="pagagraph">Print, email and export payments to your Property Owner</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

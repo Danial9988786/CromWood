@@ -158,9 +158,17 @@ namespace CromWood.Controllers
             {
                 return RedirectToAction("NotAuthorized", "Auth");
             }
-            await _propertyService.GetPropertyOverView(id);
-            return View("Overview");
+            var result = await _propertyService.GetPropertyOverViewPageDetail(id);
+            result.Data.Id = id;
+            return View("Overview", result.Data);
         }
+
+        public async Task<IActionResult> OverviewJSON(Guid id)
+        {
+            var result = await _propertyService.GetPropertyOverViewPageJSON(id);
+            return StatusCode(result.StatusCode, result.Data);
+        }
+
 
         #region Insurance related operations
         public async Task<IActionResult> Insurance(Guid id)

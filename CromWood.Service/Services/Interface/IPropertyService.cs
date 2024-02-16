@@ -9,6 +9,8 @@ namespace CromWood.Business.Services.Interface
     {
         public Task<AppResponse<IEnumerable<PropertyViewModel>>> GetPropertyForList(Guid filterId = default(Guid));
         public Task<AppResponse<PropertyModel>> GetPropertyOverView(Guid propertyId);
+        public Task<AppResponse<PropertyOverviewModel>> GetPropertyOverViewPageDetail(Guid propertyId);
+        public Task<AppResponse<PropertyOverviewModel>> GetPropertyOverViewPageJSON(Guid propertyId);
         public Task<AppResponse<PropertyInsuranceModel>> GetPropertyInsuranceDetail(Guid propertyId);
         public Task<AppResponse<Guid>> AddModifyProperty(PropertyModel property);
         public Task<AppResponse<int>> AddModifyInsurance(PropertyInsuranceModel property);

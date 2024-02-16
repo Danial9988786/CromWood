@@ -2,8 +2,8 @@
 using CromWood.Business.Models;
 using CromWood.Business.Models.ViewModel;
 using CromWood.Business.ViewModels;
+using CromWood.Data.DTO;
 using CromWood.Data.Entities;
-using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace CromWood.Mapper
 {
@@ -11,6 +11,7 @@ namespace CromWood.Mapper
     {
         public UserProfiler()
         {
+            CreateMap<DashboardOverviewDTO, DashboardModel>().ReverseMap();
             CreateMap<Permission, PermissionModel>().ReverseMap();
             CreateMap<RolePermissionModel, RolePermission>().ReverseMap();
             CreateMap<Role, RoleViewModel>()
@@ -28,14 +29,19 @@ namespace CromWood.Mapper
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => GetLastName(src.Name)));
 
             CreateMap<Asset, AssetViewModel>()
-                .ForMember(dest => dest.StreetAddress, opt => opt.MapFrom(src => $"{(src.AssetType != null ? $"{src.AssetType.Name} " : "")}{(string.IsNullOrEmpty(src.Borough)? src.HouseNoStreet:string.Join(", ",src.HouseNoStreet,src.Borough))}"))
+                .ForMember(dest => dest.StreetAddress, opt => opt.MapFrom(src => $"{(src.AssetType != null ? $"{src.AssetType.Name} " : "")}{(string.IsNullOrEmpty(src.Borough) ? src.HouseNoStreet : string.Join(", ", src.HouseNoStreet, src.Borough))}"))
                 .ForMember(dest => dest.TotalUnit, opt => opt.MapFrom(src => src.Properties.Count));
             CreateMap<AssetModel, Asset>().ReverseMap();
+            CreateMap<AssetOverviewModel, AssetOverviewDto>().ReverseMap();
+            CreateMap<AssetOverviewPropertyDetail, AssetOverviewPropertyDetailDto>().ReverseMap();
 
             CreateMap<Property, PropertyViewModel>();
             CreateMap<PropertyModel, Property>().ReverseMap();
             CreateMap<PropertyInsuranceModel, PropertyInsurance>().ReverseMap();
             CreateMap<PropertyKeyModel, PropertyKey>().ReverseMap();
+            CreateMap<PropertyOverviewDTO, PropertyOverviewModel>().ReverseMap();
+            CreateMap<IncomeExpenseDTO, IncomeExpenseModel>().ReverseMap();
+            CreateMap<OccupiedVacantDTO, OccupiedVacantModel>().ReverseMap();
 
             CreateMap<LicenseCertificate, LicenseCertificateViewModel>().ReverseMap();
             CreateMap<LicenseCertificate, LicenseCertificateModel>().ReverseMap();
@@ -46,7 +52,7 @@ namespace CromWood.Mapper
             CreateMap<Tenant, TenantModel>().ReverseMap();
 
             CreateMap<TenantViewModel, Tenant>().ReverseMap()
-                .ForMember(dest => dest.Address, opt => opt.MapFrom(src => $"{string.Join(", ", new List<String> { src.AddressLine1, src.County, src.City, src.PostCode}.Where(x=>!string.IsNullOrEmpty(x)))}"));
+                .ForMember(dest => dest.Address, opt => opt.MapFrom(src => $"{string.Join(", ", new List<String> { src.AddressLine1, src.County, src.City, src.PostCode }.Where(x => !string.IsNullOrEmpty(x)))}"));
 
             CreateMap<TenancyNote, TenancyNoteModel>().ReverseMap();
             CreateMap<TenancyDocument, TenancyDocumentModel>().ReverseMap();
@@ -100,7 +106,7 @@ namespace CromWood.Mapper
 
             CreateMap<PropertyAssesment, PropertyAssesmentModel>().ReverseMap();
             CreateMap<PropertyAssesment, PropertyAssesmentViewModel>().ReverseMap();
-            
+
             CreateMap<PropertyInspectionItem, PropertyInspectionItemModel>().ReverseMap();
             CreateMap<PropertyInspectionItem, PropertyInspectionItemViewModel>().ReverseMap();
             CreateMap<PropertyInspectionItemImage, PropertyInspectionItemImageViewModel>().ReverseMap();

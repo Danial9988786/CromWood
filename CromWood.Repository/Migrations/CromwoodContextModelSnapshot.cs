@@ -358,6 +358,142 @@ namespace CromWood.Data.Migrations
                     b.ToTable("ComplaintComments");
                 });
 
+            modelBuilder.Entity("CromWood.Data.Entities.CustomReport", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DateFormat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Favourite")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HideCurrencySymbol")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReportGroup")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SortBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SortBy2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("SortBy2Asc")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("SortByAsc")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("ZeroCurrencyBlank")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CustomReports");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.CustomReportAttribute", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Alignment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Append")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("CustomReportId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DataName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HeaderName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Prepend")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Width")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomReportId");
+
+                    b.ToTable("CustomReportAttributes");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.CustomReportCondition", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Condition")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("CustomReportId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomReportId");
+
+                    b.ToTable("CustomReportConditions");
+                });
+
             modelBuilder.Entity("CromWood.Data.Entities.Default.Amenity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -776,6 +912,61 @@ namespace CromWood.Data.Migrations
                     b.ToTable("UtilityTypes");
                 });
 
+            modelBuilder.Entity("CromWood.Data.Entities.Filter", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PageName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Filters");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.FilterAndCondition", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Condition")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("FilterId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FilterId");
+
+                    b.ToTable("FilterAndConditions");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.FilterOrCondition", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Condition")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("FilterId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FilterId");
+
+                    b.ToTable("FilterOrConditions");
+                });
+
             modelBuilder.Entity("CromWood.Data.Entities.LicenseCertificate", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1077,35 +1268,26 @@ namespace CromWood.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<float>("Amount")
+                        .HasColumnType("real");
+
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("PaymentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("InvoiceNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("NetAmount")
-                        .HasColumnType("real");
-
-                    b.Property<string>("PaidBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("PaidByTenantId")
+                    b.Property<Guid>("PaymentPlanId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("PaymentPlanId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("TransactionDescription")
+                    b.Property<string>("ReferenceID")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("TransactionModeId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
@@ -1115,11 +1297,7 @@ namespace CromWood.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PaidByTenantId");
-
                     b.HasIndex("PaymentPlanId");
-
-                    b.HasIndex("TransactionModeId");
 
                     b.ToTable("PaymentPlanTransactions");
                 });
@@ -1955,6 +2133,9 @@ namespace CromWood.Data.Migrations
                     b.Property<float>("NetAmount")
                         .HasColumnType("real");
 
+                    b.Property<string>("PayoutID")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ReferenceID")
                         .HasColumnType("nvarchar(max)");
 
@@ -2290,6 +2471,12 @@ namespace CromWood.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("OTP")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("OTPExpirationDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -2313,61 +2500,6 @@ namespace CromWood.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("CromWood.Data.Filter", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PageName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Filters");
-                });
-
-            modelBuilder.Entity("CromWood.Data.FilterAndCondition", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Condition")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("FilterId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FilterId");
-
-                    b.ToTable("FilterAndConditions");
-                });
-
-            modelBuilder.Entity("CromWood.Data.FilterOrCondition", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Condition")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("FilterId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FilterId");
-
-                    b.ToTable("FilterOrConditions");
                 });
 
             modelBuilder.Entity("CromWood.Data.Entities.Asset", b =>
@@ -2454,6 +2586,50 @@ namespace CromWood.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Complaint");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.CustomReportAttribute", b =>
+                {
+                    b.HasOne("CromWood.Data.Entities.CustomReport", "CustomReport")
+                        .WithMany("CustomReportAttributes")
+                        .HasForeignKey("CustomReportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CustomReport");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.CustomReportCondition", b =>
+                {
+                    b.HasOne("CromWood.Data.Entities.CustomReport", "CustomReport")
+                        .WithMany("CustomReportConditions")
+                        .HasForeignKey("CustomReportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CustomReport");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.FilterAndCondition", b =>
+                {
+                    b.HasOne("CromWood.Data.Entities.Filter", "Filter")
+                        .WithMany("AndCondition")
+                        .HasForeignKey("FilterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Filter");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.FilterOrCondition", b =>
+                {
+                    b.HasOne("CromWood.Data.Entities.Filter", "Filter")
+                        .WithMany("OrCondition")
+                        .HasForeignKey("FilterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Filter");
                 });
 
             modelBuilder.Entity("CromWood.Data.Entities.LicenseCertificate", b =>
@@ -2553,25 +2729,13 @@ namespace CromWood.Data.Migrations
 
             modelBuilder.Entity("CromWood.Data.Entities.PaymentPlanTransaction", b =>
                 {
-                    b.HasOne("CromWood.Data.Entities.Tenant", "PaidByTenant")
-                        .WithMany()
-                        .HasForeignKey("PaidByTenantId");
-
                     b.HasOne("CromWood.Data.Entities.PaymentPlan", "PaymentPlan")
                         .WithMany("Transactions")
-                        .HasForeignKey("PaymentPlanId");
-
-                    b.HasOne("CromWood.Data.Entities.Default.TransactionMode", "TransactionMode")
-                        .WithMany()
-                        .HasForeignKey("TransactionModeId")
+                        .HasForeignKey("PaymentPlanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("PaidByTenant");
-
                     b.Navigation("PaymentPlan");
-
-                    b.Navigation("TransactionMode");
                 });
 
             modelBuilder.Entity("CromWood.Data.Entities.Property", b =>
@@ -2974,31 +3138,23 @@ namespace CromWood.Data.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("CromWood.Data.FilterAndCondition", b =>
-                {
-                    b.HasOne("CromWood.Data.Filter", "Filter")
-                        .WithMany("AndCondition")
-                        .HasForeignKey("FilterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Filter");
-                });
-
-            modelBuilder.Entity("CromWood.Data.FilterOrCondition", b =>
-                {
-                    b.HasOne("CromWood.Data.Filter", "Filter")
-                        .WithMany("OrCondition")
-                        .HasForeignKey("FilterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Filter");
-                });
-
             modelBuilder.Entity("CromWood.Data.Entities.Asset", b =>
                 {
                     b.Navigation("Properties");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.CustomReport", b =>
+                {
+                    b.Navigation("CustomReportAttributes");
+
+                    b.Navigation("CustomReportConditions");
+                });
+
+            modelBuilder.Entity("CromWood.Data.Entities.Filter", b =>
+                {
+                    b.Navigation("AndCondition");
+
+                    b.Navigation("OrCondition");
                 });
 
             modelBuilder.Entity("CromWood.Data.Entities.Message", b =>
@@ -3056,13 +3212,6 @@ namespace CromWood.Data.Migrations
                     b.Navigation("UnitUtilityDocuments");
 
                     b.Navigation("UnitUtilityReadings");
-                });
-
-            modelBuilder.Entity("CromWood.Data.Filter", b =>
-                {
-                    b.Navigation("AndCondition");
-
-                    b.Navigation("OrCondition");
                 });
 #pragma warning restore 612, 618
         }

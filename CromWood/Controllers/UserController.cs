@@ -1,6 +1,8 @@
 ﻿using CromWood.Business.Constants;
 using CromWood.Business.Models;
 using CromWood.Business.Services.Interface;
+using CromWood.Business.ViewModels;
+using CromWood.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -145,5 +147,51 @@ namespace CromWood.Controllers
             await _userService.ChangeUserRole(userId, roleId);
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> ProfileSetting()
+        {
+            var user = await _authService.GetLoggedInUser();
+            return View(user.Data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateFirstName(string firstname)
+        {
+            var result = await _userService.UpdateFirstName(firstname);
+            return StatusCode(result.StatusCode, result.Data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateLastName(string lastname)
+        {
+            var result = await _userService.UpdateLastName(lastname);
+            return StatusCode(result.StatusCode, result.Data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdatePhone(string phone)
+        {
+            var result = await _userService.UpdatePhone(phone);
+            return StatusCode(result.StatusCode, result.Data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateAvatar(IFormFile file)
+        {
+            var result = await _userService.UpdateAvatar(file);
+            return StatusCode(result.StatusCode, result.Data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdatePassword(ResetPasswordModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Your password doesn't meet criteria");
+            }
+            var result = await _userService.UpdatePassword(model);
+            return StatusCode(result.StatusCode, result.Message);
+        }
+        
     }
 }

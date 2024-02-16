@@ -23,4 +23,11 @@
         public const string Edit = "EDIT";
         public const string Delete = "DELETE";
     }
+
+    public static class OtherConstants
+    {
+        public static Guid HousingBenefitTypeId = Guid.Parse("64432c8e-8cc3-4365-a8f5-e4dc925c42fd");
+        public static Guid HousingBenfitTransactionMode = Guid.Parse("914d1a66-0ee7-45f6-ab77-19c928c5a426");
+        public static Guid HousingBenefitStatementType = Guid.Parse("01289643-bba0-48d0-b34c-c69b466be7ec");
+    }
 }

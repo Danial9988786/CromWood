@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CromWood.Data.Entities
 {
@@ -28,5 +27,7 @@ namespace CromWood.Data.Entities
         // When User is Blocked this flag will be false.
         public bool IsActive { get; set; }
         public DateTime? LastActive { get; set; }
+        public DateTime? OTPExpirationDate { get; set; }
+        public string OTP { get; set; }
     }
 }

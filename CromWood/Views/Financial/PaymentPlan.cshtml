@@ -1,0 +1,220 @@
+﻿@{
+    ViewData["Title"] = "PaymentPlan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+     string emptyGuid = "'" + Guid.Empty.ToString() + "'";
+}
+
+<ol class="breadcrumb align-items-end mb-3 mt-3">
+    <li class="breadcrumb-item">
+        <a href="index.html"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
+    </li>
+    <li class="breadcrumb-item active">Payment Plans</li>
+</ol>
+<div class="row mb-3">
+    <div class="col-xl-8 d-flex">
+        <h1 class="custom_h mb-0">
+            Payment Plans
+        </h1>
+    </div>
+    <div class="col-xl-4">
+    </div>
+</div>
+<div class="border rounded p-3 bg-white">
+    <div class="d-flex justify-content-between">
+        <h6 class="modal-title">Overview</h6>
+        <img src="~/assets/img/mony_transfer.svg" class="mony_icon">
+    </div>
+    <div class="top___card d-flex">
+        <div class="card_box w-100">
+            <p class="topcard__text">Total Amount to be Received</p>
+            <h3 class="mb-0">£ 1,27,837.00</h3>
+        </div>
+        <div class="card_box border-start ps-2 w-100">
+            <p class="topcard__text">Received Amount</p>
+            <h3 class="mb-0">£ 705,357.33</h3>
+        </div>
+        <div class="card_box border-start ps-2 w-100">
+            <p class="topcard__text">Outstanding Amount</p>
+            <h3 class="mb-0">£ 705,357.33</h3>
+        </div>
+        <div class="card_box border-start ps-2 w-100">
+            <p class="topcard__text">Overdue Payments</p>
+            <h3 class="mb-0">£ 634,306.78</h3>
+        </div>
+    </div>
+</div>
+
+<div class="bg-white border mt-4">
+    <div class="px-3">
+        <div class="row">
+            <div class="col-xl-6">
+                <h1 class="mt-3 mb-3 custom_h">All Payment Plans</h1>
+            </div>
+            <div class="col-xl-6 mt-3">
+                <span class="pair_btn">
+                    <div class="shadow-box ms-auto">
+                        <span class="custom__btn">
+                            <a href="#">
+                                <img src="~/assets/img/explor_icon.svg" alt="">
+                                Print Statement
+                            </a>
+                        </span>
+                        <span class="custom__btn2">
+                            <a onclick="AddModifyPaymentPlan(@emptyGuid)">
+                                <img src="~/assets/img/plus_white.svg" alt="">
+                                Add Payment Plan
+                            </a>
+                        </span>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="sm48__row_table hide_sort_first_last pt-0 table_bottom_border ser_lpading">
+        <div class="ser_lpading  sm48__row_table pt-0 pm_page_top_m table_bottom_border hide_sort_all">
+            <table id="Payment_Plans">
+                <thead>
+                    <tr>
+                        <th class="maintable_head">Ref ID</th>
+                        <th class="maintable_head">Description</th>
+                        <th class="maintable_head">Amount</th>
+                        <th class="maintable_head">Installment</th>
+                        <th class="maintable_head">No. of Installments</th>
+                        <th class="maintable_head">Status</th>
+                        <th class="maintable_head">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="align-top">
+                                <a class="main-text u_n" href="#">
+                                    @item.Id.ToString().Substring(0,5).ToUpper()
+                                </a>
+                            </td>
+                            <td class="align-top">
+                                <span class="black_14  d-inline-block mb-1">
+                                    @item.Description
+                                </span><br>
+                            </td>
+                            <td class="align-top">
+                                <span class="black_14 d-inline-block mb-1">£ @item.Amount</span>
+                            </td>
+                            <td class="align-top">
+                                <span class="black_14 d-inline-block mb-1">@item.InstallmentType.Name</span>
+                            </td>
+                            <td class="align-top">
+                                <span class="black_14 d-inline-block mb-1">@item.NoOfInstallment</span>
+                            </td>
+                            <td class="align-top">
+                                <div class="outstanding_btn payment">
+                                    <img src="~/assets/img/loading-02.svg" alt="loading" />Ongoing
+                                </div>
+                            </td>
+                            <td class="text-end">
+                                <a class="text-decoration-none" onclick="ViewPaymentPlan('@item.Id.ToString()')">
+                                    <img src="~/assets/img/eye.svg" />
+                                </a>
+                                <a class="text-decoration-none action_dropwown" href="#" role="button"
+                                   id="acp-action" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="~/assets/img/down_arrow.svg" class="ms-2" />
+                                </a>
+                                <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
+                                    aria-labelledby="acp-action">
+                                    <li><a class="dropdown-item" onclick="AddModifyPaymentPlanTransaction('@item.Id.ToString()', @emptyGuid)">Add Transaction</a></li>
+                                    <li><a class="dropdown-item" onclick="DeletePaymentPlan('@item.Id.ToString()')">Delete</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="paymentPlanAddEditDialog">
+    <div class="modal-dialog modal-dialog-centered cm2_size rp_popup" id="paymentPlanAddEditDialogBody">
+    </div>
+</div>
+
+<div class="modal fade" id="paymentPlanViewDialog">
+    <div class="modal-dialog modal-dialog-centered modal-xl model_height" id="paymentPlanViewDialogBody">
+    </div>
+</div>
+
+<script>
+    window.addEventListener('DOMContentLoaded', event => {
+        const Payment_Plans = document.getElementById('Payment_Plans');
+        if (Payment_Plans) {
+            new simpleDatatables.DataTable(Payment_Plans);
+        }
+        $(".datatable-table thead tr th button.datatable-sorter").append("<span class='c__icon'></span>");
+
+        // Code for datatable manipulation
+        var rowCount = $('.datatable-table tbody tr').length;
+        var threshold = 10;
+        if (rowCount < threshold) {
+            $('.datatable-bottom').hide();
+        } else {
+            $('.datatable-bottom').show();
+        }
+
+        var filter = $(".filter_btn");
+        $(".datatable-top").append(filter);
+
+    });
+
+    // Add Payment plan popup show
+    function AddModifyPaymentPlan(id) {
+        var url = `/Financial/AddModifyPaymentPlan?id=${id}`;
+        $("#paymentPlanAddEditDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#paymentPlanAddEditDialogBody").css("width", "100%");
+            $("#paymentPlanAddEditDialog").modal("show");
+        });
+    }
+
+    function ViewPaymentPlan(id) {
+        var url = `/Financial/ViewPaymentPlan?id=${id}`;
+        $("#paymentPlanViewDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#paymentPlanViewDialogBody").css("width", "100%");
+            $("#paymentPlanViewDialog").modal("show");
+        });
+    }
+
+    function DeletePaymentPlan(id) {
+        $.ajax({
+            type: "POST",
+            url: `/Financial/DeletePaymentPlan?id=${id}`,
+            success: function (result) {
+                window.location.reload();
+            },
+            error: function () {
+            }
+        })
+    }
+
+    function AddModifyPaymentPlanTransaction(paymentPlanId, id) {
+        var url = `/Financial/AddModifyPaymentPlanTransaction?paymentPlanId=${paymentPlanId}&id=${id}`;
+        $("#paymentPlanAddEditDialogBody").load(url, function () {
+            // This is done to add validation to partial view, as they don't support validationscript partial.
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js", function () {
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js", function () {
+                });
+            });
+            $("#paymentPlanAddEditDialogBody").css("width", "100%");
+            $("#paymentPlanAddEditDialog").modal("show");
+        });
+    }
+</script>

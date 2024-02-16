@@ -1,5 +1,5 @@
-﻿using CromWood.Data.Entities;
-using System.Collections.Generic;
+﻿using CromWood.Data.DTO;
+using CromWood.Data.Entities;
 
 namespace CromWood.Data.Repository.Interface
 {
@@ -17,6 +17,9 @@ namespace CromWood.Data.Repository.Interface
         public Task<int> ModifyKey(PropertyKey key);
         public Task<string> DeleteKey(Guid id);
         public Task<IEnumerable<Tenancy>> GetPropertyTenancy(Guid id);
+        public Task<IEnumerable<Complaint>> GetRecentComplaints(Guid propertyId);
+        public Task<IEnumerable<TenancyStatement>> GetRecentTransactions(Guid propertyId);
+        public Task<PropertyOverviewDTO> GetPropertyOverview(Guid propertyId);
 
     }
 }

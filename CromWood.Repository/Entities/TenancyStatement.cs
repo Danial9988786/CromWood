@@ -8,6 +8,7 @@ namespace CromWood.Data.Entities
         public Guid StatementTypeId { get; set; }
         public StatementType StatementType { get; set; }
         public string ReferenceID { get; set; }
+        public string PayoutID { get; set; }
         public float NetAmount { get; set; }
         public DateTime Date { get; set; }
         public string StatementDescription { get; set; }

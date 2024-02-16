@@ -1,4 +1,5 @@
 ﻿using CromWood.Data.Context;
+using CromWood.Data.DTO;
 using CromWood.Data.Entities;
 using CromWood.Data.Repository.Interface;
 using CromWood.Helper;
@@ -58,7 +59,7 @@ namespace CromWood.Data.Repository.Implementation
             try
             {
                 var old = await _context.Assets.AsNoTracking().FirstOrDefaultAsync(x => x.Id == asset.Id);
-                
+
                 _context.Assets.Update(asset);
                 var result = await _context.SaveChangesAsync();
 
@@ -83,5 +84,66 @@ namespace CromWood.Data.Repository.Implementation
                 throw;
             }
         }
+
+        public async Task<AssetOverviewDto> GetAssetOverviewDTO(Guid assetId)
+        {
+            var assetOverviewDto = await _context.Assets
+                .Where(a => a.Id == assetId)
+                .Select(a => new
+                {
+                    Asset = a,
+                    Properties = a.Properties.Select(p => new
+                    {
+                        Property = p,
+                        Tenancies = p.Tenancies.Where(t => t.EndDate >= DateTime.Now).ToList(),
+                        Tenants = p.Tenancies.SelectMany(t => t.Statements.SelectMany(ts => ts.Transactions)).ToList()
+                    }).ToList()
+                })
+                .FirstOrDefaultAsync();
+
+            if (assetOverviewDto == null || assetOverviewDto.Asset == null)
+            {
+                return null;
+            }
+
+            // Calculate total expected earning
+            float expectedEarning = assetOverviewDto.Properties.Sum(p => p.Tenancies.Sum(t => t.RentAmount));
+
+            // Calculate total actual earning
+            float actualEarning = assetOverviewDto.Properties.Sum(p => p.Tenants.Sum(t => t.NetAmount));
+
+            // Calculate total expenses
+            float expenses = assetOverviewDto.Properties.Sum(p => p.Tenants.Sum(t => t.NetAmount));
+
+            // Calculate total profit
+            float totalProfit = actualEarning - expenses;
+
+            // Map to DTO
+            var assetOverview = new AssetOverviewDto
+            {
+                ExpectedEarning = expectedEarning,
+                Earning = actualEarning,
+                Expenses = expenses,
+                TotalProfit = totalProfit,
+                Properties = assetOverviewDto.Properties.Select(p => new AssetOverviewPropertyDetailDto
+                {
+                    Id=p.Property.Id,
+                    PropertyID = p.Property.PropertyCode,
+                    Status = p.Tenancies.Any() ? "Occupied" : "Vacant",
+                    TenantName = p.Tenants.FirstOrDefault()?.PaidByTenantId.ToString(), 
+                    TenancyStartDate = p.Tenancies.FirstOrDefault()?.StartDate,
+                    TenancyEndDate = p.Tenancies.FirstOrDefault()?.EndDate,
+                    TenancyDuration = Convert.ToInt32(((p.Tenancies.FirstOrDefault()?.EndDate ?? DateTime.Now) - (p.Tenancies.FirstOrDefault()?.StartDate ?? DateTime.Now)).TotalDays),
+                    ExpectedEarning = p.Tenancies.Sum(t => t.RentAmount),
+                    ActualEarning = p.Tenants.Sum(t => t.NetAmount)
+                }).ToList(),
+                TopPerformingProperties = new List<AssetOverviewPropertyDetailDto>()
+            };
+
+            return assetOverview;
+
+
+        }
+
     }
 }

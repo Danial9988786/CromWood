@@ -106,6 +106,11 @@ namespace CromWood.Data.Context
         public DbSet<FilterOrCondition> FilterOrConditions { get; set; }
         public DbSet<ChangeLog> ChangeLogs { get; set; }
 
+        // Reports related
+        public DbSet<CustomReport> CustomReports { get; set; }
+        public DbSet<CustomReportAttribute> CustomReportAttributes { get; set; }
+        public DbSet<CustomReportCondition> CustomReportConditions { get; set; }
+
         public override int SaveChanges()
         {
             OnBeforeSaving();

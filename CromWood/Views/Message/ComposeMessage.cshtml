@@ -8,7 +8,312 @@
 
 }
 
-<div class="modal-content rounded-0">
+<div class="modal-content rounded-0 model-custom-bg">
+    <div class="modal-header modal_header_fixed  py-2 bg-white">
+        <h5 class="modal-title" id="">Schedule Message</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <nav class="d-flex justify-content-between align-items-center">
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-link active" id="Message_Contents-tab" data-bs-toggle="tab"
+                   data-bs-target="#Message_Contents" type="button" role="tab"
+                   aria-controls="Message_Contents" aria-selected="false">Message Contents</a>
+                <a class="nav-link" id="Receipents-tab" data-bs-toggle="tab"
+                   data-bs-target="#Receipents_tab" type="button" role="tab" aria-controls="Receipents"
+                   aria-selected="false">Receipents</a>
+            </div>
+            <span class="switch__check d-flex align-items-center gap-2">
+                <span class="pagagraph">Active</span>
+                <input type="checkbox" id="switch_c" checked="">
+                <label class="mt-0" for="switch_c">Toggle</label>
+            </span>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <!-- ----- Message Contents Tab Start ---- -->
+            <div class="tab-pane fade show active rp_popup" id="Message_Contents" role="tabpanel"
+                 aria-labelledby="nav-building-details-tab">
+                <div class="step_body_content2 pe-2">
+                    <div class="pb-3 border border-top-0 p-3 pt-2 bg-white">
+                        <form action="">
+                            <h5 class="modal-title" id="">Information</h5>
+                            <div class="row mb-2 pb-1 align-items-center">
+                                <div class="col-md-2">
+                                    <label for="title" class="form-label mb-0">Title</label>
+                                </div>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" value=""
+                                           placeholder="Enter mail title" id="title" aria-describedby="">
+                                </div>
+                            </div>
+                            <div class="row mb-2 pb-1 align-items-center">
+                                <div class="col-md-2">
+                                    <label for="Description" class="form-label mb-0">Description</label>
+                                </div>
+                                <div class="col-md-10 align-items-center">
+                                    <input type="text" class="form-control" value=""
+                                           placeholder="Enter mail description" id="Description"
+                                           aria-describedby="">
+                                </div>
+                            </div>
+                            <div class="l__wraper pb-3 ">
+                                <div class="row align-items-center">
+                                    <div class="col-md-2">
+                                        <label for="" class="form-label mb-0">Send Via</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="email_whatapp">
+                                            <span class="email__box">
+                                                <input type="radio" id="em_b" name="social_md">
+                                                <label for="em_b">
+                                                    <span class="w__1">
+                                                        <span class="text-white font14_inter text-capitalize">Email</span>
+                                                        <img src="./assets/img/envelop_w_icon.svg"
+                                                             alt="email_icon">
+                                                    </span>
+                                                    <span class="b__2">
+                                                        <span class="text-black font14_inter text-capitalize">Email</span>
+                                                        <img src="./assets/img/envelop_b_icon.svg"
+                                                             alt="email_icon">
+                                                    </span>
+                                                </label>
+                                            </span>
+                                            <span class="whatapp__box">
+                                                <input type="radio" id="wh_b" name="social_md" checked>
+                                                <label for="wh_b">
+                                                    <span class="w__1">
+                                                        <span class="text-white font14_inter text-capitalize">whatapp</span>
+                                                        <img src="./assets/img/whatapp_white_icon.svg"
+                                                             alt="whatapp_icon">
+                                                    </span>
+                                                    <span class="b__2">
+                                                        <span class="text-black font14_inter text-capitalize">whatapp</span>
+                                                        <img src="./assets/img/whatapp_icon.svg"
+                                                             alt="email_icon">
+                                                    </span>
+                                                </label>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input__field w-100 pt-3">
+                                <h5 class="modal-title pb-2" id="">Message Content</h5>
+                                <input type="text" class="form-control" value=""
+                                       placeholder="Enter Subject Here *" id="" aria-describedby="">
+                            </div>
+                            <div class="mt-2 pt-1">
+                                <!-- texteditor -->
+                                <div class="CKeditor"></div>
+                            </div>
+                            <h5 class="modal-title pt-3 pb-2" id="">Sechedule Message</h5>
+                            <div class="d-flex pb-3 text-nowrap gap-2 align-items-center w-100 justify-content-between">
+                                <div>
+                                    <input class="form-check-input" type="checkbox" id="send_msg"
+                                           value="option1">
+                                    <label class="form-check-label pagagraph mt-0 ms-2" for="send_msg">
+                                        Send
+                                        message
+                                    </label>
+                                </div>
+                                <select id="" class="form-select select_font_14"
+                                        aria-label="Default select example">
+                                    <option selected>Monthly</option>
+                                    <option value="">One Time</option>
+                                    <option value="">Daily</option>
+                                    <option value="">Weekly</option>
+                                    <option value="">Monthly</option>
+                                    <option value="">Annually</option>
+                                </select>
+                                <label class="form-check-label pagagraph" for="">of every</label>
+                                <select id="" class="form-select select_font_14"
+                                        aria-label="Default select example">
+                                    <option selected>Monday</option>
+                                    <option value="">Tuesday</option>
+                                    <option value="">Wednesday</option>
+                                    <option value="">Thursday</option>
+                                    <option value="">Friday</option>
+                                    <option value="">Sarturday</option>
+                                    <option value="">Sunday</option>
+                                </select>
+                                <label class="form-check-label pagagraph" for="">month(s) at</label>
+                                <select id="" class="form-select select_font_14"
+                                        aria-label="Default select example">
+                                    <option selected>01</option>
+                                    <option value="">02</option>
+                                    <option value="">03</option>
+                                    <option value="">04</option>
+                                    <option value="">05</option>
+                                    <option value="">06</option>
+                                    <option value="">07</option>
+                                    <option value="">08</option>
+                                    <option value="">09</option>
+                                    <option value="">10</option>
+                                    <option value="">11</option>
+                                    <option value="">12</option>
+                                </select>
+                                <select id="" class="form-select select_font_14"
+                                        aria-label="Default select example">
+                                    <option selected>00</option>
+                                    <option value="">01</option>
+                                    <option value="">02</option>
+                                    <option value="">03</option>
+                                    <option value="">04</option>
+                                    <option value="">05</option>
+                                    <option value="">06</option>
+                                    <option value="">07</option>
+                                    <option value="">08</option>
+                                    <option value="">09</option>
+                                    <option value="">10</option>
+                                    <option value="">11</option>
+                                    <option value="">12</option>
+                                </select>
+                                <select id="" class="form-select select_font_14"
+                                        aria-label="Default select example">
+                                    <option selected>PM</option>
+                                    <option value="">AM</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- ----- Message Contents Tab End  ---- -->
+            <!-- ----- Receipents Tab Start ---- -->
+            <div class="tab-pane fade rp_popup" id="Receipents_tab" role="tabpanel"
+                 aria-labelledby="nav-tab">
+                <div class="step_body_content2 pe-2">
+                    <div class="bg-white h-100 border border-top-0 p-3">
+                        <p class="font14_inter_ text-black mb-2 pb-1">
+                            Show this mail to all the tenants
+                            matching these conditions
+                        </p>
+                        <ul class="list-unstyled">
+                            <li class="d-flex justify-content-between mb-2">
+                                <div class="d-flex gap-2">
+                                    <span class="w165">
+                                        <select id="" class="form-select select_font_14" aria-label=""
+                                                placeholder="">
+                                            <option>placeholder</option>
+                                            <option>Name</option>
+                                            <option>Tenancy</option>
+                                            <option>Rent</option>
+                                            <option>license & Certificate</option>
+                                            <option>Notices</option>
+                                            <option>Address</option>
+                                            <option>Overdue Amount</option>
+                                            <option>Outstanding Balance</option>
+                                        </select>
+                                    </span>
+                                    <span class="w165">
+                                        <select id="" class="form-select select_font_14" aria-label=""
+                                                placeholder="">
+                                            <option>placeholder</option>
+                                            <option>has started by</option>
+                                            <option>is ending by</option>
+                                        </select>
+                                    </span>
+                                </div>
+                                <a href="#"
+                                   class="c_file d-flex gap-1 align-items-center text-uppercase fw_600 green_12"
+                                   data-bs-toggle="modal" data-bs-target="#">
+                                    add
+                                    <img src="./assets/img/minus_circleGreen_icon.svg" alt="">
+                                </a>
+                            </li>
+                            <li class="d-flex justify-content-between mb-2">
+                                <div class="d-flex gap-2">
+                                    <span class="w165">
+                                        <select id="" class="form-select select_font_14" aria-label=""
+                                                placeholder="">
+                                            <option>placeholder</option>
+                                            <option>Name</option>
+                                            <option>Tenancy</option>
+                                            <option>Rent</option>
+                                            <option>license & Certificate</option>
+                                            <option>Notices</option>
+                                            <option>Address</option>
+                                            <option>Overdue Amount</option>
+                                            <option>Outstanding Balance</option>
+                                        </select>
+                                    </span>
+                                    <span class="w165">
+                                        <select id="" class="form-select select_font_14" aria-label=""
+                                                placeholder="">
+                                            <option>placeholder</option>
+                                            <option>has started by</option>
+                                            <option>is ending by</option>
+                                        </select>
+                                    </span>
+                                    <div class="input-container w165">
+                                        <div class="input-group date__box date datepicker">
+                                            <input type="text" class="form-control" placeholder="24/01/2024"
+                                                   id="start_date">
+                                            <span class="input-group-append">
+                                                <span class="date__icon bg-white">
+                                                    <img src="./assets/img/date__icon.svg" alt="date_icon">
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="#"
+                                   class="c_file d-flex gap-1 align-items-center text-uppercase fw_600 green_12"
+                                   data-bs-toggle="modal" data-bs-target="#">
+                                    add
+                                    <img src="./assets/img/minus_circleGreen_icon.svg" alt="">
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="">
+                            <a href="#"
+                               class="c_file d-flex gap-1 align-items-center text-uppercase fw_600 green_12"
+                               data-bs-toggle="modal" data-bs-target="#">
+                                <img src="./assets/img/plus_circleGreen_icon.svg" alt="">
+                                add condition
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ----- Receipents Tab End ---- -->
+        </div>
+
+        <div class="MessageContents_btns popup_footer_fixed border-top d-flex justify-content-between bg-white">
+            <div class="shadow-box">
+                <a href="#" class="custom__btn disc__btn" data-bs-toggle="modal">
+                    <img src="./assets/img/discard_icon.svg" alt="discard_icon">
+                    Discard
+                </a>
+            </div>
+            <div class="shadow-box ms-auto">
+                <a class="custom__btn2 Receipents_tab" href="#">
+                    Save and Next
+                    <img src="./assets/img/right_white_aroow_Icon.svg" alt="right__arrow">
+                </a>
+            </div>
+        </div>
+        <!-- ----------------  show on Receipents tab start here ----------- -->
+        <div class="Receip__btns d-none popup_footer_fixed border-top d-flex justify-content-between bg-white">
+            <div class="shadow-box">
+                <a href="#" class="custom__btn bmc">
+                    <img src="./assets/img/back_black-arrow.svg" alt="back-arrow">
+                    Back, Message Contents
+                </a>
+            </div>
+            <div class="shadow-box ms-auto">
+                <a class="custom__btn2 s__msg" href="#" data-bs-dismiss="modal" aria-label="Close">
+                    <img src="./assets/img/save-role.svg" alt="right__arrow">
+                    Save Message
+                </a>
+            </div>
+        </div>
+        <!-- ----------------  show on Receipents tab end here ----------- -->
+
+    </div>
+</div>
+
+@* <div class="modal-content rounded-0">
     <div class="modal-header py-2">
         <h5 class="modal-title" id="staticBackdropLabel">Compose Message</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -93,4 +398,4 @@
             </div>
         </form>
     </div>
-</div>
+</div> *@

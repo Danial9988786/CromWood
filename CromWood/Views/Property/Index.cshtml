@@ -6,6 +6,7 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "| Properties";
     var assetId = "";
     if (ViewBag.AssetId != Guid.Empty)
     {
@@ -76,7 +77,7 @@
                         var latestTenancy = item.Tenancies.FirstOrDefault(x => x.EndDate == availableDate);
                     }
                     <td class="maintext_size align-top">
-                        <a class="main-text u_n" asp-action="Detail" asp-route-id="@item.Id">
+                        <a class="main-text u_n" asp-action="Overview" asp-route-id="@item.Id">
                             @item.PropertyCode
                         </a>
                     </td>

@@ -657,6 +657,7 @@ namespace CromWood.Controllers
         [HttpPost]
         public async Task<IActionResult> AddModifyPaymentPlan(PaymentPlanModel req, Guid tenancyId)
         {
+            req.NoOfInstallment = Convert.ToInt32(Math.Ceiling(req.Amount / req.InstallmentAmount));
             var result = await _tenancyService.AddModifyPaymentPlan(req);
             return RedirectToAction("PaymentPlans", new { id = tenancyId });
         }
@@ -685,7 +686,7 @@ namespace CromWood.Controllers
             }
             else
             {
-                return PartialView(new PaymentPlanTransactionModel() { PaymentPlanId = paymentPlanId});
+                return PartialView(new PaymentPlanTransactionModel() { PaymentPlanId = paymentPlanId, ReferenceID = "R" + RandomAlphaNumbericGenerator.Random(6) });
             }
         }
 
@@ -693,10 +694,6 @@ namespace CromWood.Controllers
         [HttpPost]
         public async Task<IActionResult> AddModifyPaymentPlanTransaction(PaymentPlanTransactionModel req, Guid tenancyId)
         {
-            if (req.PaidByTenantId == Guid.Empty)
-            {
-                req.PaidByTenantId = null;
-            }
             var result = await _tenancyService.AddModifyPaymentPlanTransaction(req);
             return RedirectToAction("PaymentPlans", new { id = tenancyId });
         }

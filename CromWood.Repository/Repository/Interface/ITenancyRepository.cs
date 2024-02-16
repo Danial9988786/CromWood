@@ -5,12 +5,14 @@ namespace CromWood.Data.Repository.Interface
     public interface ITenancyRepository
     {
         public Task<IEnumerable<Tenancy>> GetTenancyForList();
+        public Task<IEnumerable<Tenancy>> GetHousingBenefitTenancy();
         public Task<IEnumerable<Tenancy>> GetTenancyForExport();
         public Task<Tenancy> GetTenancyOverView(Guid tenancyId);
         public Task<int> DeleteTenancyTenant(Guid id, Guid tenancyId);
         public Task<Tenancy> GetTenancyViewDetail(Guid tenancyId);
         public Task<int> AddTenancy(Tenancy tenancy);
         public Task<int> EditTenancy(Tenancy tenancy);
+        public Task<ICollection<Tenant>> GetTenancyTenants();
         public Task<ICollection<Tenant>> GetTenancyTenants(Guid tenancyId);
         public Task<int>  LinkTenancyTenant(TenancyTenant tenancyTenant);
         public Task<ICollection<TenancyNote>> GetTenancyNotes(Guid tenancyId);
@@ -45,9 +47,12 @@ namespace CromWood.Data.Repository.Interface
         public Task<RecurringCharge> GetRecurringChargeView(Guid id);
         public Task<int> AddModifyRecurringCharge(RecurringCharge mapped);
         public Task<int> DeleteRecurringCharge(Guid id);
+        public Task<ICollection<TenancyStatement>> GetStatements();
         public Task<ICollection<TenancyStatement>> GetStatements(Guid id);
+        public Task<ICollection<TenancyStatement>> GetHousingBenefitStatments();
         public Task<TenancyStatement> GetStatement(Guid id);
         public Task<int> AddModifyStatement(TenancyStatement mapped);
+        public Task<int> AddModifyBulkStatement(List<TenancyStatement> mapped);
         public Task<TenancyStatement> GetStatementView(Guid id);
         public Task<int> DeleteStatement(Guid id);
         public Task<StatementTransaction> GetStatementTransaction(Guid id);
@@ -56,6 +61,7 @@ namespace CromWood.Data.Repository.Interface
         public Task<StatementDocument> GetStatementDocument(Guid id);
         public Task<int> AddModifyStatementDocument(StatementDocument mappedReq);
         public Task<string> DeleteStatementDocument(Guid id);
+        public Task<ICollection<PaymentPlan>> GetPaymentPlans();
         public Task<ICollection<PaymentPlan>> GetPaymentPlans(Guid id);
         public Task<PaymentPlan> GetPaymentPlan(Guid id);
         public Task<int> AddModifyPaymentPlan(PaymentPlan mapped);

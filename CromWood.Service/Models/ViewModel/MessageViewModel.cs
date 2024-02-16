@@ -1,6 +1,8 @@
-﻿namespace CromWood.Business.Models.ViewModel
+﻿using CromWood.Data.Entities;
+
+namespace CromWood.Business.Models.ViewModel
 {
-    public class MessageViewModel
+    public class MessageViewModel:DBTable
     {
         public Guid Id { get; set; }
         public string Title { get; set; }

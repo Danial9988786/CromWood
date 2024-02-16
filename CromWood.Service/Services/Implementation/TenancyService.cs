@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CromWood.Business.Constants;
 using CromWood.Business.Helper;
 using CromWood.Business.Models;
 using CromWood.Business.Models.ViewModel;
@@ -34,6 +35,36 @@ namespace CromWood.Business.Services.Implementation
             catch (Exception ex)
             {
                 return ResponseCreater<IEnumerable<TenancyViewModel>>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<IEnumerable<TenancyViewModel>>> GetHousingBenefitTenancy()
+        {
+            try
+            {
+                var result = await _tenancyRepository.GetHousingBenefitTenancy();
+                var mappedResult = _mapper.Map<IEnumerable<TenancyViewModel>>(result);
+                return ResponseCreater<IEnumerable<TenancyViewModel>>.CreateSuccessResponse(mappedResult, "Tenancies loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<IEnumerable<TenancyViewModel>>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
+        public async Task<AppResponse<ICollection<StatementViewModel>>> GetHousingBenefitStatments()
+        {
+            try
+            {
+                var result = await _tenancyRepository.GetHousingBenefitStatments();
+                var mappedResult = _mapper.Map<ICollection<StatementViewModel>>(result);
+                return ResponseCreater<ICollection<StatementViewModel>>.CreateSuccessResponse(mappedResult, "Tenancies statements loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<ICollection<StatementViewModel>>.CreateErrorResponse(null, ex.ToString());
             }
         }
 
@@ -129,6 +160,21 @@ namespace CromWood.Business.Services.Implementation
         #endregion
 
         #region Tenancy tenant related services
+        public async Task<AppResponse<IEnumerable<TenantViewModel>>> GetTenancyTenants()
+        {
+            try
+            {
+                var result = await _tenancyRepository.GetTenancyTenants();
+                var mappedResult = _mapper.Map<IEnumerable<TenantViewModel>>(result);
+                return ResponseCreater<IEnumerable<TenantViewModel>>.CreateSuccessResponse(mappedResult, "Tenancies tenants loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<IEnumerable<TenantViewModel>>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
         public async Task<AppResponse<IEnumerable<TenantViewModel>>> GetTenancyTenants(Guid tenancyId)
         {
             try
@@ -662,6 +708,22 @@ namespace CromWood.Business.Services.Implementation
         #endregion
 
         #region Tenancy statements related services inside
+
+        public async Task<AppResponse<ICollection<StatementViewModel>>> GetStatements()
+        {
+            try
+            {
+                var result = await _tenancyRepository.GetStatements();
+                var mappedResult = _mapper.Map<ICollection<StatementViewModel>>(result);
+                return ResponseCreater<ICollection<StatementViewModel>>.CreateSuccessResponse(mappedResult, "Tenancies statements loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<ICollection<StatementViewModel>>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
+
         public async Task<AppResponse<ICollection<StatementViewModel>>> GetStatements(Guid id) {
             try
             {
@@ -827,6 +889,20 @@ namespace CromWood.Business.Services.Implementation
         #endregion
 
         #region Tenancy Payment Plans related services inside
+        public async Task<AppResponse<ICollection<PaymentPlanViewModel>>> GetPaymentPlans()
+        {
+            try
+            {
+                var result = await _tenancyRepository.GetPaymentPlans();
+                var mappedResult = _mapper.Map<ICollection<PaymentPlanViewModel>>(result);
+                return ResponseCreater<ICollection<PaymentPlanViewModel>>.CreateSuccessResponse(mappedResult, "Tenancies PaymentPlans loaded successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<ICollection<PaymentPlanViewModel>>.CreateErrorResponse(null, ex.ToString());
+            }
+        }
         public async Task<AppResponse<ICollection<PaymentPlanViewModel>>> GetPaymentPlans(Guid id)
         {
             try
@@ -945,6 +1021,48 @@ namespace CromWood.Business.Services.Implementation
             }
         }
         #endregion
+
+
+        public async Task<AppResponse<int>> CreateTenancyStatements(PayoutModel payout)
+        {
+            try
+            {
+                // Statement for each tenancies with more than 0 amount along with Tranasction.
+                var statements = new List<TenancyStatement>();
+                foreach(var pay in payout.Payouts.Where(x=>x.Amount>0))
+                {
+                    statements.Add(new TenancyStatement()
+                    {
+                        TenancyId = pay.TenancyId,
+                        PayoutID = payout.PayoutID,
+                        NetAmount = pay.Amount,
+                        Date = payout.PaymentDate,
+                        StatementDescription = "Statement created by Housing benefit payout",
+                        StatementTypeId = OtherConstants.HousingBenefitStatementType,
+                        ReferenceID = RandomAlphaNumbericGenerator.Random(6),
+                        Transactions = new List<StatementTransaction>()
+                        {
+                            new StatementTransaction()
+                            {
+                                NetAmount = pay.Amount,
+                                PaidBy = "Housing Benefits",
+                                Date = payout.PaymentDate,
+                                TransactionModeId = OtherConstants.HousingBenfitTransactionMode,
+                                InvoiceNumber = RandomAlphaNumbericGenerator.Random(6) ,
+                                TransactionDescription = $"Paid from Housng Benefit"
+                            }
+                        }
+                    });
+                }
+                var result = await _tenancyRepository.AddModifyBulkStatement(statements);
+                return ResponseCreater<int>.CreateSuccessResponse(result, "Housing Benefit statements added successfully");
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseCreater<int>.CreateErrorResponse(0, ex.ToString());
+            }
+        }
 
     }
 }

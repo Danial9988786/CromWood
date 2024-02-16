@@ -1,0 +1,295 @@
+﻿@using CromWood.Data.Entities;
+@model User;
+@{
+    ViewData["Title"] = "| ProfileSetting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb align-items-end mb-2 mt-3">
+    <li class="breadcrumb-item">
+        <a href="index.html"><img src="~/assets/img/Home_icon.svg" alt="home_iocn"></a>
+    </li>
+    <li class="breadcrumb-item active">Settings</li>
+</ol>
+<div class="d-flex justify-content-between">
+    <h1 class="mt-2 mb-3 custom_h">Profile Settings</h1>
+    <div>
+        <p class="gray_14 color35">
+            <span class="saved_status"></span>
+            Changes are Auto Saved
+        </p>
+    </div>
+</div>
+<div class="rp_popup proFileSeting p-3 border bg-white">
+    <form>
+        <p class="gray_14">This is your display name that will be visible to other users.</p>
+        <div class="d-flex align-items-center gap-4 pb-4">
+            <div>
+                <label for="formFileLg" class="avtarUpload custom__filetype">
+                    <img id="avatarImage" class="avtarPFimg" src="@(string.IsNullOrEmpty(Model.AvatarUrl)?"/assets/img/user__profile.png":Model.AvatarUrl)" alt="avtar_img">
+                    <span class="ps-2 t_d_g text-decoration-underline"> Upload Image</span>
+                    <img src="~/assets/img/uploadIcon.svg" width="15px" alt="upload_icon">
+                    <input class="form-control" id="formFileLg" type="file">
+                </label>
+            </div>
+            <div>
+                <p class="gray_14_500 mb-1">Avatar</p>
+                <span class="gray_14_400">.jpg image, 5 Mb max size</span>
+            </div>
+        </div>
+        <div class="dottedBar"></div>
+        <p class="gray_14 pt-3">This is your display name that will be visible to other users.</p>
+        <div class="row pb-1">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="FirstName" class="form-label">First Name</label>
+                    <input type="text" asp-for="FirstName" class="form-control" placeholder="First name" id="FirstName" aria-describedby="">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="LastName" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" asp-for="LastName" placeholder="Last name" id="LastName" aria-describedby="">
+                </div>
+            </div>
+        </div>
+        <div class="dottedBar"></div>
+        <p class="gray_14 pt-3">Your email and phone are used to send you notifications and to login to this platform. Others won’t be able to see it.</p>
+        <div class="row pb-1">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="eMail" class="form-label">Email</label>
+                    <input type="email" class="form-control" asp-for="Email" placeholder="hello@jgrp.dev" id="eMail" aria-describedby="">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="PhoneNumber" class="form-label">Phone Number</label>
+                <div class="position-relative mb-3">
+                    <input type="number" class="form-control" asp-for="Phone" placeholder="+19382482736" id="PhoneNumber">
+                    <a href="#" class="cpnField ps-2 t_d_g text-decoration-underline" data-bs-toggle="modal" data-bs-target="#">
+                        Change Phone Number
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="dottedBar"></div>
+        <p class="gray_14 pt-3">Make sure you keep changing the password for your account at frequent intervals for better</p>
+        <div class="row pb-1">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="Password" class="form-label">Password</label>
+                    <div>
+                        <span class="gray_14_400">Last Changed 90 days ago</span>
+                        <a href="#" class="ps-2 t_d_g text-decoration-underline" data-bs-toggle="modal" data-bs-target="#channgePSW">
+                            Change Password
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dottedBar"></div>
+        <p class="gray_14 pt-3">Enable 2-Step Verification for better account security.</p>
+        <div class="row pb-1">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="2-StepVerification" class="form-label">2- Step Verification</label>
+                    <div>
+                        <a href="#" class="t_d_g text-decoration-underline" data-bs-toggle="modal" data-bs-target="#">
+                            Enable 2-Step Verification
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<!---------------------------- All Modal start here  ----------------------------->
+<!------------ Change Password Popups Start Here------->
+<div class="modal fade" id="channgePSW" aria-hidden="true" data-bs-keyboard="false" tabindex="-1" aria-labelledby=""
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered cm430_size rp_popup">
+        <div class="modal-content rounded-0">
+            <div class="modal-header py-2">
+                <h5 class="modal-title" id="">Change Password</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0 py-2">
+                <div class="smallbody_content me-2">
+                    <form action="">
+                        <div class="px-3">
+                            <label for="EnterOldPassword" class="form-label">Enter Old Password</label>
+                            <div class="position-relative mb-3">
+                                <input type="password" class="form-control"
+                                       placeholder="Enter Old Password" id="EnterOldPassword" aria-describedby="">
+                                <label class="cpnField ps-2 t_d_g text-decoration-underline pswEye"
+                                       for="EnterOldPassword">
+                                    <img src="~/assets/img/eye.svg" alt="eyeIcon">
+                                </label>
+                            </div>
+                            <label for="ENewPassword" class="form-label">Enter New Password</label>
+                            <div class="position-relative mb-3">
+                                <input type="password" class="form-control"
+                                       placeholder="Enter New Password" id="ENewPassword" aria-describedby="">
+                                <label class="cpnField ps-2 t_d_g text-decoration-underline pswEye"
+                                       for="ENewPassword">
+                                    <img src="~/assets/img/eye.svg" alt="eyeIcon">
+                                </label>
+                            </div>
+                            <label for="ConfPassword" class="form-label">Confirm New Password</label>
+                            <div class="position-relative mb-3">
+                                <input type="password" class="form-control" value=""
+                                       placeholder="Re-enter New Password" id="ConfPassword" aria-describedby="">
+                                <label class="cpnField ps-2 t_d_g text-decoration-underline pswEye"
+                                       for="ConfPassword">
+                                    <img src="~/assets/img/eye.svg" alt="eyeIcon">
+                                </label>
+                            </div>
+
+                        </div>
+                        <div class="popup_footer_fixed border-top d-flex justify-content-between bg-white">
+                            <div class="shadow-box">
+                                <a class="custom__btn" href="#">
+                                    Cancel
+                                </a>
+                            </div>
+                            <div class="shadow-box ms-auto">
+                                <a class="custom__btn2" onclick="changePassword()">
+                                    <img src="~/assets/img/save-role.svg" alt="user__iocn">
+                                    Change Password
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!------------ Change Password Popups End Here------->
+<!------------ Password Changed Successfully Popups Start Here------->
+<div class="modal fade" id="PasswordChangedSuccessfully" aria-hidden="true" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered cm430_size rp_popup">
+        <div class="modal-content rounded-0">
+            <div class="modal-header py-2">
+                <h5 class="modal-title" id="">Password Changed Successfully</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0 py-2">
+                <div class="smallbody_content me-2">
+                    <div class="d-flex justify-content-center flex-column align-items-center h-100">
+                        <form action="">
+                            <div class="px-3 text-center">
+                                <img src="~/assets/img/password_sucfull_img.png" alt="Successfully img">
+                                <p class="r_m_s mb-0">Your password has been changed successfully.</p>
+                            </div>
+                            <div class="popup_footer_fixed border-top d-flex justify-content-between bg-white"
+                                 data-bs-dismiss="modal">
+                                <div class="shadow-box ms-auto">
+                                    <a class="custom__btn2" href="#">
+                                        <!-- <img src="~/assets/img/save-role.svg" alt="user__iocn"> -->
+                                        okay
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!------------ Password Changed Successfully Popups End Here------->
+<!-- ------------------------ All Modales end here ------------------------------>
+@section Scripts {
+    <script>
+        $('#formFileLg').on('change', function (e) {
+            // call api to change image.
+            const formData = new FormData();
+            formData.append('File', $('#formFileLg')[0].files[0]);
+
+            $.ajax({
+                type: "POST",
+                url: `UpdateAvatar`,
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    console.log(result)
+                    $("#avatarImage").attr("src", result);
+                },
+                error: function () {
+
+                }
+            })
+        })
+        $('#FirstName').on('change', function (e) {
+            // call api to change firstName.
+            $.ajax({
+                type: "POST",
+                url: `UpdateFirstName`,
+                data: { firstname: $(this).val() },
+                success: function (result) {
+
+                },
+                error: function () {
+
+                }
+            })
+        })
+        $('#LastName').on('change', function (e) {
+            // call api to change LastName.
+            $.ajax({
+                type: "POST",
+                url: `UpdateLastName`,
+                data: { lastname: $(this).val() },
+                success: function (result) {
+
+                },
+                error: function () {
+
+                }
+            })
+        })
+
+        $('#PhoneNumber').on('change', function (e) {
+            // call api to cahnge image.
+            $.ajax({
+                type: "POST",
+                url: `UpdatePhone`,
+                data: { phone: $(this).val() },
+                success: function (result) {
+
+                },
+                error: function () {
+
+                }
+            })
+        });
+
+        function changePassword() {
+            var old = $("#EnterOldPassword").val();
+            var newPass = $("#ENewPassword").val();
+            var confirm = $("#ConfPassword").val();
+            if (newPass == confirm) {
+                $.ajax({
+                    type: "POST",
+                    url: `UpdatePassword`,
+                    data: { OldPassword: old, Password: newPass, ConfirmPassword: confirm },
+                    success: function (result) {
+                        $("#channgePSW").modal("hide");
+                        $("#PasswordChangedSuccessfully").modal("show");
+                    },
+                    error: function (error) {
+                        alert(error.responseText)
+                    }
+                })
+            }
+            else {
+                alert("Password doesn't matched.");
+            }
+        }
+    </script>
+}

@@ -1,4 +1,4 @@
-﻿namespace CromWood.Data
+﻿namespace CromWood.Data.Entities
 {
     public class Filter
     {

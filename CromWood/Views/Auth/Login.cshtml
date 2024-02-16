@@ -1,7 +1,7 @@
 ﻿@model CromWood.Business.ViewModels.LoginModel
 
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "| Login";
     Layout = null;
 }
 
@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>CromWood Housing Group Management Software @ViewBag.Title</title>
+    <title>CHL @ViewBag.Title</title>
     <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,15 +48,21 @@
 
                 <div class="login-input-box" style="display: flex;flex-direction: column;gap:4px;">
                     <label class="login-input-label" >Password</label>
-                    <input asp-for="Password" type="password" class="form-control" placeholder="Enter password">
-                    <span asp-validation-for="Password" class="text-danger"></span>
+                    <div class="position-relative mb-3">
+                        <input asp-for="Password" type="password" id="password" class="form-control" placeholder="Enter password">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <a onclick="changePasswordType('password')" class="cpnField ps-2 t_d_g text-decoration-underline pswEye" for="EnterOldPassword">
+                            <img src="~/assets/img/eye.svg" alt="eyeIcon">
+                        </a>
+                    </div>
+                    
                 </div>
                 <div class="login-action-section" >
                     <div class="form-check form-check-inline text-center m-0">
                         @Html.CheckBoxFor(m=>m.RememberMe, new {@class="form-check-input"})
                         Remember me
                     </div>
-                    <a class="login-forgot-pwd-label" >Forgot password?</a>
+                    <a class="login-forgot-pwd-label" asp-action="ForgotPassword">Forgot password?</a>
                 </div>
             </div>
             <!-- Button -->
@@ -67,12 +73,6 @@
                     </a>
                     <input id="submitBtn" type="submit" value="Login" hidden />
                 </div>
-            </div>
-            <div class="login-bottom" >
-                <p class="login-bottom-info" >
-                    If you
-                    are facing to login. Please connect to administrator or this email id <span style="color: #1B2600;">xyz@cromwood.com</span>
-                </p>
             </div>
         </form>
 
@@ -92,7 +92,16 @@
 
 </html>
 
-
+<script>
+    function changePasswordType(id) {
+        if ($(`#${id}`).attr("type") == "text"){
+            $(`#${id}`).attr("type", "password")
+        }
+        else {
+            $(`#${id}`).attr("type", "text")
+        }
+    }
+</script>
 
 @section Scripts {
     @{

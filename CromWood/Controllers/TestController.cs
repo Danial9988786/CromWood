@@ -15,10 +15,16 @@ namespace CromWood.Controllers
             this.authService = authService;
 
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            testService.GetTests();
-            return View();
+            var result = await testService.GetDashboardOverview();
+            return View(result.Data);
+        }
+
+        public async Task<IActionResult> OverviewJSON()
+        {
+            var result = await testService.GetDashboardOverviewJSON();
+            return StatusCode(result.StatusCode,result.Data);
         }
 
         [Authorize]
