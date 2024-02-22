@@ -32,4 +32,15 @@
         public string Name { get; set; }
         public string DisplayName { get; set; }
     }
+    public class FilterColumnforEdit
+    {
+        public string Type { get; set; }
+        public object FetchType { get; set; }
+        public string Name { get; set; }
+        public string DisplayName { get; set; }
+        public string Alignment { get; set; }
+        public int Width { get; set; }
+        public string Append { get; set; }
+        public string Prepend { get; set; }
+    }
 }

@@ -52,58 +52,67 @@
     <div class="tab-pane fade border-top-0 border border-left-none pb-5 ser_lpading bg-white show active"
          id="all_reports" role="tabpanel" aria-labelledby="nav-roles-per-tab">
         <div class="sm48__row_table pt-2 pm_page_top_m table_bottom_border hide_sort_all t_head_hide no_searchontable">
-            <div class="row align-items-center lndr_sps mx-1 pt-2 pb-2">
+            <div class="row align-items-center justify-content-end lndr_sps mx-1 pt-2 pb-2">
                 <!-- Heading -->
-                <div class="col-xl-7">
-                    <a href="#" class="lender_rpt_btn">Favourite Reports</a>
-                    <a href="#" class="lender_rpt_btn-2">Recently Access Reports</a>
-                </div>
+
                 <div class="col-md-3">
                     <input type="search" placeholder="Search..." class="form-control">
                 </div>
                 <div class="col-xl-2">
                     <!-- ----filter start here -------->
                     <div class="filter_btn ms-auto text-end">
-                        <a class="" href="#" role="button" id="fil_ter" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img class="pe-1" src="~/assets/img/filter-lines.svg" alt="user__iocn">
+                        <a class="" href="#" role="button" id="fil_ter" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <img class="pe-1" src="./assets/img/filter-lines.svg" alt="user__iocn">
                             Filter
-                            <img class="ps-2" src="~/assets/img/filter_down_arrow.svg">
+                            <img class="ps-2" src="./assets/img/filter_down_arrow.svg">
                         </a>
-                        <div class="filter___c dropdown-menu dropdown-menu-end shadow border rounded-0 p-3" aria-labelledby="fil_ter" style="">
+                        <div class="filter___c dropdown-menu dropdown-menu-end shadow border rounded-0 p-3"
+                             aria-labelledby="fil_ter" style="">
                             <div class="input-group mb-3">
-                                <span class="input-group-text bg-transparent" id="srf"> <img src="~/assets/img/search-gray.svg" alt="search_iocn"> </span>
-                                <input type="text" class="form-control border-start-0 ps-0" placeholder="Search for filters" aria-label="Username" aria-describedby="srf">
+                                <span class="input-group-text bg-transparent" id="srf">
+                                    <img src="../assets/img/search-gray.svg" alt="search_iocn">
+                                </span>
+                                <input type="text" class="form-control border-start-0 ps-0"
+                                       placeholder="Search for filters" aria-label="Username"
+                                       aria-describedby="srf">
                             </div>
                             <ul class="list-unstyled ft__list">
                                 <li>
-                                    <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded" href="#">
+                                    <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded"
+                                       href="#">
                                         <span>My Filter 1</span>
                                         <span class="i__gro">
                                             <span class="ed pe-2">
-                                                <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
+                                                <img src="../assets/img/Edit_white_Icon.svg"
+                                                     alt="edit">
                                             </span>
                                             <span class="de">
-                                                <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
+                                                <img src="../assets/img/delete_white_Icon.svg"
+                                                     alt="delete">
                                             </span>
                                         </span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded" href="#">
+                                    <a class="d-flex justify-content-between text-decoration-none py-1 px-2 rounded"
+                                       href="#">
                                         <span>My Filter 2</span>
                                         <span class="i__gro">
                                             <span class="ed pe-2">
-                                                <img src="~/assets/img/Edit_white_Icon.svg" alt="edit">
+                                                <img src="../assets/img/Edit_white_Icon.svg"
+                                                     alt="edit">
                                             </span>
                                             <span class="de">
-                                                <img src="~/assets/img/delete_white_Icon.svg" alt="delete">
+                                                <img src="../assets/img/delete_white_Icon.svg"
+                                                     alt="delete">
                                             </span>
                                         </span>
                                     </a>
                                 </li>
                             </ul>
                             <div class="mark__btn text-center">
-                                <img class="me-1" src="~/assets/img/green__plus_icon.svg">
+                                <img class="me-1" src="./assets/img/green__plus_icon.svg">
                                 <a href="#" class="text-uppercase">add new Filter</a>
                             </div>
                         </div>
@@ -111,85 +120,206 @@
                     <!----------- filter end here  -------------->
                 </div>
             </div>
-            <table class="table" id="datatablesSimple">
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td class="maintext_size align-top">
-                                <div class="d-flex gap-3 align-items-center">
-                                    <a class="avtar_l font14_inter" href="#">
-                                        @item.Name?.Substring(0,2).ToUpper()
-                                    </a>
-                                    <input class="star__r" type="checkbox">
-                                </div>
-                            </td>
-                            <td class="black_14">
-                                <span class="font16_inter">@item.Name</span><br>
-                                <span class="gray_14 d-inline-block pt-1">
-                                    @item.Description
-                                </span><br>
-                            </td>
-                            <td class="black_14">
-                                <span class="font16_inter d-inline-block">@(ReportConstants.ReportGroups?.First(x => x.Value == item.ReportGroup).Key)</span><br>
-                            </td>
-                            <td class="maintext_size text-end">
-                                <span class="lock__icon me-4">
-                                    <img src="~/assets/img/lock.svg" alt="lock_icon">
-                                </span>
-                                <div class="d-inline-flex align-items-center">
-                                    <div class="shadow-box ms-auto">
-                                        <a href="#" class="sm_white_btn" data-bs-toggle="modal" data-bs-target="#transaction__p">
-                                            Run Report
-                                        </a>
-                                    </div>
-                                    <div class="dropdown">
-                                        <a class="text-decoration-none action_dropwown" href="#"
-                                           role="button" data-bs-toggle="dropdown"
-                                           aria-expanded="false">
-                                            <img src="~/assets/img/down_arrow.svg" class="ms-3">
-                                        </a>
-                                        <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
-                                            aria-labelledby="acp-action">
-                                            <li>
-                                                <a class="dropdown-item" href="#">
-                                                    <img src="~/assets/img/gray_editIcon.svg" class="me-2"
-                                                         alt="edit_icon2">Edit
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" href="#">
-                                                    <img src="~/assets/img/lock.svg" class="me-2"
-                                                         alt="lock_icon">Unlock Report
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" href="#">
-                                                    <img src="~/assets/img/gr_share.svg" class="me-2"
-                                                         alt="Share">Share Report
-                                                </a>
-                                            </li>
 
-                                            <li>
-                                                <a class="dropdown-item" href="#">
-                                                    <img src="~/assets/img/gr_duplicate.svg" class="me-2"
-                                                         alt="gr_duplicate">Duplicate
+            <nav class="rep_intenalTab mx-3 mb-4">
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="text-capitalize active" id="Favourite_Reports-tab" data-bs-toggle="tab"
+                       data-bs-target="#Favourite_Reports" type="button" role="tab" aria-controls="Favourite_Reports"
+                       aria-selected="false">
+                        Favourite Reports
+                    </a>
+                    <a class="text-capitalize" id="RecentlyAccessReports-tab" data-bs-toggle="tab"
+                       data-bs-target="#RecentlyAccessReports" type="button" role="tab"
+                       aria-controls="RecentlyAccessReports" aria-selected="false">
+                        Recently Access Reports
+                    </a>
+                </div>
+            </nav>
+
+            <div class="tab-content" id="nav-tabContent">
+                <!-- ------   Favourite Reports Start ----- -->
+                <div class="tab-pane fade show active" id="Favourite_Reports" role="tabpanel" aria-labelledby="Favourite_Reports-tab">
+
+                    <table class="table" id="datatablesSimple">
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                if (item.Favourite == true)
+                                {
+                                    <tr>
+                                        <td class="maintext_size align-top">
+                                            <div class="d-flex gap-3 align-items-center">
+                                                <a class="avtar_l font14_inter" href="#">
+                                                    @item.Name?.Substring(0, 2).ToUpper()
                                                 </a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" href="#">
-                                                    <img src="~/assets/img/gr_dlt.svg" class="me-2"
-                                                         alt="delete_icon">Delete
+                                                @if (item.Favourite == true)
+                                                {
+                                                    <input class="star__r fvrtd" onclick="SetthistoFavourite('@item.Id.ToString()')" type="checkbox">
+                                                }
+                                                else
+                                                {
+                                                    <input class="star__r" onclick="SetthistoFavourite('@item.Id.ToString()')" type="checkbox">
+                                                }
+                                            </div>
+                                        </td>
+                                        <td class="black_14">
+                                            <span class="font16_inter">@item.Name</span><br>
+                                            <span class="gray_14 d-inline-block pt-1">
+                                                @item.Description
+                                            </span><br>
+                                        </td>
+                                        <td class="black_14">
+                                            <span class="font16_inter d-inline-block">@(ReportConstants.ReportGroups?.First(x => x.Value == item.ReportGroup).Key)</span><br>
+                                        </td>
+                                        <td class="maintext_size text-end">
+                                            <span class="lock__icon me-4">
+                                                <img src="~/assets/img/lock.svg" alt="lock_icon">
+                                            </span>
+                                            <div class="d-inline-flex align-items-center">
+                                                <div class="shadow-box ms-auto">
+                                                    <a href="#" class="sm_white_btn" data-bs-toggle="modal" data-bs-target="#transaction__p">
+                                                        Run Report
+                                                    </a>
+                                                </div>
+                                                <div class="dropdown">
+                                                    <a class="text-decoration-none action_dropwown" href="#"
+                                                       role="button" data-bs-toggle="dropdown"
+                                                       aria-expanded="false">
+                                                        <img src="~/assets/img/down_arrow.svg" class="ms-3">
+                                                    </a>
+                                                    <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
+                                                        aria-labelledby="acp-action">
+                                                        <li>
+                                                            <a class="dropdown-item" href="/Report/EditReport?reportid=@item.Id">
+                                                                <img src="~/assets/img/gray_editIcon.svg" class="me-2"
+                                                                     alt="edit_icon2">Edit
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item" href="#">
+                                                                <img src="~/assets/img/lock.svg" class="me-2"
+                                                                     alt="lock_icon">Unlock Report
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item" href="#">
+                                                                <img src="~/assets/img/gr_share.svg" class="me-2"
+                                                                     alt="Share">Share Report
+                                                            </a>
+                                                        </li>
+
+                                                        <li>
+                                                            <a class="dropdown-item" href="/Report/DuplicateReport?reportid=@item.Id">
+                                                                <img src="~/assets/img/gr_duplicate.svg" class="me-2"
+                                                                     alt="gr_duplicate">Duplicate
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item" href="/Report/DeleteReport?reportid=@item.Id">
+                                                                <img src="~/assets/img/gr_dlt.svg" class="me-2"
+                                                                     alt="delete_icon">Delete
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="tab-pane fade" id="RecentlyAccessReports" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    <table class="datatable-table" id="RecAcces_table">
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="maintext_size align-top">
+                                        <div class="d-flex gap-3 align-items-center">
+                                            <a class="avtar_l font14_inter" href="#">
+                                                @item.Name?.Substring(0, 2).ToUpper()
+                                            </a>
+                                            @if (item.Favourite == true)
+                                            {
+                                                <input class="star__r fvrtd" onclick="SetthistoFavourite('@item.Id.ToString()')" type="checkbox">
+                                            }
+                                            else
+                                            {
+                                                <input class="star__r" onclick="SetthistoFavourite('@item.Id.ToString()')" type="checkbox">
+                                            }
+                                        </div>
+                                    </td>
+                                    <td class="black_14">
+                                        <span class="font16_inter">@item.Name</span><br>
+                                        <span class="gray_14 d-inline-block pt-1">
+                                            @item.Description
+                                        </span><br>
+                                    </td>
+                                    <td class="black_14">
+                                        <span class="font16_inter d-inline-block">@(ReportConstants.ReportGroups?.First(x => x.Value == item.ReportGroup).Key)</span><br>
+                                    </td>
+                                    <td class="maintext_size text-end">
+                                        <span class="lock__icon me-4">
+                                            <img src="~/assets/img/lock.svg" alt="lock_icon">
+                                        </span>
+                                        <div class="d-inline-flex align-items-center">
+                                            <div class="shadow-box ms-auto">
+                                                <a href="#" class="sm_white_btn" data-bs-toggle="modal" data-bs-target="#transaction__p">
+                                                    Run Report
                                                 </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                                            </div>
+                                            <div class="dropdown">
+                                                <a class="text-decoration-none action_dropwown" href="#"
+                                                   role="button" data-bs-toggle="dropdown"
+                                                   aria-expanded="false">
+                                                    <img src="~/assets/img/down_arrow.svg" class="ms-3">
+                                                </a>
+                                                <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
+                                                    aria-labelledby="acp-action">
+                                                    <li>
+                                                        <a class="dropdown-item" href="/Report/EditReport?reportid=@item.Id">
+                                                            <img src="~/assets/img/gray_editIcon.svg" class="me-2"
+                                                                 alt="edit_icon2">Edit
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" href="#">
+                                                            <img src="~/assets/img/lock.svg" class="me-2"
+                                                                 alt="lock_icon">Unlock Report
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" href="#">
+                                                            <img src="~/assets/img/gr_share.svg" class="me-2"
+                                                                 alt="Share">Share Report
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a class="dropdown-item" href="/Report/DuplicateReport?reportid=@item.Id">
+                                                            <img src="~/assets/img/gr_duplicate.svg" class="me-2"
+                                                                 alt="gr_duplicate">Duplicate
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" href="/Report/DeleteReport?reportid=@item.Id">
+                                                            <img src="~/assets/img/gr_dlt.svg" class="me-2"
+                                                                 alt="delete_icon">Delete
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -204,13 +334,11 @@
         <div class="tab-pane @activeClass fade show no_top_search show_sort_1_3" id="nav-@group.Key"
              role="tabpanel" aria-labelledby="nav-@group.Key-tab">
             <div class="sm48__row_table pt-2 pm_page_top_m table_bottom_border hide_sort_all t_head_hide no_searchontable">
-                <div class="row align-items-center lndr_sps mx-1 pt-2 pb-2">
+               
+                
+                <div class="row align-items-center justify-content-end lndr_sps mx-1 pt-2 pb-2">
                     <!-- Heading -->
 
-                    <div class="col-xl-7">
-                        <a href="#" class="lender_rpt_btn">Favourite Reports</a>
-                        <a href="#" class="lender_rpt_btn-2">Recently Access Reports</a>
-                    </div>
                     <div class="col-md-3">
                         <input type="search" placeholder="Search..." class="form-control">
                     </div>
@@ -264,93 +392,206 @@
                         <!----------- filter end here  -------------->
                     </div>
                 </div>
-                <table class="table" id="datatablesSimple-@counter">
-                    @{
-                        counter += 1;
-                    }
-                    <tbody>
-                        @foreach (var item in group.ToList())
-                        {
-                            <tr>
-                                <td class="maintext_size align-top">
-                                    <div class="d-flex gap-3 align-items-center">
-                                        <a class="avtar_l font14_inter" href="#">
-                                            @item.Name?.Substring(0,2).ToUpper()
-                                        </a>
-                                        <input class="star__r" type="checkbox">
-                                    </div>
-                                </td>
-                                <td class="black_14">
-                                    <span class="font16_inter">@item.Name</span><br>
-                                    <span class="gray_14 d-inline-block pt-1">
-                                        @item.Description
-                                    </span><br>
-                                </td>
-                                <td class="black_14">
-                                    <span class="font16_inter d-inline-block">@(ReportConstants.ReportGroups?.First(x=>x.Value == item.ReportGroup).Key)</span><br>
-                                </td>
-                                <td class="maintext_size text-end">
-                                    <span class="lock__icon me-4">
-                                        <img src="~/assets/img/lock.svg" alt="lock_icon">
-                                    </span>
-                                    <div class="d-inline-flex align-items-center">
-                                        <div class="shadow-box ms-auto">
-                                            <a href="#" class="sm_white_btn" data-bs-toggle="modal" data-bs-target="#transaction__p">
-                                                Run Report
-                                            </a>
-                                        </div>
-                                        <div class="dropdown">
-                                            <a class="text-decoration-none action_dropwown" href="#"
-                                               role="button" data-bs-toggle="dropdown"
-                                               aria-expanded="false">
-                                                <img src="~/assets/img/down_arrow.svg" class="ms-3">
-                                            </a>
-                                            <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
-                                                aria-labelledby="acp-action">
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        <img src="~/assets/img/gray_editIcon.svg" class="me-2"
-                                                             alt="edit_icon2">Edit
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        <img src="~/assets/img/lock.svg" class="me-2"
-                                                             alt="lock_icon">Unlock Report
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        <img src="~/assets/img/gr_share.svg" class="me-2"
-                                                             alt="Share">Share Report
-                                                    </a>
-                                                </li>
+                @{
+                    counter += 1;
+                }
+                <nav class="rep_intenalTab mx-3 mb-4">
+                    <div class="nav nav-tabs" id="nav-tab-@counter" role="tablist">
+                        <a class="text-capitalize active" id="Favourite_Reports-tab-@counter" data-bs-toggle="tab"
+                           data-bs-target="#Favourite_Reports-@counter" type="button" role="tab" aria-controls="Favourite_Reports-@counter"
+                           aria-selected="false">
+                            Favourite Reports
+                        </a>
+                        <a class="text-capitalize" id="RecentlyAccessReports-tab-@counter" data-bs-toggle="tab"
+                           data-bs-target="#RecentlyAccessReports-@counter" type="button" role="tab"
+                           aria-controls="RecentlyAccessReports-@counter" aria-selected="false">
+                            Recently Access Reports
+                        </a>
+                    </div>
+                </nav>
 
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        <img src="~/assets/img/gr_duplicate.svg" class="me-2"
-                                                             alt="gr_duplicate">Duplicate
+                <div class="tab-content" id="nav-tabContent-@counter">
+                    <!-- ------   Favourite Reports Start ----- -->
+                    <div class="tab-pane fade show active" id="Favourite_Reports-@counter" role="tabpanel" aria-labelledby="Favourite_Reports-tab">
+                        <table class="table" id="datatablesSimple-@counter">
+                            <tbody>
+                                @foreach (var item in group.ToList())
+                                {
+                                    if (item.Favourite == true)
+                                    {
+                                        <tr>
+                                            <td class="maintext_size align-top">
+                                                <div class="d-flex gap-3 align-items-center">
+                                                    <a class="avtar_l font14_inter" href="#">
+                                                        @item.Name?.Substring(0, 2).ToUpper()
                                                     </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        <img src="~/assets/img/gr_dlt.svg" class="me-2"
-                                                             alt="delete_icon">Delete
+
+                                                    <input class="star__r" type="checkbox">
+                                                </div>
+                                            </td>
+                                            <td class="black_14">
+                                                <span class="font16_inter">@item.Name</span><br>
+                                                <span class="gray_14 d-inline-block pt-1">
+                                                    @item.Description
+                                                </span><br>
+                                            </td>
+                                            <td class="black_14">
+                                                <span class="font16_inter d-inline-block">@(ReportConstants.ReportGroups?.First(x => x.Value == item.ReportGroup).Key)</span><br>
+                                            </td>
+                                            <td class="maintext_size text-end">
+                                                <span class="lock__icon me-4">
+                                                    <img src="~/assets/img/lock.svg" alt="lock_icon">
+                                                </span>
+                                                <div class="d-inline-flex align-items-center">
+                                                    <div class="shadow-box ms-auto">
+                                                        <a href="#" class="sm_white_btn" data-bs-toggle="modal" data-bs-target="#transaction__p">
+                                                            Run Report
+                                                        </a>
+                                                    </div>
+                                                    <div class="dropdown">
+                                                        <a class="text-decoration-none action_dropwown" href="#"
+                                                           role="button" data-bs-toggle="dropdown"
+                                                           aria-expanded="false">
+                                                            <img src="~/assets/img/down_arrow.svg" class="ms-3">
+                                                        </a>
+                                                        <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
+                                                            aria-labelledby="acp-action">
+                                                            <li>
+                                                                <a class="dropdown-item" href="/Report/EditReport?reportid=@item.Id">
+                                                                    <img src="~/assets/img/gray_editIcon.svg" class="me-2"
+                                                                         alt="edit_icon2">Edit
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item" href="#">
+                                                                    <img src="~/assets/img/lock.svg" class="me-2"
+                                                                         alt="lock_icon">Unlock Report
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item" href="#">
+                                                                    <img src="~/assets/img/gr_share.svg" class="me-2"
+                                                                         alt="Share">Share Report
+                                                                </a>
+                                                            </li>
+
+                                                            <li>
+                                                                <a class="dropdown-item" href="/Report/DuplicateReport?reportid=@item.Id">
+                                                                    <img src="~/assets/img/gr_duplicate.svg" class="me-2"
+                                                                         alt="gr_duplicate">Duplicate
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item" href="/Report/DeleteReport?reportid=@item.Id">
+                                                                    <img src="~/assets/img/gr_dlt.svg" class="me-2"
+                                                                         alt="delete_icon">Delete
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="RecentlyAccessReports-@counter" role="tabpanel" aria-labelledby="nav-profile-tab">
+                        <table class="datatable-table" id="RecAcces_table-@counter">
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="maintext_size align-top">
+                                            <div class="d-flex gap-3 align-items-center">
+                                                <a class="avtar_l font14_inter" href="#">
+                                                    @item.Name?.Substring(0, 2).ToUpper()
+                                                </a>
+                                                @if (item.Favourite == true)
+                                                {
+                                                    <input class="star__r fvrtd" onclick="SetthistoFavourite('@item.Id.ToString()')" type="checkbox">
+                                                }
+                                                else
+                                                {
+                                                    <input class="star__r" onclick="SetthistoFavourite('@item.Id.ToString()')" type="checkbox">
+                                                }
+                                            </div>
+                                        </td>
+                                        <td class="black_14">
+                                            <span class="font16_inter">@item.Name</span><br>
+                                            <span class="gray_14 d-inline-block pt-1">
+                                                @item.Description
+                                            </span><br>
+                                        </td>
+                                        <td class="black_14">
+                                            <span class="font16_inter d-inline-block">@(ReportConstants.ReportGroups?.First(x => x.Value == item.ReportGroup).Key)</span><br>
+                                        </td>
+                                        <td class="maintext_size text-end">
+                                            <span class="lock__icon me-4">
+                                                <img src="~/assets/img/lock.svg" alt="lock_icon">
+                                            </span>
+                                            <div class="d-inline-flex align-items-center">
+                                                <div class="shadow-box ms-auto">
+                                                    <a href="#" class="sm_white_btn" data-bs-toggle="modal" data-bs-target="#transaction__p">
+                                                        Run Report
                                                     </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                                                </div>
+                                                <div class="dropdown">
+                                                    <a class="text-decoration-none action_dropwown" href="#"
+                                                       role="button" data-bs-toggle="dropdown"
+                                                       aria-expanded="false">
+                                                        <img src="~/assets/img/down_arrow.svg" class="ms-3">
+                                                    </a>
+                                                    <ul class="dropdown-menu shadow border-0 dropdown-menu-end rounded-0 p-0"
+                                                        aria-labelledby="acp-action">
+                                                        <li>
+                                                            <a class="dropdown-item" href="/Report/EditReport?reportid=@item.Id">
+                                                                <img src="~/assets/img/gray_editIcon.svg" class="me-2"
+                                                                     alt="edit_icon2">Edit
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item" href="#">
+                                                                <img src="~/assets/img/lock.svg" class="me-2"
+                                                                     alt="lock_icon">Unlock Report
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item" href="#">
+                                                                <img src="~/assets/img/gr_share.svg" class="me-2"
+                                                                     alt="Share">Share Report
+                                                            </a>
+                                                        </li>
+
+                                                        <li>
+                                                            <a class="dropdown-item" href="/Report/DuplicateReport?reportid=@item.Id">
+                                                                <img src="~/assets/img/gr_duplicate.svg" class="me-2"
+                                                                     alt="gr_duplicate">Duplicate
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item" href="/Report/DeleteReport?reportid=@item.Id">
+                                                                <img src="~/assets/img/gr_dlt.svg" class="me-2"
+                                                                     alt="delete_icon">Delete
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     }
 </div>
-
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
 <script>
     window.addEventListener('DOMContentLoaded', event => {
         const hhsrs = document.getElementsByClassName('table');
@@ -375,4 +616,26 @@
         $(".datatable-top").append(filter);
 
     });
+    $(document).ready(function () {
+        $(".star__r").click(function () {
+            if ($(this).hasClass('fvrtd')) {
+                $(this).removeClass('fvrtd');
+            }
+            else {
+                $(this).addClass('fvrtd')
+            }
+        })
+    })
+    function SetthistoFavourite(elm) {
+        $.ajax({
+            type: "POST",
+            url: "Report/FavouriteReport?reportid=" + elm,
+            data: "",
+            success: function (result) {
+                location.reload();
+            },
+            error: function () {
+            }
+        })
+    }
 </script>

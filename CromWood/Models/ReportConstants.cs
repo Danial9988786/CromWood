@@ -13,9 +13,9 @@ namespace CromWood.Business
 
         public static List<FilterOption> ReportDateFormat = new()
     {
-        new FilterOption(){ Key= "Mon, Dec 1, 2023", Value ="ddd, MMM d yyyy"},
-        new FilterOption(){ Key= "12 Dec 2023", Value ="dd MMM yyyy"},
-        new FilterOption(){ Key= "2023 12 Dec", Value ="yyyy dd MMM"}
+        new FilterOption(){ Key= ""+DateTime.Now.DayOfWeek.ToString().Substring(0,3)+", "+DateTime.Now.ToString("MMM")+" "+DateTime.Now.Day+", "+DateTime.Now.Year+"", Value ="ddd, MMM d yyyy"},
+        new FilterOption(){ Key= ""+DateTime.Now.Day+" "+DateTime.Now.ToString("MMM")+" "+DateTime.Now.Year+"", Value ="dd MMM yyyy"},
+        new FilterOption(){ Key= ""+DateTime.Now.Year+" "+DateTime.Now.Day+" "+DateTime.Now.ToString("MMM")+"", Value ="yyyy dd MMM"}
     };
     }
 }

@@ -1,14 +1,16 @@
 ﻿@using CromWood.Business;
 @using CromWood.Helper;
 @model CromWood.Data.Entities.CustomReport
-
+<style>
+    .select2-container {
+        display: block !important;
+    }
+</style>
 @{
     ViewData["Title"] = "CreateReport";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
     var reportGroups = new SelectList(ReportConstants.ReportGroups, "Value", "Key");
     var dateFormat = new SelectList(ReportConstants.ReportDateFormat, "Value", "Key");
-
     string numberOptions = "";
     string stringOptions = "";
     string guidOptions = "";
@@ -64,6 +66,18 @@
                                 <select id="reportGroup" class="form-select select_font_14"
                                         asp-for="ReportGroup" asp-items="reportGroups">
                                 </select>
+
+                                @if (Model != null)
+                                {
+                                    @if (!string.IsNullOrEmpty(Model.Id.ToString()))
+                                    {
+                                        <input type="hidden" value="@Model.Id" id="customreportid" />
+                                    }
+                                }
+                                else
+                                {
+                                    <input type="hidden" value="" id="customreportid" />
+                                }
                             </div>
                             <div class="input__field w-100">
                                 <label for="Report Name" class="form-label">Report Name</label>
@@ -83,20 +97,12 @@
                     </div>
                 </div>
             </div>
+
+            @* New Deisign *@
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-xl-4 mb-2 mb-xl-0 align-items-stretch flex-column">
                     <h4 class="sora_16">Available Fields</h4>
-                </div>
-                <div class="col-md-4">
-                    <h4 class="sora_16">Selected Fields</h4>
-                </div>
-                <div class="col-md-4">
-                    <h4 class="sora_16">Column Attributes</h4>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xl-4">
-                    <div class="bg_gray_ d-flex flex-column mb-3 border p-3 h-100">
+                    <div class="bg_gray_ d-flex flex-column align-items-stretch flex-grow-1 mb-3 border p-3">
                         <div class="input__field w-100">
                             <input type="text" class="form-control pagagraph"
                                    id="exampleFormControlInput1" placeholder="Search by field name...">
@@ -106,18 +112,23 @@
                                 <input class="form-check-input" type="checkbox" onchange="selectAll('availableFields')" id="inlineCheckbox1"
                                        value="option1">
                                 <label class="form-check-label pagagraph ms-2"
-                                       id="selectAllAvailableField">Select All</label>
+                                       for="inlineCheckbox1" id="selectAllAvailableField">Select All</label>
                             </div>
-                            <div>
-                                <span class="light_gray_14_">Deselect All</span>
+                            <div onclick="DeSelectAll('availableFields')">
+                                <span class="pagagraph">Deselect All</span>
                             </div>
                         </div>
+
                         <ul class="list_field_ list-unstyled" id="availableFields">
                         </ul>
+
+
+
                         <div class="mt-auto mx-auto">
                             <div class="shadow-box">
                                 <span class="custom__btn2">
-                                    <a onclick="moveAvailableToSelected()">
+                                    <a href="javascrip:void(0);" onclick="moveAvailableToSelected()" data-bs-toggle="modal"
+                                       data-bs-target="#add_new_pro">
                                         <img src="~/assets/img/right_align_arrow.svg" alt="">Move to
                                         Selected Fileds
                                     </a>
@@ -126,8 +137,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-4">
-                    <div class="bg_gray_ d-flex flex-column mb-3 border p-3 h-100">
+                <div class="col-xl-4 d-flex mb-2 mb-xl-0 align-items-stretch flex-column">
+                    <h4 class="sora_16">Selected Fields</h4>
+                    <div class="bg_gray_ d-flex flex-column align-items-stretch flex-grow-1 mb-3 border p-3">
                         <div class="input__field w-100">
                             <input type="text" class="form-control pagagraph"
                                    id="exampleFormControlInput1"
@@ -135,20 +147,22 @@
                         </div>
                         <div class="d-flex justify-content-between p-2">
                             <div class="form-check form-check-inline mb-0">
-                                <input class="form-check-input" type="checkbox" onchange="selectAll('selectedFields')" id="inlineCheckbox1"
+                                <input class="form-check-input" type="checkbox" onchange="selectAll('selectedFields')" id="inlineCheckbox2"
                                        value="option1">
                                 <label class="form-check-label pagagraph ms-2"
                                        for="inlineCheckbox1">Select All</label>
                             </div>
-                            <div>
+                            <div onclick="DeSelectAll('selectedFields')">
                                 <span class="pagagraph">Deselect All</span>
                             </div>
                         </div>
-                        <ul class="list_field_ list-unstyled" id="selectedFields">
+                        <ul class="list_field_  sele_Filed list-unstyled" id="selectedFields">
                         </ul>
+
+
                         <div class="mt-auto mx-auto">
                             <div class="shadow-box ms-auto">
-                                <a onclick="removeSelectedToAvaialble()" class="custom__btn2">
+                                <a href="javascript:void(0);" onclick="removeSelectedToAvaialble()" class="custom__btn2 diable_btn" disabled="">
                                     <img src="~/assets/img/crosss.svg" alt="crosss">
                                     Remove all
                                 </a>
@@ -156,26 +170,45 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-4">
-                    <div style="display:none" id="fieldDetailForm" class="mb-3 shadow-sm border rounded h-100 p-3 mutli_steps_f ">
+
+                <div class="col-xl-4 d-flex mb-2 mb-xl-0 align-items-stretch flex-column">
+                    <h4 class="sora_16">Column Attributes</h4>
+                    <div style="display:none!important" id="fieldDetailForm" class="d-flex flex-column flex-grow-1 mb-3 shadow-sm border rounded p-3 mutli_steps_f">
                         <h4 class="sora_16">Access Name Attributes</h4>
                         <div class="d-flex">
                             <div class="input__field w-100 mt-2">
                                 <label for="Heading" class="gray_text_12">Heading</label>
                                 <input type="text" class="form-control pagagraph"
-                                       id="headingOfField">
+                                       id="headingOfField" value="Property ID">
                             </div>
                         </div>
                         <div class="d-flex gap-3 pt-2">
                             <div class="input__field w-100">
+
+
+                                @* <label for="Align" class="gray_text_12">Align</label>
+                                <div class="customSelect">
+                                <span class="selected-option">Seclect Alignment</span>
+                                <ul class="options">
+                                <li data-value="option1">Auto</li>
+                                <li data-value="option2">Left</li>
+                                <li data-value="option3">Right</li>
+                                <li data-value="option4">Center</li>
+                                </ul>
+                                <input type="hidden" class="hidden-input">
+                                </div> *@
+
+
                                 <label for="Align" class="gray_text_12">Align</label>
-                                <select id="alignmentOfField" class="form-select select_font_14"
-                                        aria-label="Default select example">
+                                <select id="alignmentOfField" class="form-select" aria-label="Default select example">
                                     <option value="Auto">Auto</option>
                                     <option value="Left">Left</option>
                                     <option value="Right">Right</option>
                                     <option value="Canter">Center</option>
                                 </select>
+
+
+
                             </div>
                             <div class="input__field w-100">
                                 <label for="Width" class="gray_text_12">Width%</label>
@@ -200,7 +233,8 @@
                 </div>
             </div>
 
-            <div class="accordionBelow_page mt-3 pt-1">
+            <div class="accordionBelow_page rp_popup pt-1">
+                @* Condition *@
                 <div class="accordion">
                     <div class="accordion-item border-1">
                         <div class="accordion-header text-cpitlize bg_gray_" id="headingOne">
@@ -214,28 +248,29 @@
                                 <img src="~/assets/img/plus.svg" class="p_lus" alt="minus_accodian">
                             </h5>
                         </div>
+
+
                         <div id="collapseOne" class="accordion-collapse collapse show bg-white"
                              aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
+
                                 <div id="andConditionCollection">
                                 </div>
-                                <!-- Row Third Start -->
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="mb-2 d-flex align-items-center justify-content-start">
-                                            <a onclick="addAndCondition()"
-                                               class="c_file_2 d-flex gap-1 align-items-center text-uppercase fw_600 green_12">
-                                                <img src="~/assets/img/plus_circleGreen_icon.svg" alt=""> add
-                                                condition
-                                            </a>
-                                        </div>
-                                    </div>
+
+
+                                <div>
+                                    <a onclick="addAndCondition()" href="javascript:void(0);"
+                                       class="c_file d-flex gap-1 align-items-center text-uppercase fw_600 green_12"
+                                       data-bs-toggle="modal" data-bs-target="#">
+                                        <img src="~/assets/img/plus_circleGreen_icon.svg" alt="">
+                                        add condition
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                @* Sort *@
                 <div class="mt-3">
                     <div class="accordion">
                         <div class="accordion-item border-1">
@@ -256,7 +291,7 @@
                                 <div class="accordion-body ">
                                     <div class="d-flex gap-3 align-items-center mb-2">
                                         <span class="pagagraph text-nowrap">Sort By</span>
-                                        <div class="ms-5 ">
+                                        <div class="ms-sm-5 w-25">
                                             <select asp-for="SortBy" class="form-select select_font_14"
                                                     id="sortByColumn1"
                                                     aria-label="Default select example">
@@ -268,9 +303,34 @@
                                             <option value="false">Decending</option>
                                         </select>
                                     </div>
+
                                     <div class="d-flex gap-3 align-items-center mb-2">
                                         <span class="pagagraph text-nowrap">Sort By</span>
-                                        <div class="ms-5">
+                                        <div class="ms-sm-5 w-25">
+                                            @if (Model != null)
+                                            {
+                                                if (!string.IsNullOrEmpty(Model.SortBy.ToString()))
+                                                {
+                                                    <input type="hidden" id="sortby1id" value="@Model.SortBy" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="hidden" id="sortby1id" value="" />
+                                                }
+                                                if (!string.IsNullOrEmpty(Model.SortBy2.ToString()))
+                                                {
+                                                    <input type="hidden" id="sortby2id" value="@Model.SortBy2" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="hidden" id="sortby2id" value="" />
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <input type="hidden" id="sortby1id" value="" />
+                                                <input type="hidden" id="sortby2id" value="" />
+                                            }
                                             <select asp-for="SortBy2" class="form-select select_font_14"
                                                     id="sortByColumn2"
                                                     aria-label="Default select example">
@@ -287,7 +347,7 @@
                         </div>
                     </div>
                 </div>
-
+                @* Additional *@
                 <div class="mt-3">
                     <div class="accordion">
                         <div class="accordion-item border-1">
@@ -306,9 +366,9 @@
                             <div id="collapsethree" class="accordion-collapse collapse bg-white"
                                  aria-labelledby="headingthree" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    <div class="d-flex gap-3 align-items-center mb-2">
+                                    <div class="d-flex flex-sm-row flex-column gap-sm-3 align-items-sm-center mb-2">
                                         <span class="pagagraph">Date Format</span>
-                                        <div class="ms-5 ">
+                                        <div class="ms-sm-5 w-25 Dformate">
                                             <select id="dateFormat" class="form-select select_font_14"
                                                     asp-for="DateFormat" asp-items="dateFormat"
                                                     placeholder="Mon, Dec 1st 2000 (Day, Month Date Year)">
@@ -335,7 +395,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <div class="below_btnBar">
@@ -366,8 +425,8 @@
                                 <option value="2">PDF</option>
                             </select>
                         </div>
-                        <div class="shadow-box">
-                            <a href="#" class="custom__btn2 step_nextbtn" data-bs-dismiss="modal">
+                        <div class="shadow-box ">
+                            <a href="reports.html" class="custom__btn2">
                                 <img src="~/assets/img/save-role.svg" alt="right__arrow">
                                 Save and Run
                             </a>
@@ -375,6 +434,320 @@
                     </div>
                 </div>
             </div>
+            @* New Deisign *@
+
+
+            @* Old Design *@
+            @* <div class="row">
+            <div class="col-xl-4">
+            <div class="bg_gray_ d-flex flex-column mb-3 border p-3 h-100">
+            <div class="input__field w-100">
+            <input type="text" class="form-control pagagraph"
+            id="exampleFormControlInput1" placeholder="Search by field name...">
+            </div>
+            <div class="d-flex justify-content-between p-2">
+            <div class="form-check form-check-inline mb-0">
+            <input class="form-check-input" type="checkbox" onchange="selectAll('availableFields')" id="inlineCheckbox1" value="option1">
+            <label class="form-check-label pagagraph ms-2"
+            id="selectAllAvailableField">Select All</label>
+            </div>
+            <div onclick="DeSelectAll('availableFields')">
+            <span class="pagagraph">Deselect All</span>
+            </div>
+            </div>
+            <ul class="list_field_ list-unstyled" id="availableFields">
+            </ul>
+            <div class="mt-auto mx-auto">
+            <div class="shadow-box">
+            <span class="custom__btn2">
+            <a onclick="moveAvailableToSelected()">
+            <img src="~/assets/img/right_align_arrow.svg" alt="">Move to
+            Selected Fileds
+            </a>
+            </span>
+            </div>
+            </div>
+            </div>
+            </div>
+            <div class="col-xl-4">
+            <div class="bg_gray_ d-flex flex-column mb-3 border p-3 h-100">
+            <div class="input__field w-100">
+            <input type="text" class="form-control pagagraph"
+            id="exampleFormControlInput1"
+            placeholder="Search by report name...">
+            </div>
+            <div class="d-flex justify-content-between p-2">
+            <div class="form-check form-check-inline mb-0">
+            <input class="form-check-input" type="checkbox" onchange="selectAll('selectedFields')" id="inlineCheckbox2"
+            value="option1">
+            <label class="form-check-label pagagraph ms-2"
+            for="inlineCheckbox1">Select All</label>
+            </div>
+            <div onclick="DeSelectAll('selectedFields')">
+            <span class="pagagraph">Deselect All</span>
+            </div>
+            </div>
+            <ul class="list_field_  sele_Filed list-unstyled" id="selectedFields">
+            </ul>
+
+            <div class="mt-auto mx-auto">
+            <div class="shadow-box ms-auto">
+            <a onclick="removeSelectedToAvaialble()" class="custom__btn2">
+            <img src="~/assets/img/crosss.svg" alt="crosss">
+            Remove all
+            </a>
+            </div>
+            </div>
+            </div>
+            </div>
+
+
+            <div class="col-xl-4">
+            <div style="display:none" id="fieldDetailForm" class="mb-3 shadow-sm border rounded h-100 p-3 mutli_steps_f ">
+            <h4 class="sora_16">Access Name Attributes</h4>
+            <div class="d-flex">
+            <div class="input__field w-100 mt-2">
+            <label for="Heading" class="gray_text_12">Heading</label>
+            <input type="text" class="form-control pagagraph"
+            id="headingOfField">
+            </div>
+            </div>
+            <div class="d-flex gap-3 pt-2">
+            <div class="input__field w-100">
+            <label for="Align" class="gray_text_12">Align</label>
+            <select id="alignmentOfField" class="form-select" aria-label="Default select example">
+            <option value="Auto">Auto</option>
+            <option value="Left">Left</option>
+            <option value="Right">Right</option>
+            <option value="Canter">Center</option>
+            </select>
+            </div>
+            <div class="input__field w-100">
+            <label for="Width" class="gray_text_12">Width%</label>
+            <input type="text" class="form-control pagagraph"
+            id="widthOfField">
+            </div>
+            </div>
+            <div class="d-flex gap-3 pt-2">
+            <div class="input__field w-100">
+            <label for="Append" class="gray_text_12">Append</label>
+            <input type="text" class="form-control pagagraph"
+            id="appendOfField" placeholder="Enter">
+            </div>
+            <div class="input__field w-100">
+            <label for="Prepend" class="gray_text_12">Prepend</label>
+            <input type="text" class="form-control pagagraph"
+            id="prependOfField" placeholder="Enter">
+            </div>
+            </div>
+
+            </div>
+            </div>
+            </div>
+
+            <div class="accordionBelow_page mt-3 pt-1">
+            <div class="accordion">
+            <div class="accordion-item border-1">
+            <div class="accordion-header text-cpitlize bg_gray_" id="headingOne">
+            <h5 class="mb-0 p-3 h_50 d-flex justify-content-between align-items-center border-bottom"
+            type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseOne" aria-expanded="false"
+            aria-controls="collapseOne">
+            Conditions
+            <img src="~/assets/img/minus_accodian.svg" class="m_inus"
+            alt="minus_accodian">
+            <img src="~/assets/img/plus.svg" class="p_lus" alt="minus_accodian">
+            </h5>
+            </div>
+            <div id="collapseOne" class="accordion-collapse collapse show bg-white"
+            aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+            <div id="andConditionCollection">
+            </div>
+            <!-- Row Third Start -->
+            <div class="row">
+            <div class="col">
+            <div class="mb-2 d-flex align-items-center justify-content-start">
+            <a onclick="addAndCondition()"
+            class="c_file_2 d-flex gap-1 align-items-center text-uppercase fw_600 green_12">
+            <img src="~/assets/img/plus_circleGreen_icon.svg" alt=""> add
+            condition
+            </a>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+
+            <div class="mt-3">
+            <div class="accordion">
+            <div class="accordion-item border-1">
+            <div class="accordion-header text-cpitlize bg_gray_" id="headingtwo">
+            <h5 class="mb-0 p-3 h_50 d-flex justify-content-between align-items-center border-bottom"
+            type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapsetwo" aria-expanded="true"
+            aria-controls="collapsetwo">
+            Sort By
+            <img src="~/assets/img/minus_accodian.svg" class="m_inus"
+            alt="minus_accodian">
+            <img src="~/assets/img/plus.svg" class="p_lus"
+            alt="minus_accodian">
+            </h5>
+            </div>
+            <div id="collapsetwo" class="accordion-collapse collapse bg-white"
+            aria-labelledby="headingtwo" data-bs-parent="#accordionExample">
+            <div class="accordion-body ">
+            <div class="d-flex gap-3 align-items-center mb-2">
+            <span class="pagagraph text-nowrap">Sort By</span>
+            <div class="ms-5 ">
+            <select asp-for="SortBy" class="form-select select_font_14"
+            id="sortByColumn1"
+            aria-label="Default select example">
+            </select>
+            </div>
+            <select asp-for="SortByAsc" id="sortByAscOne" class="form-select select_font_14 ms-5"
+            aria-label="Default select example">
+            <option value="true">Ascending</option>
+            <option value="false">Decending</option>
+            </select>
+            </div>
+
+
+            <div class="d-flex gap-3 align-items-center mb-2">
+            <span class="pagagraph text-nowrap">Sort By</span>
+            <div class="ms-5">
+            @if (Model != null)
+            {
+            if (!string.IsNullOrEmpty(Model.SortBy.ToString()))
+            {
+            <input type="hidden" id="sortby1id" value="@Model.SortBy" />
+            }
+            else
+            {
+            <input type="hidden" id="sortby1id" value="" />
+            }
+            if (!string.IsNullOrEmpty(Model.SortBy2.ToString()))
+            {
+            <input type="hidden" id="sortby2id" value="@Model.SortBy2" />
+            }
+            else
+            {
+            <input type="hidden" id="sortby2id" value="" />
+            }
+            }
+            else
+            {
+            <input type="hidden" id="sortby1id" value="" />
+            <input type="hidden" id="sortby2id" value="" />
+            }
+            <select asp-for="SortBy2" class="form-select select_font_14"
+            id="sortByColumn2"
+            aria-label="Default select example">
+            </select>
+            </div>
+            <select asp-for="SortBy2Asc" id="sortByAscTwo" class="form-select select_font_14 ms-5"
+            aria-label="Default select example">
+            <option value="true">Ascending</option>
+            <option value="false">Decending</option>
+            </select>
+            </div>
+
+
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            <div class="mt-3">
+            <div class="accordion">
+            <div class="accordion-item border-1">
+            <div class="accordion-header text-cpitlize bg_gray_" id="headingthree">
+            <h5 class="mb-0 p-3 h_50 d-flex justify-content-between align-items-center border-bottom"
+            type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapsethree" aria-expanded="true"
+            aria-controls="collapsethree">
+            Additional Options
+            <img src="~/assets/img/minus_accodian.svg" class="m_inus"
+            alt="minus_accodian">
+            <img src="~/assets/img/plus.svg" class="p_lus"
+            alt="minus_accodian">
+            </h5>
+            </div>
+            <div id="collapsethree" class="accordion-collapse collapse bg-white"
+            aria-labelledby="headingthree" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+            <div class="d-flex gap-3 align-items-center mb-2">
+            <span class="pagagraph">Date Format</span>
+            <div class="ms-5 ">
+            <select id="dateFormat" class="form-select select_font_14"
+            asp-for="DateFormat" asp-items="dateFormat"
+            placeholder="Mon, Dec 1st 2000 (Day, Month Date Year)">
+            </select>
+            </div>
+            </div>
+            <div class="form-check form-check-inline mb-0">
+            <input class="form-check-input" type="checkbox"
+            id="zeroCurrencyAsBlank" asp-for="ZeroCurrencyBlank">
+            <label class="form-check-label pagagraph ms-2"
+            for="inlineCheckbox1">
+            Zero currency shown as
+            blank
+            </label>
+            </div>
+            <div class="form-check mt-2 mb-0">
+            <input class="form-check-input" type="checkbox"
+            id="hideCurrencySymbol" asp-for="HideCurrencySymbol">
+            <label class="form-check-label pagagraph ms-2"
+            for="inlineCheckbox1">Hide currency symbol</label>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+
+
+            <div class="below_btnBar">
+            <div>
+            <span class="pair_btn">
+            <div class="shadow-box ms-auto">
+            <span class="custom__btn">
+            <a href="#">
+            <img src="~/assets/img/discard_icon2.svg" alt="discard_icon">
+            Discard
+            </a>
+            </span>
+            <span class="custom__btn2">
+            <a onclick="saveReport()" data-bs-toggle="modal" data-bs-target="#AddNewTenancy">
+            <img src="~/assets/img/save-role.svg" alt="right__arrow">
+            Save
+            </a>
+            </span>
+            </div>
+            </span>
+            </div>
+            <div class="ms-auto">
+            <div class="d-flex gap-4">
+            <div class="w150">
+            <select id="" class="form-select select_font_14" aria-label="">
+            <option selected="">Screen</option>
+            <option value="1">CSV Export</option>
+            <option value="2">PDF</option>
+            </select>
+            </div>
+            <div class="shadow-box">
+            <a href="#" class="custom__btn2 step_nextbtn" data-bs-dismiss="modal">
+            <img src="~/assets/img/save-role.svg" alt="right__arrow">
+            Save and Run
+            </a>
+            </div>
+            </div>
+            </div>
+            </div> *@
+            @* Old Design *@
         </form>
     </div>
 </div>
@@ -390,7 +763,187 @@
                 width: '100%',
                 dropdownCssClass: "select_font_14"
             });
+            const group = $("#reportGroup").val();
+            var url = `/Report/GetReportProperties?keyName=${group}`;
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function (result) {
+                    reportProperties = result;
+                    reportProperties.forEach((item, key) => {
+                        $("#availableFields").append(`<li class="d-flex justify-content-between align-items-center bg-white border border-bottom-0 p-2" id="field-li-${item.Name}" onclick="selectedSomeField('field-li-${item.Name}')"
+                                                                                                                data-Name="${item.Name}"     data-HeaderName="${item.HeaderName || item.DisplayName}" data-DataName="${item.Name || ''}" data-Alignment="${item.Alignment || 'Left'}" data-Width="${item.Width || ''}" data-Append="${item.Append || ''}" data-Prepend="${item.Prepend || ''}">
+                                                                                                                <div><span><input class="form-check-input" type="checkbox" data-keyid="field-li-${item.Name}"
+                                                                                                                 id="field-li-checkbox-${item.Name}" ></span><span class="d-inline-block ms-2"><img src="/assets/img/9dots.svg" alt="9dots"></span>
+                                                                                                                 <span class="font14_inter_ d-inline-block ms-2 ps-1" id="field-li-label-${item.Name}">
+                                                                                                                          ${item.DisplayName}</span></div><span onclick="removeSelectedToAvaialbleonremoveclick(this)" class="hov_icon"><img class="c_pointer" src="../assets/img/circleMinus.svg" alt=""></span></li>`)
+                        if (item.FetchType != null) {
+                            var checker = "<option data-type=" + item.Type + " data-fetch-type=" + item.FetchType + " value=" + item.Name + ">" + item.DisplayName + "</option>";
+                            if (!filterColOptions.includes(checker))
+                                filterColOptions = filterColOptions + "<option data-type=" + item.Type + " data-fetch-type=" + item.FetchType + " value=" + item.Name + ">" + item.DisplayName + "</option>";
+                        }
+                        else {
+                            var checker = "<option data-type=" + item.Type + " value=" + item.Name + ">" + item.DisplayName + "</option>";
+                            if (!filterColOptions.includes(checker))
+                                filterColOptions = filterColOptions + "<option data-type=" + item.Type + " value=" + item.Name + ">" + item.DisplayName + "</option>";
+                        }
+                        // Populate sorting fields:
+                        $('#sortByColumn1').html('');
+                        $('#sortByColumn2').html('');
+                        $('#sortByColumn1').append(`${filterColOptions}`);
+                        $('#sortByColumn2').append(`${filterColOptions}`);
+                    })
+                },
+                error: function () {
+                }
+            });
+            GetSelectedConditoionsForEditCase();
+            GetSelectedPropertiesForEditCase();
+            var intervalId = window.setInterval(function () {
+                var lengthofselectedlis = $("#selectedFields").children().length;
+                for (let i = 0; i < lengthofselectedlis; i++) {
+                    var liID = $("#selectedFields").children().eq(i).attr('id');
+                    var lengthofAvailableLIS = $("#availableFields").children().length;
+                    for (let j = 0; j < lengthofAvailableLIS; j++) {
+                        if ($("#availableFields").children().eq(j).attr('id') == liID) {
+                            $("#availableFields").children().eq(j).remove();
+                        }
+                    }
+                }
+            }, 100);
         });
+        $("#headingtwo").click(function () {
+            var sort1value = $("#sortby1id").val();
+            console.log(sort1value);
+            var sort2value = $("#sortby2id").val();
+            console.log(sort2value);
+            if (sort1value != null && sort1value != '' && sort1value != undefined) {
+                console.log('hitted');
+                $("#sortByColumn1").val(sort1value).trigger('change');
+            }
+            if (sort2value != null && sort2value != '' && sort2value != undefined) {
+                console.log('hitted');
+                $("#sortByColumn2").val(sort2value).trigger('change');
+            }
+        })
+        function DeSelectAll(elm) {
+            debugger
+            if (elm == "selectedFields") {
+                $("#selectedFields").find('input[type=checkbox]').each(function () {
+                    $("#inlineCheckbox2").prop('checked', false);
+                    $(this).prop('checked', false);
+                })
+            }
+            else if (elm == "availableFields") {
+                $("#availableFields").find('input[type=checkbox]').each(function () {
+                    $("#inlineCheckbox1").prop('checked', false);
+                    $(this).prop('checked', false);
+                })
+            }
+        }
+        function GetSelectedPropertiesForEditCase() {
+            var reportid = $("#customreportid").val();
+            var url = `/Report/GetReportPropertiesByReportId?reportid=${reportid}`;
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function (result) {
+                    reportProperties = result;
+                    reportProperties.forEach((item, key) => {
+                        //addAndCondition();
+                        $("#selectedFields").append(`
+                                                                                                                                <li class="d-flex align-items-center bg-white justify-content-between border border-bottom-0 p-2" id="field-li-${item.Name}" onclick="selectedSomeField('field-li-${item.Name}')"
+                                                                                                                        data-Name="${item.Name}"     data-HeaderName="${item.HeaderName || item.DisplayName}" data-DataName="${item.Name || ''}" data-Alignment="${item.Alignment || 'Left'}"
+                                                                                                                        data-Width="${item.Width || ''}" data-Append="${item.Append || ''}" data-Prepend="${item.Prepend || ''}"
+                                                                                                                         >
+                                                                                                                        <div>
+                                                                                                                        <span>
+                                                                                                                        <input class="form-check-input" type="checkbox" data-keyid="field-li-${item.Name}"
+                                                                                                                        id="field-li-checkbox-${item.Name}" >
+                                                                                                                        </span>
+                                                                                                                        <span class="d-inline-block ms-2">
+                                                                                                                        <img src="/assets/img/9dots.svg"
+                                                                                                                        alt="9dots">
+                                                                                                                               </span>
+                                                                                                                                                     <span class="font14_inter_ d-inline-block ms-2 ps-1" id="field-li-label-${item.Name}">
+                                                                                                                                                 ${item.DisplayName}
+                                                                                                                                     </span>
+                                                                                                                                                 </div><span onclick="removeSelectedToAvaialbleonremoveclick(this)" class="hov_icon"><img class="c_pointer" src="../assets/img/circleMinus.svg" alt=""></span>
+                                                                                                                             </li>`)
+                        // if (item.FetchType != null) {
+                        //     filterColOptions = filterColOptions + "<option data-type=" + item.Type + " data-fetch-type=" + item.FetchType + " value=" + item.Name + ">" + item.DisplayName + "</option>";
+                        // }
+                        // else {
+                        //     filterColOptions = filterColOptions + "<option data-type=" + item.Type + " value=" + item.Name + ">" + item.DisplayName + "</option>";
+                        // }
+                        // // Populate sorting fields:
+                        // $('#sortByColumn1').append(`${filterColOptions}`);
+                        // $('#sortByColumn2').append(`${filterColOptions}`);
+                        if (item.FetchType != null) {
+                            var checker = "<option data-type=" + item.Type + " data-fetch-type=" + item.FetchType + " value=" + item.Name + ">" + item.DisplayName + "</option>";
+                            if (!filterColOptions.includes(checker))
+                                filterColOptions = filterColOptions + "<option data-type=" + item.Type + " data-fetch-type=" + item.FetchType + " value=" + item.Name + ">" + item.DisplayName + "</option>";
+                        }
+                        else {
+                            var checker = "<option data-type=" + item.Type + " value=" + item.Name + ">" + item.DisplayName + "</option>";
+                            if (!filterColOptions.includes(checker))
+                                filterColOptions = filterColOptions + "<option data-type=" + item.Type + " value=" + item.Name + ">" + item.DisplayName + "</option>";
+                        }
+                        // Populate sorting fields:
+                        $('#sortByColumn1').html('');
+                        $('#sortByColumn2').html('');
+                        $('#sortByColumn1').append(`${filterColOptions}`);
+                        $('#sortByColumn2').append(`${filterColOptions}`);
+                    })
+
+                },
+                error: function () {
+                }
+            });
+        }
+        function GetSelectedConditoionsForEditCase() {
+            var reportid = $("#customreportid").val();
+            var url = `/Report/GetReportConditionByReportId?reportid=${reportid}`;
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function (result) {
+                    reportProperties = result;
+                    reportProperties.forEach((item, key) => {
+                        debugger
+                        addAndCondition();
+                        if (item.Condition1 != null && item.Condition1 != "") {
+                            $(`#firstAndDropdown-${key}`).val(item.Condition1).trigger('change');
+                        }
+                        if (item.Condition2 != null && item.Condition2 != "") {
+                            setTimeout(function () {
+                                $(`#secondAndDropdown-${key}`).val(item.Condition2).trigger('change');
+                            }, 1000);
+                        }
+                        if (item.Condition3 != null && item.Condition3 != "") {
+                            setTimeout(function () {
+                                $(`#filterAndCondition-0-${key}`).val(item.Condition3).trigger('change');
+                            }, 1500);
+                        }
+                        if (item.Condition4 != null && item.Condition4 != "") {
+                            setTimeout(function () {
+                                $(`#filterAndCondition-1-${key}`).val(item.Condition4);
+                            }, 2000);
+                        }
+                    })
+
+                },
+                error: function () {
+                }
+            });
+        }
+        function removeSelectedToAvaialbleonremoveclick(elm) {
+            const keyId = $(elm).parent().attr("id");
+            // move this to selected
+            const element = $(`#${keyId}`).get(0).outerHTML;
+            $("#availableFields").append(`${element}`);
+            $(`#selectedFields #${keyId}`).remove();
+        }
 
         reportProperties = [];
         var addCounter = 0;
@@ -415,7 +968,6 @@
         let firstAndDropdownType = [];
         let firstAndDropdownFetchType = [];
         let dropDownValuesAnd = []; // List of list
-
         $("#reportGroup").change(function () {
             const group = $(this).val();
             var url = `/Report/GetReportProperties?keyName=${group}`;
@@ -426,49 +978,38 @@
                     reportProperties = result;
                     reportProperties.forEach((item, key) => {
                         $("#availableFields").append(`
-                                                                <li class="d-flex align-items-center bg-white border border-bottom-0 p-2" id="field-li-${item.Name}" onclick="selectedSomeField('field-li-${item.Name}')"
-                                                                    data-Name="${item.Name}"     data-HeaderName="${item.HeaderName || item.DisplayName}" data-DataName="${item.Name || ''}" data-Alignment="${item.Alignment || 'Left'}" data-Width="${item.Width || ''}" data-Append="${item.Append || ''}" data-Prepend="${item.Prepend || ''}"
-                                                        >
-                                                                <div>
-                                                                    <span>
-                                                                                <input class="form-check-input" type="checkbox" data-keyid="field-li-${item.Name}"
-                                                                                               id="field-li-checkbox-${item.Name}" >
-                                                                    </span>
-                                                                    <span class="d-inline-block ms-2">
-                                                                        <img src="/assets/img/9dots.svg"
-                                                                             alt="9dots">
-                                                                    </span>
-                                                                                    <span class="font14_inter_ d-inline-block ms-2 ps-1" id="field-li-label-${item.Name}">
-                                                                                ${item.DisplayName}
-                                                                    </span>
-                                                                </div>
-                                                            </li>
-                                                `)
+                                                                                                                <li class="d-flex align-items-center bg-white border border-bottom-0 p-2" id="field-li-${item.Name}" onclick="selectedSomeField('field-li-${item.Name}')"
+                                                                                                                data-Name="${item.Name}"     data-HeaderName="${item.HeaderName || item.DisplayName}" data-DataName="${item.Name || ''}" data-Alignment="${item.Alignment || 'Left'}" data-Width="${item.Width || ''}" data-Append="${item.Append || ''}" data-Prepend="${item.Prepend || ''}">
+                                                                                                                <div>
+                                                                                                                <span><input class="form-check-input" type="checkbox" data-keyid="field-li-${item.Name}" id="field-li-checkbox-${item.Name}" ></span>
+                                                                                                                <span class="d-inline-block ms-2"><img src="/assets/img/9dots.svg" alt="9dots"></span>
+                                                                                                                <span class="font14_inter_ d-inline-block ms-2 ps-1" id="field-li-label-${item.Name}">${item.DisplayName}</span></div></li>`)
                         if (item.FetchType != null) {
-                            filterColOptions = filterColOptions + "<option data-type=" + item.Type + " data-fetch-type=" + item.FetchType + " value=" + item.Name + ">" + item.DisplayName + "</option>";
+                            var checker = "<option data-type=" + item.Type + " data-fetch-type=" + item.FetchType + " value=" + item.Name + ">" + item.DisplayName + "</option>";
+                            if (!filterColOptions.includes(checker))
+                                filterColOptions = filterColOptions + "<option data-type=" + item.Type + " data-fetch-type=" + item.FetchType + " value=" + item.Name + ">" + item.DisplayName + "</option>";
                         }
                         else {
-                            filterColOptions = filterColOptions + "<option data-type=" + item.Type + " value=" + item.Name + ">" + item.DisplayName + "</option>";
+                            var checker = "<option data-type=" + item.Type + " value=" + item.Name + ">" + item.DisplayName + "</option>";
+                            if (!filterColOptions.includes(checker))
+                                filterColOptions = filterColOptions + "<option data-type=" + item.Type + " value=" + item.Name + ">" + item.DisplayName + "</option>";
                         }
                         // Populate sorting fields:
+                        $('#sortByColumn1').html('');
+                        $('#sortByColumn2').html('');
                         $('#sortByColumn1').append(`${filterColOptions}`);
                         $('#sortByColumn2').append(`${filterColOptions}`);
                     })
-
                 },
                 error: function () {
                 }
             });
-
-
         });
-
         function selectAll(id) {
             $(`#${id}`).find('input[type=checkbox]').each(function () {
                 this.checked = true;
             });
         }
-
         function moveAvailableToSelected() {
             $("#availableFields").find('input[type=checkbox]').each(function () {
                 if (this.checked) {
@@ -480,28 +1021,24 @@
                 }
             });
         }
-
         function removeSelectedToAvaialble() {
             $("#selectedFields").find('input[type=checkbox]').each(function () {
                 if (this.checked) {
                     const keyId = $(this).attr("data-keyid");
                     // move this to selected
-                    const element = $(`#${keyId}`).get(0).outerHTML;
+                    const element = $(`#${keyId}`).get(0).outerHTML$("#field-li-PropertyCode");
                     $("#availableFields").append(`${element}`);
                     $(`#selectedFields #${keyId}`).remove();
                 }
             });
         }
-
         function selectedSomeField(id) {
             const keyId = $(`#${id}`).attr("data-keyid");
-
             $("#headingOfField").off('input')
             $("#alignmentOfField").off('change')
             $("#widthOfField").off('input')
             $("#appendOfField").off('input')
             $("#prependOfField").off('input')
-
             if ($(`#selectedFields #${id}`).length > 0) {
                 const HeaderName = $(`#${id}`).attr("data-headerName");
                 const Name = $(`#${id}`).attr("data-name");
@@ -510,17 +1047,13 @@
                 const Width = $(`#${id}`).attr("data-width");
                 const Append = $(`#${id}`).attr("data-append");
                 const Prepend = $(`#${id}`).attr("data-Prepend");
-
                 // Assign values to input fields.
                 $("#fieldDetailForm").show();
-                console.log(HeaderName, Name, DataName, Alignment, Width, Append, Prepend);
-
                 $("#headingOfField").val(HeaderName || "");
-                $("#alignmentOfField").val(Alignment || "");
+                $("#alignmentOfField").val(Alignment || "").trigger('change')
                 $("#widthOfField").val(Width || "");
                 $("#appendOfField").val(Append || "");
                 $("#prependOfField").val(Prepend || "");
-
                 // On change of fields map them with data attribute.
                 $("#headingOfField").on('input', function (e) {
                     $(`#${id}`).attr("data-headerName", this.value)
@@ -539,28 +1072,16 @@
                 });
             }
         }
-
         function addAndCondition() {
             // Added row in AND condition collection
             $("#andConditionCollection").append(`
-                                <div id="andCondition__${addCounter}" class="d-flex align-items-center justify-content-between mb-2">
-                                    <div class="d-flex gap-2">
-                                        <select id="firstAndDropdown-${addCounter}" data-counter="${addCounter}" class="form-select select_font_14" style="width:250px;">
-                                            ${filterColOptions}
-                                        </select>
-                                        <select id="secondAndDropdown-${addCounter}" data-counter="${addCounter}" class="form-select select_font_14" style="width:180px;">
-                                        </select>
-                                        <div id="filterAndConditionSetter-${addCounter}" class="d-flex gap-2">
-                                        </div>
-                                    </div>
-                                        <a onclick="removeAndFilterCondition(${addCounter})" class="c_file d-flex gap-1 align-items-center text-uppercase fw_600 green_12">
-                                        add
-                                        <img src="/assets/img/minus_circleGreen_icon.svg" alt="">
-                                    </a>
-                                </div>
-                            `);
-
-
+                                                                                     <div id="andCondition__${addCounter}" class="d-flex align-items-center justify-content-between mb-2">
+                                                                                     <div class="d-flex gap-2">
+                                                                                     <select id="firstAndDropdown-${addCounter}" data-counter="${addCounter}" class="form-select select_font_14" style="width:250px;">${filterColOptions}</select>
+                                                                                     <select id="secondAndDropdown-${addCounter}" data-counter="${addCounter}" class="form-select select_font_14" style="width:180px;"></select>
+                                                                                     <div id="filterAndConditionSetter-${addCounter}" class="d-flex gap-2"></div></div>
+                                                                                             <a onclick="removeAndFilterCondition(${addCounter})" class="c_file rmbtn d-flex gap-1 align-items-center text-uppercase fw_600 green_12">
+                                                                                             Remove<img src="/assets/img/circleMinus.svg" alt=""></a></div>`);
             // Added on change event to select element for AND row
             $(`#firstAndDropdown-${addCounter}`).change(function () {
                 const type = $(this).find(':selected').data('type');
@@ -573,19 +1094,11 @@
 
                 if (type == "String") {
                     // Append respective options to Second dropdown
-                    $(`#secondAndDropdown-${firstAddDropdownCounter}`)
-                        .find('option')
-                        .remove()
-                        .end()
-                        .append(`${stringOptions}`);
+                    $(`#secondAndDropdown-${firstAddDropdownCounter}`).find('option').remove().end().append(`${stringOptions}`);
                 }
                 if (type == "Guid") {
                     // Append respective options to Second dropdown
-                    $(`#secondAndDropdown-${firstAddDropdownCounter}`)
-                        .find('option')
-                        .remove()
-                        .end()
-                        .append(`${guidOptions}`);
+                    $(`#secondAndDropdown-${firstAddDropdownCounter}`).find('option').remove().end().append(`${guidOptions}`);
                     // In this particular case, we also have to load Guids of options to choose from in next drop
                     var url = `/Filter/Get${fetchType}`;
                     $.ajax({
@@ -638,9 +1151,7 @@
                                 .find('*')
                                 .remove()
                                 .end()
-                                .append(`
-                                                              <input type="text" class="form-control" placeholder ="Enter value" id="filterAndCondition-0-${secondAddDropdownCounter}">
-                                                                `);
+                                .append(`<input type="text" class="form-control" placeholder ="Enter value" id="filterAndCondition-0-${secondAddDropdownCounter}">`);
                         }
                     }
 
@@ -653,9 +1164,9 @@
                                 .remove()
                                 .end()
                                 .append(`
-                                                                                <input type="text" class="form-control" placeholder ="Enter value" id="filterAndCondition-0-${secondAddDropdownCounter}">
-                                                                                <input type="text" class="form-control" placeholder ="Enter value" id="filterAndCondition-1-${secondAddDropdownCounter}">
-                                                                    `);
+                                                                                                                                                                                                                                                                                                                                                                                                <input type="text" class="form-control" placeholder ="Enter value" id="filterAndCondition-0-${secondAddDropdownCounter}">
+                                                                                                                                                                                                                                                                                                                                                                                                <input type="text" class="form-control" placeholder ="Enter value" id="filterAndCondition-1-${secondAddDropdownCounter}">
+                                                                                                                                                                                                                                                                                                                                                                                    `);
                         }
                         else {
                             $(`#filterAndConditionSetter-${secondAddDropdownCounter}`)
@@ -663,8 +1174,8 @@
                                 .remove()
                                 .end()
                                 .append(`
-                                                                                    <input type="text" class="form-control" placeholder ="Enter value" id="filterAndCondition-0-${secondAddDropdownCounter}">
-                                                                        `);
+                                                                                                                                                                                                                                                                                                                                                                                                    <input type="text" class="form-control" placeholder ="Enter value" id="filterAndCondition-0-${secondAddDropdownCounter}">
+                                                                                                                                                                                                                                                                                                                                                                                        `);
                         }
                     }
 
@@ -677,27 +1188,27 @@
                                 .remove()
                                 .end()
                                 .append(`
-                                                                    <div class="input-container">
-                                                                         <div class="input-group date__box date datepicker">
-                                                                                 <input type="text" class="form-control" placeholder ="Enter value" placeholder="24/01/2024" id="filterAndCondition-0-${secondAddDropdownCounter}>
-                                                                              <span class="input-group-append">
-                                                                              <span class="date__icon bg-white">
-                                                                                  <img src="./assets/img/date__icon.svg" alt="date_icon">
-                                                                              </span>
-                                                                              </span>
-                                                                          </div>
-                                                                    </div>
-                                                                     <div class="input-container">
-                                                                         <div class="input-group date__box date datepicker">
-                                                                                 <input type="text" class="form-control" placeholder ="Enter value" placeholder="24/01/2024" id="filterAndCondition-1-${secondAddDropdownCounter}>
-                                                                              <span class="input-group-append">
-                                                                              <span class="date__icon bg-white">
-                                                                                  <img src="./assets/img/date__icon.svg" alt="date_icon">
-                                                                              </span>
-                                                                              </span>
-                                                                          </div>
-                                                                    </div>
-                                                                        `);
+                                                                                                        <div class="input-container">
+                                                                                                             <div class="input-group date__box date datepicker">
+                                                                                                                     <input type="text" class="form-control" placeholder ="Enter value" placeholder="24/01/2024" id="filterAndCondition-0-${secondAddDropdownCounter}>
+                                                                                                                  <span class="input-group-append">
+                                                                                                                  <span class="date__icon bg-white">
+                                                                                                                      <img src="./assets/img/date__icon.svg" alt="date_icon">
+                                                                                                                  </span>
+                                                                                                                  </span>
+                                                                                                              </div>
+                                                                                                        </div>
+                                                                                                         <div class="input-container">
+                                                                                                             <div class="input-group date__box date datepicker">
+                                                                                                                     <input type="text" class="form-control" placeholder ="Enter value" placeholder="24/01/2024" id="filterAndCondition-1-${secondAddDropdownCounter}>
+                                                                                                                  <span class="input-group-append">
+                                                                                                                  <span class="date__icon bg-white">
+                                                                                                                      <img src="./assets/img/date__icon.svg" alt="date_icon">
+                                                                                                                  </span>
+                                                                                                                  </span>
+                                                                                                              </div>
+                                                                                                        </div>
+                                                                                                            `);
                         }
                         else {
                             $(`#filterAndConditionSetter-${secondAddDropdownCounter}`)
@@ -705,17 +1216,17 @@
                                 .remove()
                                 .end()
                                 .append(`
-                                                                                <div class="input-container">
-                                                                                                    <div class="input-group date__box date datepicker">
-                                                                                                                <input type="text" class="form-control" placeholder ="Enter value" placeholder="24/01/2024" id="filterAndCondition-0-${secondAddDropdownCounter}>
-                                                                                                            <span class="input-group-append">
-                                                                                                                <span class="date__icon bg-white">
-                                                                                                                    <img src="./assets/img/date__icon.svg" alt="date_icon">
-                                                                                                            </span>
-                                                                                                            </span>
-                                                                                                        </div>
-                                                                                                </div>
-                                                                            `);
+                                                                                                                                                                                                                                                                                                                                                                                                <div class="input-container">
+                                                                                                                                                                                                                                                                                                                                                                                                                    <div class="input-group date__box date datepicker">
+                                                                                                                                                                                                                                                                                                                                                                                                                                <input type="text" class="form-control" placeholder ="Enter value" placeholder="24/01/2024" id="filterAndCondition-0-${secondAddDropdownCounter}>
+                                                                                                                                                                                                                                                                                                                                                                                                                            <span class="input-group-append">
+                                                                                                                                                                                                                                                                                                                                                                                                                                <span class="date__icon bg-white">
+                                                                                                                                                                                                                                                                                                                                                                                                                                    <img src="./assets/img/date__icon.svg" alt="date_icon">
+                                                                                                                                                                                                                                                                                                                                                                                                                            </span>
+                                                                                                                                                                                                                                                                                                                                                                                                                            </span>
+                                                                                                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                                                                                                                                            `);
                         }
                         $('.datepicker').datepicker();
                     }
@@ -733,10 +1244,10 @@
                             .end()
                             .append(
                                 `
-                                                                <select id="filterAndCondition-0-${secondAddDropdownCounter}" class="form-select select_font_14" style="width:180px;">
-                                                                   ${dropDownOptions}
-                                                            </select>
-                                                        `
+                                                                                                                                                                                                                                                                                                                                                                                <select id="filterAndCondition-0-${secondAddDropdownCounter}" class="form-select select_font_14" style="width:180px;">
+                                                                                                                                                                                                                                                                                                                                                                                   ${dropDownOptions}
+                                                                                                                                                                                                                                                                                                                                                                            </select>
+                                                                                                                                                                                                                                                                                                                                                                        `
                             );
 
                         // For Select2 Functionality
@@ -772,14 +1283,13 @@
             addCounter = addCounter + 1;
 
         }
-
         function removeAndFilterCondition(index) {
             $(`#andCondition__${index}`).remove();
         }
-
-        function saveReport(){
+        function saveReport() {
             andConditions = [];
             attributesList = [];
+            var modelid = $("#customreportid").val();
             // Evaluates filter conditions
             for (i = 0; i < addCounter; i++) {
                 const first = $(`#firstAndDropdown-${i}`).val();
@@ -788,7 +1298,11 @@
                 const fourth = $(`#filterAndCondition-1-${i}`).val();
                 if (first && second) {
                     andConditions.push({
-                        Condition: this.encodeFilterCondition(firstAndDropdownType[i], first, second, third, fourth)
+                        Condition: this.encodeFilterCondition(firstAndDropdownType[i], first, second, third, fourth),
+                        Condition1: first,
+                        Condition2: second,
+                        Condition3: third,
+                        Condition4: fourth
                     });
                 }
             }
@@ -818,14 +1332,15 @@
                 Name: $("#reportName").val(),
                 Description: $("#reportDescription").val(),
                 SortBy: $("#sortByColumn1").val(),
-                SortBy2:$("#sortByColumn2").val(),
+                SortBy2: $("#sortByColumn2").val(),
                 SortByAsc: $("#sortByAscOne").val(),
                 SortBy2Asc: $("#sortByAscTwo").val(),
                 DateFormat: $("#dateFormat").val(),
-                ZeroCurrencyBlank: $("#zeroCurrencyAsBlank").val(),
-                HideCurrencySymbol: $("#hideCurrencySymbol").val(),
+                ZeroCurrencyBlank: $("#zeroCurrencyAsBlank").prop('checked'),
+                HideCurrencySymbol: $("#hideCurrencySymbol").prop('checked'),
                 CustomReportAttributes: attributesList,
-                CustomReportConditions: andConditions
+                CustomReportConditions: andConditions,
+                Id: modelid
             }
 
             $.ajax({
@@ -840,7 +1355,6 @@
                 }
             })
         }
-
         function encodeFilterCondition(type, first, second, third, fourth) {
             if (type == "Guid") {
                 if (second == "eq") {
@@ -912,6 +1426,5 @@
                 }
             }
         }
-
     </script>
 }

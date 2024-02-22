@@ -71,27 +71,30 @@
 <body class="sb-nav-fixed @toogleClass">
     <nav class="sb-topnav navbar navbar-expand navbar-dark border-bottom bg-white">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-5 visually-hidden" href="index.html">
-            <img src="~/assets/img/site__logo.png" />
-        </a>
-
+        <span class="MobIcon ps-3 d-inline-block d-xl-none">
+            <img src="../assets/img/menu_icon.svg" alt="menu_icon">
+        </span>
+        <!-- Sidebar Toggle-->
+        <!-- <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
+            <i class="fas fa-bars"></i>
+        </button> -->
         <!-- Navbar Search-->
-        <form class="t_search d-none d-md-inline-block form-inline mx-auto w-50 ">
+        <form class="t_search form-inline ms-auto mx-xxl-auto w-50">
             <div class="input-group flex-nowrap">
                 <span class="input-group-text element-bg pe-0" id="addon-wrapping">
-                    <img src="~/assets/img/top_search_icon.svg" alt="searc__icon">
+                    <img src="../assets/img/top_search_icon.svg" alt="searc__icon">
                 </span>
-                <input type="text" class="form-control border-start-0 border-end-0 element-bg" placeholder="" aria-label="Username"
-                       aria-describedby="addon-wrapping">
+                <input type="text" class="form-control border-start-0 border-end-0 element-bg" placeholder=""
+                       aria-label="Username" aria-describedby="addon-wrapping">
                 <span class="input-group-text element-bg searhbar_text" id="addon-wrapping">
                     <span class="forword_icon">
                         press
-                        <img src="~/assets/img/keycap-asterisk.svg" alt="forword_icon">
+                        <img src="../assets/img/keycap-asterisk.svg" alt="forword_icon">
                         to start search
                     </span>
                     <span class="cornerdown_icon">
                         press
-                        <img src="~/assets/img/corner_down_icon.svg" alt="forword_icon">
+                        <img src="../assets/img/corner_down_icon.svg" alt="forword_icon">
                         to search
                     </span>
                 </span>
@@ -101,15 +104,16 @@
         <!-- Notification  -->
         <div class="btn-group noti__f">
             <a class="dropdown-toggle element-bg" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="~/assets/img/bell-icon.svg" />
+                <img src="../assets/img/bell-icon.svg" />
                 <span class="notic__num">20</span>
             </a>
             <div class="dropdown-menu noti_content dropdown-menu-end  shadow border-0 rounded-0">
                 <ul>
                     <li class="annoce active">
-                        <h4><img class="me-1" src="~/assets/img/annocement_icon.svg" /> Announcement </h4>
+                        <h4><img class="me-1" src="../assets/img/annocement_icon.svg" /> Announcement </h4>
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna.
+                            Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit
+                            urna.
                             Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris.
                         </p>
                         <div class="date__qqq">
@@ -117,21 +121,22 @@
                         </div>
                     </li>
                     <li class="req__ active">
-                        <h4><img class="me-1" src="~/assets/img/requist__icon.svg" /> Request </h4>
+                        <h4><img class="me-1" src="../assets/img/requist__icon.svg" /> Request </h4>
                         <div class="date__qqq">
                             <span>11 Dec, 22 at 9:42 AM</span>
                         </div>
                     </li>
                     <li class="approve__">
-                        <h4><img class="me-1" src="~/assets/img/approvel__icon.svg" /> Approved </h4>
+                        <h4><img class="me-1" src="../assets/img/approvel__icon.svg" /> Approved </h4>
                         <div class="date__qqq">
                             <span>11 Dec, 22 at 9:42 AM</span>
                         </div>
                     </li>
                     <li class="annoce">
-                        <h4><img class="me-1" src="~/assets/img/annocement_icon.svg" /> Announcement </h4>
+                        <h4><img class="me-1" src="../assets/img/annocement_icon.svg" /> Announcement </h4>
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna.
+                            Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit
+                            urna.
                             Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris.
                         </p>
                         <div class="date__qqq">
@@ -140,41 +145,35 @@
                     </li>
                 </ul>
                 <div class="mark__btn text-center">
-                    <img class="me-1" src="~/assets/img/marked_all.svg" />
-                    <a href="#">Mark all as read</a>
+                    <img class="me-1" src="../assets/img/marked_all.svg" />
+                    <a href="#" class="main-text fw-bold">Mark all as read</a>
                 </div>
             </div>
         </div>
         <!-- End here Notification -->
-        @if (User.Identity!.IsAuthenticated)
-        {
-            <div class="dropdown">
-                <button class="btn text-black dropdown-menu-button pe-3" type="button" id="dropdownMenuButton1"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                    <div class="user-profile-pic">
-                        <img class="avtar_img" src="@(string.IsNullOrEmpty(avatar)?"/assets/img/user__profile.png":avatar)" />
-                    </div>
 
-                    <span class="avtar_name main-font">@userName</span>
-                    <img src="~/assets/img/avtar-drop-down.svg" alt="dropdownicon" />
-                </button>
-
-                <ul class="dropdown-menu shadow border-0 rounded-0 w-100" aria-labelledby="dropdownMenuButton1">
-                    <li class="pb-2">
-                        <a class="dropdown-item" asp-action="ProfileSetting" asp-controller="User">
-                            <img class="pe-2" src="~/assets/img/user--settings.svg" />
-                            Profile Settings
-                        </a>
-                    </li>
-                    <li class="pb-2">
-                        <a class="dropdown-item" asp-action="LogOut" asp-controller="Auth">
-                            <img class="pe-2" src="~/assets/img/logout.svg" />
-                            Sign Out
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        }
+        <div class="dropdown avtarBlock">
+            <button class="btn text-black pe-sm-3 border-0" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                <img class="avtar_img" src="../assets/img/avtar__img.png" />
+                <span class="avtar_name main-font d-none d-xxl-inline-block">Jacob Hershberg</span>
+                <img src="../assets/img/avtar-drop-down.svg" alt="dropdownicon">
+            </button>
+            <ul class="dropdown-menu shadow border-0 rounded-0 w-100" aria-labelledby="dropdownMenuButton1">
+                <li class="pb-sm-2">
+                    <a class="dropdown-item g-text-color" href="Profile Settings.html">
+                        <img class="pe-2" src="../assets/img/user--settings.svg" />
+                        Profile Settings
+                    </a>
+                </li>
+                <li class="pb-sm-2">
+                    <a class="dropdown-item g-text-color" href="#">
+                        <img class="pe-2" src="../assets/img/logout.svg" />
+                        Sign Out
+                    </a>
+                </li>
+            </ul>
+        </div>
     </nav>
 
     <div id="layoutSidenav">
@@ -184,14 +183,27 @@
                     <div class="site_idintity">
                         <!-- Navbar Brand-->
                         <a class="navbar-brand" href="index.html">
-                            <img class="main__logo" src="~/assets/img/cromwood-logo-custom1.svg" />
-                            <img class="colored_leaf" src="~/assets/img/colored_leaf_logo.svg" />
+                            <!-- Desktop logo -->
+                            <span class="d-none d-lg-inline-block">
+                                <img class="main__logo" src="../assets/img/cromwood-logo-custom1.svg" />
+                                <img class="colored_leaf" src="../assets/img/colored_leaf_logo.svg" />
+                            </span>
+                            <!-- Mobile logo -->
+                            <span class="d-lg-none ps-4">
+                                <img src="../assets/img/site__logo.png" alt="Mobile Logo" />
+                            </span>
                         </a>
                         <!-- Sidebar Toggle-->
-                        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
-                            <img class="outer_toggle" src="~/assets/img/outer_toggle.svg" alt="menu_toggle_icon">
-                            <img class="inner_toggle" src="~/assets/img/one_arrow-toggle.svg" alt="menu_toggle_icon">
+                        <button class="d-none d-lg-inline-block btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0 tooglebtntestclass" id="sidebarToggle">
+                            <!-- Desktop logo -->
+                            <img class="outer_toggle" src="../assets/img/outer_toggle.svg" alt="menu_toggle_icon">
+                            <!-- <img class="inner_toggle" src="../assets/img/inner_toggle.svg" alt="menu_toggle_icon"> -->
+                            <img class="inner_toggle" src="../assets/img/one_arrow-toggle.svg" alt="menu_toggle_icon">
                         </button>
+                        <!-- Mobile close Icon -->
+                        <span class="MobClose d-lg-none ms-auto pe-2">
+                            <img src="../assets/img/MenuClose_icon.svg" alt="MobileClose_icon" />
+                        </span>
                     </div>
                 </div>
                 <div class="sb-sidenav-menu">
@@ -204,7 +216,7 @@
                             <span class="nav__text">Dashboard</span>
                             <span class="tooltiptext">Dashboard</span>
                         </a>
-                        @*
+                        
                         <a class="nav-link" href="scheme-performance.html">
                         <div class="sb-nav-link-icon">
                         <img class="main_nav_icon" src="~/assets/img/scheme per.svg" />
@@ -212,7 +224,7 @@
                         </div>
                         <span class="nav__text">Scheme Performance</span>
                         <span class="tooltiptext">Scheme Performance</span>
-                        </a> *@
+                        </a>
 
                         @if (accessPropertyManagement)
                         {
@@ -307,7 +319,7 @@
                                 <span class="tooltiptext">Messages</span>
                             </a>
                         }
-
+@* 
                         <a class="nav-link collapsed myc" href="finance-management.html" data-bs-toggle="collapse"
                            data-bs-target="#Finance-tab" aria-expanded="false" aria-controls="Finance-tab">
                             <!-- <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div> -->
@@ -323,7 +335,37 @@
                                           stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                             </div>
-                        </a>
+                        </a> *@
+
+                        <div class="dropdown_tooltip">
+                            <a class="nav-link collapsed myc" href="finance-management.html" data-bs-toggle="collapse"
+                               data-bs-target="#Finance-tab" aria-expanded="false" aria-controls="Finance-tab">
+                                <!-- <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div> -->
+                                <div class="sb-nav-link-icon">
+                                    <img class="main_nav_icon" src="../assets/img/main_finance_manag.svg" />
+                                    <img class="active_nav_icon" src="../assets/img/active_main_finance_manag.svg" />
+                                </div>
+                                <span class="nav__text">Finance Management</span>
+                                <div class="sb-sidenav-collapse-arrow">
+                                    <svg width="12" height="8" viewBox="0 0 12 8" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M1 1.5L6 6.5L11 1.5" stroke="#2F2E35" stroke-width="1.5"
+                                              stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </div>
+                            </a>
+                            <span class="tooltiptext py-0">
+                                <ul class="list-unstyled mb-0">
+                                    <li><a class="" asp-controller="Financial" asp-action="Dashboard">Finance Dashboard</a></li>
+                                    <li><a class="" asp-controller="Financial" asp-action="RentManagement">Rent Management</a></li>
+                                    <li><a class="" asp-controller="Financial" asp-action="PaymentPlan">Payment Plan</a></li>
+                                    <li><a class="" asp-controller="Financial" asp-action="HousingBenefit">Housing Benefits</a></li>
+                                    <li><a class="" asp-controller="Financial" asp-action="RevenueExpense">Revenue & Expenses</a></li>
+                                </ul>
+                            </span>
+                        </div>
+
+
 
                         <div class="collapse" id="Finance-tab" aria-labelledby="headingOne"
                              data-bs-parent="#sidenavAccordion">
@@ -355,11 +397,12 @@
                                 <img class="active_nav_icon" src="~/assets/img/active_main_reports.svg" />
                             </div>
                             <span class="nav__text">Reports</span>
+                            <span class="tooltiptext">Reports</span>
                         </a>
 
                         @if (accessUserSetting)
                         {
-                            <div class="dropdown_tooltip position-relative">
+                            <div class="dropdown_tooltip">
                                 <a class="nav-link collapsed myc" href="#" data-bs-toggle="collapse"
                                    data-bs-target="#collapseSetting" aria-expanded="true" aria-controls="collapseSetting">
                                     <div class="sb-nav-link-icon">
@@ -434,14 +477,31 @@
 
 
     <script>
-        $(document).ready(function () {
+        $(window).on('load', function () {
             // Toggle the side navigation
-            const sidebarToggle = document.body.querySelector('#sidebarToggle');
-            sidebarToggle.addEventListener('click', event => {
+            $(".tooglebtntestclass").eq(0).click(function (event) {
+                //debugger
                 event.preventDefault();
                 document.body.classList.toggle('sb-sidenav-toggled');
                 document.cookie = `sidebar-toggle=${document.body.classList.contains('sb-sidenav-toggled')}`;
-            });
+            })
+        })
+        $(document).ready(function () {
+            // Toggle the side navigation
+            $(".tooglebtntestclass").eq(0).click(function (event) {
+                //debugger
+                event.preventDefault();
+                document.body.classList.toggle('sb-sidenav-toggled');
+                document.cookie = `sidebar-toggle=${document.body.classList.contains('sb-sidenav-toggled')}`;
+            })
+
+
+            // const sidebarToggle = document.body.querySelector('#sidebarToggle');
+            // sidebarToggle.addEventListener('click', event => {
+            //     event.preventDefault();
+            //     document.body.classList.toggle('sb-sidenav-toggled');
+            //     document.cookie = `sidebar-toggle=${document.body.classList.contains('sb-sidenav-toggled')}`;
+            // });
 
             $('.t_search').click(function () {
                 $(this).toggleClass('input_on');
@@ -453,6 +513,9 @@
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
+
+
 
 <div id="overlay" class="spinner-class">
     <img height="100" src="~/assets/img/spinner.svg" />

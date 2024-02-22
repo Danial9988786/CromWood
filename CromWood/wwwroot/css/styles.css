@@ -5,7 +5,7 @@
   /* ----- Global setting -------- */
   --main-font: 'Inter', sans-serif;
   --sora-font: 'Sora', sans-serif;
-  --main-color: hsl(78, 100%, 21%);
+  --main-color:#4D6D00;
   --secondary-color: #6D9000;
   --dark-green: #344900;
   --light-green: #8DB300;
@@ -155,6 +155,9 @@
 .light_blue{
   color: var(--light-blue)!important;
 }
+.inter-font-700{
+  font: var(--inter-font-700);
+}
 .font14_inter{
    font: var(--inter-font14);
 }
@@ -240,7 +243,7 @@
   line-height: 160% !important;
 }
 .g-text-color {
-  color: var(--g-text-color);
+  color: var(--g-text-color)!important;
 }
 
 .gray-text {
@@ -308,8 +311,8 @@
   display: none;
 }
 main{
-  padding-left: 4px;
-  padding-right: 4px;
+  /* padding-left: 4px;
+  padding-right: 4px; */
 }
 body {
   margin: 0;
@@ -12659,11 +12662,11 @@ body {
 }
 
 #layoutSidenav #layoutSidenav_nav {
-  flex-basis: 225px;
+  flex-basis: 260px;
   flex-shrink: 0;
-  transition: transform 0.15s ease-in-out;
+  transition: transform 0.25s ease-in-out;
   z-index: 1038;
-  transform: translateX(-225px);
+  transform: translateX(-260px);
 }
 
 #layoutSidenav #layoutSidenav_content {
@@ -12674,25 +12677,26 @@ body {
   min-width: 0;
   flex-grow: 1;
   min-height: calc(100vh - 56px);
-  margin-left: -225px;
+  margin-left: -204px;
 }
 
-.sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
+/* .sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
   transform: translateX(0);
-}
+} */
 
-.sb-sidenav-toggled #layoutSidenav #layoutSidenav_content:before {
+.MobMenuActive:before {
   content: "";
   display: block;
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
+  left: 260px;
+  right: 0;
+  width: 100vw;
   height: 100%;
   background: #000;
-  z-index: 1037;
+  z-index: 1038;
   opacity: 0.5;
-  transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
 }
 
 @media (min-width: 992px) {
@@ -13064,18 +13068,18 @@ body.sb-sidenav-toggled .sb-sidenav-dark .sb-sidenav-menu .nav-link.active{
 }
 
 .dataTable-table>thead>tr>th {
-  vertical-align: bottom;
+  vertical-align: top;
   text-align: left;
   border-bottom: none;
 }
 
 .dataTable-table>tfoot>tr>th {
-  vertical-align: bottom;
+  vertical-align: top;
   text-align: left;
 }
 
 .dataTable-table th {
-  vertical-align: bottom;
+  vertical-align: top;
   text-align: left;
 }
 
@@ -13134,3 +13138,29 @@ body.sb-sidenav-toggled .sb-sidenav-dark .sb-sidenav-menu .nav-link.active{
   font-size: 0.75rem;
   border-radius: 0.25rem !important;
 }
+
+
+/* custom width responsive class  */
+/* @media (min-width:576px) and (max-width:768px){
+  .w-sm-50{
+    width: 50%;
+  }
+}
+
+@media (min-width:768px) and (max-width:992px){
+  .w-md-50{
+    width: 50%;
+  }
+}
+
+@media (min-width:1200px) and (max-width:1400px){
+  .w-xl-50{
+    width: 50%;
+  }
+}
+
+@media (min-width:1400px){
+  .w-xxl-100{
+    width: 100%;
+  }
+} */

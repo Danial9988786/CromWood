@@ -49,7 +49,7 @@ namespace CromWood.Controllers
                 var result = await _context.Filters.Where(x => x.PageName == keyName).ToListAsync();
                 return PartialView(result);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return PartialView();
             }

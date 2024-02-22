@@ -1,44 +1,407 @@
 /* ----------------------------- Responsive style start here -------------------------- */
-.sb-sidenav-toggled #layoutSidenav #layoutSidenav_content:before{
-    display: none;
+
+/* ---------------------------- Max 576px ---------------------------- */
+@media (max-width:576px) {
+
+    /* Mobile Reponsive for Navbar start here  */
+
+    /* Mobile Reponsive for Navbar start here  */
+   
+    .top___card1 > div {
+        flex-basis: 100%;
+     }
+    .top___card1 > div:not(:last-child) {
+        margin-bottom: 12px;
+     }
+    .searhbar_text span {
+        font-size: 8px;
+    }
+    .searhbar_text span img{
+        width: 10px;
+      }
+   .t_search input {
+     height: 27px;
+     font-size: 10px;
+   }
+   .searhbar_text span {
+    font-size: 10px;
+   }
+   .t_search .input-group-text {
+    height: 27px;
+   }
+  #addon-wrapping img{
+    width: 14px;
+  }
+  .acti_vites{
+    font-size: 8px;
+    white-space: nowrap;
+  }
+  .main-text{
+    font-size: 12px!important;
+  }
+ .mdblacktext {
+    font-size: 12px!important;
+  }
+  .datatable-table th button{
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .datatable-table thead tr{
+    height: 40px;
+  }
+ .datatable-table > thead > tr > th {
+    vertical-align: middle;
+  }
+  .breadcrumb {
+    margin-bottom: 2px!important;
 }
-/* -------- Max 576px ----- */
-@media only screen and (max-width:576px) {
+.filter_btn>a{
+    padding: 10px 8px 10px 12px;
+    /* font-size: 10px; */
+ }
+ .font16_inter {
+     font-size: 12px;
+ }
+ .sm_white_btn{
+     font-size: 8px;
+     white-space: nowrap;
+ }
+ .lender_rpt .datatable-table>tbody>tr>td {
+    padding: 10px 9px;
+ }
 
-    /* Mobile Repo for Navbar start here  */
-    .sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
-        background-color: var(--element-bg)!important;
-        width: 100%;
-        height: 78px;
-    }
-    .site___logo {
-        display: none;
-    }
-    .sb-sidenav .sb-sidenav-menu .nav{
-        flex-direction: row;
-    }
-    .sb-nav-fixed #layoutSidenav #layoutSidenav_nav{
-        top: unset;
-        bottom: 0;
-    }
-    .sb-sidenav{
-        flex-direction: row;
-        align-items: center;
-    }
-    .sb-nav-fixed #layoutSidenav #layoutSidenav_nav .sb-sidenav .sb-sidenav-menu {
-        padding-top: unset;
-        padding-bottom:unset;
-    }
+ .avtarBlock>button{
+    padding-inline: 6px;
+ }
 
-    /* Mobile Repo for Navbar start here  */
+ .datatable-bottom {
+    align-items: center;
+  }
+  .datatable-pagination-list li {
+    margin-right: 4px;
+  }
+  .datatable-pagination button{
+    padding: 2px 8px;
+    font-size: 12px!important;
+  }
+  .datatable-bottom .datatable-info {
+    font-size: 11px;
+  }  
+  .below_btnBar{
+    flex-wrap: wrap;
+    justify-content: end!important;
+    height: auto;
+    gap: 12px;
+    padding-bottom: 10px!important;
+   }
+   .Dformate{
+    width: 100%!important;
+    margin-top: 8px;
+   }
+ .new_badges{
+     font-size: 8px!important;
+ }
+
+  /* new code after dep */
+
+  table thead tr th .datatable-sorter .c__icon::after {
+    top: 2px;
+    left: 1px;
+    display: inline-block;
+    transform: scale(.8);
+   }
+   .datatable-table .datatable-sorter::after {
+    content: url(../assets/img/sort_before.svg);
+    left: 0px;
+    top: 2.2px;
+    display: inline-block;
+    transform: scale(.8);
+   }
+   .action_dropwown+ul li {
+    margin-left: 12px;
+    margin-right: 10px;
+    height: 32px;
+   }
+   .action_dropwown+ul li a {
+    font-size: 10px;
+ } 
+  .action_dropwown+ul li a img{
+    width: 16px;
+  } 
+  .select__search+.select2 .select2-selection__rendered,
+  .select__search .select2-results__option,
+  .modal__search+.select2 .select2-selection__rendered,
+   .modal__search .select2-results__option,
+   .modal__search2+.select2 .select2-selection__rendered,
+   .modal__search2 .select2-results__option,
+   .modal__search3+.select2 .select2-selection__rendered,
+   .modal__search3 .select2-results__option{
+      font-size: 12px!important;
+  }
+  .select2-search__field {
+    font-size: 12px!important;
+ }
+ .select_font_14+.select2 .select2-selection__rendered,
+ .select_font_14 .select2-results__option {
+    font-size: 12px!important;
+ }
+ .select2.select2-container .select2-selection {
+    min-height: 34px!important;
+ }
+ .select2-container .select2-selection--single {
+    height: inherit!important;
+ }
+ .rp_popup .form-control {
+    padding: 8px;
+    height: 35px;
+    font-size: 12px;
+ }
+ .pagagraph {
+    font-size: 12px!important;
+ } 
+ .date__icon {
+    top: 4px;
+ } 
+ .select2-selection:after {
+    bottom: 8px;
+ }  
+ .w150 {
+    max-width: 125px;
+    width: 125px;
+ }
+ .form_info_new_filter .pair_btn a{
+    font-size: 12px!important;
+    padding: 6px 10px;
+    height: 32px;
+ }
+ .filter_btn .filter___c {
+    max-width: 250px;
+    width: 250px;
+ }  
+ .cm380_size .modal-content {
+     height: 70vh;
+ }
+ .custom__btn a,
+ a.custom__btn,
+ input.custom__btn,  
+  .customButton {
+     height: 35px;
+     padding: 10px 15px 8px 15px;
+     font-size: 12px!important;
+ }
+ 
+ .custom__btn2 a,
+  a.custom__btn2,
+  input.custom__btn2,
+   .customButton2 {
+    height: 35px;
+    padding: 10px 15px 8px 15px;
+    font-size: 12px!important;
+ }
+ 
+ .custom__btn3 a,
+  a.custom__btn3,
+  input.custom__btn3,
+  .customButton3{
+    height: 35px;
+    padding: 10px 15px 8px 15px;
+    font-size: 12px!important;
+ }
+ .custom_btn4, .customButton4{
+    height: 35px;
+     padding: 10px 15px 8px 15px;
+     font-size: 12px!important;
+ }
+ .shadow-box{
+    box-shadow: none;
+ }
+ .customSelect :is(.selected-option, .options) {
+     font-size: 12px!important;
+ }
+ .black_14 {
+    font-size: 12px;
+}
+
+
 }  /* -------- End Max 576px ----- */
+
+
+ /* ---------------------------- Max 768px ------------------------ */
+@media (max-width:768px) {
+    .noti__f a.dropdown-toggle {
+        height: 28px;
+        width: 28px;
+    }
+    .noti__f .dropdown-toggle img {
+        width: 16px;
+    }
+    span.notic__num {
+        top: -5px;
+        right: -7px;
+    }
+    img.avtar_img {
+        width: 26px;
+    }
+    .sb-topnav {
+        height: 50px;
+    }
+    .sb-nav-fixed #layoutSidenav #layoutSidenav_content{
+        top: 50px;
+    }
+    .t_search {
+        width: 59%!important;
+    }
+    .datatable-table > thead > tr > th {
+        padding: 8px 5px;
+    }
+
+    /* new code after dep */
+    .datatable-search {
+        margin-left: 14px!important;
+        width: 75%;
+    }
+
+
+}  /* -------- End Max 768px ----- */
+
+
+ /* ---------------------------- Min 578 Max 768px ------------------------ */
+ @media (min-width:578px) and (max-width:768px) {
+   
+    .searhbar_text span {
+       font-size: 12px;
+    }
+    .t_search input {
+       height: 35px;
+    }
+    .searhbar_text span img{
+        width: 14px;
+    }
+ 
+ }  /* -------- End Min 578 Max 768px ----- */
+
+
+ /* ---------------------------- Max 992px ------------------------ */
+ @media (max-width:992px) {
+   .t_search {
+       margin: auto;
+   }
+   .sb-nav-fixed #layoutSidenav #layoutSidenav_content {
+        padding-left: 0;
+        margin-left: 0;
+   }
+   .MobMenuActive .sb-sidenav-menu .nav {
+        margin-left: 0;
+   }
+   .MobMenuActive .sb-sidenav-menu .nav-link {
+       margin-right: 0;
+   }
+   .MobMenuActive .sb-sidenav-menu .nav-link.active{
+      border-radius: 0 25px 25px 0;
+   }
+   .below_btnBar{
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border-top: 0;
+    margin-top: 18px;
+    left: inherit;
+    padding: unset;
+   }
+
+   .noti__f .noti_content{
+    max-width: 330px;
+    width: 330px;
+    padding: 12px;
+    padding-top: 12px;
+    left: -15rem!important;
+   }
+   .noti__f ul li {
+    padding: 12px;
+    margin-bottom: 6px;
+   }
+  .noti__f p {
+    margin-left: 4px;
+    margin-bottom: 4px;
+    font-size: 12px;
+   }
+   .noti__f h4, .mark__btn span {
+    font-size: 12px;
+   }
+   .date__qqq span {
+    margin-left: inherit;
+    font-size: 12px;
+  }
+  .avtarBlock ul li a{
+    font-size: 12px;
+   }
+   .avtarBlock ul {
+     padding-block: 2px;
+    }
+
+ }  /* -------- End Max 992px ----- */
+
+
+  /* ---------------------------- Min & Max 993px to 1400px ------------------------ */
+  @media (min-width:993px) and (max-width:1400px) {
+    .noti__f .noti_content{
+        left: inherit!important;
+   }
+    
+ }  /* -------- End Min & Max 992px to 1400px ----- */
+
+
+ /* ---------------------------- min 1400px ------------------------ */
+ @media (min-width:1400px) {
+   .top___card1 > div {
+    flex-basis: 25%;
+   }
+
+}  /* -------- End min 1400px ----- */
+
+ /* ---------------------------- max 1400px ------------------------ */
+ @media (max-width:1400px) {
+    .noti__f {
+        margin-right: 8px;
+    }
+   
+
+ }  /* -------- End min 1400px ----- */
+
+
+  /* ---------------------------- Min & Max 992px to 1199px ------------------------ */
+  @media (min-width:992px) and (max-width:1199px) {
+    .t_search {
+        margin-right: 3em;
+    }
+    
+ }  /* -------- End Min & Max 992px to 1440px ----- */
+
+ /* ---------------------------- Min & Max 1200px to 1399px ------------------------ */
+ @media (min-width:1200px) and (max-width:1399px) {
+    .t_search {
+        margin-right: 8em;
+    }
+
+ }  /* -------- End Min & Max 576px to 1440px ----- */
+
+
+
+ /* ---------------------------- Min & Max 576px to 1440px ------------------------ */
+ @media (min-width:577px) and (max-width:1440px) {
+    .top___card1 > div {
+        flex-basis: 49%;
+    }
+ 
+ }  /* -------- End Min & Max 576px to 1440px ----- */
 
 
 
  /* -------- Max 1550px ----- */
 @media only screen and (max-width:1550px){
     .top___card h3, .custom_h{
-        font-size: 20px;
+        font-size: 18px;
     }
 }
 
